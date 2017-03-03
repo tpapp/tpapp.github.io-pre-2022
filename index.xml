@@ -10,12 +10,12 @@
     <atom:link href="http://tpapp.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Julia markdown test</title>
+      <title>Julia &#43; Weave.jl &#43; hugo test</title>
       <link>http://tpapp.github.io/post/julia-post.html</link>
       <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
       
       <guid>http://tpapp.github.io/post/julia-post.html</guid>
-      <description>Testing inline code 1+1=2. Testing math: $$x^2+y^2 = \int_0^1 f(z) dz$$ Testing code: 1+1 2 Testing proper highlighting: function foo(x, y) x+y end A plot: x = 1:10 y = x.^2 scatter(x, y)</description>
+      <description>Testing inline code: 1+1=2. Testing math: $$x^2+y^2 = \int_0^1 f(z) dz$$ Testing code: 1+1 2 Testing proper highlighting: function foo(x, y) x+y end A plot: x = 1:10 y = x.^2 scatter(x, y, legend = false)</description>
     </item>
     
   </channel>

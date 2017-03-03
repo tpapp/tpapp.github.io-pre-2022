@@ -31,7 +31,7 @@
     <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     
     <link rel="stylesheet" type="text/css" href="../css/style.css">
-    <title>Julia markdown test | Tamás K. Papp&#39;s blog</title>
+    <title>Julia &#43; Weave.jl &#43; hugo test | Tamás K. Papp&#39;s blog</title>
   </head>
   <body>
     <div id="wrap">
@@ -47,7 +47,7 @@
 <div class="article">
   <header>
     <div class="article-header">
-      <h1>Julia markdown test</h1>
+      <h1>Julia &#43; Weave.jl &#43; hugo test</h1>
       <div class="article-meta">
         <span class="posttime">2017/03/03</span>
         
@@ -58,7 +58,7 @@
 
   </header>
   <div class="content">
-    <p>Testing inline code <code>1+1=2</code>.</p>
+    <p>Testing inline code: <code>1+1=2</code>.</p>
 
 <p>Testing math:
 $$x^2+y^2 = \int_0^1 f(z) dz$$</p>
@@ -82,7 +82,7 @@ end
 
 <pre><code class="language-julia">x = 1:10
 y = x.^2
-scatter(x, y)
+scatter(x, y, legend = false)
 </code></pre>
 
 <p><img src="figures/julia-post_4_1.svg" alt="" /></p>
