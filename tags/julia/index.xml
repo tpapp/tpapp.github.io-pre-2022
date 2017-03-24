@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tamás K. Papp&#39;s blog</title>
-    <link>http://tpapp.github.io/</link>
-    <description>Recent content on Tamás K. Papp&#39;s blog</description>
+    <title>Julia on Tamás K. Papp&#39;s blog</title>
+    <link>http://tpapp.github.io/tags/julia.html</link>
+    <description>Recent content in Julia on Tamás K. Papp&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 24 Mar 2017 14:34:22 +0100</lastBuildDate>
-    <atom:link href="http://tpapp.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://tpapp.github.io/tags/julia.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Teaching a course using Julia</title>

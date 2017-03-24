@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tamás K. Papp&#39;s blog</title>
-    <link>http://tpapp.github.io/</link>
+    <link>http://tpapp.github.io/categories.html</link>
     <description>Recent content on Tamás K. Papp&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 24 Mar 2017 14:34:22 +0100</lastBuildDate>
-    <atom:link href="http://tpapp.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://tpapp.github.io/categories.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Teaching a course using Julia</title>
