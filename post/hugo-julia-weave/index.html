@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="generator" content="Hugo 0.19" />
     <link rel="shortcut icon" href="../../images/favicon.ico">
-    <link href="http://tpapp.github.io/tags/julia/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s blog" />
+    <link href="http://tpapp.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s blog" />
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     
@@ -31,7 +31,7 @@
     <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <title>Julia | Tamás K. Papp&#39;s blog</title>
+    <title>Julia &#43; Weave.jl &#43; hugo test | Tamás K. Papp&#39;s blog</title>
   </head>
   <body>
     <div id="wrap">
@@ -44,19 +44,13 @@
       <div class="container">
         <div id="main">
 
-<div id="article-list">
-  
-  <div id="articles-list-header">
-    <h1>Archive: <span id="archive-value">Julia</span></h1>
-  </div>
-  
-  
-  
-  <div class="article">
-    <h2><a href="http://tpapp.github.io/post/teaching-a-course/">Teaching a course using Julia</a></h2>
-    <div class="article-meta">
-      <span class="posttime">2017/03/24</span>
-      
+<div class="article">
+  <header>
+    <div class="article-header">
+      <h1>Julia &#43; Weave.jl &#43; hugo test</h1>
+      <div class="article-meta">
+        <span class="posttime">2017/03/03</span>
+        
 <div class="tags">
   <ul>
     
@@ -65,20 +59,64 @@
     </li>
     
     <li>
-        <a href="../../tags/teaching">teaching</a>
+        <a href="../../tags/weave">weave</a>
+    </li>
+    
+    <li>
+        <a href="../../tags/hugo">hugo</a>
     </li>
     
   </ul>
 </div>
 
 
+      </div>
     </div>
+    
+
+  </header>
+  <div class="content">
+    <p>Testing the <a href="https://gohugo.io/">Hugo</a> formatter for <a href="https://github.com/mpastell/Weave.jl">Weave.jl</a>.</p>
+
+<p>Testing inline code: <code>1+1=2</code>.</p>
+
+<p>Testing math:
+$$x^2+y^2 = \int_0^1 f(z) dz$$</p>
+
+<p>Testing code:</p>
+
+<pre><code class="language-julia">1+1
+</code></pre>
+
+<pre><code>2
+</code></pre>
+
+<p>Testing proper highlighting:</p>
+
+<pre><code class="language-julia">function foo(x, y)
+    x+y
+end
+</code></pre>
+
+<p>A plot:</p>
+
+<pre><code class="language-julia">x = 1:10
+y = x.^2
+scatter(x, y, legend = false)
+</code></pre>
+
+
+<figure >
+    
+        <img src="../figures/hugo-julia-weave_4_1.svg" />
+    
+    
+</figure>
+
+
   </div>
-  
-  <div class="article">
-    <h2><a href="http://tpapp.github.io/post/hugo-julia-weave/">Julia &#43; Weave.jl &#43; hugo test</a></h2>
-    <div class="article-meta">
-      <span class="posttime">2017/03/03</span>
+  <footer>
+    <div class="article-footer">
       
 <div class="tags">
   <ul>
@@ -99,16 +137,42 @@
 </div>
 
 
-    </div>
-  </div>
-  
-  <nav>
-    <div id="pager">
       
       
-    
+
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'tpappgithubio';
+    var disqus_identifier = 'http:\/\/tpapp.github.io\/post\/hugo-julia-weave\/';
+    var disqus_title = 'Julia \x2b Weave.jl \x2b hugo test';
+    var disqus_url = 'http:\/\/tpapp.github.io\/post\/hugo-julia-weave\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      <div id="pagenavigation-next-prev">
+        
+        <div id="pagenavigation-next">
+          <span class="pagenav-label">Previous</span>
+          <a href="http://tpapp.github.io/categories/"></a>
+        </div>
+        
+        
+        <div id="pagenavigation-prev">
+          <span class="pagenav-label">Next</span>
+          <a href="http://tpapp.github.io/post/teaching-a-course/">Teaching a course using Julia</a>
+        </div>
+        
+      </div>
+      
     </div>
-  </nav>
+  </footer>
 </div>
         </div>
         <div class="sidebar">
@@ -152,7 +216,7 @@
       <span>RSS</span>
     </div>
     <div id="rss">
-      <a href="http://tpapp.github.io/tags/julia/index.xml" type="application/rss+xml" target="_blank">
+      <a href="http://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank">
         <i class="fa fa-rss-square fa-2x" aria-hidden="true"></i>
       </a>
     </div>

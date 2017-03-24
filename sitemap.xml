@@ -7,6 +7,11 @@
   </url>
   
   <url>
+    <loc>http://tpapp.github.io/post/hugo-julia-weave/</loc>
+    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://tpapp.github.io/categories/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
     <priority>0</priority>
@@ -14,6 +19,12 @@
   
   <url>
     <loc>http://tpapp.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/tags/hugo/</loc>
+    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -43,6 +54,12 @@
   <url>
     <loc>http://tpapp.github.io/tags/teaching/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/tags/weave/</loc>
+    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
     <priority>0</priority>
   </url>
   

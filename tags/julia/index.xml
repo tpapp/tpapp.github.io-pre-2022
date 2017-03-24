@@ -17,5 +17,20 @@
       <description>I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods.</description>
     </item>
     
+    <item>
+      <title>Julia &#43; Weave.jl &#43; hugo test</title>
+      <link>http://tpapp.github.io/post/hugo-julia-weave/</link>
+      <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
+      
+      <guid>http://tpapp.github.io/post/hugo-julia-weave/</guid>
+      <description>Testing the Hugo formatter for Weave.jl.
+Testing inline code: 1+1=2.
+Testing math: $$x^2+y^2 = \int_0^1 f(z) dz$$
+Testing code:
+1+1  2  Testing proper highlighting:
+function foo(x, y) x+y end  A plot:
+x = 1:10 y = x.^2 scatter(x, y, legend = false)   </description>
+    </item>
+    
   </channel>
 </rss>
