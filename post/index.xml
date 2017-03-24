@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Tamás K. Papp&#39;s blog</title>
-    <link>http://tpapp.github.io/post.xml</link>
+    <link>http://tpapp.github.io/post/index.xml</link>
     <description>Recent content in Posts on Tamás K. Papp&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 24 Mar 2017 14:34:22 +0100</lastBuildDate>
-    <atom:link href="/post.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Teaching a course using Julia</title>
-      <link>http://tpapp.github.io/post/teaching-a-course.html</link>
+      <link>http://tpapp.github.io/post/teaching-a-course/</link>
       <pubDate>Fri, 24 Mar 2017 14:34:22 +0100</pubDate>
       
-      <guid>http://tpapp.github.io/post/teaching-a-course.html</guid>
+      <guid>http://tpapp.github.io/post/teaching-a-course/</guid>
       <description>I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods.</description>
     </item>
     

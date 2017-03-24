@@ -2,35 +2,35 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://tpapp.github.io/post/teaching-a-course.html</loc>
+    <loc>http://tpapp.github.io/post/teaching-a-course/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/categories.html</loc>
-    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://tpapp.github.io/categories.html</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://tpapp.github.io/tags/julia.html</loc>
+    <loc>http://tpapp.github.io/categories/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/post.html</loc>
+    <loc>http://tpapp.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/tags/julia/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/tags.html</loc>
+    <loc>http://tpapp.github.io/post/</loc>
+    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/tags/</loc>
     <priority>0</priority>
   </url>
   
@@ -41,7 +41,7 @@
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/tags/teaching.html</loc>
+    <loc>http://tpapp.github.io/tags/teaching/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
     <priority>0</priority>
   </url>

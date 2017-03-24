@@ -11,10 +11,10 @@
     
     <item>
       <title>Teaching a course using Julia</title>
-      <link>http://tpapp.github.io/post/teaching-a-course.html</link>
+      <link>http://tpapp.github.io/post/teaching-a-course/</link>
       <pubDate>Fri, 24 Mar 2017 14:34:22 +0100</pubDate>
       
-      <guid>http://tpapp.github.io/post/teaching-a-course.html</guid>
+      <guid>http://tpapp.github.io/post/teaching-a-course/</guid>
       <description>I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods.</description>
     </item>
     
