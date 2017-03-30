@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="generator" content="Hugo 0.19" />
     <link rel="shortcut icon" href="../../images/favicon.ico">
-    <link href="http://tpapp.github.io/tags/hugo/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s blog" />
+    <link href="http://tpapp.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s blog" />
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     
@@ -31,7 +31,7 @@
     <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <title>Hugo | Tamás K. Papp&#39;s blog</title>
+    <title>Blogging with Hugo, Julia, Weave.jl | Tamás K. Papp&#39;s blog</title>
   </head>
   <body>
     <div id="wrap">
@@ -44,18 +44,57 @@
       <div class="container">
         <div id="main">
 
-<div id="article-list">
-  
-  <div id="articles-list-header">
-    <h1>Archive: <span id="archive-value">Hugo</span></h1>
+<div class="article">
+  <header>
+    <div class="article-header">
+      <h1>Blogging with Hugo, Julia, Weave.jl</h1>
+      <div class="article-meta">
+        <span class="posttime">2017/03/30</span>
+        
+<div class="tags">
+  <ul>
+    
+    <li>
+        <a href="../../tags/julia">julia</a>
+    </li>
+    
+    <li>
+        <a href="../../tags/blogging">blogging</a>
+    </li>
+    
+    <li>
+        <a href="../../tags/weave">Weave</a>
+    </li>
+    
+    <li>
+        <a href="../../tags/hugo">Hugo</a>
+    </li>
+    
+  </ul>
+</div>
+
+
+      </div>
+    </div>
+    
+
+  </header>
+  <div class="content">
+    <p>I have made a PR to <a href="https://github.com/mpastell/Weave.jl">Weave.jl</a> which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator <a href="https://gohugo.io/">Hugo</a>, and generating some pages with plots and evaluated Julia results. I made the source for my blog <a href="https://github.com/tpapp/tpapp.github.io-source">available</a> so that others can use it for their own blogging about Julia. An example is <a href="../../post/hugo-julia-weave/">this post</a>.</p>
+
+<p>The gist of the workflow is as follows:</p>
+
+<ol>
+<li><p>for posts which do not need <code>Weave</code>, just use <code>Hugo</code>. Make sure you read their <a href="https://gohugo.io/overview/introduction/">excellent tutorial</a>. <strong>This very fast</strong>.</p></li>
+
+<li><p>for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the <code>.md</code> file using <code>Weave.jl</code>. <strong>This is the slow part</strong>, so it is not automated.</p></li>
+</ol>
+
+<p>The <a href="https://github.com/tpapp/tpapp.github.io-source">README</a> gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.</p>
+
   </div>
-  
-  
-  
-  <div class="article">
-    <h2><a href="http://tpapp.github.io/post/blogging-weave-julia-hugo/">Blogging with Hugo, Julia, Weave.jl</a></h2>
-    <div class="article-meta">
-      <span class="posttime">2017/03/30</span>
+  <footer>
+    <div class="article-footer">
       
 <div class="tags">
   <ul>
@@ -80,43 +119,37 @@
 </div>
 
 
-    </div>
-  </div>
-  
-  <div class="article">
-    <h2><a href="http://tpapp.github.io/post/hugo-julia-weave/">Julia &#43; Weave.jl &#43; hugo test</a></h2>
-    <div class="article-meta">
-      <span class="posttime">2017/03/03</span>
       
-<div class="tags">
-  <ul>
-    
-    <li>
-        <a href="../../tags/julia">julia</a>
-    </li>
-    
-    <li>
-        <a href="../../tags/weave">weave</a>
-    </li>
-    
-    <li>
-        <a href="../../tags/hugo">hugo</a>
-    </li>
-    
-  </ul>
-</div>
+      
 
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'tpappgithubio';
+    var disqus_identifier = 'http:\/\/tpapp.github.io\/post\/blogging-weave-julia-hugo\/';
+    var disqus_title = 'Blogging with Hugo, Julia, Weave.jl';
+    var disqus_url = 'http:\/\/tpapp.github.io\/post\/blogging-weave-julia-hugo\/';
 
-    </div>
-  </div>
-  
-  <nav>
-    <div id="pager">
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
       
+      <div id="pagenavigation-next-prev">
+        
+        <div id="pagenavigation-next">
+          <span class="pagenav-label">Previous</span>
+          <a href="http://tpapp.github.io/post/teaching-a-course/">Teaching a course using Julia</a>
+        </div>
+        
+        
+      </div>
       
-    
     </div>
-  </nav>
+  </footer>
 </div>
         </div>
         <div class="sidebar">
@@ -160,7 +193,7 @@
       <span>RSS</span>
     </div>
     <div id="rss">
-      <a href="http://tpapp.github.io/tags/hugo/index.xml" type="application/rss+xml" target="_blank">
+      <a href="http://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank">
         <i class="fa fa-rss-square fa-2x" aria-hidden="true"></i>
       </a>
     </div>

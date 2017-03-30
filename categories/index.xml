@@ -10,6 +10,16 @@
     <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Blogging with Hugo, Julia, Weave.jl</title>
+      <link>http://tpapp.github.io/post/blogging-weave-julia-hugo/</link>
+      <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/blogging-weave-julia-hugo/</guid>
+      <description>I have made a PR to Weave.jl which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator Hugo, and generating some pages with plots and evaluated Julia results. I made the source for my blog available so that others can use it for their own blogging about Julia. An example is this post.
+The gist of the workflow is as follows:</description>
+    </item>
+    
+    <item>
       <title>Teaching a course using Julia</title>
       <link>http://tpapp.github.io/post/teaching-a-course/</link>
       <pubDate>Fri, 24 Mar 2017 14:34:22 +0100</pubDate>

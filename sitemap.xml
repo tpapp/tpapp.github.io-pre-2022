@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://tpapp.github.io/post/blogging-weave-julia-hugo/</loc>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://tpapp.github.io/post/teaching-a-course/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
   </url>
@@ -13,7 +18,13 @@
   
   <url>
     <loc>http://tpapp.github.io/categories/</loc>
-    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/tags/blogging/</loc>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -24,19 +35,19 @@
   
   <url>
     <loc>http://tpapp.github.io/tags/hugo/</loc>
-    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://tpapp.github.io/tags/julia/</loc>
-    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://tpapp.github.io/post/</loc>
-    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -47,7 +58,7 @@
   
   <url>
     <loc>http://tpapp.github.io/</loc>
-    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -59,7 +70,7 @@
   
   <url>
     <loc>http://tpapp.github.io/tags/weave/</loc>
-    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   
