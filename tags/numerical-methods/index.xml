@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Numerical Methods on Tamás K. Papp&#39;s blog</title>
+    <link>http://tpapp.github.io/tags/numerical-methods/index.xml</link>
+    <description>Recent content in Numerical Methods on Tamás K. Papp&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
+    <atom:link href="/tags/numerical-methods/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Continuous-time deterministic dynamic programming in Julia</title>
+      <link>http://tpapp.github.io/post/dynamic-programming/</link>
+      <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/dynamic-programming/</guid>
+      <description>For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. EconFunctions.jl is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. ContinuousTransformations.jl is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally ParametricFunctions.jl is for working with parametric function families.</description>
+    </item>
+    
+  </channel>
+</rss>
