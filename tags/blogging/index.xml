@@ -15,8 +15,18 @@
       <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
       
       <guid>http://tpapp.github.io/post/blogging-weave-julia-hugo/</guid>
-      <description>I have made a PR to Weave.jl which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator Hugo, and generating some pages with plots and evaluated Julia results. I made the source for my blog available so that others can use it for their own blogging about Julia. An example is this post.
-The gist of the workflow is as follows:</description>
+      <description>&lt;p&gt;I have made a PR to &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt; so that others can use it for their own blogging about Julia. An example is &lt;a href=&#34;../../post/hugo-julia-weave/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The gist of the workflow is as follows:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;for posts which do not need &lt;code&gt;Weave&lt;/code&gt;, just use &lt;code&gt;Hugo&lt;/code&gt;. Make sure you read their &lt;a href=&#34;https://gohugo.io/overview/introduction/&#34;&gt;excellent tutorial&lt;/a&gt;. &lt;strong&gt;This very fast&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the &lt;code&gt;.md&lt;/code&gt; file using &lt;code&gt;Weave.jl&lt;/code&gt;. &lt;strong&gt;This is the slow part&lt;/strong&gt;, so it is not automated.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;README&lt;/a&gt; gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.&lt;/p&gt;
+</description>
     </item>
     
   </channel>
