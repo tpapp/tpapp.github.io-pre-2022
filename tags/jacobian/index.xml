@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jacobian on Tamás K. Papp&#39;s blog</title>
+    <link>http://tpapp.github.io/tags/jacobian/</link>
+    <description>Recent content in Jacobian on Tamás K. Papp&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
+    <lastBuildDate>Tue, 23 May 2017 16:39:26 +0200</lastBuildDate>
+    <atom:link href="/tags/jacobian/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Two tricks for change of variables in MCMC</title>
+      <link>http://tpapp.github.io/post/jacobian-chain/</link>
+      <pubDate>Tue, 23 May 2017 16:39:26 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/jacobian-chain/</guid>
+      <description>
+
+&lt;p&gt;Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the &lt;em&gt;lognormal distribution&lt;/em&gt;: when&lt;/p&gt;
+
+&lt;p&gt;$$\log(y) \sim N(\mu, \sigma^2)$$&lt;/p&gt;
+
+&lt;p&gt;one has to adjust the log posterior by $-\log y$ since&lt;/p&gt;
+
+&lt;p&gt;$$\frac{\partial \log(y)}{\partial y} = \frac{1}{y}$$&lt;/p&gt;
+
+&lt;p&gt;and&lt;/p&gt;
+
+&lt;p&gt;$$\log(1/y) = -\log(y).$$&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href=&#34;http://mc-stan.org/&#34;&gt;Stan&lt;/a&gt;, one would accomplish this as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-stan&#34;&gt;target += -log(y)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In general, when you transform using a multivariate function $f$, you would adjust by&lt;/p&gt;
+
+&lt;p&gt;$$\log\det J_f(y)$$&lt;/p&gt;
+
+&lt;p&gt;which is the log of the determinant of the Jacobian &amp;mdash; some texts simply refer to this as &amp;ldquo;the Jacobian&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;The above is well-known, but the following two tricks are worth mentioning.&lt;/p&gt;
+
+&lt;h2 id=&#34;chaining-transformations&#34;&gt;Chaining transformations&lt;/h2&gt;
+
+&lt;p&gt;Suppose that you are changing a variable by using a chain of two functions $f \circ g$. Then
+\begin{multline}
+\log\det J_{f \circ g}(y) = \log \bigl(\det J_f(g(y)) \cdot \det J_g(y)\bigr) \newline
+= \log\det J_f(g(y)) + \log\det J_g(y)
+\end{multline}
+which means that you can simply add (the log determinant of) the Jacobians, of course evaluated at the appropriate points.&lt;/p&gt;
+
+&lt;p&gt;This is very useful when $f \circ g$ is complicated and $J_{f\circ g}$ is tedious to derive, or if you want to use multiple $f$s or $g$s and economize on the algebra.
+ From the above, it is also easy to see that this generalizes to arbitrarily long chains of functions $f_1 \circ f_2 \circ \dots$.&lt;/p&gt;
+
+&lt;p&gt;This trick turned out to be very useful when I was fitting a model where a transformation was general to both equilibrium concepts I was using (a noncooperative game and a social planner), so I could save on code. Of course, since &lt;a href=&#34;https://github.com/stan-dev/stan/issues/2224&#34;&gt;#2224&lt;/a&gt; is WIP, I had to copy-paste the code, but still saved quite a bit of work.&lt;/p&gt;
+
+&lt;h2 id=&#34;transforming-a-subset-of-variables&#34;&gt;Transforming a subset of variables&lt;/h2&gt;
+
+&lt;p&gt;Suppose $x \in \mathbb{R}^m$ and $y \in \mathbb{R}^n$ are vectors, and you are interested in transforming to
+$$
+z = f(x,y)
+$$
+where $x$ and $z$ have the same dimension. It is useful to think about this transformation as
+$$g(x,y) = [f(x,y), y]^\top$$
+where $g : \mathbb{R}^{m+n} \to \mathbb{R}^{m+n}$. Since $y$ is mapped to itself,
+$$
+J_g = \begin{bmatrix}
+J_{f,x} &amp;amp; J_{f,y} \newline
+0 &amp;amp; I
+\end{bmatrix}
+$$
+has a block structure, where
+$$
+J_{f,x} = \frac{\partial f(x,y)}{\partial x}
+$$
+and similarly for $J_{f,y}$. For the calculation of the determinant, you can safely ignore the latter, and $\log \det I = 0$, so
+$$
+\log\det J_g = \log\det J_{f,x}
+$$&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
