@@ -74,9 +74,27 @@
     </item>
     
     <item>
+      <title>Latex</title>
+      <link>http://tpapp.github.io/tags/latex/</link>
+      <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/tags/latex/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Math</title>
+      <link>http://tpapp.github.io/tags/math/</link>
+      <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/tags/math/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Mcmc</title>
       <link>http://tpapp.github.io/tags/mcmc/</link>
-      <pubDate>Tue, 23 May 2017 16:39:26 +0200</pubDate>
+      <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
       
       <guid>http://tpapp.github.io/tags/mcmc/</guid>
       <description></description>
@@ -124,15 +142,6 @@
       <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
       
       <guid>http://tpapp.github.io/tags/tutorial/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Weave</title>
-      <link>http://tpapp.github.io/tags/weave/</link>
-      <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/weave/</guid>
       <description></description>
     </item>
     

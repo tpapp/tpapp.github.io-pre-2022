@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Latex on Tamás K. Papp&#39;s blog</title>
+    <link>http://tpapp.github.io/tags/latex/</link>
+    <description>Recent content in Latex on Tamás K. Papp&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
+    <lastBuildDate>Wed, 24 May 2017 12:59:53 +0200</lastBuildDate>
+    <atom:link href="/tags/latex/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Getting a nice &#43;= in LaTeX math</title>
+      <link>http://tpapp.github.io/post/latex-math-increment/</link>
+      <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/latex-math-increment/</guid>
+      <description>&lt;p&gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &lt;a href=&#34;http://tpapp.github.io/post/jacobian-chain/&#34;&gt;change of varible calculations&lt;/a&gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-latex&#34;&gt;\mathtt{target} += J_f
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;gives
+$$
+\mathtt{target} += J_f
+$$
+which is to be expected, as &lt;code&gt;+&lt;/code&gt; is a binary operator and &lt;code&gt;=&lt;/code&gt; is a relation, so $\LaTeX$ is not expecting them to show up this way.&lt;/p&gt;
+
+&lt;p&gt;We can remedy this as&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-latex&#34;&gt;\mathtt{target} \mathrel{+}= J_f
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which shows up as
+$$
+\mathtt{target} \mathrel{+}= J_f
+$$
+which is an improvement, but is still not visually appealing.&lt;/p&gt;
+
+&lt;p&gt;Making the &lt;code&gt;+&lt;/code&gt; a bit smaller with&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-latex&#34;&gt;\mathrel{\raisebox{0.19ex}{$\scriptstyle+$}}=}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;yields
+$$
+\mathtt{target} \mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f
+$$
+which looks OK enough to preclude further tweaking. Note that &lt;a href=&#34;http://www.mathjax.org/&#34;&gt;MathJax&lt;/a&gt; does not support &lt;code&gt;\raisebox&lt;/code&gt;, but you can use&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-latex&#34;&gt;\mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which renders the as above.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
