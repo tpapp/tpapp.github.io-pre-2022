@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://tpapp.github.io/blog/test/</loc>
+    <lastmod>2017-06-11T21:58:14+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://tpapp.github.io/blog/</loc>
     <lastmod>2017-06-11T14:48:06+02:00</lastmod>
   </url>

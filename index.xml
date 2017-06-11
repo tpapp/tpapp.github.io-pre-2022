@@ -13,6 +13,15 @@
     
     
     <item>
+      <title>test</title>
+      <link>http://tpapp.github.io/blog/test/</link>
+      <pubDate>Sun, 11 Jun 2017 21:58:14 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/blog/test/</guid>
+      <description>force github pages update</description>
+    </item>
+    
+    <item>
       <title>Getting a nice &#43;= in LaTeX math</title>
       <link>http://tpapp.github.io/blog/latex-math-increment/</link>
       <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
