@@ -1,72 +1,40 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hugo on Tamás K. Papp&#39;s blog</title>
+    <title>Hugo on Tamás K. Papp&#39;s website</title>
     <link>http://tpapp.github.io/tags/hugo/</link>
-    <description>Recent content in Hugo on Tamás K. Papp&#39;s blog</description>
+    <description>Recent content in Hugo on Tamás K. Papp&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
     <lastBuildDate>Thu, 30 Mar 2017 10:02:32 +0200</lastBuildDate>
-    <atom:link href="/tags/hugo/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://tpapp.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Blogging with Hugo, Julia, Weave.jl</title>
-      <link>http://tpapp.github.io/post/blogging-weave-julia-hugo/</link>
+      <link>http://tpapp.github.io/blog/blogging-weave-julia-hugo/</link>
       <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/post/blogging-weave-julia-hugo/</guid>
-      <description>&lt;p&gt;I have made a PR to &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt; so that others can use it for their own blogging about Julia. An example is &lt;a href=&#34;../../post/hugo-julia-weave/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The gist of the workflow is as follows:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;for posts which do not need &lt;code&gt;Weave&lt;/code&gt;, just use &lt;code&gt;Hugo&lt;/code&gt;. Make sure you read their &lt;a href=&#34;https://gohugo.io/overview/introduction/&#34;&gt;excellent tutorial&lt;/a&gt;. &lt;strong&gt;This very fast&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the &lt;code&gt;.md&lt;/code&gt; file using &lt;code&gt;Weave.jl&lt;/code&gt;. &lt;strong&gt;This is the slow part&lt;/strong&gt;, so it is not automated.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;README&lt;/a&gt; gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.&lt;/p&gt;
-</description>
+      <guid>http://tpapp.github.io/blog/blogging-weave-julia-hugo/</guid>
+      <description>I have made a PR to Weave.jl which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator Hugo, and generating some pages with plots and evaluated Julia results. I made the source for my blog available so that others can use it for their own blogging about Julia. An example is this post.
+The gist of the workflow is as follows:</description>
     </item>
     
     <item>
       <title>Julia &#43; Weave.jl &#43; hugo test</title>
-      <link>http://tpapp.github.io/post/hugo-julia-weave/</link>
+      <link>http://tpapp.github.io/blog/hugo-julia-weave/</link>
       <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
       
-      <guid>http://tpapp.github.io/post/hugo-julia-weave/</guid>
-      <description>&lt;p&gt;Testing the &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; formatter for &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Testing inline code: &lt;code&gt;1+1=2&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Testing math:
-$$x^2+y^2 = \int_0^1 f(z) dz$$&lt;/p&gt;
-
-&lt;p&gt;Testing code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;1+1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Testing proper highlighting:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;function foo(x, y)
-    x+y
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A plot:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;x = 1:10
-y = x.^2
-scatter(x, y, legend = false)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;{{&amp;lt; figure src=&amp;ldquo;../figures/hugo-julia-weave_4_1.svg&amp;rdquo; title=&amp;ldquo;Caption for this plot&amp;rdquo;  &amp;gt; }}&lt;/p&gt;
-</description>
+      <guid>http://tpapp.github.io/blog/hugo-julia-weave/</guid>
+      <description>Testing the Hugo formatter for Weave.jl.
+Testing inline code: 1+1=2.
+Testing math: $$x^2+y^2 = \int_0^1 f(z) dz$$
+Testing code:
+1+1  2  Testing proper highlighting:
+functionfoo(x, y) x+y end  A plot:
+x = 1:10 y = x.^2 scatter(x, y, legend = false)   Caption for this plot   </description>
     </item>
     
   </channel>

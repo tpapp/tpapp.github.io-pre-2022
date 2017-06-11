@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="Hugo 0.21" />
+    <link rel="stylesheet" type="text/css" href="../../css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/monokai.css">
+    
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          displayMath: [['$$','$$'], ['\[','\]']],
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+               extensions: ["AMSmath.js", "AMSsymbols.js"] }
+        }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="http://tpapp.github.io/">About</a>
+      <a href="http://tpapp.github.io/research">Research</a>
+      <a href="http://tpapp.github.io/blog">Blog</a>
+      <a href="http://tpapp.github.io/software">Software</a>
+
+      <a href="https://github.com/tpapp/">Github</a>
+    </nav>
+
+    <div id="content">
+
+
+<h1>Two tricks for change of variables in MCMC</h1>2017/05/23
+<span class="tags">
+    
+    <a href="../../tags/mcmc">MCMC</a>
+    
+    <a href="../../tags/jacobian">Jacobian</a>
+    
+    <a href="../../tags/stan">Stan</a>
+    
+</span>
+
+
+
+
+
+<p>Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the <em>lognormal distribution</em>: when</p>
+
+<p>$$\log(y) \sim N(\mu, \sigma^2)$$</p>
+
+<p>one has to adjust the log posterior by $-\log y$ since</p>
+
+<p>$$\frac{\partial \log(y)}{\partial y} = \frac{1}{y}$$</p>
+
+<p>and</p>
+
+<p>$$\log(1/y) = -\log(y).$$</p>
+
+<p>In <a href="http://mc-stan.org/">Stan</a>, one would accomplish this as</p>
+<div class="highlight"><pre><code class="language-stan" data-lang="stan"><span></span><span class="n">target</span> <span class="o">+=</span> <span class="o">-</span><span class="nb">log</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+<p>In general, when you transform using a multivariate function $f$, you would adjust by</p>
+
+<p>$$\log\det J_f(y)$$</p>
+
+<p>which is the log of the determinant of the Jacobian &mdash; some texts simply refer to this as &ldquo;the Jacobian&rdquo;.</p>
+
+<p>The above is well-known, but the following two tricks are worth mentioning.</p>
+
+<h2 id="chaining-transformations">Chaining transformations</h2>
+
+<p>Suppose that you are changing a variable by using a chain of two functions $f \circ g$. Then
+\begin{multline}
+\log\det J_{f \circ g}(y) = \log \bigl(\det J_f(g(y)) \cdot \det J_g(y)\bigr) \\
+= \log\det J_f(g(y)) + \log\det J_g(y)
+\end{multline}
+which means that you can simply add (the log determinant of) the Jacobians, of course evaluated at the appropriate points.</p>
+
+<p>This is very useful when $f \circ g$ is complicated and $J_{f\circ g}$ is tedious to derive, or if you want to use multiple $f$s or $g$s and economize on the algebra.
+ From the above, it is also easy to see that this generalizes to arbitrarily long chains of functions $f_1 \circ f_2 \circ \dots$.</p>
+
+<p>This trick turned out to be very useful when I was fitting a model where a transformation was general to both equilibrium concepts I was using (a noncooperative game and a social planner), so I could save on code. Of course, since <a href="https://github.com/stan-dev/stan/issues/2224">#2224</a> is WIP, I had to copy-paste the code, but still saved quite a bit of work.</p>
+
+<h2 id="transforming-a-subset-of-variables">Transforming a subset of variables</h2>
+
+<p>Suppose $x \in \mathbb{R}^m$ and $y \in \mathbb{R}^n$ are vectors, and you are interested in transforming to
+$$
+z = f(x,y)
+$$
+where $x$ and $z$ have the same dimension. It is useful to think about this transformation as
+$$g(x,y) = [f(x,y), y]^\top$$
+where $g : \mathbb{R}^{m+n} \to \mathbb{R}^{m+n}$. Since $y$ is mapped to itself,
+$$
+J_g = \begin{bmatrix}
+J_{f,x} &amp; J_{f,y} \\
+0 &amp; I
+\end{bmatrix}
+$$
+has a block structure, where
+$$
+J_{f,x} = \frac{\partial f(x,y)}{\partial x}
+$$
+and similarly for $J_{f,y}$. For the calculation of the determinant, you can safely ignore the latter, and $\log \det I = 0$, so
+$$
+\log\det J_g = \log\det J_{f,x}
+$$</p>
+
+
+    </div>
+    <div id="sidebar">
+      
+      <a href="../../tags/blogging">blogging</a>
+      
+      <a href="../../tags/browser-plugins">browser-plugins</a>
+      
+      <a href="../../tags/economics">economics</a>
+      
+      <a href="../../tags/firefox">firefox</a>
+      
+      <a href="../../tags/hugo">hugo</a>
+      
+      <a href="../../tags/jacobian">jacobian</a>
+      
+      <a href="../../tags/julia">julia</a>
+      
+      <a href="../../tags/latex">latex</a>
+      
+      <a href="../../tags/math">math</a>
+      
+      <a href="../../tags/mcmc">mcmc</a>
+      
+      <a href="../../tags/my-packages">my-packages</a>
+      
+      <a href="../../tags/numerical-methods">numerical-methods</a>
+      
+      <a href="../../tags/stan">stan</a>
+      
+      <a href="../../tags/teaching">teaching</a>
+      
+      <a href="../../tags/tutorial">tutorial</a>
+      
+      <a href="../../tags/weave">weave</a>
+      
+    </div>
+  </body>
+</html>
+

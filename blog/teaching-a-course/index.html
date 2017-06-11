@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="Hugo 0.21" />
+    <link rel="stylesheet" type="text/css" href="../../css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/monokai.css">
+    
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          displayMath: [['$$','$$'], ['\[','\]']],
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+               extensions: ["AMSmath.js", "AMSsymbols.js"] }
+        }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="http://tpapp.github.io/">About</a>
+      <a href="http://tpapp.github.io/research">Research</a>
+      <a href="http://tpapp.github.io/blog">Blog</a>
+      <a href="http://tpapp.github.io/software">Software</a>
+
+      <a href="https://github.com/tpapp/">Github</a>
+    </nav>
+
+    <div id="content">
+
+
+<h1>Teaching a course using Julia</h1>2017/03/24
+<span class="tags">
+    
+    <a href="../../tags/julia">julia</a>
+    
+    <a href="../../tags/teaching">teaching</a>
+    
+</span>
+
+
+
+
+
+<p>I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods. The students had prior exposure to R and Matlab, and some of them have been using Julia for a while. In some classes, I talked about theory, sometimes I wrote code, ran it, and made improved versions, sometimes we treated the class as a practice session.</p>
+
+<p>I wanted to focus on the actual methods, so I decided to use a subset of the language, &ldquo;Julia light&rdquo;, using the following concepts:</p>
+
+<ol>
+<li>scalars, algebra, arrays, indexing</li>
+<li>functions (with very basic dispatch, on an argument that contained problem parameters)</li>
+<li>control flow: <code>for</code> and <code>if</code></li>
+<li>comprehension, concatenation</li>
+<li>structures (only <code>immutable</code>)</li>
+<li>docstrings</li>
+</ol>
+
+<p>The purpose of the course was to show that one can easily implement seemingly abstract methods encountered in textbooks, dissect them, look at the caveats, and possibly adapt them to particular problems. Writing what I think of as production code would have involved teaching many new concepts to a class coming with very heterogeneous experience in programming, so I decided to steer clear of the following topics:</p>
+
+<ol>
+<li>modules</li>
+<li>macros</li>
+<li>the type system</li>
+<li>writing efficient code (even though we ended up doing a bit on that, and benchmarking, could not resist)</li>
+</ol>
+
+<p>We used <a href="https://github.com/EconForge/NLsolve.jl">NLsolve</a>, <a href="https://github.com/JuliaNLSolvers/Optim.jl">Optim</a>, and <a href="https://github.com/JuliaPlots/Plots.jl">Plots</a> extensively, and <a href="https://github.com/JuliaDiff/ForwardDiff.jl">ForwardDiff</a> under the hood. <a href="https://github.com/mauro3/Parameters.jl">Parameters</a> was very useful for clean code.</p>
+
+<h2 id="perspective-of-the-instructor">Perspective of the instructor</h2>
+
+<p>Even when I wrote something in a suboptimal manner, it turned out to be fast enough. Julia is great in that respect. However, compilation time dominated almost everything that we did, especially for plots.</p>
+
+<p>I was using Jupyter notebooks, inspired by <a href="https://math.mit.edu/classes/18.S096/iap17/">18.S096</a>. While I am much, much slower writing code in Jupyter compared to Emacs, I think that this turned out to be a benefit: jumping around between windows is very difficult to follow. <a href="https://github.com/JuliaGizmos/Interact.jl">Interact</a> was just great.</p>
+
+<p>I made a small package for code we wrote in class, and distributed new code via <code>Pkg.update()</code>. This worked well most of the time.</p>
+
+<p>We were using <code>v0.5.0</code> and later transitioned to <code>v0.5.1</code>, which was seamless.</p>
+
+<p>Since I was not using modules, sometimes the best way to extricate myself from a state was restarting the kernel. This became a running joke among the students (&ldquo;when in doubt, restart the kernel&rdquo;). This actually worked very well for the infamous <a href="https://github.com/julialang/julia/issues/265">#265</a>.</p>
+
+<p>Jupyter is great for interactive notes in class. I mixed a great deal of marked up text and LaTeX equations into the workbooks. Problem sets were handed in using Jupyter notebooks, and the exam (solving a dynamic programming problem) was also written in and graded as a notebook.</p>
+
+<p>Unicode specials are addictive. Once you learn about <code>α</code>, you never name a variable <code>alpha</code> again.</p>
+
+<h2 id="perspective-of-the-students">Perspective of the students</h2>
+
+<p>I talked to the class at the end of the course about their experience with Julia, and some of them individually. The biggest issue for them was lack of easily searchable answers to common questions: for R and Matlab, a &ldquo;how do you &hellip;&rdquo; query turns up 100+ answers because many people have encountered the problem before. This was not the case for Julia. Lack of examples was an especially difficult issue for plots.</p>
+
+<p>Debugging in Jupyter was difficult, since it mostly amounted to debugging by bisection, isolation, and occasionally printing. Students found some of the error messages cryptic (especially when it was about not having a matching method, since we did not really go into the type system).</p>
+
+<p>The most puzzling transient bugs were because of <a href="https://github.com/julialang/julia/issues/265">#265</a> (&ldquo;but I recompiled that function!&rdquo;). This was solved by restarting the kernel, so the latter became somewhat of a panacea. Since compilation time dominated everything, this slowed things down considerably.</p>
+
+<h2 id="takeaway">Takeaway</h2>
+
+<p>Would definitely do it again. Even with the issues, Julia was the most comfortable language to teach in.</p>
+
+
+    </div>
+    <div id="sidebar">
+      
+      <a href="../../tags/blogging">blogging</a>
+      
+      <a href="../../tags/browser-plugins">browser-plugins</a>
+      
+      <a href="../../tags/economics">economics</a>
+      
+      <a href="../../tags/firefox">firefox</a>
+      
+      <a href="../../tags/hugo">hugo</a>
+      
+      <a href="../../tags/jacobian">jacobian</a>
+      
+      <a href="../../tags/julia">julia</a>
+      
+      <a href="../../tags/latex">latex</a>
+      
+      <a href="../../tags/math">math</a>
+      
+      <a href="../../tags/mcmc">mcmc</a>
+      
+      <a href="../../tags/my-packages">my-packages</a>
+      
+      <a href="../../tags/numerical-methods">numerical-methods</a>
+      
+      <a href="../../tags/stan">stan</a>
+      
+      <a href="../../tags/teaching">teaching</a>
+      
+      <a href="../../tags/tutorial">tutorial</a>
+      
+      <a href="../../tags/weave">weave</a>
+      
+    </div>
+  </body>
+</html>
+

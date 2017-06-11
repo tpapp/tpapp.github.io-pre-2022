@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="Hugo 0.21" />
+    <link rel="stylesheet" type="text/css" href="../../css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/monokai.css">
+    
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          displayMath: [['$$','$$'], ['\[','\]']],
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+               extensions: ["AMSmath.js", "AMSsymbols.js"] }
+        }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="http://tpapp.github.io/">About</a>
+      <a href="http://tpapp.github.io/research">Research</a>
+      <a href="http://tpapp.github.io/blog">Blog</a>
+      <a href="http://tpapp.github.io/software">Software</a>
+
+      <a href="https://github.com/tpapp/">Github</a>
+    </nav>
+
+    <div id="content">
+
+
+<h1>Getting a nice &#43;= in LaTeX math</h1>2017/05/24
+<span class="tags">
+    
+    <a href="../../tags/latex">LaTeX</a>
+    
+    <a href="../../tags/math">math</a>
+    
+    <a href="../../tags/mcmc">MCMC</a>
+    
+</span>
+
+
+
+<p>I am working on an appendix for a paper that uses MCMC, and I decided to document some <a href="http://tpapp.github.io/blog/jacobian-chain/">change of varible calculations</a> in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?</p>
+<div class="highlight"><pre><code class="language-latex" data-lang="latex"><span></span><span class="k">\mathtt</span><span class="nb">{</span>target<span class="nb">}</span> += J<span class="nb">_</span>f
+</code></pre></div>
+
+<p>gives
+$$
+\mathtt{target} += J_f
+$$
+which is to be expected, as <code>+</code> is a binary operator and <code>=</code> is a relation, so $\LaTeX$ is not expecting them to show up this way.</p>
+
+<p>We can remedy this as</p>
+<div class="highlight"><pre><code class="language-latex" data-lang="latex"><span></span><span class="k">\mathtt</span><span class="nb">{</span>target<span class="nb">}</span> <span class="k">\mathrel</span><span class="nb">{</span>+<span class="nb">}</span>= J<span class="nb">_</span>f
+</code></pre></div>
+
+<p>which shows up as
+$$
+\mathtt{target} \mathrel{+}= J_f
+$$
+which is an improvement, but is still not visually appealing.</p>
+
+<p>Making the <code>+</code> a bit smaller with</p>
+<div class="highlight"><pre><code class="language-latex" data-lang="latex"><span></span><span class="k">\mathrel</span><span class="nb">{</span><span class="k">\raisebox</span><span class="nb">{</span>0.19ex<span class="nb">}{</span><span class="s">$</span><span class="nv">\scriptstyle</span><span class="o">+</span><span class="s">$</span><span class="nb">}}</span>=<span class="nb">}</span>
+</code></pre></div>
+
+<p>yields
+$$
+\mathtt{target} \mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f
+$$
+which looks OK enough to preclude further tweaking. Note that <a href="http://www.mathjax.org/">MathJax</a> does not support <code>\raisebox</code>, but you can use</p>
+<div class="highlight"><pre><code class="language-latex" data-lang="latex"><span></span><span class="k">\mathrel</span><span class="nb">{</span><span class="k">\raise</span><span class="nb">{</span>0.19ex<span class="nb">}{</span><span class="k">\scriptstyle</span>+<span class="nb">}}</span> = J<span class="nb">_</span>f
+</code></pre></div>
+
+<p>which renders the as above.</p>
+
+
+    </div>
+    <div id="sidebar">
+      
+      <a href="../../tags/blogging">blogging</a>
+      
+      <a href="../../tags/browser-plugins">browser-plugins</a>
+      
+      <a href="../../tags/economics">economics</a>
+      
+      <a href="../../tags/firefox">firefox</a>
+      
+      <a href="../../tags/hugo">hugo</a>
+      
+      <a href="../../tags/jacobian">jacobian</a>
+      
+      <a href="../../tags/julia">julia</a>
+      
+      <a href="../../tags/latex">latex</a>
+      
+      <a href="../../tags/math">math</a>
+      
+      <a href="../../tags/mcmc">mcmc</a>
+      
+      <a href="../../tags/my-packages">my-packages</a>
+      
+      <a href="../../tags/numerical-methods">numerical-methods</a>
+      
+      <a href="../../tags/stan">stan</a>
+      
+      <a href="../../tags/teaching">teaching</a>
+      
+      <a href="../../tags/tutorial">tutorial</a>
+      
+      <a href="../../tags/weave">weave</a>
+      
+    </div>
+  </body>
+</html>
+

@@ -1,203 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>My Packages on Tamás K. Papp&#39;s blog</title>
+    <title>My Packages on Tamás K. Papp&#39;s website</title>
     <link>http://tpapp.github.io/tags/my-packages/</link>
-    <description>Recent content in My Packages on Tamás K. Papp&#39;s blog</description>
+    <description>Recent content in My Packages on Tamás K. Papp&#39;s website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
     <lastBuildDate>Sun, 02 Apr 2017 19:06:04 +0200</lastBuildDate>
-    <atom:link href="/tags/my-packages/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://tpapp.github.io/tags/my-packages/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Continuous-time deterministic dynamic programming in Julia</title>
-      <link>http://tpapp.github.io/post/dynamic-programming/</link>
+      <link>http://tpapp.github.io/blog/dynamic-programming/</link>
       <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/post/dynamic-programming/</guid>
-      <description>
-
-&lt;p&gt;For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. &lt;a href=&#34;https://github.com/tpapp/EconFunctions.jl&#34;&gt;EconFunctions.jl&lt;/a&gt; is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. &lt;a href=&#34;https://github.com/tpapp/ContinuousTransformations.jl&#34;&gt;ContinuousTransformations.jl&lt;/a&gt; is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally &lt;a href=&#34;https://github.com/tpapp/ParametricFunctions.jl&#34;&gt;ParametricFunctions.jl&lt;/a&gt; is for working with parametric function families.&lt;/p&gt;
-
-&lt;p&gt;In this post I use these three to solve a simple, deterministic dynamic programming model in continuous time, known as the Ramsey growth model. If you are not an economist, it is very unlikely that it will make a lot of sense. If you are a student, I added basic references at the end, which are consistent with the methods in this post.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Caveat&lt;/strong&gt;: &lt;em&gt;these libraries are in development, I am refining the API and changing things all the time. It is very likely that as time progresses, code in this post will not run without changes.&lt;/em&gt; In other words, treat this as a sneak peak into a library which is in development.&lt;/p&gt;
-
-&lt;h2 id=&#34;theory&#34;&gt;Theory&lt;/h2&gt;
-
-&lt;p&gt;This is standard material, I am just repeating it so that this post is self-contained. We solve&lt;/p&gt;
-
-&lt;p&gt;$$\max \int_0^\infty e^{-\rho t} u(c_t) dt$$
-subject to
-$$\dot{k}_t = F(k_t) - c_t, k_t \ge 0 \forall t.$$&lt;/p&gt;
-
-&lt;p&gt;where $u( c )$ is a CRRA utility function with IES $\theta$, $F(k) = A k^\alpha - \delta k$ is a production function that accounts for depreciation. Our problem is described by the Hamilton-Jacobi-Bellman equation&lt;/p&gt;
-
-&lt;p&gt;$$\rho V(k) = \max_c u( c ) + (F(k)-c) V&amp;rsquo;(k)$$&lt;/p&gt;
-
-&lt;p&gt;Notice that once we have $V$, the first-order condition&lt;/p&gt;
-
-&lt;p&gt;$$u&amp;rsquo;(c(k)) = V&amp;rsquo;(k)$$&lt;/p&gt;
-
-&lt;p&gt;yields the policy function $c(k)$, which we are interested in. Combining the envelope condition&lt;/p&gt;
-
-&lt;p&gt;$$\rho V&amp;rsquo;(k) = F&amp;rsquo;(k) V&amp;rsquo;(k) + (F(k)-c) V{&amp;lsquo;}{&amp;rsquo;}(k)$$&lt;/p&gt;
-
-&lt;p&gt;and using the functional form for CRRA utility, we obtain&lt;/p&gt;
-
-&lt;p&gt;$$\frac{c&amp;rsquo;(k)}{c(k)} (F(k)-c(k)) = \frac{1}{\theta} (F&amp;rsquo;(k)-\rho)$$&lt;/p&gt;
-
-&lt;p&gt;which is a recursive form of the so-called Euler equation.&lt;/p&gt;
-
-&lt;p&gt;Also, note that we can characterize the steady state capital and consumption by&lt;/p&gt;
-
-&lt;p&gt;$$k_s = \left(\frac{\delta+\rho}{A\alpha}\right)^{1/(\alpha-1)}$$&lt;/p&gt;
-
-&lt;p&gt;and&lt;/p&gt;
-
-&lt;p&gt;$$c_s = F(k_s)$$&lt;/p&gt;
-
-&lt;h2 id=&#34;julia-code-solving-the-euler-equation&#34;&gt;Julia code: solving the Euler equation&lt;/h2&gt;
-
-&lt;p&gt;Load the libraries (you need to clone some code, as the packages are not registered).&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;using ParametricFunctions       # unregistered, clone from repo
-using ContinuousTransformations # unregistered, clone from repo
-using EconFunctions             # unregistered, clone from repo
-using Plots; gr()
-using Parameters
-using NLsolve
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It is useful to put model parameters in a single structure.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
-Very simple (normalized) Ramsey model with isoelastic production
-function and utility.
-&amp;quot;&amp;quot;&amp;quot;
-@with_kw immutable RamseyModel{T}
-    θ::T                        # IES
-    α::T                        # capital share
-    A::T                        # TFP
-    ρ::T                        # discount rate
-    δ::T                        # depreciation
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is the key part: we code the residual for the Euler equation. The function should take the model (which contains the parameters), a function $c$ that has been constructed using a function family and a set of parameters, and a scalar $k$, at which we evaluate the residual above. Everything else can be automated very well.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;&amp;quot;&amp;quot;&amp;quot;
-Residual of the Euler equation.
-&amp;quot;&amp;quot;&amp;quot;
-function euler_residual(model::RamseyModel, c, k)
-    @unpack θ, ρ, α, A, δ = model
-    Fk = A*k^α - δ*k
-    F′k = A*α*k^(α-1) - δ
-    ck, c′k = c(ValuePartial(k))
-    (c′k/ck)*(Fk-ck) - 1/θ*(F′k-ρ)
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Above, &lt;code&gt;c&lt;/code&gt; can be treated like an ordinary function, except that if you call it with &lt;code&gt;ValuePartial(x)&lt;/code&gt;, you get the value &lt;em&gt;and&lt;/em&gt; the derivative.&lt;/p&gt;
-
-&lt;p&gt;The steady state will be handy:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;&amp;quot;Return the steady state capital and consumption for the model.&amp;quot;
-function steady_state(model::RamseyModel)
-    @unpack α, A, ρ, δ = model
-    k = ((δ+ρ)/(A*α))^(1/(α-1))
-    c = A*k^α - δ*k
-    k, c
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Let&amp;rsquo;s make a model object (parameters are pretty standard), and calculate the steady state:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;model = RamseyModel(θ = 2.0, α = 0.3, A = 1.0, ρ = 0.02, δ = 0.05)
-
-kₛ, cₛ = steady_state(model)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We will solve in a domain around the steady state capital.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;kdom = (0.5*kₛ)..(2*kₛ)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Given the pieces above, obtaining the solution can be done very conscisely: create a residual object, which is basically a mapping from parameters to the function family to the residuals:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;res = CollocationResidual(model, DomainTrans(kdom, Chebyshev(10)),
-                          euler_residual)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The above say that we want 10 Chebyshev polynomials, transformed to the domain &lt;code&gt;kdom&lt;/code&gt;, to be used for constructing the $c(k)$.&lt;/p&gt;
-
-&lt;p&gt;We call the solver, providing an initial guess, $c(k) = k\cdot c_s/k_s$, for the policy function $c(k)$. The guess is that consumption is linear in capital, and the line goes through the steady state values. Other reasonable guesses are possible, but note that it is worthwhile thinking a bit about a good one, so that you get fast convergence.&lt;/p&gt;
-
-&lt;p&gt;The function below fits a parametric function from the given family to the initial guess, then solves for the residual being $0$ using &lt;code&gt;NLsolve&lt;/code&gt; with automatic differentiation under the hood.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;c_sol, o = solve_collocation(res, k-&amp;gt;cₛ*k/kₛ; ftol=1e-10,
-                             method = :newton)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Convergence statistics:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Results of Nonlinear Solver Algorithm
- * Algorithm: Newton with line-search
- * Starting Point: [1.83249,1.09949,7.10543e-16,4.44089e-16,-1.77636e-16,-8
-.88178e-17,-8.43769e-16,1.64313e-15,1.33227e-16,3.10862e-16]
- * Zero: [1.57794,0.433992,-0.0360164,0.00624848,-0.00134301,0.000320829,-8
-.21347e-5,2.28742e-5,-6.85183e-6,1.48105e-6]
- * Inf-norm of residuals: 0.000000
- * Iterations: 6
- * Convergence: true
-   * |x - x&#39;| &amp;lt; 0.0e+00: false
-   * |f(x)| &amp;lt; 1.0e-10: true
- * Function Calls (f): 7
- * Jacobian Calls (df/dx): 6
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Overall, pretty good, very few iterations. We plot the resulting function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;plot(c_sol, xlab = &amp;quot;k&amp;quot;, ylab = &amp;quot;c(k)&amp;quot;, legend = false)
-scatter!([kₛ], [cₛ])
-&lt;/code&gt;&lt;/pre&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../figures/dynamic-programming_10_1.svg&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;Notive how the collocation nodes are added automatically (this is done with a plot recipe). It should, of course, go thought the steady state.&lt;/p&gt;
-
-&lt;p&gt;It is very important to plot the residual:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-julia&#34;&gt;plot(k-&amp;gt;euler_residual(model, c_sol, k), linspace(kdom, 100),
-     legend = false, xlab=&amp;quot;k&amp;quot;, ylab=&amp;quot;Euler residual&amp;quot;)
-scatter!(zero, points(c_sol))
-&lt;/code&gt;&lt;/pre&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../figures/dynamic-programming_11_1.svg&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;Note the near-equioscillation property, which you get from using Chebyshev polynomials. You get $10^{-6}$ accuracy, which is neat (but note that this is a simple textbook problem, very smooth and tractable).&lt;/p&gt;
-
-&lt;h2 id=&#34;selected-reading&#34;&gt;Selected reading&lt;/h2&gt;
-
-&lt;p&gt;Acemoglu, Daron. Introduction to modern economic growth. Princeton University Press, 2008. &lt;em&gt;Chapter 8.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Miranda, Mario J., and Paul L. Fackler. Applied computational economics and finance. MIT press, 2004. &lt;em&gt;Chapters 10 and 11&lt;/em&gt;.&lt;/p&gt;
-</description>
+      <guid>http://tpapp.github.io/blog/dynamic-programming/</guid>
+      <description>For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. EconFunctions.jl is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. ContinuousTransformations.jl is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally ParametricFunctions.jl is for working with parametric function families.</description>
     </item>
     
   </channel>
