@@ -14,38 +14,38 @@
     
     <item>
       <title>Continuous-time deterministic dynamic programming in Julia</title>
-      <link>http://tpapp.github.io/blog/dynamic-programming/</link>
+      <link>http://tpapp.github.io/post/dynamic-programming/</link>
       <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/blog/dynamic-programming/</guid>
+      <guid>http://tpapp.github.io/post/dynamic-programming/</guid>
       <description>For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. EconFunctions.jl is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. ContinuousTransformations.jl is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally ParametricFunctions.jl is for working with parametric function families.</description>
     </item>
     
     <item>
       <title>Blogging with Hugo, Julia, Weave.jl</title>
-      <link>http://tpapp.github.io/blog/blogging-weave-julia-hugo/</link>
+      <link>http://tpapp.github.io/post/blogging-weave-julia-hugo/</link>
       <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/blog/blogging-weave-julia-hugo/</guid>
+      <guid>http://tpapp.github.io/post/blogging-weave-julia-hugo/</guid>
       <description>I have made a PR to Weave.jl which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator Hugo, and generating some pages with plots and evaluated Julia results. I made the source for my blog available so that others can use it for their own blogging about Julia. An example is this post.
 The gist of the workflow is as follows:</description>
     </item>
     
     <item>
       <title>Teaching a course using Julia</title>
-      <link>http://tpapp.github.io/blog/teaching-a-course/</link>
+      <link>http://tpapp.github.io/post/teaching-a-course/</link>
       <pubDate>Fri, 24 Mar 2017 14:34:22 +0100</pubDate>
       
-      <guid>http://tpapp.github.io/blog/teaching-a-course/</guid>
+      <guid>http://tpapp.github.io/post/teaching-a-course/</guid>
       <description>I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods.</description>
     </item>
     
     <item>
       <title>Julia &#43; Weave.jl &#43; hugo test</title>
-      <link>http://tpapp.github.io/blog/hugo-julia-weave/</link>
+      <link>http://tpapp.github.io/post/hugo-julia-weave/</link>
       <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
       
-      <guid>http://tpapp.github.io/blog/hugo-julia-weave/</guid>
+      <guid>http://tpapp.github.io/post/hugo-julia-weave/</guid>
       <description>Testing the Hugo formatter for Weave.jl.
 Testing inline code: 1+1=2.
 Testing math: $$x^2+y^2 = \int_0^1 f(z) dz$$

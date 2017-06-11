@@ -14,20 +14,20 @@
     
     <item>
       <title>Getting a nice &#43;= in LaTeX math</title>
-      <link>http://tpapp.github.io/blog/latex-math-increment/</link>
+      <link>http://tpapp.github.io/post/latex-math-increment/</link>
       <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/blog/latex-math-increment/</guid>
+      <guid>http://tpapp.github.io/post/latex-math-increment/</guid>
       <description>I am working on an appendix for a paper that uses MCMC, and I decided to document some change of varible calculations in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?
 \mathtt{target} += J_f  gives $$ \mathtt{target} += J_f $$ which is to be expected, as + is a binary operator and = is a relation, so $\LaTeX$ is not expecting them to show up this way.</description>
     </item>
     
     <item>
       <title>Two tricks for change of variables in MCMC</title>
-      <link>http://tpapp.github.io/blog/jacobian-chain/</link>
+      <link>http://tpapp.github.io/post/jacobian-chain/</link>
       <pubDate>Tue, 23 May 2017 16:39:26 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/blog/jacobian-chain/</guid>
+      <guid>http://tpapp.github.io/post/jacobian-chain/</guid>
       <description>Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the lognormal distribution: when
 $$\log(y) \sim N(\mu, \sigma^2)$$
 one has to adjust the log posterior by $-\log y$ since

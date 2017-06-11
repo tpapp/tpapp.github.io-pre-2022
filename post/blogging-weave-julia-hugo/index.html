@@ -28,7 +28,7 @@
     <nav id="navbar">
       <a href="http://tpapp.github.io/">About</a>
       <a href="http://tpapp.github.io/research">Research</a>
-      <a href="http://tpapp.github.io/blog">Blog</a>
+      <a href="http://tpapp.github.io/post">Blog</a>
       <a href="http://tpapp.github.io/software">Software</a>
 
       <a href="https://github.com/tpapp/">Github</a>
@@ -37,10 +37,32 @@
     <div id="content">
 
 
-<h1>test</h1>2017/06/11
+<h1>Blogging with Hugo, Julia, Weave.jl</h1>2017/03/30
+<span class="tags">
+    
+    <a href="../../tags/julia">julia</a>
+    
+    <a href="../../tags/blogging">blogging</a>
+    
+    <a href="../../tags/weave">Weave</a>
+    
+    <a href="../../tags/hugo">Hugo</a>
+    
+</span>
 
 
-<p>force github pages update</p>
+
+<p>I have made a PR to <a href="https://github.com/mpastell/Weave.jl">Weave.jl</a> which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator <a href="https://gohugo.io/">Hugo</a>, and generating some pages with plots and evaluated Julia results. I made the source for my blog <a href="https://github.com/tpapp/tpapp.github.io-source">available</a> so that others can use it for their own blogging about Julia. An example is <a href="../../post/hugo-julia-weave/">this post</a>.</p>
+
+<p>The gist of the workflow is as follows:</p>
+
+<ol>
+<li><p>for posts which do not need <code>Weave</code>, just use <code>Hugo</code>. Make sure you read their <a href="https://gohugo.io/overview/introduction/">excellent tutorial</a>. <strong>This very fast</strong>.</p></li>
+
+<li><p>for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the <code>.md</code> file using <code>Weave.jl</code>. <strong>This is the slow part</strong>, so it is not automated.</p></li>
+</ol>
+
+<p>The <a href="https://github.com/tpapp/tpapp.github.io-source">README</a> gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.</p>
 
 
     </div>

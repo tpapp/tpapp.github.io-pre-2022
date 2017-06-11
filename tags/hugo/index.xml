@@ -14,20 +14,20 @@
     
     <item>
       <title>Blogging with Hugo, Julia, Weave.jl</title>
-      <link>http://tpapp.github.io/blog/blogging-weave-julia-hugo/</link>
+      <link>http://tpapp.github.io/post/blogging-weave-julia-hugo/</link>
       <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/blog/blogging-weave-julia-hugo/</guid>
+      <guid>http://tpapp.github.io/post/blogging-weave-julia-hugo/</guid>
       <description>I have made a PR to Weave.jl which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator Hugo, and generating some pages with plots and evaluated Julia results. I made the source for my blog available so that others can use it for their own blogging about Julia. An example is this post.
 The gist of the workflow is as follows:</description>
     </item>
     
     <item>
       <title>Julia &#43; Weave.jl &#43; hugo test</title>
-      <link>http://tpapp.github.io/blog/hugo-julia-weave/</link>
+      <link>http://tpapp.github.io/post/hugo-julia-weave/</link>
       <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
       
-      <guid>http://tpapp.github.io/blog/hugo-julia-weave/</guid>
+      <guid>http://tpapp.github.io/post/hugo-julia-weave/</guid>
       <description>Testing the Hugo formatter for Weave.jl.
 Testing inline code: 1+1=2.
 Testing math: $$x^2+y^2 = \int_0^1 f(z) dz$$

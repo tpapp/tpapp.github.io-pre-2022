@@ -14,10 +14,10 @@
     
     <item>
       <title>Two tricks for change of variables in MCMC</title>
-      <link>http://tpapp.github.io/blog/jacobian-chain/</link>
+      <link>http://tpapp.github.io/post/jacobian-chain/</link>
       <pubDate>Tue, 23 May 2017 16:39:26 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/blog/jacobian-chain/</guid>
+      <guid>http://tpapp.github.io/post/jacobian-chain/</guid>
       <description>Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the lognormal distribution: when
 $$\log(y) \sim N(\mu, \sigma^2)$$
 one has to adjust the log posterior by $-\log y$ since

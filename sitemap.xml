@@ -3,12 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://tpapp.github.io/blog/test/</loc>
-    <lastmod>2017-06-11T21:58:14+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://tpapp.github.io/blog/</loc>
+    <loc>http://tpapp.github.io/post/</loc>
     <lastmod>2017-06-11T14:48:06+02:00</lastmod>
   </url>
   
@@ -28,37 +23,37 @@
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/blog/latex-math-increment/</loc>
+    <loc>http://tpapp.github.io/post/latex-math-increment/</loc>
     <lastmod>2017-05-24T12:59:53+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/blog/jacobian-chain/</loc>
+    <loc>http://tpapp.github.io/post/jacobian-chain/</loc>
     <lastmod>2017-05-23T16:39:26+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/blog/privacy-badger/</loc>
+    <loc>http://tpapp.github.io/post/privacy-badger/</loc>
     <lastmod>2017-05-02T16:35:37+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/blog/dynamic-programming/</loc>
+    <loc>http://tpapp.github.io/post/dynamic-programming/</loc>
     <lastmod>2017-04-02T19:06:04+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/blog/blogging-weave-julia-hugo/</loc>
+    <loc>http://tpapp.github.io/post/blogging-weave-julia-hugo/</loc>
     <lastmod>2017-03-30T10:02:32+02:00</lastmod>
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/blog/teaching-a-course/</loc>
+    <loc>http://tpapp.github.io/post/teaching-a-course/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/blog/hugo-julia-weave/</loc>
+    <loc>http://tpapp.github.io/post/hugo-julia-weave/</loc>
     <lastmod>2017-03-03T13:11:53+01:00</lastmod>
   </url>
   

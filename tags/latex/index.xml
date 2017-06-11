@@ -14,10 +14,10 @@
     
     <item>
       <title>Getting a nice &#43;= in LaTeX math</title>
-      <link>http://tpapp.github.io/blog/latex-math-increment/</link>
+      <link>http://tpapp.github.io/post/latex-math-increment/</link>
       <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/blog/latex-math-increment/</guid>
+      <guid>http://tpapp.github.io/post/latex-math-increment/</guid>
       <description>I am working on an appendix for a paper that uses MCMC, and I decided to document some change of varible calculations in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?
 \mathtt{target} += J_f  gives $$ \mathtt{target} += J_f $$ which is to be expected, as + is a binary operator and = is a relation, so $\LaTeX$ is not expecting them to show up this way.</description>
     </item>
