@@ -37,52 +37,33 @@
     <div id="content">
 
 
-<h1>Blogging with Hugo, Julia, Weave.jl</h1>2017/03/30
-<span class="tags">
-    
-    <a href="../../tags/julia">julia</a>
-    
-    <a href="../../tags/blogging">blogging</a>
-    
-    <a href="../../tags/weave">Weave</a>
-    
-    <a href="../../tags/hugo">Hugo</a>
-    
-</span>
+<h1>Blog redesign</h1>2017/06/12
 
 
+<p>I am in the process of rebuilding my personal website using <a href="http://gohugo.io/">Hugo</a>. I tried various themes, including <a href="https://github.com/gcushen/hugo-academic">hugo-academic</a>, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.</p>
 
-<p>I have made a PR to <a href="https://github.com/mpastell/Weave.jl">Weave.jl</a> which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator <a href="https://gohugo.io/">Hugo</a>, and generating some pages with plots and evaluated Julia results. I made the source for my blog <a href="https://github.com/tpapp/tpapp.github.io-source">available</a> so that others can use it for their own blogging about Julia. An example is <a href="../../post/hugo-julia-weave/">this post</a>.</p>
+<p>The result is now 80% ready (blog works, automatic listing of research papers will take some more work), and the <a href="https://github.com/tpapp/tpapp.github.io-source">source is on Github</a>. It is available under the CC-BY-SA license, feel free to adapt parts from it, not that there is anything special in there.</p>
 
-<p>The gist of the workflow is as follows:</p>
+<p>Hugo is really an excellent framework, it is clean, logical, and allows a lot of code reuse. I <del>wasted</del> spent most of the time on fiddling with CSS, and I am still not 100% satisfied with the result, but at some point I decided to stop. <a href="http://sass-lang.com/">SCSS</a> was extremely useful for writing organized CSS.</p>
 
-<ol>
-<li><p>for posts which do not need <code>Weave</code>, just use <code>Hugo</code>. Make sure you read their <a href="https://gohugo.io/overview/introduction/">excellent tutorial</a>. <strong>This very fast</strong>.</p></li>
-
-<li><p>for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the <code>.md</code> file using <code>Weave.jl</code>. <strong>This is the slow part</strong>, so it is not automated.</p></li>
-</ol>
-
-<p>The <a href="https://github.com/tpapp/tpapp.github.io-source">README</a> gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.</p>
+<p>I am especially satisfied with moving the code highlighting to the generator side. The only non-static parts are now <a href="https://disqus.com/">Disqus</a> and <a href="http://www.mathjax.org/">MathJax</a>.</p>
 
 
 
 <div id="pagenav">
   
   <span class="pagenav-label">Previous</span>
-  <a href="http://tpapp.github.io/post/teaching-a-course/">Teaching a course using Julia</a>
+  <a href="http://tpapp.github.io/post/latex-math-increment/">Getting a nice &#43;= in LaTeX math</a>
   
-  
-  <span class="pagenav-label">Next</span>
-  <a href="http://tpapp.github.io/post/dynamic-programming/">Continuous-time deterministic dynamic programming in Julia</a>
   
 </div>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'tpappgithubio';
-    var disqus_identifier = 'http:\/\/tpapp.github.io\/post\/blogging-weave-julia-hugo\/';
-    var disqus_title = 'Blogging with Hugo, Julia, Weave.jl';
-    var disqus_url = 'http:\/\/tpapp.github.io\/post\/blogging-weave-julia-hugo\/';
+    var disqus_identifier = 'http:\/\/tpapp.github.io\/post\/blog-redesign\/';
+    var disqus_title = 'Blog redesign';
+    var disqus_url = 'http:\/\/tpapp.github.io\/post\/blog-redesign\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
