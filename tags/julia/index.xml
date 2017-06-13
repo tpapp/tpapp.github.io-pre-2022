@@ -14,10 +14,10 @@
     
     <item>
       <title>Sampling variation in effective sample size estimates (MCMC)</title>
-      <link>http://tpapp.github.io/post/ess-sampling/</link>
+      <link>http://tpapp.github.io/post/ess-sampling/ess-sampling/</link>
       <pubDate>Mon, 12 Jun 2017 16:25:57 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/post/ess-sampling/</guid>
+      <guid>http://tpapp.github.io/post/ess-sampling/ess-sampling/</guid>
       <description>Introduction MCMC samples, used in Bayesian statistics, are not independent &amp;mdash; in fact, unless one uses specialized methods or modern HMC, posterior draws are usually at highly autocorrelated. For independent draws, [ \text{variance of simulation mean} \propto \frac1N ] where $N$ is the sample size, but for correlated draws, one has to scale the sample size with a factor [ \tau = \frac{1}{1+2\sum_{k=1}^\infty \rho_k} ] where $\rho_k$ is the lag-$k$ autocorrelation.</description>
     </item>
     

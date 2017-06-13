@@ -3,9 +3,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="generator" content="Hugo 0.21" />
-    <link rel="stylesheet" type="text/css" href="../../css/fonts.css">
-    <link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <link rel="stylesheet" type="text/css" href="../../css/lovelace.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/fonts.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/lovelace.css">
     
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -40,11 +40,11 @@
 <h1>Sampling variation in effective sample size estimates (MCMC)</h1>2017/06/12
 <span class="tags">
     
-    <a href="../../tags/mcmc">MCMC</a>
+    <a href="../../../tags/mcmc">MCMC</a>
     
-    <a href="../../tags/bayesian">Bayesian</a>
+    <a href="../../../tags/bayesian">Bayesian</a>
     
-    <a href="../../tags/julia">julia</a>
+    <a href="../../../tags/julia">julia</a>
     
 </span>
 
@@ -80,7 +80,7 @@ I will call $K$ the <em>last lag</em>. <a href="http://mc-stan.org/">Stan</a> do
 
 <h2 id="the-sampling-variation">The sampling variation</h2>
 
-<p>I was coding up the above calculation, and needed some unit tests. Surprisignly, I could not find anything on the sampling variation of $\tau$, so I wrote some simulations in Julia (<a href="https://gist.github.com/tpapp/c1d5d267a8dcc4c9278de6a101622cdc">source code for everything</a>). I did the following simulation exercise:</p>
+<p>I was coding up the above calculation, and needed some unit tests. Surprisignly, I could not find anything on the sampling variation of $\tau$, so I wrote some simulations in Julia (<a href="../ess-sampling.jl">source code for everything</a>). I did the following simulation exercise:</p>
 
 <ol>
 <li>for a given autocorrelation coefficient $\phi$, simulate $N$ draws from the AR(1) process
@@ -102,7 +102,7 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 <p>
 <figure >
     
-        <img src="../figures/ess-phi0N1000.svg" />
+        <img src="../ess-phi0N1000.svg" />
     
     
     <figcaption>
@@ -115,7 +115,7 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 
 <figure >
     
-        <img src="../figures/ess-phi0N10000.svg" />
+        <img src="../ess-phi0N10000.svg" />
     
     
     <figcaption>
@@ -139,7 +139,7 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 <p>
 <figure >
     
-        <img src="../figures/ess-phi05N1000.svg" />
+        <img src="../ess-phi05N1000.svg" />
     
     
     <figcaption>
@@ -152,7 +152,7 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 
 <figure >
     
-        <img src="../figures/ess-phi05N10000.svg" />
+        <img src="../ess-phi05N10000.svg" />
     
     
     <figcaption>
@@ -172,7 +172,7 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 <p>
 <figure >
     
-        <img src="../figures/ess-phi08N1000.svg" />
+        <img src="../ess-phi08N1000.svg" />
     
     
     <figcaption>
@@ -185,7 +185,7 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 
 <figure >
     
-        <img src="../figures/ess-phi08N10000.svg" />
+        <img src="../ess-phi08N10000.svg" />
     
     
     <figcaption>
@@ -226,9 +226,9 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'tpappgithubio';
-    var disqus_identifier = 'http:\/\/tpapp.github.io\/post\/ess-sampling\/';
+    var disqus_identifier = 'http:\/\/tpapp.github.io\/post\/ess-sampling\/ess-sampling\/';
     var disqus_title = 'Sampling variation in effective sample size estimates (MCMC)';
-    var disqus_url = 'http:\/\/tpapp.github.io\/post\/ess-sampling\/';
+    var disqus_url = 'http:\/\/tpapp.github.io\/post\/ess-sampling\/ess-sampling\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -242,39 +242,39 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
     </div>
     <div id="sidebar">
       
-      <a href="../../tags/bayesian">bayesian</a>
+      <a href="../../../tags/bayesian">bayesian</a>
       
-      <a href="../../tags/blogging">blogging</a>
+      <a href="../../../tags/blogging">blogging</a>
       
-      <a href="../../tags/browser-plugins">browser-plugins</a>
+      <a href="../../../tags/browser-plugins">browser-plugins</a>
       
-      <a href="../../tags/economics">economics</a>
+      <a href="../../../tags/economics">economics</a>
       
-      <a href="../../tags/firefox">firefox</a>
+      <a href="../../../tags/firefox">firefox</a>
       
-      <a href="../../tags/hugo">hugo</a>
+      <a href="../../../tags/hugo">hugo</a>
       
-      <a href="../../tags/jacobian">jacobian</a>
+      <a href="../../../tags/jacobian">jacobian</a>
       
-      <a href="../../tags/julia">julia</a>
+      <a href="../../../tags/julia">julia</a>
       
-      <a href="../../tags/latex">latex</a>
+      <a href="../../../tags/latex">latex</a>
       
-      <a href="../../tags/math">math</a>
+      <a href="../../../tags/math">math</a>
       
-      <a href="../../tags/mcmc">mcmc</a>
+      <a href="../../../tags/mcmc">mcmc</a>
       
-      <a href="../../tags/my-packages">my-packages</a>
+      <a href="../../../tags/my-packages">my-packages</a>
       
-      <a href="../../tags/numerical-methods">numerical-methods</a>
+      <a href="../../../tags/numerical-methods">numerical-methods</a>
       
-      <a href="../../tags/stan">stan</a>
+      <a href="../../../tags/stan">stan</a>
       
-      <a href="../../tags/teaching">teaching</a>
+      <a href="../../../tags/teaching">teaching</a>
       
-      <a href="../../tags/tutorial">tutorial</a>
+      <a href="../../../tags/tutorial">tutorial</a>
       
-      <a href="../../tags/weave">weave</a>
+      <a href="../../../tags/weave">weave</a>
       
     </div>
   </body>
