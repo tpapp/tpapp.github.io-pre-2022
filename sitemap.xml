@@ -18,17 +18,17 @@
   </url>
   
   <url>
-    <loc>http://tpapp.github.io/</loc>
-    <lastmod>2017-06-11T14:48:06+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://tpapp.github.io/research/</loc>
     <lastmod>2017-06-11T14:48:06+02:00</lastmod>
   </url>
   
   <url>
     <loc>http://tpapp.github.io/software/</loc>
+    <lastmod>2017-06-11T14:48:06+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/</loc>
     <lastmod>2017-06-11T14:48:06+02:00</lastmod>
   </url>
   
@@ -81,7 +81,7 @@
   
   <url>
     <loc>http://tpapp.github.io/tags/blogging/</loc>
-    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
+    <lastmod>2017-06-12T14:12:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
