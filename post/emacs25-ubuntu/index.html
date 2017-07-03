@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Blogging with Hugo, Julia, Weave.jl</title>
+    <title>Emacs 25.2 on Ubuntu</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="generator" content="Hugo 0.21" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
@@ -83,52 +83,47 @@
 </div>
 
 <div id="content">
-<h1>Blogging with Hugo, Julia, Weave.jl</h1>2017/03/30
+<h1>Emacs 25.2 on Ubuntu</h1>2017/07/03
 <span class="tags">
     
-    <a href="../../tags/julia">julia</a>
-    
-    <a href="../../tags/blogging">blogging</a>
-    
-    <a href="../../tags/weave">Weave</a>
-    
-    <a href="../../tags/hugo">Hugo</a>
+    <a href="../../tags/emacs-emacs25-ubuntu">emacs emacs25 Ubuntu</a>
     
 </span>
 
 
 
-<p>I have made a PR to <a href="https://github.com/mpastell/Weave.jl">Weave.jl</a> which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator <a href="https://gohugo.io/">Hugo</a>, and generating some pages with plots and evaluated Julia results. I made the source for my blog <a href="https://github.com/tpapp/tpapp.github.io-source">available</a> so that others can use it for their own blogging about Julia. An example is <a href="../../post/hugo-julia-weave/">this post</a>.</p>
+<p>Emacs is undoubtedly the most important program on my computers. On my
+laptop, I use it to keep track of stuff with <a href="http://orgmode.org/">org-mode</a>, read mail with <a href="https://www.djcbsoftware.nl/code/mu/mu4e.html">mu4e</a>, edit LaTeX with <a href="https://www.gnu.org/software/auctex/">AUCTeX</a>, and of course program. On servers, the first alias I define is usually <code>qe='emacs -Q -nw'</code>, which give me a fast and responsive editor. With <a href="https://github.com/emacs-helm/helm">helm</a>, doing just about anything (eg locating files, <code>rgrep</code>ing for something) is orders of magnitude faster and more convenient than any alternative I have tried.</p>
 
-<p>The gist of the workflow is as follows:</p>
+<p>I also try to keep up with the latest versions for software in general. Usually, whatever Ubuntu stable/Debian testing has is good enough not to justify the extra effort, but when I really need it, I grab the source and compile. That is usually only a minor hassle, but I try to restrict it to a few critical programs, otherwise it adds up. The major issue is not compiling, but having cruft in the filesystem (despite <a href="https://www.gnu.org/software/stow/manual/stow.html">stow</a> and <a href="https://wiki.debian.org/CheckInstall">checkinstall</a>, it piles up). So I try to avoid it if I can.</p>
 
-<ol>
-<li><p>for posts which do not need <code>Weave</code>, just use <code>Hugo</code>. Make sure you read their <a href="https://gohugo.io/overview/introduction/">excellent tutorial</a>. <strong>This very fast</strong>.</p></li>
+<p>Emacs 25.2 was released in April 2017, but there is no sign of an Ubuntu package for it yet. On various forums the <a href="https://launchpad.net/~kelleyk/+archive/ubuntu/emacs">PPA of kelleyk</a> is recommended, but that does not have 25.2 for 17.04 (some files clash if you install previous versions).</p>
 
-<li><p>for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the <code>.md</code> file using <code>Weave.jl</code>. <strong>This is the slow part</strong>, so it is not automated.</p></li>
-</ol>
+<p>Fortunately, Robert Bruce Park has now added Emacs 25.2 to the <a href="https://launchpad.net/~ubuntu-elisp/+archive/ubuntu/ppa">Ubuntu Emacs Lisp PPA</a>, so having the latest of your favorite editor is only an <code>add-apt-repository</code> away. You may want to add a file to <code>/etc/apt/preferences.d</code> with contents</p>
 
-<p>The <a href="https://github.com/tpapp/tpapp.github.io-source">README</a> gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.</p>
+<pre><code>Package: *
+Pin: release o=LP-PPA-ubuntu-elisp
+Pin-Priority: 600
+</code></pre>
+
+<p>to make sure the right packages are installed.</p>
 
 
 
 <div id="pagenav">
   
   <span class="pagenav-label">Previous</span>
-  <a href="http://tpapp.github.io/post/teaching-a-course/">Teaching a course using Julia</a>
+  <a href="http://tpapp.github.io/post/ess-sampling/ess-sampling/">Sampling variation in effective sample size estimates (MCMC)</a>
   
-  
-  <span class="pagenav-label">Next</span>
-  <a href="http://tpapp.github.io/post/dynamic-programming/">Continuous-time deterministic dynamic programming in Julia</a>
   
 </div>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'tpappgithubio';
-    var disqus_identifier = 'http:\/\/tpapp.github.io\/post\/blogging-weave-julia-hugo\/';
-    var disqus_title = 'Blogging with Hugo, Julia, Weave.jl';
-    var disqus_url = 'http:\/\/tpapp.github.io\/post\/blogging-weave-julia-hugo\/';
+    var disqus_identifier = 'http:\/\/tpapp.github.io\/post\/emacs25-ubuntu\/';
+    var disqus_title = 'Emacs 25.2 on Ubuntu';
+    var disqus_url = 'http:\/\/tpapp.github.io\/post\/emacs25-ubuntu\/';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

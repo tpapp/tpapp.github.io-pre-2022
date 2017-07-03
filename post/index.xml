@@ -13,6 +13,15 @@
     
     
     <item>
+      <title>Emacs 25.2 on Ubuntu</title>
+      <link>http://tpapp.github.io/post/emacs25-ubuntu/</link>
+      <pubDate>Mon, 03 Jul 2017 10:49:56 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/emacs25-ubuntu/</guid>
+      <description>Emacs is undoubtedly the most important program on my computers. On my laptop, I use it to keep track of stuff with org-mode, read mail with mu4e, edit LaTeX with AUCTeX, and of course program. On servers, the first alias I define is usually qe=&#39;emacs -Q -nw&#39;, which give me a fast and responsive editor. With helm, doing just about anything (eg locating files, rgreping for something) is orders of magnitude faster and more convenient than any alternative I have tried.</description>
+    </item>
+    
+    <item>
       <title>Sampling variation in effective sample size estimates (MCMC)</title>
       <link>http://tpapp.github.io/post/ess-sampling/ess-sampling/</link>
       <pubDate>Mon, 12 Jun 2017 16:25:57 +0200</pubDate>

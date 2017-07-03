@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://tpapp.github.io/post/emacs25-ubuntu/</loc>
+    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://tpapp.github.io/post/ess-sampling/ess-sampling/</loc>
     <lastmod>2017-06-12T16:25:57+02:00</lastmod>
   </url>
@@ -69,7 +74,7 @@
   
   <url>
     <loc>http://tpapp.github.io/categories/</loc>
-    <lastmod>2017-05-24T12:59:53+02:00</lastmod>
+    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -93,13 +98,19 @@
   
   <url>
     <loc>http://tpapp.github.io/categories/</loc>
-    <lastmod>2017-05-24T12:59:53+02:00</lastmod>
+    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://tpapp.github.io/tags/economics/</loc>
     <lastmod>2017-04-02T19:06:04+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/tags/emacs-emacs25-ubuntu/</loc>
+    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
     <priority>0</priority>
   </url>
   
