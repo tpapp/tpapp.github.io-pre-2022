@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software on Tamás K. Papp&#39;s website</title>
+    <link>http://tpapp.github.io/categories/software/</link>
+    <description>Recent content in Software on Tamás K. Papp&#39;s website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
+    <lastBuildDate>Wed, 23 Aug 2017 10:10:48 +0200</lastBuildDate>
+    
+	<atom:link href="http://tpapp.github.io/categories/software/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Local packages in a separate directory in Julia</title>
+      <link>http://tpapp.github.io/post/julia-local-test/</link>
+      <pubDate>Wed, 23 Aug 2017 10:10:48 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/julia-local-test/</guid>
+      <description>I run Pkg.update() fairly often to stay up to date and benefit from the latest improvements of various packages. I rarely ever pin to a specific package version, but I occasionally checkout master for some packages, especially if I am contributing.
+Despite updating regularly, I found that the documentation subtly diverged from what I was experiencing for some packages. After looking into the issue, I learned that I was 2&amp;ndash;3 minor versions behind despite updating regularly.</description>
+    </item>
+    
+  </channel>
+</rss>

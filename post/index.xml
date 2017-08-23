@@ -13,6 +13,16 @@
     
     
     <item>
+      <title>Local packages in a separate directory in Julia</title>
+      <link>http://tpapp.github.io/post/julia-local-test/</link>
+      <pubDate>Wed, 23 Aug 2017 10:10:48 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/julia-local-test/</guid>
+      <description>I run Pkg.update() fairly often to stay up to date and benefit from the latest improvements of various packages. I rarely ever pin to a specific package version, but I occasionally checkout master for some packages, especially if I am contributing.
+Despite updating regularly, I found that the documentation subtly diverged from what I was experiencing for some packages. After looking into the issue, I learned that I was 2&amp;ndash;3 minor versions behind despite updating regularly.</description>
+    </item>
+    
+    <item>
       <title>Emacs 25.2 on Ubuntu</title>
       <link>http://tpapp.github.io/post/emacs25-ubuntu/</link>
       <pubDate>Mon, 03 Jul 2017 10:49:56 +0200</pubDate>

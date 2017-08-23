@@ -87,7 +87,7 @@
     <item>
       <title>Julia</title>
       <link>http://tpapp.github.io/tags/julia/</link>
-      <pubDate>Mon, 12 Jun 2017 16:25:57 +0200</pubDate>
+      <pubDate>Wed, 23 Aug 2017 10:10:48 +0200</pubDate>
       
       <guid>http://tpapp.github.io/tags/julia/</guid>
       <description></description>
@@ -135,6 +135,15 @@
       <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
       
       <guid>http://tpapp.github.io/tags/numerical-methods/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Packages</title>
+      <link>http://tpapp.github.io/tags/packages/</link>
+      <pubDate>Wed, 23 Aug 2017 10:10:48 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/tags/packages/</guid>
       <description></description>
     </item>
     
