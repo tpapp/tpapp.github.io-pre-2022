@@ -130,8 +130,8 @@ some packages, especially if I am contributing.</p>
 <span class="k">function</span><span class="nf"> local_test</span><span class="p">(</span><span class="n">pkgname</span><span class="p">;</span> <span class="n">coverage</span><span class="p">::</span><span class="kt">Bool</span><span class="o">=</span><span class="n">false</span><span class="p">)</span>
     <span class="n">module_path</span> <span class="o">=</span> <span class="n">Base</span><span class="o">.</span><span class="n">find_in_path</span><span class="p">(</span><span class="n">pkgname</span><span class="p">,</span> <span class="n">nothing</span><span class="p">)</span>
     <span class="n">src_dir</span><span class="p">,</span> <span class="n">module_file</span> <span class="o">=</span> <span class="n">splitdir</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span>
-    <span class="n">dir</span> <span class="o">=</span> 
-    <span class="n">test_path</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">normpath</span><span class="p">(</span><span class="n">src_dir</span><span class="p">,</span> <span class="s">&quot;..&quot;</span><span class="p">),</span> <span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="s">&quot;runtests.jl&quot;</span><span class="p">)</span>
+    <span class="n">dir</span> <span class="o">=</span> <span class="n">normpath</span><span class="p">(</span><span class="n">src_dir</span><span class="p">,</span> <span class="s">&quot;..&quot;</span><span class="p">)</span>
+    <span class="n">test_path</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">dir</span><span class="p">,</span> <span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="s">&quot;runtests.jl&quot;</span><span class="p">)</span>
     <span class="p">@</span><span class="nb">assert</span> <span class="n">isfile</span><span class="p">(</span><span class="n">test_path</span><span class="p">)</span> <span class="s">&quot;Could not find </span><span class="si">$(test_path)</span><span class="s">&quot;</span>
     <span class="n">Base</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span> <span class="k">do</span>
         <span class="k">try</span>
@@ -151,6 +151,8 @@ some packages, especially if I am contributing.</p>
 <p>Compared to simply <code>include(&quot;wherever-it-is/runtests.jl&quot;)</code>, this has the advantage of running a separate Julia process, so your workspace does not contaminate the test environment and in case of segfaults, the parent process won&rsquo;t be affected.</p>
 
 <p>Hopefully, the code above will be obsolete once <a href="https://github.com/StefanKarpinski/Pkg3.jl">Pkg3</a> is released, but until then it is a useful workaround.</p>
+
+<p><strong>edit</strong>: function above was corrupted during copy-paste, corrected.</p>
 
 
 
