@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://tpapp.github.io/post/emacs-julia-customizations/</loc>
+    <lastmod>2017-08-28T14:41:58+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://tpapp.github.io/post/julia-local-test/</loc>
     <lastmod>2017-08-23T10:10:48+02:00</lastmod>
   </url>
@@ -79,7 +84,7 @@
   
   <url>
     <loc>http://tpapp.github.io/categories/</loc>
-    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
+    <lastmod>2017-08-28T14:41:58+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -103,13 +108,19 @@
   
   <url>
     <loc>http://tpapp.github.io/categories/</loc>
-    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
+    <lastmod>2017-08-28T14:41:58+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://tpapp.github.io/tags/economics/</loc>
     <lastmod>2017-04-02T19:06:04+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/tags/emacs/</loc>
+    <lastmod>2017-08-28T14:41:58+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -139,7 +150,7 @@
   
   <url>
     <loc>http://tpapp.github.io/tags/julia/</loc>
-    <lastmod>2017-08-23T10:10:48+02:00</lastmod>
+    <lastmod>2017-08-28T14:41:58+02:00</lastmod>
     <priority>0</priority>
   </url>
   

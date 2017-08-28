@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Emacs on Tamás K. Papp&#39;s website</title>
+    <link>http://tpapp.github.io/tags/emacs/</link>
+    <description>Recent content in Emacs on Tamás K. Papp&#39;s website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
+    <lastBuildDate>Mon, 28 Aug 2017 14:41:58 +0200</lastBuildDate>
+    
+	<atom:link href="http://tpapp.github.io/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Emacs customizations for julia-mode</title>
+      <link>http://tpapp.github.io/post/emacs-julia-customizations/</link>
+      <pubDate>Mon, 28 Aug 2017 14:41:58 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/emacs-julia-customizations/</guid>
+      <description>I find the following customizations very useful for editing Julia code in Emacs. Add them to julia-mode-hook, eg
+(defun customize-julia-mode () &amp;quot;Customize julia-mode.&amp;quot; (interactive) ;; my customizations go here ) (add-hook &amp;#39;julia-mode-hook &amp;#39;customize-julia-mode)  Highlight FIXME/TODO/&amp;hellip; When I just want to note something in a comment for future reference, I prefer to have certain words highlighted. You can use something like this:
+(font-lock-add-keywords nil &amp;#39;((&amp;quot;\\&amp;lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&amp;quot; 1 font-lock-warning-face t)))  This is what it looks like:</description>
+    </item>
+    
+  </channel>
+</rss>
