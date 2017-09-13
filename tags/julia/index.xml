@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
-    <lastBuildDate>Mon, 28 Aug 2017 14:41:58 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 13 Sep 2017 11:18:59 +0200</lastBuildDate>
     
 	<atom:link href="http://tpapp.github.io/tags/julia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>log1p in Julia</title>
+      <link>http://tpapp.github.io/post/log1p/</link>
+      <pubDate>Wed, 13 Sep 2017 11:18:59 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/log1p/</guid>
+      <description>This is a follow-up on a question I asked on the Julia forums about calculating [ \text{log1p}(x) = log(1+x) ] This calculation is tricky because if $x \approx 0$, [ log(1+x) \approx x ] while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using log(1+x) will not be as accurate as it could be. Numerical analysts have developed specialized methods for these calculations that try to get an accurate answer, and all programming languages serious about numerical calculations have an implementation either in the core language or a library.</description>
+    </item>
     
     <item>
       <title>Emacs customizations for julia-mode</title>

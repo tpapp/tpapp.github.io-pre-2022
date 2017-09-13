@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://tpapp.github.io/post/log1p/</loc>
+    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://tpapp.github.io/post/emacs-julia-customizations/</loc>
     <lastmod>2017-08-28T14:41:58+02:00</lastmod>
   </url>
@@ -84,7 +89,7 @@
   
   <url>
     <loc>http://tpapp.github.io/categories/</loc>
-    <lastmod>2017-08-28T14:41:58+02:00</lastmod>
+    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -108,7 +113,7 @@
   
   <url>
     <loc>http://tpapp.github.io/categories/</loc>
-    <lastmod>2017-08-28T14:41:58+02:00</lastmod>
+    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -150,13 +155,19 @@
   
   <url>
     <loc>http://tpapp.github.io/tags/julia/</loc>
-    <lastmod>2017-08-28T14:41:58+02:00</lastmod>
+    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://tpapp.github.io/tags/latex/</loc>
     <lastmod>2017-05-24T12:59:53+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/tags/log1p/</loc>
+    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -175,6 +186,12 @@
   <url>
     <loc>http://tpapp.github.io/tags/my-packages/</loc>
     <lastmod>2017-04-02T19:06:04+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tpapp.github.io/tags/numerical-error/</loc>
+    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
     <priority>0</priority>
   </url>
   
