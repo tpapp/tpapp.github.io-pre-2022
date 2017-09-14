@@ -19,6 +19,7 @@
       
       <guid>http://tpapp.github.io/post/log1p/</guid>
       <description>edit: fixed bogus interaction of MathJax and code highlighting.
+edit2: added benchmarks.
 This is a follow-up on a question I asked on the Julia forums about calculating [ \text{log1p}(x) = \log(1+x) ] This calculation is tricky because if $x \approx 0$, [ \log(1+x) \approx x ] while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using log(1+x) will not be as accurate as it could be. Numerical analysts have developed specialized methods for these calculations that try to get an accurate answer, and all programming languages serious about numerical calculations have an implementation either in the core language or a library.</description>
     </item>
     
