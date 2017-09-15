@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
-    <lastBuildDate>Mon, 12 Jun 2017 16:25:57 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 15 Sep 2017 16:03:10 +0200</lastBuildDate>
     
 	<atom:link href="http://tpapp.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Automatic Differentiation</title>
+      <link>http://tpapp.github.io/tags/automatic-differentiation/</link>
+      <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/tags/automatic-differentiation/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Bayesian</title>
@@ -76,6 +85,15 @@
     </item>
     
     <item>
+      <title>Forwarddiff</title>
+      <link>http://tpapp.github.io/tags/forwarddiff/</link>
+      <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/tags/forwarddiff/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Hugo</title>
       <link>http://tpapp.github.io/tags/hugo/</link>
       <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
@@ -96,7 +114,7 @@
     <item>
       <title>Julia</title>
       <link>http://tpapp.github.io/tags/julia/</link>
-      <pubDate>Wed, 13 Sep 2017 11:18:59 +0200</pubDate>
+      <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
       
       <guid>http://tpapp.github.io/tags/julia/</guid>
       <description></description>

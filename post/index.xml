@@ -13,6 +13,18 @@
     
     
     <item>
+      <title>Automatic differentiation of discontinuous integrals</title>
+      <link>http://tpapp.github.io/post/discontinuous_integral_ad/</link>
+      <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/post/discontinuous_integral_ad/</guid>
+      <description>This is a much simplified writeup of a problem I encountered, in a self-contained blog post.
+You want to approximate the integral [ I(\theta) = \int 1(g(x) &amp;gt; 0) f(x,\theta) dx ] where $g$ is a continuous function, and $f(x,\theta)$ is a parametric distribution over $x$. Everthing is continous, and thus $I$ is, too.
+You face the following constraints:
+ $g$ is a black box. We will pretend that you can&amp;rsquo;t invert it (except for checking our results, of course).</description>
+    </item>
+    
+    <item>
       <title>log1p in Julia</title>
       <link>http://tpapp.github.io/post/log1p/</link>
       <pubDate>Wed, 13 Sep 2017 11:18:59 +0200</pubDate>
