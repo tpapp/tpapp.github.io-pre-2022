@@ -132,21 +132,21 @@ while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using <code
 
 <p>The graph below shows the base-2 logarithm of the <em>relative</em> error for <code>Base.log1p</code> vs $\log_2(1+x)$; horizontal lines are <code>log2(eps())</code> and <code>log2(eps())+1</code>. This suggests that <code>Base.log1p</code> is <em>very accurate</em>, but not as good as it could be when $x \approx 0$.</p>
 
-<p><img src="Base_log1p_error.svg" style="width:40em"></p>
+<p><img src="Base_log1p_error.svg" alt="Base.log1p error" /></p>
 
 <p>The next plot shows the relative accuracy of the relative error above, comparing <code>Base.Math.JuliaLibm.log1p</code> to <code>Base.log1p</code> (lower values better). In these simulations, <code>Base.Math.JuliaLibm.log1p</code> is never worse, but sometimes significantly better (resulting in an extra binary digit of accuracy). This matters especially when $x \approx 0$.</p>
 
-<p><img src="JuliaLibm_improvement.svg" style="width:40em"></p>
+<p><img src="JuliaLibm_improvement.svg" alt="relative log2 acccuracy improvement over Base.log1p" /></p>
 
 <p>The next plot confirms this.</p>
 
-<p><img src="JuliaLibm_log1p_error.svg" style="width:40em"></p>
+<p><img src="JuliaLibm_log1p_error.svg" alt="JuliaLibm log1p error" /></p>
 
 <h2 id="speed">Speed</h2>
 
 <p>I also evaluated relative speed. The graph below shows the relative runtimes, obtained using <code>BenchmarkTools.@belapsed</code>. Values below $1$ mean that <code>Base.Math.JuliaLibm.log1p</code> is faster: indeed, this seems to be the case except for values very close to $0$, where there is a 10&ndash;20% performance penalty. At other values, <code>Base.Math.JuliaLibm.log1p</code> is 30&ndash;40% <em>faster</em>.</p>
 
-<p><img src="relative_time.svg" style="width:40em"></p>
+<p><img src="relative_time.svg" alt="relative time" /></p>
 
 <h2 id="conclusion">Conclusion</h2>
 
@@ -252,6 +252,9 @@ while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using <code
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
 
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens
     </div>
   </body>
 </html>
