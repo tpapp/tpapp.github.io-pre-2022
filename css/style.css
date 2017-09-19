@@ -46,8 +46,7 @@ small, .font_small {
       display: block;
       background-color: #b22222;
       color: #fff;
-      text-align: center;
-      float: clear; } }
+      text-align: center; } }
 
 #navbar {
   position: fixed;
