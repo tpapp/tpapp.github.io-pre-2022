@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>Automatic Differentiation</title>
+      <title>Automatic differentiation</title>
       <link>http://tpapp.github.io/tags/automatic-differentiation/</link>
       <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
       
@@ -40,7 +40,7 @@
     </item>
     
     <item>
-      <title>Browser Plugins</title>
+      <title>Browser plugins</title>
       <link>http://tpapp.github.io/tags/browser-plugins/</link>
       <pubDate>Tue, 02 May 2017 16:35:37 +0200</pubDate>
       
@@ -67,11 +67,11 @@
     </item>
     
     <item>
-      <title>Emacs Emacs25 Ubuntu</title>
-      <link>http://tpapp.github.io/tags/emacs-emacs25-ubuntu/</link>
+      <title>Emacs25</title>
+      <link>http://tpapp.github.io/tags/emacs25/</link>
       <pubDate>Mon, 03 Jul 2017 10:49:56 +0200</pubDate>
       
-      <guid>http://tpapp.github.io/tags/emacs-emacs25-ubuntu/</guid>
+      <guid>http://tpapp.github.io/tags/emacs25/</guid>
       <description></description>
     </item>
     
@@ -85,7 +85,7 @@
     </item>
     
     <item>
-      <title>Forwarddiff</title>
+      <title>ForwardDiff</title>
       <link>http://tpapp.github.io/tags/forwarddiff/</link>
       <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
       
@@ -97,6 +97,15 @@
       <title>Hugo</title>
       <link>http://tpapp.github.io/tags/hugo/</link>
       <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>http://tpapp.github.io/tags/hugo/</link>
+      <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
       
       <guid>http://tpapp.github.io/tags/hugo/</guid>
       <description></description>
@@ -121,7 +130,7 @@
     </item>
     
     <item>
-      <title>Latex</title>
+      <title>LaTeX</title>
       <link>http://tpapp.github.io/tags/latex/</link>
       <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
       
@@ -139,6 +148,15 @@
     </item>
     
     <item>
+      <title>MCMC</title>
+      <link>http://tpapp.github.io/tags/mcmc/</link>
+      <pubDate>Mon, 12 Jun 2017 16:25:57 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/tags/mcmc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Math</title>
       <link>http://tpapp.github.io/tags/math/</link>
       <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
@@ -148,16 +166,7 @@
     </item>
     
     <item>
-      <title>Mcmc</title>
-      <link>http://tpapp.github.io/tags/mcmc/</link>
-      <pubDate>Mon, 12 Jun 2017 16:25:57 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/mcmc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>My Packages</title>
+      <title>My packages</title>
       <link>http://tpapp.github.io/tags/my-packages/</link>
       <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
       
@@ -166,7 +175,7 @@
     </item>
     
     <item>
-      <title>Numerical Error</title>
+      <title>Numerical error</title>
       <link>http://tpapp.github.io/tags/numerical-error/</link>
       <pubDate>Wed, 13 Sep 2017 11:18:59 +0200</pubDate>
       
@@ -175,7 +184,7 @@
     </item>
     
     <item>
-      <title>Numerical Methods</title>
+      <title>Numerical methods</title>
       <link>http://tpapp.github.io/tags/numerical-methods/</link>
       <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
       
@@ -216,6 +225,24 @@
       <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
       
       <guid>http://tpapp.github.io/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ubuntu</title>
+      <link>http://tpapp.github.io/tags/ubuntu/</link>
+      <pubDate>Mon, 03 Jul 2017 10:49:56 +0200</pubDate>
+      
+      <guid>http://tpapp.github.io/tags/ubuntu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Weave</title>
+      <link>http://tpapp.github.io/tags/weave/</link>
+      <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
+      
+      <guid>http://tpapp.github.io/tags/weave/</guid>
       <description></description>
     </item>
     
