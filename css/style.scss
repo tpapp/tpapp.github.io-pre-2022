@@ -8,7 +8,7 @@ $darkbg: #333;
 $darkfg: #eee;
 $darkhover: #4682b4;
 
-$content_width: 50em;
+$content_width: 45em;
 $content_padding: 8em;
 $smallscreen_padding: 0.5em;
 
@@ -84,7 +84,7 @@ small, .font_small {font-size: 0.833em;}
         display: inline-block;
         color: $darkfg;
         text-align: center;
-        margin: 0.5em 2em 0 2em;
+        margin: 0.5em 1.5em 0 1.5em;
         text-decoration: none;
     }
     a:hover {
@@ -97,7 +97,7 @@ small, .font_small {font-size: 0.833em;}
             display: inline-block;
             color: $fadefg;
             text-align: center;
-            margin: 0.5em 2em 0 2em;
+            margin: 0.5em 1.5em 0 1.5em;
             text-decoration: none;
             cursor: pointer;
         }
@@ -248,30 +248,13 @@ small, .font_small {font-size: 0.833em;}
             font-size: 0.833em;
         }
     }
-}
-
-#sidebar {
-    float: right;
-    width: 12em;
-    height: 100%;
-    padding: 1em;
-    a {
-        font-size: 80%;
-        color: $fadefg;
-        padding: 1px;
-        margin: 1px;
-        text-decoration: none;
-    }
-    a:hover {
-        color: $fadehover;
-    }
     img#tamaskpapp {
-        float: left;
+        float: right;
         width: 10em;
         margin: 1em;
     }
+    .date {
+        color: $fadefg;
+    }
 }
 
-.date {
-    color: $fadefg;
-}
