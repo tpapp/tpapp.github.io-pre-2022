@@ -4,9 +4,9 @@
     <title>Automatic differentiation of discontinuous integrals</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.27.1" />
+    <meta name="generator" content="Hugo 0.28" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <link rel="stylesheet" type="text/css" href="../../css/lovelace.css">
+    <link rel="stylesheet" type="text/css" href="../../css/pastie.css">
     
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -213,11 +213,10 @@ I(\theta) \approx \frac{1}{N}\sum_i 1(g(x_i) &gt; 0)
 </ol>
 
 <p>You could code this in Julia as</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">distr</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span>   <span class="c"># suppose this returns some distribution that supports Base.rand</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-<span class="n">mean</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">d <span class="sfa0">=</span> distr(θ)   <span class="s1770"># suppose this returns some distribution that supports Base.rand</span>
+x <span class="sfa0">=</span> rand(d, N)
+mean(g<span class="sfa0">.</span>(x) <span class="sfa0">&gt;</span> <span class="sc84">0</span>)</code></pre>
+</div>
 <p>So far, neat and simple. Now, the fly in the ointment: <strong>you need the derivative</strong> $I&rsquo;(\theta)$ for optimization or Hamiltonian Monte Carlo. The problem is that you cannot <code>ForwardDiff</code> your way through the code above: AD&rsquo;ing a discontinuous step function will just give you $0$, and <code>rand</code> does not work with <code>ForwardDiff.Dual</code>s anyway (which is very sensible).</p>
 
 <p>However, there <em>is</em> a solution: rewrite the approximation as
@@ -231,14 +230,12 @@ I&rsquo;(\theta) = \int 1(g(x) &gt; 0) \frac{\partial f(x,\theta)/\partial \thet
 which is exactly what you want.</p>
 
 <p>Assume that the actual calculation is very complicated, so we would rather avoid implementing it for the integral and the derivative separately. It turns out that this is very simple to do with <code>ForwardDiff.Dual</code> values: the code is literally a one-liner and a fallback method:</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">elasticity</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">Real</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">elasticity</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">Dual</span><span class="p">{</span><span class="n">T</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">N</span><span class="p">})</span> <span class="n">where</span> <span class="p">{</span><span class="n">T</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">N</span><span class="p">}</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">{</span><span class="n">T</span><span class="p">}(</span><span class="n">one</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="n">partials</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">value</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">elasticity(x<span class="sfa0">::</span><span class="s3ee">Real</span>) <span class="sfa0">=</span> one(x)
+elasticity(x<span class="sfa0">::</span>Dual{T,V,N}) where {T,V,N} <span class="sfa0">=</span> Dual{T}(one(V), partials(x) <span class="sfa0">/</span> value(x))</code></pre>
+</div>
 <p>which you can use in a function like</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">integral_approx</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">mean</span><span class="p">((</span><span class="n">g</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">.&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">.*</span> <span class="n">elasticity</span><span class="o">.</span><span class="p">(</span><span class="n">pdf</span><span class="o">.</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">integral_approx(g, d, x) <span class="sfa0">=</span> mean((g<span class="sfa0">.</span>(x) <span class="sfa0">.&gt;</span> <span class="sc84">0</span>) <span class="sfa0">.*</span> elasticity<span class="sfa0">.</span>(pdf<span class="sfa0">.</span>(d, x)))</code></pre>
+</div>
 <p>I demonstrate this with $g(x) = x$ and $x \sim \text{Normal}(\theta, 1)$, for which of course we know that the analytical values for $I$ and $I&rsquo;$ are the right tail probability and the pdf at 0, respectively.</p>
 
 <p>Graphs below show that the approximation is reasonable &mdash; we could make it much better with <a href="https://github.com/stevengj/Sobol.jl">low-discrepancy sequences</a>, but that is an orthogonal issue.</p>
@@ -255,69 +252,69 @@ which is exactly what you want.</p>
 
 
 <div class="codeheader"><p>download as <a href="http://tpapp.github.io/post/discontinuous_integral_ad/code.jl">code.jl</a></p></div>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="k">using</span> <span class="n">ForwardDiff</span>
-<span class="k">import</span> <span class="n">ForwardDiff</span><span class="p">:</span> <span class="n">Dual</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">partials</span><span class="p">,</span> <span class="n">Tag</span>
-<span class="k">using</span> <span class="n">Distributions</span>
-<span class="k">using</span> <span class="n">Plots</span>
-<span class="k">using</span> <span class="n">LaTeXStrings</span>
-<span class="n">gr</span><span class="p">()</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s3e8">using</span> ForwardDiff
+<span class="s3e8">import</span> ForwardDiff<span class="sfa0">:</span> Dual, value, partials, Tag
+<span class="s3e8">using</span> Distributions
+<span class="s3e8">using</span> Plots
+<span class="s3e8">using</span> LaTeXStrings
+gr()
 
-<span class="c">######################################################################</span>
-<span class="c"># elasticity calculation</span>
-<span class="c">######################################################################</span>
+<span class="s1770">######################################################################</span>
+<span class="s1770"># elasticity calculation</span>
+<span class="s1770">######################################################################</span>
 
-<span class="s">&quot;&quot;&quot;</span>
-<span class="s">    elasticity(x)</span>
+<span class="sc1c">&#34;&#34;&#34;
+</span><span class="sc1c">    elasticity(x)
+</span><span class="sc1c">
+</span><span class="sc1c">Calculate `x/x`, stripping `x` of partial derivative information. Useful for
+</span><span class="sc1c">calculating elasticities of the form `∂f/f` using ForwardDiff.
+</span><span class="sc1c">&#34;&#34;&#34;</span>
+elasticity(x<span class="sfa0">::</span><span class="s3ee">Real</span>) <span class="sfa0">=</span> one(x)
 
-<span class="s">Calculate `x/x`, stripping `x` of partial derivative information. Useful for</span>
-<span class="s">calculating elasticities of the form `∂f/f` using ForwardDiff.</span>
-<span class="s">&quot;&quot;&quot;</span>
-<span class="n">elasticity</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">Real</span><span class="p">)</span> <span class="o">=</span> <span class="n">one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+elasticity(x<span class="sfa0">::</span>Dual{T,V,N}) where {T,V,N} <span class="sfa0">=</span> Dual{T}(one(V), partials(x) <span class="sfa0">/</span> value(x))
 
-<span class="n">elasticity</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">Dual</span><span class="p">{</span><span class="n">T</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">N</span><span class="p">})</span> <span class="n">where</span> <span class="p">{</span><span class="n">T</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">N</span><span class="p">}</span> <span class="o">=</span> <span class="n">Dual</span><span class="p">{</span><span class="n">T</span><span class="p">}(</span><span class="n">one</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="n">partials</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">value</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="s1770">######################################################################</span>
+<span class="s1770"># example application</span>
+<span class="s1770">######################################################################</span>
 
-<span class="c">######################################################################</span>
-<span class="c"># example application</span>
-<span class="c">######################################################################</span>
+integral_approx(g, d, x) <span class="sfa0">=</span> mean((g<span class="sfa0">.</span>(x) <span class="sfa0">.&gt;</span> <span class="sc84">0</span>) <span class="sfa0">.*</span> elasticity<span class="sfa0">.</span>(pdf<span class="sfa0">.</span>(d, x)))
 
-<span class="n">integral_approx</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">mean</span><span class="p">((</span><span class="n">g</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">.&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">.*</span> <span class="n">elasticity</span><span class="o">.</span><span class="p">(</span><span class="n">pdf</span><span class="o">.</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
+<span class="sc1c">&#34;Helper function that returns the value and derivative at the same time.&#34;</span>
+<span class="s3e8">function</span> value_and_derivative(f<span class="sfa0">::</span>F, x<span class="sfa0">::</span>R) where {F,R<span class="sfa0">&lt;:</span><span class="s3ee">Real</span>}
+    T <span class="sfa0">=</span> typeof(Tag(F, R))
+    y <span class="sfa0">=</span> f(Dual{T}(x, one(x)))
+    value(y), partials(y, <span class="sc84">1</span>)
+<span class="s3e8">end</span>
 
-<span class="s">&quot;Helper function that returns the value and derivative at the same time.&quot;</span>
-<span class="k">function</span><span class="nf"> value_and_derivative</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">F</span><span class="p">,</span> <span class="n">x</span><span class="p">::</span><span class="n">R</span><span class="p">)</span> <span class="n">where</span> <span class="p">{</span><span class="n">F</span><span class="p">,</span><span class="n">R</span><span class="o">&lt;:</span><span class="n">Real</span><span class="p">}</span>
-    <span class="n">T</span> <span class="o">=</span> <span class="nb">typeof</span><span class="p">(</span><span class="n">Tag</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">R</span><span class="p">))</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">Dual</span><span class="p">{</span><span class="n">T</span><span class="p">}(</span><span class="n">x</span><span class="p">,</span> <span class="n">one</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
-    <span class="n">value</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">partials</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">end</span>
+distr(θ) <span class="sfa0">=</span> Normal(θ, <span class="sc84">1</span>)
 
-<span class="n">distr</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="n">θ</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+g(x) <span class="sfa0">=</span> x
 
-<span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span>
+<span class="s3e8">function</span> ID_analytical(θ)
+    d <span class="sfa0">=</span> distr(θ)
+    ccdf(d, <span class="sc84">0</span>), pdf(d, <span class="sc84">0</span>)
+<span class="s3e8">end</span>
 
-<span class="k">function</span><span class="nf"> ID_analytical</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">distr</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span>
-    <span class="n">ccdf</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">pdf</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="k">end</span>
+<span class="s3e8">function</span> ID_approx(θ)
+    x <span class="sfa0">=</span> rand(distr(θ), <span class="sc84">1000</span>)
+    value_and_derivative(θ<span class="sfa0">-&gt;</span>integral_approx(g, distr(θ), x), θ)
+<span class="s3e8">end</span>
 
-<span class="k">function</span><span class="nf"> ID_approx</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">distr</span><span class="p">(</span><span class="n">θ</span><span class="p">),</span> <span class="mi">1000</span><span class="p">)</span>
-    <span class="n">value_and_derivative</span><span class="p">(</span><span class="n">θ</span><span class="o">-&gt;</span><span class="n">integral_approx</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">distr</span><span class="p">(</span><span class="n">θ</span><span class="p">),</span> <span class="n">x</span><span class="p">),</span> <span class="n">θ</span><span class="p">)</span>
-<span class="k">end</span>
+θs <span class="sfa0">=</span> linspace(<span class="sfa0">-</span><span class="sc84">2</span>, <span class="sc84">2</span>, <span class="sc84">51</span>)
+ID0s <span class="sfa0">=</span> ID_analytical<span class="sfa0">.</span>(θs)
+ID1s <span class="sfa0">=</span> ID_approx<span class="sfa0">.</span>(θs)
 
-<span class="n">θs</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">51</span><span class="p">)</span>
-<span class="n">ID0s</span> <span class="o">=</span> <span class="n">ID_analytical</span><span class="o">.</span><span class="p">(</span><span class="n">θs</span><span class="p">)</span>
-<span class="n">ID1s</span> <span class="o">=</span> <span class="n">ID_approx</span><span class="o">.</span><span class="p">(</span><span class="n">θs</span><span class="p">)</span>
+scatter(θs, first<span class="sfa0">.</span>(ID0s), xlab <span class="sfa0">=</span> <span class="sc1c">&#34;</span><span class="sc25">\\</span><span class="sc1c">theta&#34;</span>, ylab <span class="sfa0">=</span> <span class="sc1c">&#34;integral&#34;</span>,
+        label <span class="sfa0">=</span> <span class="sc1c">&#34;analytical&#34;</span>, legend <span class="sfa0">=</span> <span class="sfa0">:</span>topleft)
+scatter!(θs, first<span class="sfa0">.</span>(ID1s), label <span class="sfa0">=</span> <span class="sc1c">&#34;approximation&#34;</span>)
+savefig(<span class="sc1c">&#34;integral.svg&#34;</span>)
 
-<span class="n">scatter</span><span class="p">(</span><span class="n">θs</span><span class="p">,</span> <span class="n">first</span><span class="o">.</span><span class="p">(</span><span class="n">ID0s</span><span class="p">),</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\\</span><span class="s">theta&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;integral&quot;</span><span class="p">,</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="s">&quot;analytical&quot;</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="p">:</span><span class="n">topleft</span><span class="p">)</span>
-<span class="n">scatter!</span><span class="p">(</span><span class="n">θs</span><span class="p">,</span> <span class="n">first</span><span class="o">.</span><span class="p">(</span><span class="n">ID1s</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&quot;approximation&quot;</span><span class="p">)</span>
-<span class="n">savefig</span><span class="p">(</span><span class="s">&quot;integral.svg&quot;</span><span class="p">)</span>
-
-<span class="n">scatter</span><span class="p">(</span><span class="n">θs</span><span class="p">,</span> <span class="n">last</span><span class="o">.</span><span class="p">(</span><span class="n">ID0s</span><span class="p">),</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\\</span><span class="s">theta&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;derivative&quot;</span><span class="p">,</span>
-        <span class="n">label</span> <span class="o">=</span> <span class="s">&quot;analytical&quot;</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="p">:</span><span class="n">topleft</span><span class="p">)</span>
-<span class="n">scatter!</span><span class="p">(</span><span class="n">θs</span><span class="p">,</span> <span class="n">last</span><span class="o">.</span><span class="p">(</span><span class="n">ID1s</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&quot;approximation&quot;</span><span class="p">)</span>
-<span class="n">savefig</span><span class="p">(</span><span class="s">&quot;derivative.svg&quot;</span><span class="p">)</span>
-</code></pre></div>
-
+scatter(θs, last<span class="sfa0">.</span>(ID0s), xlab <span class="sfa0">=</span> <span class="sc1c">&#34;</span><span class="sc25">\\</span><span class="sc1c">theta&#34;</span>, ylab <span class="sfa0">=</span> <span class="sc1c">&#34;derivative&#34;</span>,
+        label <span class="sfa0">=</span> <span class="sc1c">&#34;analytical&#34;</span>, legend <span class="sfa0">=</span> <span class="sfa0">:</span>topleft)
+scatter!(θs, last<span class="sfa0">.</span>(ID1s), label <span class="sfa0">=</span> <span class="sc1c">&#34;approximation&#34;</span>)
+savefig(<span class="sc1c">&#34;derivative.svg&#34;</span>)
+</code></pre>
+</div>
 
 
 
@@ -325,9 +322,10 @@ which is exactly what you want.</p>
 
 <div id="pagenav">
   
-  <span class="pagenav-label">Previous</span>
-  <a href="http://tpapp.github.io/post/log1p/">log1p in Julia</a>
   
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="http://tpapp.github.io/post/log1p/">log1p in Julia</a>
   
 </div>
 

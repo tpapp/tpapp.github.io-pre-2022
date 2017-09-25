@@ -4,9 +4,9 @@
     <title>Continuous-time deterministic dynamic programming in Julia</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.27.1" />
+    <meta name="generator" content="Hugo 0.28" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <link rel="stylesheet" type="text/css" href="../../css/lovelace.css">
+    <link rel="stylesheet" type="text/css" href="../../css/pastie.css">
     
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -234,77 +234,69 @@ $$\dot{k}_t = F(k_t) - c_t, k_t \ge 0 \forall t.$$</p>
 <h2 id="julia-code-solving-the-euler-equation">Julia code: solving the Euler equation</h2>
 
 <p>Load the libraries (you need to clone some code, as the packages are not registered).</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="k">using</span> <span class="n">ParametricFunctions</span>       <span class="c"># unregistered, clone from repo</span>
-<span class="k">using</span> <span class="n">ContinuousTransformations</span> <span class="c"># unregistered, clone from repo</span>
-<span class="k">using</span> <span class="n">EconFunctions</span>             <span class="c"># unregistered, clone from repo</span>
-<span class="k">using</span> <span class="n">Plots</span><span class="p">;</span> <span class="n">gr</span><span class="p">()</span>
-<span class="k">using</span> <span class="n">Parameters</span>
-<span class="k">using</span> <span class="n">NLsolve</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s3e8">using</span> ParametricFunctions       <span class="s1770"># unregistered, clone from repo</span>
+<span class="s3e8">using</span> ContinuousTransformations <span class="s1770"># unregistered, clone from repo</span>
+<span class="s3e8">using</span> EconFunctions             <span class="s1770"># unregistered, clone from repo</span>
+<span class="s3e8">using</span> Plots; gr()
+<span class="s3e8">using</span> Parameters
+<span class="s3e8">using</span> NLsolve</code></pre>
+</div>
 <p>It is useful to put model parameters in a single structure.</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">Very simple (normalized) Ramsey model with isoelastic production</span>
-<span class="s">function and utility.</span>
-<span class="s">&quot;&quot;&quot;</span>
-<span class="p">@</span><span class="n">with_kw</span> <span class="k">immutable</span> <span class="n">RamseyModel</span><span class="p">{</span><span class="n">T</span><span class="p">}</span>
-    <span class="n">θ</span><span class="p">::</span><span class="n">T</span>                        <span class="c"># IES</span>
-    <span class="n">α</span><span class="p">::</span><span class="n">T</span>                        <span class="c"># capital share</span>
-    <span class="n">A</span><span class="p">::</span><span class="n">T</span>                        <span class="c"># TFP</span>
-    <span class="n">ρ</span><span class="p">::</span><span class="n">T</span>                        <span class="c"># discount rate</span>
-    <span class="n">δ</span><span class="p">::</span><span class="n">T</span>                        <span class="c"># depreciation</span>
-<span class="k">end</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="sc1c">&#34;&#34;&#34;
+</span><span class="sc1c">Very simple (normalized) Ramsey model with isoelastic production
+</span><span class="sc1c">function and utility.
+</span><span class="sc1c">&#34;&#34;&#34;</span>
+<span class="s7d6">@with_kw</span> <span class="s3e8">immutable</span> RamseyModel{T}
+    θ<span class="sfa0">::</span>T                        <span class="s1770"># IES</span>
+    α<span class="sfa0">::</span>T                        <span class="s1770"># capital share</span>
+    A<span class="sfa0">::</span>T                        <span class="s1770"># TFP</span>
+    ρ<span class="sfa0">::</span>T                        <span class="s1770"># discount rate</span>
+    δ<span class="sfa0">::</span>T                        <span class="s1770"># depreciation</span>
+<span class="s3e8">end</span></code></pre>
+</div>
 <p>This is the key part: we code the residual for the Euler equation. The function should take the model (which contains the parameters), a function $c$ that has been constructed using a function family and a set of parameters, and a scalar $k$, at which we evaluate the residual above. Everything else can be automated very well.</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">Residual of the Euler equation.</span>
-<span class="s">&quot;&quot;&quot;</span>
-<span class="k">function</span><span class="nf"> euler_residual</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">RamseyModel</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
-    <span class="p">@</span><span class="n">unpack</span> <span class="n">θ</span><span class="p">,</span> <span class="n">ρ</span><span class="p">,</span> <span class="n">α</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">δ</span> <span class="o">=</span> <span class="n">model</span>
-    <span class="n">Fk</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">k</span><span class="o">^</span><span class="n">α</span> <span class="o">-</span> <span class="n">δ</span><span class="o">*</span><span class="n">k</span>
-    <span class="n">F′k</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">α</span><span class="o">*</span><span class="n">k</span><span class="o">^</span><span class="p">(</span><span class="n">α</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">δ</span>
-    <span class="n">ck</span><span class="p">,</span> <span class="n">c′k</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="n">ValuePartial</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
-    <span class="p">(</span><span class="n">c′k</span><span class="o">/</span><span class="n">ck</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">Fk</span><span class="o">-</span><span class="n">ck</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">θ</span><span class="o">*</span><span class="p">(</span><span class="n">F′k</span><span class="o">-</span><span class="n">ρ</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="sc1c">&#34;&#34;&#34;
+</span><span class="sc1c">Residual of the Euler equation.
+</span><span class="sc1c">&#34;&#34;&#34;</span>
+<span class="s3e8">function</span> euler_residual(model<span class="sfa0">::</span>RamseyModel, c, k)
+    <span class="s7d6">@unpack</span> θ, ρ, α, A, δ <span class="sfa0">=</span> model
+    Fk <span class="sfa0">=</span> A<span class="sfa0">*</span>k<span class="sfa0">^</span>α <span class="sfa0">-</span> δ<span class="sfa0">*</span>k
+    F′k <span class="sfa0">=</span> A<span class="sfa0">*</span>α<span class="sfa0">*</span>k<span class="sfa0">^</span>(α<span class="sfa0">-</span><span class="sc84">1</span>) <span class="sfa0">-</span> δ
+    ck, c′k <span class="sfa0">=</span> c(ValuePartial(k))
+    (c′k<span class="sfa0">/</span>ck)<span class="sfa0">*</span>(Fk<span class="sfa0">-</span>ck) <span class="sfa0">-</span> <span class="sc84">1</span><span class="sfa0">/</span>θ<span class="sfa0">*</span>(F′k<span class="sfa0">-</span>ρ)
+<span class="s3e8">end</span></code></pre>
+</div>
 <p>Above, <code>c</code> can be treated like an ordinary function, except that if you call it with <code>ValuePartial(x)</code>, you get the value <em>and</em> the derivative.</p>
 
 <p>The steady state will be handy:</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="s">&quot;Return the steady state capital and consumption for the model.&quot;</span>
-<span class="k">function</span><span class="nf"> steady_state</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">RamseyModel</span><span class="p">)</span>
-    <span class="p">@</span><span class="n">unpack</span> <span class="n">α</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">ρ</span><span class="p">,</span> <span class="n">δ</span> <span class="o">=</span> <span class="n">model</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="p">((</span><span class="n">δ</span><span class="o">+</span><span class="n">ρ</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">α</span><span class="p">))</span><span class="o">^</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">α</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">A</span><span class="o">*</span><span class="n">k</span><span class="o">^</span><span class="n">α</span> <span class="o">-</span> <span class="n">δ</span><span class="o">*</span><span class="n">k</span>
-    <span class="n">k</span><span class="p">,</span> <span class="n">c</span>
-<span class="k">end</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="sc1c">&#34;Return the steady state capital and consumption for the model.&#34;</span>
+<span class="s3e8">function</span> steady_state(model<span class="sfa0">::</span>RamseyModel)
+    <span class="s7d6">@unpack</span> α, A, ρ, δ <span class="sfa0">=</span> model
+    k <span class="sfa0">=</span> ((δ<span class="sfa0">+</span>ρ)<span class="sfa0">/</span>(A<span class="sfa0">*</span>α))<span class="sfa0">^</span>(<span class="sc84">1</span><span class="sfa0">/</span>(α<span class="sfa0">-</span><span class="sc84">1</span>))
+    c <span class="sfa0">=</span> A<span class="sfa0">*</span>k<span class="sfa0">^</span>α <span class="sfa0">-</span> δ<span class="sfa0">*</span>k
+    k, c
+<span class="s3e8">end</span></code></pre>
+</div>
 <p>Let&rsquo;s make a model object (parameters are pretty standard), and calculate the steady state:</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">RamseyModel</span><span class="p">(</span><span class="n">θ</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">α</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">A</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">ρ</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">δ</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">model <span class="sfa0">=</span> RamseyModel(θ <span class="sfa0">=</span> <span class="sc82">2.0</span>, α <span class="sfa0">=</span> <span class="sc82">0.3</span>, A <span class="sfa0">=</span> <span class="sc82">1.0</span>, ρ <span class="sfa0">=</span> <span class="sc82">0.02</span>, δ <span class="sfa0">=</span> <span class="sc82">0.05</span>)
 
-<span class="n">kₛ</span><span class="p">,</span> <span class="n">cₛ</span> <span class="o">=</span> <span class="n">steady_state</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-</code></pre></div>
-
+kₛ, cₛ <span class="sfa0">=</span> steady_state(model)</code></pre>
+</div>
 <p>We will solve in a domain around the steady state capital.</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">kdom</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">kₛ</span><span class="p">)</span><span class="o">..</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">kₛ</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">kdom <span class="sfa0">=</span> (<span class="sc82">0.5</span><span class="sfa0">*</span>kₛ)<span class="sfa0">..</span>(<span class="sc84">2</span><span class="sfa0">*</span>kₛ)</code></pre>
+</div>
 <p>Given the pieces above, obtaining the solution can be done very conscisely: create a residual object, which is basically a mapping from parameters to the function family to the residuals:</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">CollocationResidual</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">DomainTrans</span><span class="p">(</span><span class="n">kdom</span><span class="p">,</span> <span class="n">Chebyshev</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
-                          <span class="n">euler_residual</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">res <span class="sfa0">=</span> CollocationResidual(model, DomainTrans(kdom, Chebyshev(<span class="sc84">10</span>)),
+                          euler_residual)</code></pre>
+</div>
 <p>The above say that we want 10 Chebyshev polynomials, transformed to the domain <code>kdom</code>, to be used for constructing the $c(k)$.</p>
 
 <p>We call the solver, providing an initial guess, $c(k) = k\cdot c_s/k_s$, for the policy function $c(k)$. The guess is that consumption is linear in capital, and the line goes through the steady state values. Other reasonable guesses are possible, but note that it is worthwhile thinking a bit about a good one, so that you get fast convergence.</p>
 
 <p>The function below fits a parametric function from the given family to the initial guess, then solves for the residual being $0$ using <code>NLsolve</code> with automatic differentiation under the hood.</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">c_sol</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">solve_collocation</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">k</span><span class="o">-&gt;</span><span class="n">cₛ</span><span class="o">*</span><span class="n">k</span><span class="o">/</span><span class="n">kₛ</span><span class="p">;</span> <span class="n">ftol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>
-                             <span class="n">method</span> <span class="o">=</span> <span class="p">:</span><span class="n">newton</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">c_sol, o <span class="sfa0">=</span> solve_collocation(res, k<span class="sfa0">-&gt;</span>cₛ<span class="sfa0">*</span>k<span class="sfa0">/</span>kₛ; ftol<span class="sfa0">=</span><span class="sc82">1e-10</span>,
+                             method <span class="sfa0">=</span> <span class="sfa0">:</span>newton)</code></pre>
+</div>
 <p>Convergence statistics:</p>
 
 <pre><code>Results of Nonlinear Solver Algorithm
@@ -323,10 +315,9 @@ $$\dot{k}_t = F(k_t) - c_t, k_t \ge 0 \forall t.$$</p>
 </code></pre>
 
 <p>Overall, pretty good, very few iterations. We plot the resulting function:</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">plot</span><span class="p">(</span><span class="n">c_sol</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&quot;c(k)&quot;</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">)</span>
-<span class="n">scatter!</span><span class="p">([</span><span class="n">kₛ</span><span class="p">],</span> <span class="p">[</span><span class="n">cₛ</span><span class="p">])</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">plot(c_sol, xlab <span class="sfa0">=</span> <span class="sc1c">&#34;k&#34;</span>, ylab <span class="sfa0">=</span> <span class="sc1c">&#34;c(k)&#34;</span>, legend <span class="sfa0">=</span> <span class="s3e8">false</span>)
+scatter!([kₛ], [cₛ])</code></pre>
+</div>
 
 <figure >
     
@@ -339,11 +330,10 @@ $$\dot{k}_t = F(k_t) - c_t, k_t \ge 0 \forall t.$$</p>
 <p>Notive how the collocation nodes are added automatically (this is done with a plot recipe). It should, of course, go thought the steady state.</p>
 
 <p>It is very important to plot the residual:</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">plot</span><span class="p">(</span><span class="n">k</span><span class="o">-&gt;</span><span class="n">euler_residual</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">c_sol</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">linspace</span><span class="p">(</span><span class="n">kdom</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
-     <span class="n">legend</span> <span class="o">=</span> <span class="n">false</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Euler residual&quot;</span><span class="p">)</span>
-<span class="n">scatter!</span><span class="p">(</span><span class="n">zero</span><span class="p">,</span> <span class="n">points</span><span class="p">(</span><span class="n">c_sol</span><span class="p">))</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">plot(k<span class="sfa0">-&gt;</span>euler_residual(model, c_sol, k), linspace(kdom, <span class="sc84">100</span>),
+     legend <span class="sfa0">=</span> <span class="s3e8">false</span>, xlab<span class="sfa0">=</span><span class="sc1c">&#34;k&#34;</span>, ylab<span class="sfa0">=</span><span class="sc1c">&#34;Euler residual&#34;</span>)
+scatter!(zero, points(c_sol))</code></pre>
+</div>
 
 <figure >
     
@@ -365,12 +355,15 @@ $$\dot{k}_t = F(k_t) - c_t, k_t \ge 0 \forall t.$$</p>
 
 <div id="pagenav">
   
-  <span class="pagenav-label">Previous</span>
-  <a href="http://tpapp.github.io/post/blogging-weave-julia-hugo/">Blogging with Hugo, Julia, Weave.jl</a>
-  
-  
-  <span class="pagenav-label">Next</span>
+  <span class="pagenav-label">next:</span>&nbsp;
   <a href="http://tpapp.github.io/post/privacy-badger/">Disabling Privacy Badger</a>
+  
+  
+  
+  <br/>
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="http://tpapp.github.io/post/blogging-weave-julia-hugo/">Blogging with Hugo, Julia, Weave.jl</a>
   
 </div>
 

@@ -4,9 +4,9 @@
     <title>Local packages in a separate directory in Julia</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.27.1" />
+    <meta name="generator" content="Hugo 0.28" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <link rel="stylesheet" type="text/css" href="../../css/lovelace.css">
+    <link rel="stylesheet" type="text/css" href="../../css/pastie.css">
     
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -189,52 +189,48 @@ specific package version, but I occasionally checkout <code>master</code> for
 some packages, especially if I am contributing.</p>
 
 <p>Despite updating regularly, I found that the documentation subtly diverged from what I was experiencing for some packages. After looking into the issue, I learned that I was 2&ndash;3 minor versions behind despite updating regularly. For example, when I would</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">Pkg</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s">&quot;ForwardDiff&quot;</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">Pkg<span class="sfa0">.</span>update(<span class="sc1c">&#34;ForwardDiff&#34;</span>)</code></pre>
+</div>
 <p>I would be told that there is a new version, and to get it I should update <code>ReverseDiff</code> and <code>Optim</code>. But</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">Pkg</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s">&quot;ForwardDiff&quot;</span><span class="p">,</span> <span class="s">&quot;ReverseDiff&quot;</span><span class="p">,</span> <span class="s">&quot;Optim&quot;</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">Pkg<span class="sfa0">.</span>update(<span class="sc1c">&#34;ForwardDiff&#34;</span>, <span class="sc1c">&#34;ReverseDiff&#34;</span>, <span class="sc1c">&#34;Optim&#34;</span>)</code></pre>
+</div>
 <p>would just run quietly without updating.</p>
 
 <p>I could not figure out the cause for this and did not want to get sidetracked debugging it, so I decided to wipe the package directory and start over. However, in order to do this, I had to make sure that no code is lost, especially for local packages. First, I moved my local packages into a separate directory, and added that to <code>LOAD_PATH</code> in <code>.juliarc.jl</code>:</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="n">push!</span><span class="p">(</span><span class="n">LOAD_PATH</span><span class="p">,</span> <span class="n">expanduser</span><span class="p">(</span><span class="s">&quot;~/src/julia-local-packages/&quot;</span><span class="p">))</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">push!(<span class="s7d2">LOAD_PATH</span>, expanduser(<span class="sc1c">&#34;~/src/julia-local-packages/&#34;</span>))</code></pre>
+</div>
 <p>Then I ran <a href="https://github.com/fboender/multi-git-status">multi-git-status</a> to make sure that there were no unpushed changes. Finally, I deleted the package directory and reinstalled everything. Surprisingly, <code>Pkg.add</code> ran much faster than before.</p>
 
 <p>In case I have to do this again, I decided to keep my local packages separate &mdash; the only drawback is that <code>Pkg.test</code> now can&rsquo;t find them. A workaround is below, using some code from <code>Base.Pkg</code>:</p>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span></span><span class="s">&quot;&quot;&quot;</span>
-<span class="s">    local_test(pkgname, [coverage])</span>
-
-<span class="s">Find and test a package in `LOAD_PATH`. Useful when the package is outside</span>
-<span class="s">`Pkg.dir()`.</span>
-
-<span class="s">Assumes the usual directory structure: package has the same name as the module,</span>
-<span class="s">the main file is in `src/Pkgname.jl`, while tests are in `test/runtests.jl`.</span>
-<span class="s">&quot;&quot;&quot;</span>
-<span class="k">function</span><span class="nf"> local_test</span><span class="p">(</span><span class="n">pkgname</span><span class="p">;</span> <span class="n">coverage</span><span class="p">::</span><span class="kt">Bool</span><span class="o">=</span><span class="n">false</span><span class="p">)</span>
-    <span class="n">module_path</span> <span class="o">=</span> <span class="n">Base</span><span class="o">.</span><span class="n">find_in_path</span><span class="p">(</span><span class="n">pkgname</span><span class="p">,</span> <span class="n">nothing</span><span class="p">)</span>
-    <span class="n">src_dir</span><span class="p">,</span> <span class="n">module_file</span> <span class="o">=</span> <span class="n">splitdir</span><span class="p">(</span><span class="n">module_path</span><span class="p">)</span>
-    <span class="n">dir</span> <span class="o">=</span> <span class="n">normpath</span><span class="p">(</span><span class="n">src_dir</span><span class="p">,</span> <span class="s">&quot;..&quot;</span><span class="p">)</span>
-    <span class="n">test_path</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">dir</span><span class="p">,</span> <span class="s">&quot;test&quot;</span><span class="p">,</span> <span class="s">&quot;runtests.jl&quot;</span><span class="p">)</span>
-    <span class="p">@</span><span class="nb">assert</span> <span class="n">isfile</span><span class="p">(</span><span class="n">test_path</span><span class="p">)</span> <span class="s">&quot;Could not find </span><span class="si">$(test_path)</span><span class="s">&quot;</span>
-    <span class="n">Base</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span> <span class="k">do</span>
-        <span class="k">try</span>
-            <span class="n">color</span> <span class="o">=</span> <span class="n">Base</span><span class="o">.</span><span class="n">have_color</span><span class="o">?</span> <span class="s">&quot;--color=yes&quot;</span> <span class="p">:</span> <span class="s">&quot;--color=no&quot;</span>
-            <span class="n">codecov</span> <span class="o">=</span> <span class="n">coverage</span><span class="o">?</span> <span class="p">[</span><span class="s">&quot;--code-coverage=user&quot;</span><span class="p">]</span> <span class="p">:</span> <span class="p">[</span><span class="s">&quot;--code-coverage=none&quot;</span><span class="p">]</span>
-            <span class="n">compilecache</span> <span class="o">=</span> <span class="s">&quot;--compilecache=&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">JLOptions</span><span class="p">()</span><span class="o">.</span><span class="n">use_compilecache</span><span class="p">)</span> <span class="o">?</span> <span class="s">&quot;yes&quot;</span> <span class="p">:</span> <span class="s">&quot;no&quot;</span><span class="p">)</span>
-            <span class="n">julia_exe</span> <span class="o">=</span> <span class="n">Base</span><span class="o">.</span><span class="n">julia_cmd</span><span class="p">()</span>
-            <span class="n">run</span><span class="p">(</span><span class="sb">`$julia_exe --check-bounds=yes $codecov $color $compilecache $test_path`</span><span class="p">)</span>
-            <span class="n">info</span><span class="p">(</span><span class="s">&quot;</span><span class="si">$module_file</span><span class="s"> tests passed&quot;</span><span class="p">)</span>
-        <span class="k">catch</span> <span class="n">err</span>
-            <span class="n">Base</span><span class="o">.</span><span class="n">Pkg</span><span class="o">.</span><span class="n">Entry</span><span class="o">.</span><span class="n">warnbanner</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;[ ERROR: </span><span class="si">$module_file</span><span class="s"> ]&quot;</span><span class="p">)</span>
-        <span class="k">end</span>
-    <span class="k">end</span>
-<span class="k">end</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="sc1c">&#34;&#34;&#34;
+</span><span class="sc1c">    local_test(pkgname, [coverage])
+</span><span class="sc1c">
+</span><span class="sc1c">Find and test a package in `LOAD_PATH`. Useful when the package is outside
+</span><span class="sc1c">`Pkg.dir()`.
+</span><span class="sc1c">
+</span><span class="sc1c">Assumes the usual directory structure: package has the same name as the module,
+</span><span class="sc1c">the main file is in `src/Pkgname.jl`, while tests are in `test/runtests.jl`.
+</span><span class="sc1c">&#34;&#34;&#34;</span>
+<span class="s3e8">function</span> local_test(pkgname; coverage<span class="sfa0">::</span><span class="s3ee">Bool</span><span class="sfa0">=</span><span class="s3e8">false</span>)
+    module_path <span class="sfa0">=</span> Base<span class="sfa0">.</span>find_in_path(pkgname, <span class="s7d2">nothing</span>)
+    src_dir, module_file <span class="sfa0">=</span> splitdir(module_path)
+    dir <span class="sfa0">=</span> normpath(src_dir, <span class="sc1c">&#34;..&#34;</span>)
+    test_path <span class="sfa0">=</span> joinpath(dir, <span class="sc1c">&#34;test&#34;</span>, <span class="sc1c">&#34;runtests.jl&#34;</span>)
+    <span class="s7d6">@assert</span> isfile(test_path) <span class="sc1c">&#34;Could not find </span><span class="sc27">$</span>(test_path)<span class="sc1c">&#34;</span>
+    Base<span class="sfa0">.</span>cd(dir) <span class="s3e8">do</span>
+        <span class="s3e8">try</span>
+            color <span class="sfa0">=</span> Base<span class="sfa0">.</span>have_color<span class="sfa0">?</span> <span class="sc1c">&#34;--color=yes&#34;</span> <span class="sfa0">:</span> <span class="sc1c">&#34;--color=no&#34;</span>
+            codecov <span class="sfa0">=</span> coverage<span class="sfa0">?</span> [<span class="sc1c">&#34;--code-coverage=user&#34;</span>] <span class="sfa0">:</span> [<span class="sc1c">&#34;--code-coverage=none&#34;</span>]
+            compilecache <span class="sfa0">=</span> <span class="sc1c">&#34;--compilecache=&#34;</span> <span class="sfa0">*</span> (<span class="s3ee">Bool</span>(Base<span class="sfa0">.</span>JLOptions()<span class="sfa0">.</span>use_compilecache) <span class="sfa0">?</span> <span class="sc1c">&#34;yes&#34;</span> <span class="sfa0">:</span> <span class="sc1c">&#34;no&#34;</span>)
+            julia_exe <span class="sfa0">=</span> Base<span class="sfa0">.</span>julia_cmd()
+            run(<span class="sc1c">`</span><span class="sc27">$julia_exe</span><span class="sc1c"> --check-bounds=yes </span><span class="sc27">$codecov</span><span class="sc1c"> </span><span class="sc27">$color</span><span class="sc1c"> </span><span class="sc27">$compilecache</span><span class="sc1c"> </span><span class="sc27">$test_path</span><span class="sc1c">`</span>)
+            info(<span class="sc1c">&#34;</span><span class="sc27">$module_file</span><span class="sc1c"> tests passed&#34;</span>)
+        <span class="s3e8">catch</span> err
+            Base<span class="sfa0">.</span>Pkg<span class="sfa0">.</span>Entry<span class="sfa0">.</span>warnbanner(err, label<span class="sfa0">=</span><span class="sc1c">&#34;[ ERROR: </span><span class="sc27">$module_file</span><span class="sc1c"> ]&#34;</span>)
+        <span class="s3e8">end</span>
+    <span class="s3e8">end</span>
+<span class="s3e8">end</span></code></pre>
+</div>
 <p>Compared to simply <code>include(&quot;wherever-it-is/runtests.jl&quot;)</code>, this has the advantage of running a separate Julia process, so your workspace does not contaminate the test environment and in case of segfaults, the parent process won&rsquo;t be affected.</p>
 
 <p>Hopefully, the code above will be obsolete once <a href="https://github.com/StefanKarpinski/Pkg3.jl">Pkg3</a> is released, but until then it is a useful workaround.</p>
@@ -245,12 +241,15 @@ some packages, especially if I am contributing.</p>
 
 <div id="pagenav">
   
-  <span class="pagenav-label">Previous</span>
-  <a href="http://tpapp.github.io/post/emacs25-ubuntu/">Emacs 25.2 on Ubuntu</a>
-  
-  
-  <span class="pagenav-label">Next</span>
+  <span class="pagenav-label">next:</span>&nbsp;
   <a href="http://tpapp.github.io/post/emacs-julia-customizations/">Emacs customizations for julia-mode</a>
+  
+  
+  
+  <br/>
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="http://tpapp.github.io/post/emacs25-ubuntu/">Emacs 25.2 on Ubuntu</a>
   
 </div>
 

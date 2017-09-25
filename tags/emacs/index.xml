@@ -19,8 +19,8 @@
       
       <guid>http://tpapp.github.io/post/emacs-julia-customizations/</guid>
       <description>I find the following customizations very useful for editing Julia code in Emacs. Add them to julia-mode-hook, eg
-(defun customize-julia-mode () &amp;quot;Customize julia-mode.&amp;quot; (interactive) ;; my customizations go here ) (add-hook &amp;#39;julia-mode-hook &amp;#39;customize-julia-mode)  Highlight FIXME/TODO/&amp;hellip; When I just want to note something in a comment for future reference, I prefer to have certain words highlighted. You can use something like this:
-(font-lock-add-keywords nil &amp;#39;((&amp;quot;\\&amp;lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&amp;quot; 1 font-lock-warning-face t)))  This is what it looks like:</description>
+(defun customize-julia-mode () &amp;#34;Customize julia-mode.&amp;#34; (interactive) ;; my customizations go here ) (add-hook &amp;#39;julia-mode-hook &amp;#39;customize-julia-mode)  Highlight FIXME/TODO/&amp;hellip; When I just want to note something in a comment for future reference, I prefer to have certain words highlighted. You can use something like this:
+(font-lock-add-keywords nil &amp;#39;((&amp;#34;\\&amp;lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&amp;#34; 1 font-lock-warning-face t)))  This is what it looks like:</description>
     </item>
     
     <item>

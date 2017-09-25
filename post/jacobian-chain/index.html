@@ -4,9 +4,9 @@
     <title>Two tricks for change of variables in MCMC</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.27.1" />
+    <meta name="generator" content="Hugo 0.28" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
-    <link rel="stylesheet" type="text/css" href="../../css/lovelace.css">
+    <link rel="stylesheet" type="text/css" href="../../css/pastie.css">
     
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -200,9 +200,8 @@
 <p>$$\log(1/y) = -\log(y).$$</p>
 
 <p>In <a href="http://mc-stan.org/">Stan</a>, one would accomplish this as</p>
-<div class="highlight"><pre><code class="language-stan" data-lang="stan"><span></span><span class="n">target</span> <span class="o">+=</span> <span class="o">-</span><span class="nb">log</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-stan" data-lang="stan">target += -log(y)</code></pre>
+</div>
 <p>In general, when you transform using a multivariate function $f$, you would adjust by</p>
 
 <p>$$\log\det J_f(y)$$</p>
@@ -253,12 +252,15 @@ $$</p>
 
 <div id="pagenav">
   
-  <span class="pagenav-label">Previous</span>
-  <a href="http://tpapp.github.io/post/privacy-badger/">Disabling Privacy Badger</a>
-  
-  
-  <span class="pagenav-label">Next</span>
+  <span class="pagenav-label">next:</span>&nbsp;
   <a href="http://tpapp.github.io/post/latex-math-increment/">Getting a nice &#43;= in LaTeX math</a>
+  
+  
+  
+  <br/>
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="http://tpapp.github.io/post/privacy-badger/">Disabling Privacy Badger</a>
   
 </div>
 
