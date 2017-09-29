@@ -114,9 +114,15 @@ elasticity(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Dual{T,V,N}) where {
 
 &lt;p&gt;Graphs below show that the approximation is reasonable &amp;mdash; we could make it much better with &lt;a href=&#34;https://github.com/stevengj/Sobol.jl&#34;&gt;low-discrepancy sequences&lt;/a&gt;, but that is an orthogonal issue.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;integral.svg&#34; alt=&#34;integral&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;derivative.svg&#34; alt=&#34;derivative&#34; /&gt;&lt;/p&gt;
+
+&lt;img src=&#34;https://tpapp.github.io/post/discontinuous_integral_ad/integral.svg&#34; alt=&#34;integral&#34;&gt;
+
+
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/discontinuous_integral_ad/derivative.svg&#34; alt=&#34;derivative&#34;&gt;
+
 
 &lt;p&gt;It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which ${ x: g(x) &amp;gt; 0 }$, but I used &lt;code&gt;elasticity&lt;/code&gt; as above.&lt;/p&gt;
 
@@ -190,7 +196,6 @@ savefig(&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;derivative.svg&amp;#34;&lt;/sp
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-
 </content>
   </entry>
   
@@ -225,21 +230,33 @@ while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using &lt;c
 
 &lt;p&gt;The graph below shows the base-2 logarithm of the &lt;em&gt;relative&lt;/em&gt; error for &lt;code&gt;Base.log1p&lt;/code&gt; vs $\log_2(1+x)$; horizontal lines are &lt;code&gt;log2(eps())&lt;/code&gt; and &lt;code&gt;log2(eps())+1&lt;/code&gt;. This suggests that &lt;code&gt;Base.log1p&lt;/code&gt; is &lt;em&gt;very accurate&lt;/em&gt;, but not as good as it could be when $x \approx 0$.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;Base_log1p_error.svg&#34; alt=&#34;Base.log1p error&#34; /&gt;&lt;/p&gt;
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/log1p/Base_log1p_error.svg&#34; alt=&#34;Base.log1p error&#34;&gt;
+
 
 &lt;p&gt;The next plot shows the relative accuracy of the relative error above, comparing &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; to &lt;code&gt;Base.log1p&lt;/code&gt; (lower values better). In these simulations, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is never worse, but sometimes significantly better (resulting in an extra binary digit of accuracy). This matters especially when $x \approx 0$.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;JuliaLibm_improvement.svg&#34; alt=&#34;relative log2 acccuracy improvement over Base.log1p&#34; /&gt;&lt;/p&gt;
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/log1p/JuliaLibm_improvement.svg&#34; alt=&#34;relative log2 acccuracy improvement over Base.log1p&#34;&gt;
+
 
 &lt;p&gt;The next plot confirms this.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;JuliaLibm_log1p_error.svg&#34; alt=&#34;JuliaLibm log1p error&#34; /&gt;&lt;/p&gt;
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/log1p/JuliaLibm_log1p_error.svg&#34; alt=&#34;JuliaLibm log1p error&#34;&gt;
+
 
 &lt;h2 id=&#34;speed&#34;&gt;Speed&lt;/h2&gt;
 
 &lt;p&gt;I also evaluated relative speed. The graph below shows the relative runtimes, obtained using &lt;code&gt;BenchmarkTools.@belapsed&lt;/code&gt;. Values below $1$ mean that &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is faster: indeed, this seems to be the case except for values very close to $0$, where there is a 10&amp;ndash;20% performance penalty. At other values, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is 30&amp;ndash;40% &lt;em&gt;faster&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;relative_time.svg&#34; alt=&#34;relative time&#34; /&gt;&lt;/p&gt;
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/log1p/relative_time.svg&#34; alt=&#34;relative time&#34;&gt;
+
 
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 
@@ -310,7 +327,6 @@ Plots&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;svg(&lt;span class=&#34;sc1c
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-
 
 </content>
   </entry>

@@ -73,9 +73,15 @@ elasticity(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Dual{T,V,N}) where {
 
 &lt;p&gt;Graphs below show that the approximation is reasonable &amp;mdash; we could make it much better with &lt;a href=&#34;https://github.com/stevengj/Sobol.jl&#34;&gt;low-discrepancy sequences&lt;/a&gt;, but that is an orthogonal issue.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;integral.svg&#34; alt=&#34;integral&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;derivative.svg&#34; alt=&#34;derivative&#34; /&gt;&lt;/p&gt;
+
+&lt;img src=&#34;https://tpapp.github.io/post/discontinuous_integral_ad/integral.svg&#34; alt=&#34;integral&#34;&gt;
+
+
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/discontinuous_integral_ad/derivative.svg&#34; alt=&#34;derivative&#34;&gt;
+
 
 &lt;p&gt;It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which ${ x: g(x) &amp;gt; 0 }$, but I used &lt;code&gt;elasticity&lt;/code&gt; as above.&lt;/p&gt;
 
@@ -148,7 +154,6 @@ scatter!(θs, last&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(ID1s), label &
 savefig(&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;derivative.svg&amp;#34;&lt;/span&gt;)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-
 
 </content>
   </entry>
