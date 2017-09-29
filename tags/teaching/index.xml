@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>TeachingonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/teaching/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/teaching/"/>
   <updated>2017-03-24T14:34:22+01:00</updated>
   
-  <id>http://tpapp.github.io/tags/teaching/</id>
+  <id>https://tpapp.github.io/tags/teaching/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Teaching a course using Julia</title>
-    <link href="http://tpapp.github.io/post/teaching-a-course/"/>
-    <id>http://tpapp.github.io/post/teaching-a-course/</id>
+    <link href="https://tpapp.github.io/post/teaching-a-course/"/>
+    <id>https://tpapp.github.io/post/teaching-a-course/</id>
     <published>2017-03-24T14:34:22+01:00</published>
     <updated>2017-03-24T14:34:22+01:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/teaching-a-course/">
+    <content type="html" xml:base="https://tpapp.github.io/post/teaching-a-course/">
 
 &amp;lt;p&amp;gt;I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods. The students had prior exposure to R and Matlab, and some of them have been using Julia for a while. In some classes, I talked about theory, sometimes I wrote code, ran it, and made improved versions, sometimes we treated the class as a practice session.&amp;lt;/p&amp;gt;
 

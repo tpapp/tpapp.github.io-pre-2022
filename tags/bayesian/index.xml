@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>BayesianonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/bayesian/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/bayesian/"/>
   <updated>2017-06-12T16:25:57+02:00</updated>
   
-  <id>http://tpapp.github.io/tags/bayesian/</id>
+  <id>https://tpapp.github.io/tags/bayesian/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Sampling variation in effective sample size estimates (MCMC)</title>
-    <link href="http://tpapp.github.io/post/ess-sampling/ess-sampling/"/>
-    <id>http://tpapp.github.io/post/ess-sampling/ess-sampling/</id>
+    <link href="https://tpapp.github.io/post/ess-sampling/ess-sampling/"/>
+    <id>https://tpapp.github.io/post/ess-sampling/ess-sampling/</id>
     <published>2017-06-12T16:25:57+02:00</published>
     <updated>2017-06-12T16:25:57+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/ess-sampling/ess-sampling/">
+    <content type="html" xml:base="https://tpapp.github.io/post/ess-sampling/ess-sampling/">
 
 &amp;lt;h2 id=&amp;#34;introduction&amp;#34;&amp;gt;Introduction&amp;lt;/h2&amp;gt;
 

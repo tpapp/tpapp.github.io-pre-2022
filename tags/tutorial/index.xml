@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>TutorialonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/tutorial/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/tutorial/"/>
   <updated>2017-04-02T19:06:04+02:00</updated>
   
-  <id>http://tpapp.github.io/tags/tutorial/</id>
+  <id>https://tpapp.github.io/tags/tutorial/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Continuous-time deterministic dynamic programming in Julia</title>
-    <link href="http://tpapp.github.io/post/dynamic-programming/"/>
-    <id>http://tpapp.github.io/post/dynamic-programming/</id>
+    <link href="https://tpapp.github.io/post/dynamic-programming/"/>
+    <id>https://tpapp.github.io/post/dynamic-programming/</id>
     <published>2017-04-02T19:06:04+02:00</published>
     <updated>2017-04-02T19:06:04+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/dynamic-programming/">
+    <content type="html" xml:base="https://tpapp.github.io/post/dynamic-programming/">
 
 &amp;lt;p&amp;gt;For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. &amp;lt;a href=&amp;#34;https://github.com/tpapp/EconFunctions.jl&amp;#34;&amp;gt;EconFunctions.jl&amp;lt;/a&amp;gt; is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. &amp;lt;a href=&amp;#34;https://github.com/tpapp/ContinuousTransformations.jl&amp;#34;&amp;gt;ContinuousTransformations.jl&amp;lt;/a&amp;gt; is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally &amp;lt;a href=&amp;#34;https://github.com/tpapp/ParametricFunctions.jl&amp;#34;&amp;gt;ParametricFunctions.jl&amp;lt;/a&amp;gt; is for working with parametric function families.&amp;lt;/p&amp;gt;
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Automatic differentiationonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/automatic-differentiation/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/automatic-differentiation/"/>
   <updated>2017-09-15T16:03:10+02:00</updated>
   
-  <id>http://tpapp.github.io/tags/automatic-differentiation/</id>
+  <id>https://tpapp.github.io/tags/automatic-differentiation/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Automatic differentiation of discontinuous integrals</title>
-    <link href="http://tpapp.github.io/post/discontinuous_integral_ad/"/>
-    <id>http://tpapp.github.io/post/discontinuous_integral_ad/</id>
+    <link href="https://tpapp.github.io/post/discontinuous_integral_ad/"/>
+    <id>https://tpapp.github.io/post/discontinuous_integral_ad/</id>
     <published>2017-09-15T16:03:10+02:00</published>
     <updated>2017-09-15T16:03:10+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/discontinuous_integral_ad/">&amp;lt;p&amp;gt;This is a &amp;lt;em&amp;gt;much simplified&amp;lt;/em&amp;gt; writeup of a problem I encountered, in a self-contained blog post.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/discontinuous_integral_ad/">&amp;lt;p&amp;gt;This is a &amp;lt;em&amp;gt;much simplified&amp;lt;/em&amp;gt; writeup of a problem I encountered, in a self-contained blog post.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;You want to approximate the integral
 [
@@ -84,7 +84,7 @@ elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp
 
 
 
-&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/discontinuous_integral_ad/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;https://tpapp.github.io/post/discontinuous_integral_ad/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
 &amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; ForwardDiff
 &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;import&amp;lt;/span&amp;gt; ForwardDiff&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; Dual, value, partials, Tag
 &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Distributions

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>BloggingonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/blogging/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/blogging/"/>
   <updated>2017-06-12T14:12:43+02:00</updated>
   
-  <id>http://tpapp.github.io/tags/blogging/</id>
+  <id>https://tpapp.github.io/tags/blogging/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Blog redesign</title>
-    <link href="http://tpapp.github.io/post/blog-redesign/"/>
-    <id>http://tpapp.github.io/post/blog-redesign/</id>
+    <link href="https://tpapp.github.io/post/blog-redesign/"/>
+    <id>https://tpapp.github.io/post/blog-redesign/</id>
     <published>2017-06-12T14:12:43+02:00</published>
     <updated>2017-06-12T14:12:43+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/blog-redesign/">&amp;lt;p&amp;gt;I am in the process of rebuilding my personal website using &amp;lt;a href=&amp;#34;http://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;. I tried various themes, including &amp;lt;a href=&amp;#34;https://github.com/gcushen/hugo-academic&amp;#34;&amp;gt;hugo-academic&amp;lt;/a&amp;gt;, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/blog-redesign/">&amp;lt;p&amp;gt;I am in the process of rebuilding my personal website using &amp;lt;a href=&amp;#34;http://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;. I tried various themes, including &amp;lt;a href=&amp;#34;https://github.com/gcushen/hugo-academic&amp;#34;&amp;gt;hugo-academic&amp;lt;/a&amp;gt;, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;The result is now 80% ready (blog works, automatic listing of research papers will take some more work), and the &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;source is on Github&amp;lt;/a&amp;gt;. It is available under the CC-BY-SA license, feel free to adapt parts from it, not that there is anything special in there.&amp;lt;/p&amp;gt;
 
@@ -30,12 +30,12 @@
   
   <entry>
     <title type="html">Blogging with Hugo, Julia, Weave.jl</title>
-    <link href="http://tpapp.github.io/post/blogging-weave-julia-hugo/"/>
-    <id>http://tpapp.github.io/post/blogging-weave-julia-hugo/</id>
+    <link href="https://tpapp.github.io/post/blogging-weave-julia-hugo/"/>
+    <id>https://tpapp.github.io/post/blogging-weave-julia-hugo/</id>
     <published>2017-03-30T10:02:32+02:00</published>
     <updated>2017-03-30T10:02:32+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/blogging-weave-julia-hugo/">&amp;lt;p&amp;gt;I have made a PR to &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;available&amp;lt;/a&amp;gt; so that others can use it for their own blogging about Julia. An example is &amp;lt;a href=&amp;#34;/post/hugo-julia-weave/&amp;#34;&amp;gt;this post&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/blogging-weave-julia-hugo/">&amp;lt;p&amp;gt;I have made a PR to &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;available&amp;lt;/a&amp;gt; so that others can use it for their own blogging about Julia. An example is &amp;lt;a href=&amp;#34;/post/hugo-julia-weave/&amp;#34;&amp;gt;this post&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;The gist of the workflow is as follows:&amp;lt;/p&amp;gt;
 

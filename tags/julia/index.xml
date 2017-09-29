@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>JuliaonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/julia/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/julia/"/>
   <updated>2017-09-15T16:03:10+02:00</updated>
   
-  <id>http://tpapp.github.io/tags/julia/</id>
+  <id>https://tpapp.github.io/tags/julia/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Automatic differentiation of discontinuous integrals</title>
-    <link href="http://tpapp.github.io/post/discontinuous_integral_ad/"/>
-    <id>http://tpapp.github.io/post/discontinuous_integral_ad/</id>
+    <link href="https://tpapp.github.io/post/discontinuous_integral_ad/"/>
+    <id>https://tpapp.github.io/post/discontinuous_integral_ad/</id>
     <published>2017-09-15T16:03:10+02:00</published>
     <updated>2017-09-15T16:03:10+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/discontinuous_integral_ad/">&amp;lt;p&amp;gt;This is a &amp;lt;em&amp;gt;much simplified&amp;lt;/em&amp;gt; writeup of a problem I encountered, in a self-contained blog post.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/discontinuous_integral_ad/">&amp;lt;p&amp;gt;This is a &amp;lt;em&amp;gt;much simplified&amp;lt;/em&amp;gt; writeup of a problem I encountered, in a self-contained blog post.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;You want to approximate the integral
 [
@@ -84,7 +84,7 @@ elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp
 
 
 
-&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/discontinuous_integral_ad/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;https://tpapp.github.io/post/discontinuous_integral_ad/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
 &amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; ForwardDiff
 &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;import&amp;lt;/span&amp;gt; ForwardDiff&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; Dual, value, partials, Tag
 &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Distributions
@@ -155,12 +155,12 @@ savefig(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;derivative
   
   <entry>
     <title type="html">log1p in Julia</title>
-    <link href="http://tpapp.github.io/post/log1p/"/>
-    <id>http://tpapp.github.io/post/log1p/</id>
+    <link href="https://tpapp.github.io/post/log1p/"/>
+    <id>https://tpapp.github.io/post/log1p/</id>
     <published>2017-09-13T11:18:59+02:00</published>
     <updated>2017-09-13T11:18:59+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/log1p/">
+    <content type="html" xml:base="https://tpapp.github.io/post/log1p/">
 
 &amp;lt;p&amp;gt;&amp;lt;em&amp;gt;edit&amp;lt;/em&amp;gt;: fixed bogus interaction of MathJax and code highlighting.&amp;lt;/p&amp;gt;
 
@@ -215,7 +215,7 @@ while as $x \to \infty$, $\log(1&#43;x)$ approaches $\log(x)$, so simply using &
 
 
 
-&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/log1p/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;https://tpapp.github.io/post/log1p/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
 &amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# consistent random numbers&amp;lt;/span&amp;gt;
 srand(&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;UInt32&amp;lt;/span&amp;gt;[&amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0xfd909253&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x7859c364&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x7cd42419&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x4c06a3b6&amp;lt;/span&amp;gt;])
 
@@ -276,12 +276,12 @@ Plots&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;svg(
   
   <entry>
     <title type="html">Emacs customizations for julia-mode</title>
-    <link href="http://tpapp.github.io/post/emacs-julia-customizations/"/>
-    <id>http://tpapp.github.io/post/emacs-julia-customizations/</id>
+    <link href="https://tpapp.github.io/post/emacs-julia-customizations/"/>
+    <id>https://tpapp.github.io/post/emacs-julia-customizations/</id>
     <published>2017-08-28T14:41:58+02:00</published>
     <updated>2017-08-28T14:41:58+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/emacs-julia-customizations/">
+    <content type="html" xml:base="https://tpapp.github.io/post/emacs-julia-customizations/">
 
 &amp;lt;p&amp;gt;I find the following customizations very useful for &amp;lt;em&amp;gt;editing&amp;lt;/em&amp;gt; Julia
 code in Emacs. Add them to &amp;lt;code&amp;gt;julia-mode-hook&amp;lt;/code&amp;gt;, eg&amp;lt;/p&amp;gt;
@@ -403,12 +403,12 @@ QR&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp
   
   <entry>
     <title type="html">Local packages in a separate directory in Julia</title>
-    <link href="http://tpapp.github.io/post/julia-local-test/"/>
-    <id>http://tpapp.github.io/post/julia-local-test/</id>
+    <link href="https://tpapp.github.io/post/julia-local-test/"/>
+    <id>https://tpapp.github.io/post/julia-local-test/</id>
     <published>2017-08-23T10:10:48+02:00</published>
     <updated>2017-08-23T10:10:48+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/julia-local-test/">&amp;lt;p&amp;gt;I run &amp;lt;code&amp;gt;Pkg.update()&amp;lt;/code&amp;gt; fairly often to stay up to date and benefit from
+    <content type="html" xml:base="https://tpapp.github.io/post/julia-local-test/">&amp;lt;p&amp;gt;I run &amp;lt;code&amp;gt;Pkg.update()&amp;lt;/code&amp;gt; fairly often to stay up to date and benefit from
 the latest improvements of various packages. I rarely ever &amp;lt;code&amp;gt;pin&amp;lt;/code&amp;gt; to a
 specific package version, but I occasionally checkout &amp;lt;code&amp;gt;master&amp;lt;/code&amp;gt; for
 some packages, especially if I am contributing.&amp;lt;/p&amp;gt;
@@ -466,12 +466,12 @@ some packages, especially if I am contributing.&amp;lt;/p&amp;gt;
   
   <entry>
     <title type="html">Sampling variation in effective sample size estimates (MCMC)</title>
-    <link href="http://tpapp.github.io/post/ess-sampling/ess-sampling/"/>
-    <id>http://tpapp.github.io/post/ess-sampling/ess-sampling/</id>
+    <link href="https://tpapp.github.io/post/ess-sampling/ess-sampling/"/>
+    <id>https://tpapp.github.io/post/ess-sampling/ess-sampling/</id>
     <published>2017-06-12T16:25:57+02:00</published>
     <updated>2017-06-12T16:25:57+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/ess-sampling/ess-sampling/">
+    <content type="html" xml:base="https://tpapp.github.io/post/ess-sampling/ess-sampling/">
 
 &amp;lt;h2 id=&amp;#34;introduction&amp;#34;&amp;gt;Introduction&amp;lt;/h2&amp;gt;
 
@@ -638,12 +638,12 @@ x_t = \phi x_{t-1} &#43; \sigma \epsilon_t
   
   <entry>
     <title type="html">Continuous-time deterministic dynamic programming in Julia</title>
-    <link href="http://tpapp.github.io/post/dynamic-programming/"/>
-    <id>http://tpapp.github.io/post/dynamic-programming/</id>
+    <link href="https://tpapp.github.io/post/dynamic-programming/"/>
+    <id>https://tpapp.github.io/post/dynamic-programming/</id>
     <published>2017-04-02T19:06:04+02:00</published>
     <updated>2017-04-02T19:06:04+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/dynamic-programming/">
+    <content type="html" xml:base="https://tpapp.github.io/post/dynamic-programming/">
 
 &amp;lt;p&amp;gt;For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. &amp;lt;a href=&amp;#34;https://github.com/tpapp/EconFunctions.jl&amp;#34;&amp;gt;EconFunctions.jl&amp;lt;/a&amp;gt; is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. &amp;lt;a href=&amp;#34;https://github.com/tpapp/ContinuousTransformations.jl&amp;#34;&amp;gt;ContinuousTransformations.jl&amp;lt;/a&amp;gt; is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally &amp;lt;a href=&amp;#34;https://github.com/tpapp/ParametricFunctions.jl&amp;#34;&amp;gt;ParametricFunctions.jl&amp;lt;/a&amp;gt; is for working with parametric function families.&amp;lt;/p&amp;gt;
 
@@ -809,12 +809,12 @@ scatter!(zero, points(c_sol))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
   
   <entry>
     <title type="html">Blogging with Hugo, Julia, Weave.jl</title>
-    <link href="http://tpapp.github.io/post/blogging-weave-julia-hugo/"/>
-    <id>http://tpapp.github.io/post/blogging-weave-julia-hugo/</id>
+    <link href="https://tpapp.github.io/post/blogging-weave-julia-hugo/"/>
+    <id>https://tpapp.github.io/post/blogging-weave-julia-hugo/</id>
     <published>2017-03-30T10:02:32+02:00</published>
     <updated>2017-03-30T10:02:32+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/blogging-weave-julia-hugo/">&amp;lt;p&amp;gt;I have made a PR to &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;available&amp;lt;/a&amp;gt; so that others can use it for their own blogging about Julia. An example is &amp;lt;a href=&amp;#34;/post/hugo-julia-weave/&amp;#34;&amp;gt;this post&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/blogging-weave-julia-hugo/">&amp;lt;p&amp;gt;I have made a PR to &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;available&amp;lt;/a&amp;gt; so that others can use it for their own blogging about Julia. An example is &amp;lt;a href=&amp;#34;/post/hugo-julia-weave/&amp;#34;&amp;gt;this post&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;The gist of the workflow is as follows:&amp;lt;/p&amp;gt;
 
@@ -830,12 +830,12 @@ scatter!(zero, points(c_sol))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
   
   <entry>
     <title type="html">Teaching a course using Julia</title>
-    <link href="http://tpapp.github.io/post/teaching-a-course/"/>
-    <id>http://tpapp.github.io/post/teaching-a-course/</id>
+    <link href="https://tpapp.github.io/post/teaching-a-course/"/>
+    <id>https://tpapp.github.io/post/teaching-a-course/</id>
     <published>2017-03-24T14:34:22+01:00</published>
     <updated>2017-03-24T14:34:22+01:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/teaching-a-course/">
+    <content type="html" xml:base="https://tpapp.github.io/post/teaching-a-course/">
 
 &amp;lt;p&amp;gt;I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods. The students had prior exposure to R and Matlab, and some of them have been using Julia for a while. In some classes, I talked about theory, sometimes I wrote code, ran it, and made improved versions, sometimes we treated the class as a practice session.&amp;lt;/p&amp;gt;
 
@@ -893,12 +893,12 @@ scatter!(zero, points(c_sol))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
   
   <entry>
     <title type="html">Julia &#43; Weave.jl &#43; hugo test</title>
-    <link href="http://tpapp.github.io/post/hugo-julia-weave/"/>
-    <id>http://tpapp.github.io/post/hugo-julia-weave/</id>
+    <link href="https://tpapp.github.io/post/hugo-julia-weave/"/>
+    <id>https://tpapp.github.io/post/hugo-julia-weave/</id>
     <published>2017-03-03T13:11:53+01:00</published>
     <updated>2017-03-03T13:11:53+01:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/hugo-julia-weave/">&amp;lt;p&amp;gt;Testing the &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt; formatter for &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/hugo-julia-weave/">&amp;lt;p&amp;gt;Testing the &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt; formatter for &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;Testing inline code: &amp;lt;code&amp;gt;1&#43;1=2&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt;
 

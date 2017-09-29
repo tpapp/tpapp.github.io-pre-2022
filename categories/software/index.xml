@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>SoftwareonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/categories/software/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/categories/software/"/>
   <updated>2017-08-23T10:10:48+02:00</updated>
   
-  <id>http://tpapp.github.io/categories/software/</id>
+  <id>https://tpapp.github.io/categories/software/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Local packages in a separate directory in Julia</title>
-    <link href="http://tpapp.github.io/post/julia-local-test/"/>
-    <id>http://tpapp.github.io/post/julia-local-test/</id>
+    <link href="https://tpapp.github.io/post/julia-local-test/"/>
+    <id>https://tpapp.github.io/post/julia-local-test/</id>
     <published>2017-08-23T10:10:48+02:00</published>
     <updated>2017-08-23T10:10:48+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/julia-local-test/">&amp;lt;p&amp;gt;I run &amp;lt;code&amp;gt;Pkg.update()&amp;lt;/code&amp;gt; fairly often to stay up to date and benefit from
+    <content type="html" xml:base="https://tpapp.github.io/post/julia-local-test/">&amp;lt;p&amp;gt;I run &amp;lt;code&amp;gt;Pkg.update()&amp;lt;/code&amp;gt; fairly often to stay up to date and benefit from
 the latest improvements of various packages. I rarely ever &amp;lt;code&amp;gt;pin&amp;lt;/code&amp;gt; to a
 specific package version, but I occasionally checkout &amp;lt;code&amp;gt;master&amp;lt;/code&amp;gt; for
 some packages, especially if I am contributing.&amp;lt;/p&amp;gt;

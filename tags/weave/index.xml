@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>WeaveonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/weave/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/weave/"/>
   <updated>2017-03-03T13:11:53+01:00</updated>
   
-  <id>http://tpapp.github.io/tags/weave/</id>
+  <id>https://tpapp.github.io/tags/weave/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Julia &#43; Weave.jl &#43; hugo test</title>
-    <link href="http://tpapp.github.io/post/hugo-julia-weave/"/>
-    <id>http://tpapp.github.io/post/hugo-julia-weave/</id>
+    <link href="https://tpapp.github.io/post/hugo-julia-weave/"/>
+    <id>https://tpapp.github.io/post/hugo-julia-weave/</id>
     <published>2017-03-03T13:11:53+01:00</published>
     <updated>2017-03-03T13:11:53+01:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/hugo-julia-weave/">&amp;lt;p&amp;gt;Testing the &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt; formatter for &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/hugo-julia-weave/">&amp;lt;p&amp;gt;Testing the &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt; formatter for &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;Testing inline code: &amp;lt;code&amp;gt;1&#43;1=2&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt;
 

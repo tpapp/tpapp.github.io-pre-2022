@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Numerical erroronTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/numerical-error/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/numerical-error/"/>
   <updated>2017-09-13T11:18:59+02:00</updated>
   
-  <id>http://tpapp.github.io/tags/numerical-error/</id>
+  <id>https://tpapp.github.io/tags/numerical-error/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">log1p in Julia</title>
-    <link href="http://tpapp.github.io/post/log1p/"/>
-    <id>http://tpapp.github.io/post/log1p/</id>
+    <link href="https://tpapp.github.io/post/log1p/"/>
+    <id>https://tpapp.github.io/post/log1p/</id>
     <published>2017-09-13T11:18:59+02:00</published>
     <updated>2017-09-13T11:18:59+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/log1p/">
+    <content type="html" xml:base="https://tpapp.github.io/post/log1p/">
 
 &amp;lt;p&amp;gt;&amp;lt;em&amp;gt;edit&amp;lt;/em&amp;gt;: fixed bogus interaction of MathJax and code highlighting.&amp;lt;/p&amp;gt;
 
@@ -73,7 +73,7 @@ while as $x \to \infty$, $\log(1&#43;x)$ approaches $\log(x)$, so simply using &
 
 
 
-&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/log1p/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;https://tpapp.github.io/post/log1p/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
 &amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# consistent random numbers&amp;lt;/span&amp;gt;
 srand(&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;UInt32&amp;lt;/span&amp;gt;[&amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0xfd909253&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x7859c364&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x7cd42419&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x4c06a3b6&amp;lt;/span&amp;gt;])
 

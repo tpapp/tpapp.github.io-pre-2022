@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>EmacsonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/emacs/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/emacs/"/>
   <updated>2017-09-29T19:55:44+02:00</updated>
   
-  <id>http://tpapp.github.io/tags/emacs/</id>
+  <id>https://tpapp.github.io/tags/emacs/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Blog redesign 2.0</title>
-    <link href="http://tpapp.github.io/post/blog-redesign-201709/"/>
-    <id>http://tpapp.github.io/post/blog-redesign-201709/</id>
+    <link href="https://tpapp.github.io/post/blog-redesign-201709/"/>
+    <id>https://tpapp.github.io/post/blog-redesign-201709/</id>
     <published>2017-09-29T19:55:44+02:00</published>
     <updated>2017-09-29T19:55:44+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/blog-redesign-201709/">&amp;lt;p&amp;gt;I have redesigned my blog (again), mainly tweaking the CSS and
+    <content type="html" xml:base="https://tpapp.github.io/post/blog-redesign-201709/">&amp;lt;p&amp;gt;I have redesigned my blog (again), mainly tweaking the CSS and
 hopefully achieving better support on small screens (which are still
 not ideal for math, but now you should get a red warning float at the
 bottom).&amp;lt;/p&amp;gt;
@@ -54,12 +54,12 @@ bogus updates (BTW, this post should not show up in the Julia feed).&amp;lt;/p&a
   
   <entry>
     <title type="html">Emacs customizations for julia-mode</title>
-    <link href="http://tpapp.github.io/post/emacs-julia-customizations/"/>
-    <id>http://tpapp.github.io/post/emacs-julia-customizations/</id>
+    <link href="https://tpapp.github.io/post/emacs-julia-customizations/"/>
+    <id>https://tpapp.github.io/post/emacs-julia-customizations/</id>
     <published>2017-08-28T14:41:58+02:00</published>
     <updated>2017-08-28T14:41:58+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/emacs-julia-customizations/">
+    <content type="html" xml:base="https://tpapp.github.io/post/emacs-julia-customizations/">
 
 &amp;lt;p&amp;gt;I find the following customizations very useful for &amp;lt;em&amp;gt;editing&amp;lt;/em&amp;gt; Julia
 code in Emacs. Add them to &amp;lt;code&amp;gt;julia-mode-hook&amp;lt;/code&amp;gt;, eg&amp;lt;/p&amp;gt;
@@ -181,12 +181,12 @@ QR&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp
   
   <entry>
     <title type="html">Emacs 25.2 on Ubuntu</title>
-    <link href="http://tpapp.github.io/post/emacs25-ubuntu/"/>
-    <id>http://tpapp.github.io/post/emacs25-ubuntu/</id>
+    <link href="https://tpapp.github.io/post/emacs25-ubuntu/"/>
+    <id>https://tpapp.github.io/post/emacs25-ubuntu/</id>
     <published>2017-07-03T10:49:56+02:00</published>
     <updated>2017-07-03T10:49:56+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/emacs25-ubuntu/">&amp;lt;p&amp;gt;Emacs is undoubtedly the most important program on my computers. On my
+    <content type="html" xml:base="https://tpapp.github.io/post/emacs25-ubuntu/">&amp;lt;p&amp;gt;Emacs is undoubtedly the most important program on my computers. On my
 laptop, I use it to keep track of stuff with &amp;lt;a href=&amp;#34;http://orgmode.org/&amp;#34;&amp;gt;org-mode&amp;lt;/a&amp;gt;, read mail with &amp;lt;a href=&amp;#34;https://www.djcbsoftware.nl/code/mu/mu4e.html&amp;#34;&amp;gt;mu4e&amp;lt;/a&amp;gt;, edit LaTeX with &amp;lt;a href=&amp;#34;https://www.gnu.org/software/auctex/&amp;#34;&amp;gt;AUCTeX&amp;lt;/a&amp;gt;, and of course program. On servers, the first alias I define is usually &amp;lt;code&amp;gt;qe=&amp;#39;emacs -Q -nw&amp;#39;&amp;lt;/code&amp;gt;, which give me a fast and responsive editor. With &amp;lt;a href=&amp;#34;https://github.com/emacs-helm/helm&amp;#34;&amp;gt;helm&amp;lt;/a&amp;gt;, doing just about anything (eg locating files, &amp;lt;code&amp;gt;rgrep&amp;lt;/code&amp;gt;ing for something) is orders of magnitude faster and more convenient than any alternative I have tried.&amp;lt;/p&amp;gt;
 
 &amp;lt;p&amp;gt;I also try to keep up with the latest versions for software in general. Usually, whatever Ubuntu stable/Debian testing has is good enough not to justify the extra effort, but when I really need it, I grab the source and compile. That is usually only a minor hassle, but I try to restrict it to a few critical programs, otherwise it adds up. The major issue is not compiling, but having cruft in the filesystem (despite &amp;lt;a href=&amp;#34;https://www.gnu.org/software/stow/manual/stow.html&amp;#34;&amp;gt;stow&amp;lt;/a&amp;gt; and &amp;lt;a href=&amp;#34;https://wiki.debian.org/CheckInstall&amp;#34;&amp;gt;checkinstall&amp;lt;/a&amp;gt;, it piles up). So I try to avoid it if I can.&amp;lt;/p&amp;gt;

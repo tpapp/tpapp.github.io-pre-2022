@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>SoftwareonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/software/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/software/"/>
   <updated>2017-06-11T14:48:06+02:00</updated>
   
-  <id>http://tpapp.github.io/software/</id>
+  <id>https://tpapp.github.io/software/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>

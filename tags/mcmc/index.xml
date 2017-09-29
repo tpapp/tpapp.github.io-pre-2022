@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>MCMConTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/mcmc/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/mcmc/"/>
   <updated>2017-06-12T16:25:57+02:00</updated>
   
-  <id>http://tpapp.github.io/tags/mcmc/</id>
+  <id>https://tpapp.github.io/tags/mcmc/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Sampling variation in effective sample size estimates (MCMC)</title>
-    <link href="http://tpapp.github.io/post/ess-sampling/ess-sampling/"/>
-    <id>http://tpapp.github.io/post/ess-sampling/ess-sampling/</id>
+    <link href="https://tpapp.github.io/post/ess-sampling/ess-sampling/"/>
+    <id>https://tpapp.github.io/post/ess-sampling/ess-sampling/</id>
     <published>2017-06-12T16:25:57+02:00</published>
     <updated>2017-06-12T16:25:57+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/ess-sampling/ess-sampling/">
+    <content type="html" xml:base="https://tpapp.github.io/post/ess-sampling/ess-sampling/">
 
 &amp;lt;h2 id=&amp;#34;introduction&amp;#34;&amp;gt;Introduction&amp;lt;/h2&amp;gt;
 
@@ -185,12 +185,12 @@ x_t = \phi x_{t-1} &#43; \sigma \epsilon_t
   
   <entry>
     <title type="html">Getting a nice &#43;= in LaTeX math</title>
-    <link href="http://tpapp.github.io/post/latex-math-increment/"/>
-    <id>http://tpapp.github.io/post/latex-math-increment/</id>
+    <link href="https://tpapp.github.io/post/latex-math-increment/"/>
+    <id>https://tpapp.github.io/post/latex-math-increment/</id>
     <published>2017-05-24T12:59:53+02:00</published>
     <updated>2017-05-24T12:59:53+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/latex-math-increment/">&amp;lt;p&amp;gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/jacobian-chain/&amp;#34;&amp;gt;change of varible calculations&amp;lt;/a&amp;gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/latex-math-increment/">&amp;lt;p&amp;gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &amp;lt;a href=&amp;#34;https://tpapp.github.io/post/jacobian-chain/&amp;#34;&amp;gt;change of varible calculations&amp;lt;/a&amp;gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&amp;lt;/p&amp;gt;
 &amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathtt{target} &#43;= J_f&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &amp;lt;/div&amp;gt;
 &amp;lt;p&amp;gt;gives
@@ -224,12 +224,12 @@ which looks OK enough to preclude further tweaking. Note that &amp;lt;a href=&am
   
   <entry>
     <title type="html">Two tricks for change of variables in MCMC</title>
-    <link href="http://tpapp.github.io/post/jacobian-chain/"/>
-    <id>http://tpapp.github.io/post/jacobian-chain/</id>
+    <link href="https://tpapp.github.io/post/jacobian-chain/"/>
+    <id>https://tpapp.github.io/post/jacobian-chain/</id>
     <published>2017-05-23T16:39:26+02:00</published>
     <updated>2017-05-23T16:39:26+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/jacobian-chain/">
+    <content type="html" xml:base="https://tpapp.github.io/post/jacobian-chain/">
 
 &amp;lt;p&amp;gt;Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the &amp;lt;em&amp;gt;lognormal distribution&amp;lt;/em&amp;gt;: when&amp;lt;/p&amp;gt;
 

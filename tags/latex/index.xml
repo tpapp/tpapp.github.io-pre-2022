@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>LaTeXonTamás K. Papp&#39;s website</title>
-  <link href="http://tpapp.github.io/index.xml" rel="self"/>
-  <link href="http://tpapp.github.io/tags/latex/"/>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/latex/"/>
   <updated>2017-05-24T12:59:53+02:00</updated>
   
-  <id>http://tpapp.github.io/tags/latex/</id>
+  <id>https://tpapp.github.io/tags/latex/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +13,12 @@
   
   <entry>
     <title type="html">Getting a nice &#43;= in LaTeX math</title>
-    <link href="http://tpapp.github.io/post/latex-math-increment/"/>
-    <id>http://tpapp.github.io/post/latex-math-increment/</id>
+    <link href="https://tpapp.github.io/post/latex-math-increment/"/>
+    <id>https://tpapp.github.io/post/latex-math-increment/</id>
     <published>2017-05-24T12:59:53+02:00</published>
     <updated>2017-05-24T12:59:53+02:00</updated>
     
-    <content type="html" xml:base="http://tpapp.github.io/post/latex-math-increment/">&amp;lt;p&amp;gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/jacobian-chain/&amp;#34;&amp;gt;change of varible calculations&amp;lt;/a&amp;gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/latex-math-increment/">&amp;lt;p&amp;gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &amp;lt;a href=&amp;#34;https://tpapp.github.io/post/jacobian-chain/&amp;#34;&amp;gt;change of varible calculations&amp;lt;/a&amp;gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&amp;lt;/p&amp;gt;
 &amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathtt{target} &#43;= J_f&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &amp;lt;/div&amp;gt;
 &amp;lt;p&amp;gt;gives
