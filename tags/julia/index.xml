@@ -21,10 +21,10 @@
     <content type="html" xml:base="https://tpapp.github.io/post/discontinuous_integral_ad/">&lt;p&gt;This is a &lt;em&gt;much simplified&lt;/em&gt; writeup of a problem I encountered, in a self-contained blog post.&lt;/p&gt;
 
 &lt;p&gt;You want to approximate the integral
-[
+$$
 I(\theta) = \int 1(g(x) &amp;gt; 0) f(x,\theta) dx
-]
-where $g$ is a continuous function, and $f(x,\theta)$ is a parametric distribution over $x$. Everthing is continous, and thus $I$ is, too.&lt;/p&gt;
+$$
+where (g) is a continuous function, and $f(x,\theta)$ is a parametric distribution over $x$. Everthing is continous, and thus $I$ is, too.&lt;/p&gt;
 
 &lt;p&gt;You face the following constraints:&lt;/p&gt;
 
