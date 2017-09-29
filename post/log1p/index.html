@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>log1p in Julia</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.28" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/pastie.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          displayMath: [['$$','$$'], ['\[','\]']],
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/economics">economics</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/my-packages">my packages</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/numerical-methods">numerical methods</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/tutorial">tutorial</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/economics">economics</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/my-packages">my packages</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/numerical-methods">numerical methods</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/tutorial">tutorial</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>log1p in Julia</h1>2017/09/13
+<span class="tags">
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+</span>
+
+
+
+
+
+<p><em>edit</em>: fixed bogus interaction of MathJax and code highlighting.</p>
+
+<p><em>edit2</em>: added benchmarks.</p>
+
+<p>This is a follow-up on a <a href="https://discourse.julialang.org/t/log1p-in-base-vs-base-math-julialibm/5852">question</a> I asked on the Julia forums about calculating
+[
+\text{log1p}(x) = \log(1+x)
+]
+This calculation is tricky because if $x \approx 0$,
+[
+\log(1+x) \approx x
+]
+while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using <code>log(1+x)</code> will not be as accurate as it could be. Numerical analysts have developed specialized methods for these calculations that try to get an accurate answer, and all programming languages serious about numerical calculations have an implementation either in the core language or a library.</p>
+
+<p>Julia&rsquo;s <code>Base.log1p</code> currently suggests that <code>Base.Math.JuliaLibm.log1p</code> would be preferable, but then I was wondering why isn&rsquo;t that the default? So I decided to perform a trivial numerical experiment, calculating the error for both, and also benchmark the two methods.</p>
+
+<h2 id="accuracy">Accuracy</h2>
+
+<p>The key question is what to compare the results with. One could compare to an existing &ldquo;gold standard&rdquo; implementation, or simply calculate the results using a higher precision representation. Fortunately, Julia has <code>BigFloat</code>s available right out of the box.</p>
+
+<p>The graph below shows the base-2 logarithm of the <em>relative</em> error for <code>Base.log1p</code> vs $\log_2(1+x)$; horizontal lines are <code>log2(eps())</code> and <code>log2(eps())+1</code>. This suggests that <code>Base.log1p</code> is <em>very accurate</em>, but not as good as it could be when $x \approx 0$.</p>
+
+
+
+<img src="/post/log1p/Base_log1p_error.svg" alt="Base.log1p error">
+
+
+<p>The next plot shows the relative accuracy of the relative error above, comparing <code>Base.Math.JuliaLibm.log1p</code> to <code>Base.log1p</code> (lower values better). In these simulations, <code>Base.Math.JuliaLibm.log1p</code> is never worse, but sometimes significantly better (resulting in an extra binary digit of accuracy). This matters especially when $x \approx 0$.</p>
+
+
+
+<img src="/post/log1p/JuliaLibm_improvement.svg" alt="relative log2 acccuracy improvement over Base.log1p">
+
+
+<p>The next plot confirms this.</p>
+
+
+
+<img src="/post/log1p/JuliaLibm_log1p_error.svg" alt="JuliaLibm log1p error">
+
+
+<h2 id="speed">Speed</h2>
+
+<p>I also evaluated relative speed. The graph below shows the relative runtimes, obtained using <code>BenchmarkTools.@belapsed</code>. Values below $1$ mean that <code>Base.Math.JuliaLibm.log1p</code> is faster: indeed, this seems to be the case except for values very close to $0$, where there is a 10&ndash;20% performance penalty. At other values, <code>Base.Math.JuliaLibm.log1p</code> is 30&ndash;40% <em>faster</em>.</p>
+
+
+
+<img src="/post/log1p/relative_time.svg" alt="relative time">
+
+
+<h2 id="conclusion">Conclusion</h2>
+
+<ol>
+<li><p>For values near $0$, <code>Base.Math.JuliaLibm.log1p</code> is more accurate, at a slight performance cost.</p></li>
+
+<li><p>For values away from $0$, it is at least as accurate as <code>Base.log1p</code>, and 30&ndash;40% faster.</p></li>
+</ol>
+
+<p>To me, this suggests that <code>Base.Math.JuliaLibm.log1p</code> should be the default method &mdash; mostly because the extra accuracy is more important to me than the slight performance cost.</p>
+
+<p>Code is available below.</p>
+
+
+
+
+<div class="codeheader"><p>download as <a href="https://tpapp.github.io/post/log1p/code.jl">code.jl</a></p></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s1770"># consistent random numbers</span>
+srand(<span class="s3ee">UInt32</span>[<span class="sc83">0xfd909253</span>, <span class="sc83">0x7859c364</span>, <span class="sc83">0x7cd42419</span>, <span class="sc83">0x4c06a3b6</span>])
+
+<span class="sc1c">&#34;&#34;&#34;
+</span><span class="sc1c">    err(x, [prec])
+</span><span class="sc1c">
+</span><span class="sc1c">Return two values, which are the log2 relative errors for calculating
+</span><span class="sc1c">`log1p(x)`, using `Base.log1p` and `Base.Math.JuliaLibm.log1p`.
+</span><span class="sc1c">
+</span><span class="sc1c">The errors are calculated by compating to `BigFloat` calculations with the given
+</span><span class="sc1c">precision `prec`.
+</span><span class="sc1c">&#34;&#34;&#34;</span>
+<span class="s3e8">function</span> err(x, prec <span class="sfa0">=</span> <span class="sc84">1024</span>)
+    yb <span class="sfa0">=</span> log(<span class="sc84">1</span><span class="sfa0">+</span><span class="s3ee">BigFloat</span>(x, prec))
+    e2(y) <span class="sfa0">=</span> <span class="s3ee">Float64</span>(log2(abs(y<span class="sfa0">-</span>yb)<span class="sfa0">/</span>abs(yb)))
+    e2(log1p(x)), e2(Base<span class="sfa0">.</span>Math<span class="sfa0">.</span>JuliaLibm<span class="sfa0">.</span>log1p(x))
+<span class="s3e8">end</span>
+
+z <span class="sfa0">=</span> exp<span class="sfa0">.</span>(randn(<span class="sc84">20000</span>)<span class="sfa0">*</span><span class="sc84">10</span>)       <span class="s1770"># z &gt; 0, Lognormal(0, 10)</span>
+x <span class="sfa0">=</span> z <span class="sfa0">.-</span> <span class="sc84">1</span>                      <span class="s1770"># x &gt; -1</span>
+es <span class="sfa0">=</span> map(err, x)                <span class="s1770"># errors</span>
+
+<span class="s3e8">using</span> Plots; gr()               <span class="s1770"># plots</span>
+
+scatter(log2<span class="sfa0">.</span>(z), first<span class="sfa0">.</span>(es), xlab <span class="sfa0">=</span> <span class="sc1c">&#34;log2(x+1)&#34;</span>, ylab <span class="sfa0">=</span> <span class="sc1c">&#34;log2 error of Base.log1p&#34;</span>,
+        legend <span class="sfa0">=</span> <span class="s3e8">false</span>)
+hline!(log2(eps())<span class="sfa0">-</span>[<span class="sc84">0</span>,<span class="sc84">1</span>])
+Plots<span class="sfa0">.</span>svg(<span class="sc1c">&#34;Base_log1p_error.svg&#34;</span>)
+scatter(log2<span class="sfa0">.</span>(z), last<span class="sfa0">.</span>(es) <span class="sfa0">.-</span> first<span class="sfa0">.</span>(es), xlab <span class="sfa0">=</span> <span class="sc1c">&#34;log2(x+1)&#34;</span>,
+        ylab <span class="sfa0">=</span> <span class="sc1c">&#34;improvement (Base.Math.JuliaLibm.log1p)&#34;</span>, legend <span class="sfa0">=</span> <span class="s3e8">false</span>)
+Plots<span class="sfa0">.</span>svg(<span class="sc1c">&#34;JuliaLibm_improvement.svg&#34;</span>)
+scatter(log2<span class="sfa0">.</span>(z), last<span class="sfa0">.</span>(es), xlab <span class="sfa0">=</span> <span class="sc1c">&#34;log2(x+1)&#34;</span>,
+        ylab <span class="sfa0">=</span> <span class="sc1c">&#34;log2 error of Base.Math.JuliaLibm.log1p&#34;</span>, legend <span class="sfa0">=</span> <span class="s3e8">false</span>)
+hline!(log2(eps())<span class="sfa0">-</span>[<span class="sc84">0</span>,<span class="sc84">1</span>])
+Plots<span class="sfa0">.</span>svg(<span class="sc1c">&#34;JuliaLibm_log1p_error.svg&#34;</span>)
+
+<span class="s1770">######################################################################</span>
+<span class="s1770"># WARNING: these run for a very long time</span>
+<span class="s1770">######################################################################</span>
+<span class="s3e8">using</span> BenchmarkTools
+
+z <span class="sfa0">=</span> exp<span class="sfa0">.</span>(vcat(randn(<span class="sc84">200</span>)<span class="sfa0">*</span><span class="sc84">10</span>, rand(<span class="sc84">200</span>)<span class="sfa0">*</span><span class="sc82">0.1</span>)) <span class="s1770"># z &gt; 0, more values around </span>
+x <span class="sfa0">=</span> z <span class="sfa0">.-</span> <span class="sc84">1</span>                                   <span class="s1770"># x &gt; -1</span>
+b1 <span class="sfa0">=</span> [<span class="s7d6">@belapsed</span> log1p(<span class="sfa0">$</span>x) <span class="s3e8">for</span> x <span class="s3ec">in</span> x]        <span class="s1770"># WARNING: takes forever</span>
+b2 <span class="sfa0">=</span> [<span class="s7d6">@belapsed</span> Base<span class="sfa0">.</span>Math<span class="sfa0">.</span>JuliaLibm<span class="sfa0">.</span>log1p(<span class="sfa0">$</span>x) <span class="s3e8">for</span> x <span class="s3ec">in</span> x] <span class="s1770"># ditto</span>
+
+scatter(log2<span class="sfa0">.</span>(z), b2 <span class="sfa0">./</span> b1, xlab <span class="sfa0">=</span> <span class="sc1c">&#34;log2(x+1)&#34;</span>,
+        ylab <span class="sfa0">=</span> <span class="sc1c">&#34;time Math.JuliaLibm.log1p / log1p&#34;</span>, legend <span class="sfa0">=</span> <span class="s3e8">false</span>, yticks <span class="sfa0">=</span> <span class="sc84">0</span><span class="sfa0">:</span><span class="sc82">0.2</span><span class="sfa0">:</span><span class="sc82">1.2</span>)
+hline!([<span class="sc84">1</span>])
+Plots<span class="sfa0">.</span>svg(<span class="sc1c">&#34;relative_time.svg&#34;</span>)
+
+</code></pre>
+</div>
+
+
+
+
+<div id="pagenav">
+  
+  <span class="pagenav-label">next:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/discontinuous_integral_ad/">Automatic differentiation of discontinuous integrals</a>
+  
+  
+  
+  <br/>
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/emacs-julia-customizations/">Emacs customizations for julia-mode</a>
+  
+</div>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+

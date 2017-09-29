@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>WeaveonTamás K. Papp&#39;s website</title>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/weave/"/>
+  <updated>2017-03-03T13:11:53+01:00</updated>
+  
+  <id>https://tpapp.github.io/tags/weave/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Julia &#43; Weave.jl &#43; hugo test</title>
+    <link href="https://tpapp.github.io/post/hugo-julia-weave/"/>
+    <id>https://tpapp.github.io/post/hugo-julia-weave/</id>
+    <published>2017-03-03T13:11:53+01:00</published>
+    <updated>2017-03-03T13:11:53+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/hugo-julia-weave/">&lt;p&gt;Testing the &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; formatter for &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Testing inline code: &lt;code&gt;1+1=2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Testing math:
+$$x^2+y^2 = \int_0^1 f(z) dz$$&lt;/p&gt;
+
+&lt;p&gt;Testing code:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Testing proper highlighting:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; foo(x, y)
+    x&lt;span class=&#34;sfa0&#34;&gt;+&lt;/span&gt;y
+&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;A plot:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;x &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;sc84&#34;&gt;10&lt;/span&gt;
+y &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; x&lt;span class=&#34;sfa0&#34;&gt;.^&lt;/span&gt;&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;
+scatter(x, y, legend &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s3e8&#34;&gt;false&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;../figures/hugo-julia-weave_4_1.svg&#34; /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;h4&gt;Caption for this plot&lt;/h4&gt;
+        
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+</content>
+  </entry>
+  
+</feed>

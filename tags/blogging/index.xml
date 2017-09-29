@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>BloggingonTamás K. Papp&#39;s website</title>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/blogging/"/>
+  <updated>2017-06-12T14:12:43+02:00</updated>
+  
+  <id>https://tpapp.github.io/tags/blogging/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Blog redesign</title>
+    <link href="https://tpapp.github.io/post/blog-redesign/"/>
+    <id>https://tpapp.github.io/post/blog-redesign/</id>
+    <published>2017-06-12T14:12:43+02:00</published>
+    <updated>2017-06-12T14:12:43+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/blog-redesign/">&lt;p&gt;I am in the process of rebuilding my personal website using &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;. I tried various themes, including &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic&lt;/a&gt;, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.&lt;/p&gt;
+
+&lt;p&gt;The result is now 80% ready (blog works, automatic listing of research papers will take some more work), and the &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;source is on Github&lt;/a&gt;. It is available under the CC-BY-SA license, feel free to adapt parts from it, not that there is anything special in there.&lt;/p&gt;
+
+&lt;p&gt;Hugo is really an excellent framework, it is clean, logical, and allows a lot of code reuse. I &lt;del&gt;wasted&lt;/del&gt; spent most of the time on fiddling with CSS, and I am still not 100% satisfied with the result, but at some point I decided to stop. &lt;a href=&#34;http://sass-lang.com/&#34;&gt;SCSS&lt;/a&gt; was extremely useful for writing organized CSS.&lt;/p&gt;
+
+&lt;p&gt;I am especially satisfied with moving the code highlighting to the generator side. The only non-static parts are now &lt;a href=&#34;https://disqus.com/&#34;&gt;Disqus&lt;/a&gt; and &lt;a href=&#34;http://www.mathjax.org/&#34;&gt;MathJax&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Blogging with Hugo, Julia, Weave.jl</title>
+    <link href="https://tpapp.github.io/post/blogging-weave-julia-hugo/"/>
+    <id>https://tpapp.github.io/post/blogging-weave-julia-hugo/</id>
+    <published>2017-03-30T10:02:32+02:00</published>
+    <updated>2017-03-30T10:02:32+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/blogging-weave-julia-hugo/">&lt;p&gt;I have made a PR to &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt; so that others can use it for their own blogging about Julia. An example is &lt;a href=&#34;https://tpapp.github.io/post/hugo-julia-weave/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The gist of the workflow is as follows:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;for posts which do not need &lt;code&gt;Weave&lt;/code&gt;, just use &lt;code&gt;Hugo&lt;/code&gt;. Make sure you read their &lt;a href=&#34;https://gohugo.io/overview/introduction/&#34;&gt;excellent tutorial&lt;/a&gt;. &lt;strong&gt;This very fast&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the &lt;code&gt;.md&lt;/code&gt; file using &lt;code&gt;Weave.jl&lt;/code&gt;. &lt;strong&gt;This is the slow part&lt;/strong&gt;, so it is not automated.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;README&lt;/a&gt; gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.&lt;/p&gt;
+</content>
+  </entry>
+  
+</feed>

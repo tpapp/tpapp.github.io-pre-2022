@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Emacs25onTamás K. Papp&#39;s website</title>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/emacs25/"/>
+  <updated>2017-07-03T10:49:56+02:00</updated>
+  
+  <id>https://tpapp.github.io/tags/emacs25/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Emacs 25.2 on Ubuntu</title>
+    <link href="https://tpapp.github.io/post/emacs25-ubuntu/"/>
+    <id>https://tpapp.github.io/post/emacs25-ubuntu/</id>
+    <published>2017-07-03T10:49:56+02:00</published>
+    <updated>2017-07-03T10:49:56+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/emacs25-ubuntu/">&lt;p&gt;Emacs is undoubtedly the most important program on my computers. On my
+laptop, I use it to keep track of stuff with &lt;a href=&#34;http://orgmode.org/&#34;&gt;org-mode&lt;/a&gt;, read mail with &lt;a href=&#34;https://www.djcbsoftware.nl/code/mu/mu4e.html&#34;&gt;mu4e&lt;/a&gt;, edit LaTeX with &lt;a href=&#34;https://www.gnu.org/software/auctex/&#34;&gt;AUCTeX&lt;/a&gt;, and of course program. On servers, the first alias I define is usually &lt;code&gt;qe=&#39;emacs -Q -nw&#39;&lt;/code&gt;, which give me a fast and responsive editor. With &lt;a href=&#34;https://github.com/emacs-helm/helm&#34;&gt;helm&lt;/a&gt;, doing just about anything (eg locating files, &lt;code&gt;rgrep&lt;/code&gt;ing for something) is orders of magnitude faster and more convenient than any alternative I have tried.&lt;/p&gt;
+
+&lt;p&gt;I also try to keep up with the latest versions for software in general. Usually, whatever Ubuntu stable/Debian testing has is good enough not to justify the extra effort, but when I really need it, I grab the source and compile. That is usually only a minor hassle, but I try to restrict it to a few critical programs, otherwise it adds up. The major issue is not compiling, but having cruft in the filesystem (despite &lt;a href=&#34;https://www.gnu.org/software/stow/manual/stow.html&#34;&gt;stow&lt;/a&gt; and &lt;a href=&#34;https://wiki.debian.org/CheckInstall&#34;&gt;checkinstall&lt;/a&gt;, it piles up). So I try to avoid it if I can.&lt;/p&gt;
+
+&lt;p&gt;Emacs 25.2 was released in April 2017, but there is no sign of an Ubuntu package for it yet. On various forums the &lt;a href=&#34;https://launchpad.net/~kelleyk/+archive/ubuntu/emacs&#34;&gt;PPA of kelleyk&lt;/a&gt; is recommended, but that does not have 25.2 for 17.04 (some files clash if you install previous versions).&lt;/p&gt;
+
+&lt;p&gt;Fortunately, Robert Bruce Park has now added Emacs 25.2 to the &lt;a href=&#34;https://launchpad.net/~ubuntu-elisp/+archive/ubuntu/ppa&#34;&gt;Ubuntu Emacs Lisp PPA&lt;/a&gt;, so having the latest of your favorite editor is only an &lt;code&gt;add-apt-repository&lt;/code&gt; away. You may want to add a file to &lt;code&gt;/etc/apt/preferences.d&lt;/code&gt; with contents&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Package: *
+Pin: release o=LP-PPA-ubuntu-elisp
+Pin-Priority: 600
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;to make sure the right packages are installed.&lt;/p&gt;
+</content>
+  </entry>
+  
+</feed>

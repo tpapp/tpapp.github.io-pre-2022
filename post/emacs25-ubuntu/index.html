@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Emacs 25.2 on Ubuntu</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.28" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/pastie.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          displayMath: [['$$','$$'], ['\[','\]']],
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/economics">economics</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/my-packages">my packages</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/numerical-methods">numerical methods</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/tutorial">tutorial</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/economics">economics</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/my-packages">my packages</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/numerical-methods">numerical methods</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/tutorial">tutorial</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>Emacs 25.2 on Ubuntu</h1>2017/07/03
+<span class="tags">
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+</span>
+
+
+
+<p>Emacs is undoubtedly the most important program on my computers. On my
+laptop, I use it to keep track of stuff with <a href="http://orgmode.org/">org-mode</a>, read mail with <a href="https://www.djcbsoftware.nl/code/mu/mu4e.html">mu4e</a>, edit LaTeX with <a href="https://www.gnu.org/software/auctex/">AUCTeX</a>, and of course program. On servers, the first alias I define is usually <code>qe='emacs -Q -nw'</code>, which give me a fast and responsive editor. With <a href="https://github.com/emacs-helm/helm">helm</a>, doing just about anything (eg locating files, <code>rgrep</code>ing for something) is orders of magnitude faster and more convenient than any alternative I have tried.</p>
+
+<p>I also try to keep up with the latest versions for software in general. Usually, whatever Ubuntu stable/Debian testing has is good enough not to justify the extra effort, but when I really need it, I grab the source and compile. That is usually only a minor hassle, but I try to restrict it to a few critical programs, otherwise it adds up. The major issue is not compiling, but having cruft in the filesystem (despite <a href="https://www.gnu.org/software/stow/manual/stow.html">stow</a> and <a href="https://wiki.debian.org/CheckInstall">checkinstall</a>, it piles up). So I try to avoid it if I can.</p>
+
+<p>Emacs 25.2 was released in April 2017, but there is no sign of an Ubuntu package for it yet. On various forums the <a href="https://launchpad.net/~kelleyk/+archive/ubuntu/emacs">PPA of kelleyk</a> is recommended, but that does not have 25.2 for 17.04 (some files clash if you install previous versions).</p>
+
+<p>Fortunately, Robert Bruce Park has now added Emacs 25.2 to the <a href="https://launchpad.net/~ubuntu-elisp/+archive/ubuntu/ppa">Ubuntu Emacs Lisp PPA</a>, so having the latest of your favorite editor is only an <code>add-apt-repository</code> away. You may want to add a file to <code>/etc/apt/preferences.d</code> with contents</p>
+
+<pre><code>Package: *
+Pin: release o=LP-PPA-ubuntu-elisp
+Pin-Priority: 600
+</code></pre>
+
+<p>to make sure the right packages are installed.</p>
+
+
+
+<div id="pagenav">
+  
+  <span class="pagenav-label">next:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/julia-local-test/">Local packages in a separate directory in Julia</a>
+  
+  
+  
+  <br/>
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/ess-sampling/ess-sampling/">Sampling variation in effective sample size estimates (MCMC)</a>
+  
+</div>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+

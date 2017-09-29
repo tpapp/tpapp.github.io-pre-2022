@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>EmacsonTamás K. Papp&#39;s website</title>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/emacs/"/>
+  <updated>2017-09-29T19:55:44+02:00</updated>
+  
+  <id>https://tpapp.github.io/tags/emacs/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Blog redesign 2.0</title>
+    <link href="https://tpapp.github.io/post/blog-redesign-201709/"/>
+    <id>https://tpapp.github.io/post/blog-redesign-201709/</id>
+    <published>2017-09-29T19:55:44+02:00</published>
+    <updated>2017-09-29T19:55:44+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/blog-redesign-201709/">&lt;p&gt;I have redesigned my blog (again), mainly tweaking the CSS and
+hopefully achieving better support on small screens (which are still
+not ideal for math, but now you should get a red warning float at the
+bottom).&lt;/p&gt;
+
+&lt;p&gt;I also re-did the feed code so that it would render better on
+&lt;a href=&#34;https://www.juliabloggers.com/&#34;&gt;juliabloggers.com&lt;/a&gt;. Now the whole
+content of each post should be scraped seamlessly, and appear
+correctly. However, the only way to test the whole toolchain is to do
+it live, and I apologize if something is still not perfect and you get
+bogus updates (BTW, this post should not show up in the Julia feed).&lt;/p&gt;
+
+&lt;p&gt;Highlights of the changes:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;responsive design,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;nicer fonts,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;line breaks in MathJax when necessary and supported,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;better highlighting (Julia now looks especially nice),&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;embedded code blocks with a download link,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;better image placement,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Emacs screenshots now use a branch of &lt;a href=&#34;https://github.com/tpapp/emacs-htmlize/tree/pre-colors&#34;&gt;emacs-htmlize&lt;/a&gt;, which hopefully gets merged soon.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;As always, the source code for the whole site is &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Emacs customizations for julia-mode</title>
+    <link href="https://tpapp.github.io/post/emacs-julia-customizations/"/>
+    <id>https://tpapp.github.io/post/emacs-julia-customizations/</id>
+    <published>2017-08-28T14:41:58+02:00</published>
+    <updated>2017-08-28T14:41:58+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/emacs-julia-customizations/">
+
+&lt;p&gt;I find the following customizations very useful for &lt;em&gt;editing&lt;/em&gt; Julia
+code in Emacs. Add them to &lt;code&gt;julia-mode-hook&lt;/code&gt;, eg&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;defun&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;customize-julia-mode&lt;/span&gt; ()
+  &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;Customize julia-mode.&amp;#34;&lt;/span&gt;
+  (&lt;span class=&#34;s7e3&#34;&gt;interactive&lt;/span&gt;)
+  &lt;span class=&#34;s1770&#34;&gt;;; my customizations go here&lt;/span&gt;
+  )
+
+(&lt;span class=&#34;s7e3&#34;&gt;add-hook&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;julia-mode-hook&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;customize-julia-mode&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;highlight-fixme-todo&#34;&gt;Highlight FIXME/TODO/&amp;hellip;&lt;/h2&gt;
+
+&lt;p&gt;When I just want to note something in a comment for future reference,
+I prefer to have certain words highlighted. You can use something like
+this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;font-lock-add-keywords&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt;
+                        &lt;span class=&#34;sfa0&#34;&gt;&amp;#39;&lt;/span&gt;((&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&amp;#34;&lt;/span&gt;
+                        &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;font-lock-warning-face&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;t&lt;/span&gt;)))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;This is what it looks like:&lt;/p&gt;
+
+&lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+            chklapackerror&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;info&lt;span style=&#34;color: #262626;&#34;&gt;[])&lt;/span&gt;
+            &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;if&lt;/span&gt; any&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;ifail .!= 0&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
+                &lt;span style=&#34;color: #008b45;&#34;&gt;# &lt;/span&gt;&lt;span style=&#34;color: #f71010; font-weight: bold;&#34;&gt;TODO&lt;/span&gt;&lt;span style=&#34;color: #008b45;&#34;&gt;: better error message / type
+&lt;/span&gt;                error&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #fa5151;&#34;&gt;&#34;failed to converge eigenvectors:\n$(nonzeros(ifail))&#34;&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
+            &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;highlight-symbols&#34;&gt;Highlight symbols&lt;/h2&gt;
+
+&lt;p&gt;After&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;highlight-symbol&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;add a hook for&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;local-set-key&lt;/span&gt; [(&lt;span class=&#34;s7e3&#34;&gt;control&lt;/span&gt; &lt;span class=&#34;sc21&#34;&gt;?c&lt;/span&gt;) &lt;span class=&#34;sc21&#34;&gt;?s&lt;/span&gt;] &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;highlight-symbol-at-point&lt;/span&gt;)
+(&lt;span class=&#34;s7e3&#34;&gt;local-set-key&lt;/span&gt; [(&lt;span class=&#34;s7e3&#34;&gt;control&lt;/span&gt; &lt;span class=&#34;sc21&#34;&gt;?c&lt;/span&gt;) &lt;span class=&#34;sc21&#34;&gt;?n&lt;/span&gt;] &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;highlight-symbol-next&lt;/span&gt;)
+(&lt;span class=&#34;s7e3&#34;&gt;local-set-key&lt;/span&gt; [(&lt;span class=&#34;s7e3&#34;&gt;control&lt;/span&gt; &lt;span class=&#34;sc21&#34;&gt;?c&lt;/span&gt;) &lt;span class=&#34;sc21&#34;&gt;?p&lt;/span&gt;] &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;highlight-symbol-prev&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;This highlights symbols with &lt;code&gt;C-c s&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color: #2c53ca;&#34;&gt;issymmetric&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #000000; background-color: #ffff00;&#34;&gt;A&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #9400d3;&#34;&gt;AbstractMatrix&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
+    indsm, indsn = indices&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #000000; background-color: #ffff00;&#34;&gt;A&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
+    &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;if&lt;/span&gt; indsm != indsn
+        &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #259ea2;&#34;&gt;false&lt;/span&gt;
+    &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;for&lt;/span&gt; i = first&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;indsn&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;:last&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;indsn&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;, j = &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;i&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;:last&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;indsn&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
+        &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #000000; background-color: #ffff00;&#34;&gt;A&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;[&lt;/span&gt;i,j&lt;span style=&#34;color: #262626;&#34;&gt;]&lt;/span&gt; != transpose&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #000000; background-color: #ffff00;&#34;&gt;A&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;[&lt;/span&gt;j,i&lt;span style=&#34;color: #262626;&#34;&gt;])&lt;/span&gt;
+            &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #259ea2;&#34;&gt;false&lt;/span&gt;
+        &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;end&lt;/span&gt;
+    &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #259ea2;&#34;&gt;true&lt;/span&gt;
+&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;fill-docstrings&#34;&gt;Fill docstrings&lt;/h2&gt;
+
+&lt;p&gt;This is useful if you want to use &lt;code&gt;M-q&lt;/code&gt; on docstrings.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;defun&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;julia-fill-string&lt;/span&gt; ()
+  &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;Fill a docstring, preserving newlines before and after triple quotation marks.&amp;#34;&lt;/span&gt;
+  (&lt;span class=&#34;s7e3&#34;&gt;interactive&lt;/span&gt;)
+  (&lt;span class=&#34;s7e3&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;transient-mark-mode&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;mark-active&lt;/span&gt;)
+      (&lt;span class=&#34;s7e3&#34;&gt;fill-region&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;region-beginning&lt;/span&gt;) (&lt;span class=&#34;s7e3&#34;&gt;region-end&lt;/span&gt;) &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;t&lt;/span&gt;)
+    (&lt;span class=&#34;s7e3&#34;&gt;cl-flet&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;fill-if-string&lt;/span&gt; ()
+                              (&lt;span class=&#34;s7e3&#34;&gt;when&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;or&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;looking-at&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;rx&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\&amp;#34;\&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;
+                                                        (&lt;span class=&#34;s7e3&#34;&gt;group&lt;/span&gt;
+                                                         (&lt;span class=&#34;s7e3&#34;&gt;*?&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;or&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;not&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;any&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt;))
+                                                                 (&lt;span class=&#34;s7e3&#34;&gt;seq&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;anything&lt;/span&gt;))))
+                                                        &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\&amp;#34;\&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;))
+                                        (&lt;span class=&#34;s7e3&#34;&gt;looking-at&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;rx&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;
+                                                        (&lt;span class=&#34;s7e3&#34;&gt;group&lt;/span&gt;
+                                                         (&lt;span class=&#34;s7e3&#34;&gt;*?&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;or&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;not&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;any&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt;))
+                                                                 (&lt;span class=&#34;s7e3&#34;&gt;seq&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;anything&lt;/span&gt;))))
+                                                        &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;)))
+                                (&lt;span class=&#34;s7e3&#34;&gt;let&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;start&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;match-beginning&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;))
+                                      (&lt;span class=&#34;s7e3&#34;&gt;end&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;match-end&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;)))
+                                  &lt;span class=&#34;s1770&#34;&gt;;; (ess-blink-region start end)&lt;/span&gt;
+                                  (&lt;span class=&#34;s7e3&#34;&gt;fill-region&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;end&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt;)))))
+      (&lt;span class=&#34;s7e3&#34;&gt;save-excursion&lt;/span&gt;
+        (&lt;span class=&#34;s7e3&#34;&gt;let&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;syntax-ppss&lt;/span&gt;)))
+          (&lt;span class=&#34;s7e3&#34;&gt;when&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;fourth&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt;) (&lt;span class=&#34;s7e3&#34;&gt;goto-char&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;ninth&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt;))))
+        (&lt;span class=&#34;s7e3&#34;&gt;fill-if-string&lt;/span&gt;)))))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Add&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;local-set-key&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;kbd&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;M-q&amp;#34;&lt;/span&gt;) &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;julia-fill-string&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;to the mode hook.&lt;/p&gt;
+
+&lt;h2 id=&#34;highlight-things-after-column-80&#34;&gt;Highlight things after column 80&lt;/h2&gt;
+
+&lt;p&gt;I add this to the mode hook:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;set-fill-column&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;80&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;I also use &lt;code&gt;whitespace&lt;/code&gt; globally:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;whitespace&lt;/span&gt;)
+(&lt;span class=&#34;s7e3&#34;&gt;setq&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;whitespace-style&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span class=&#34;s7e3&#34;&gt;face&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;empty&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;tabs&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;lines-tail&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;trailing&lt;/span&gt;))
+(&lt;span class=&#34;s7e3&#34;&gt;global-whitespace-mode&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;t&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;This is what it looks like:&lt;/p&gt;
+
+&lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+    QR&lt;span style=&#34;color: #262626;&#34;&gt;{&lt;/span&gt;T,S&lt;span style=&#34;color: #262626;&#34;&gt;}(&lt;/span&gt;factors&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #9400d3;&#34;&gt;AbstractMatrix&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;{&lt;/span&gt;T&lt;span style=&#34;color: #262626;&#34;&gt;}&lt;/span&gt;, &amp;#964;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #9400d3;&#34;&gt;Vector&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;{&lt;/span&gt;T&lt;span style=&#34;color: #262626;&#34;&gt;})&lt;/span&gt; where &lt;span style=&#34;color: #262626;&#34;&gt;{&lt;/span&gt;T,S&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span style=&#34;color: #9400d3;&#34;&gt;AbstractMatrix&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #f6f0e1;&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;background-color: #f6f0e1;&#34;&gt; = new&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #f6f0e1;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;background-color: #f6f0e1;&#34;&gt;factors, &amp;#964;&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #f6f0e1;&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;end&lt;/span&gt;
+QR&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;factors&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #9400d3;&#34;&gt;AbstractMatrix&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;{&lt;/span&gt;T&lt;span style=&#34;color: #262626;&#34;&gt;}&lt;/span&gt;, &amp;#964;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color: #9400d3;&#34;&gt;Vector&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;{&lt;/span&gt;T&lt;span style=&#34;color: #262626;&#34;&gt;})&lt;/span&gt; where &lt;span style=&#34;color: #262626;&#34;&gt;{&lt;/span&gt;T&lt;span style=&#34;color: #262626;&#34;&gt;}&lt;/span&gt; = QR&lt;span style=&#34;color: #262626;&#34;&gt;{&lt;/span&gt;T,typeof&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;factors&lt;span style=&#34;color: #262626;&#34;&gt;)}(&lt;/span&gt;f&lt;span style=&#34;background-color: #f6f0e1;&#34;&gt;actors, &amp;#964;&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #f6f0e1;&#34;&gt;)&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;hungry-delete-mode&#34;&gt;Hungry delete-mode&lt;/h2&gt;
+
+&lt;p&gt;Add this to the mode hook:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;hungry-delete-mode&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;and then backspace and delete will remove all whitespace near the point in the relevant direction.&lt;/p&gt;
+
+&lt;p&gt;In case you are wondering, the theme is &lt;a href=&#34;https://github.com/alezost/alect-themes&#34;&gt;alect-light&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Emacs 25.2 on Ubuntu</title>
+    <link href="https://tpapp.github.io/post/emacs25-ubuntu/"/>
+    <id>https://tpapp.github.io/post/emacs25-ubuntu/</id>
+    <published>2017-07-03T10:49:56+02:00</published>
+    <updated>2017-07-03T10:49:56+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/emacs25-ubuntu/">&lt;p&gt;Emacs is undoubtedly the most important program on my computers. On my
+laptop, I use it to keep track of stuff with &lt;a href=&#34;http://orgmode.org/&#34;&gt;org-mode&lt;/a&gt;, read mail with &lt;a href=&#34;https://www.djcbsoftware.nl/code/mu/mu4e.html&#34;&gt;mu4e&lt;/a&gt;, edit LaTeX with &lt;a href=&#34;https://www.gnu.org/software/auctex/&#34;&gt;AUCTeX&lt;/a&gt;, and of course program. On servers, the first alias I define is usually &lt;code&gt;qe=&#39;emacs -Q -nw&#39;&lt;/code&gt;, which give me a fast and responsive editor. With &lt;a href=&#34;https://github.com/emacs-helm/helm&#34;&gt;helm&lt;/a&gt;, doing just about anything (eg locating files, &lt;code&gt;rgrep&lt;/code&gt;ing for something) is orders of magnitude faster and more convenient than any alternative I have tried.&lt;/p&gt;
+
+&lt;p&gt;I also try to keep up with the latest versions for software in general. Usually, whatever Ubuntu stable/Debian testing has is good enough not to justify the extra effort, but when I really need it, I grab the source and compile. That is usually only a minor hassle, but I try to restrict it to a few critical programs, otherwise it adds up. The major issue is not compiling, but having cruft in the filesystem (despite &lt;a href=&#34;https://www.gnu.org/software/stow/manual/stow.html&#34;&gt;stow&lt;/a&gt; and &lt;a href=&#34;https://wiki.debian.org/CheckInstall&#34;&gt;checkinstall&lt;/a&gt;, it piles up). So I try to avoid it if I can.&lt;/p&gt;
+
+&lt;p&gt;Emacs 25.2 was released in April 2017, but there is no sign of an Ubuntu package for it yet. On various forums the &lt;a href=&#34;https://launchpad.net/~kelleyk/+archive/ubuntu/emacs&#34;&gt;PPA of kelleyk&lt;/a&gt; is recommended, but that does not have 25.2 for 17.04 (some files clash if you install previous versions).&lt;/p&gt;
+
+&lt;p&gt;Fortunately, Robert Bruce Park has now added Emacs 25.2 to the &lt;a href=&#34;https://launchpad.net/~ubuntu-elisp/+archive/ubuntu/ppa&#34;&gt;Ubuntu Emacs Lisp PPA&lt;/a&gt;, so having the latest of your favorite editor is only an &lt;code&gt;add-apt-repository&lt;/code&gt; away. You may want to add a file to &lt;code&gt;/etc/apt/preferences.d&lt;/code&gt; with contents&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Package: *
+Pin: release o=LP-PPA-ubuntu-elisp
+Pin-Priority: 600
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;to make sure the right packages are installed.&lt;/p&gt;
+</content>
+  </entry>
+  
+</feed>

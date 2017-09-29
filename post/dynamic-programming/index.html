@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Continuous-time deterministic dynamic programming in Julia</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.28" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/pastie.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [['$','$'], ['\\(','\\)']],
+          displayMath: [['$$','$$'], ['\[','\]']],
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/economics">economics</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/my-packages">my packages</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/numerical-methods">numerical methods</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/tutorial">tutorial</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/economics">economics</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/my-packages">my packages</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/numerical-methods">numerical methods</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/tutorial">tutorial</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>Continuous-time deterministic dynamic programming in Julia</h1>2017/04/02
+<span class="tags">
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/economics">economics</a>
+    
+    <a href="/tags/tutorial">tutorial</a>
+    
+    <a href="/tags/numerical-methods">numerical methods</a>
+    
+    <a href="/tags/my-packages">my packages</a>
+    
+</span>
+
+
+
+
+
+<p>For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. <a href="https://github.com/tpapp/EconFunctions.jl">EconFunctions.jl</a> is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. <a href="https://github.com/tpapp/ContinuousTransformations.jl">ContinuousTransformations.jl</a> is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally <a href="https://github.com/tpapp/ParametricFunctions.jl">ParametricFunctions.jl</a> is for working with parametric function families.</p>
+
+<p>In this post I use these three to solve a simple, deterministic dynamic programming model in continuous time, known as the Ramsey growth model. If you are not an economist, it is very unlikely that it will make a lot of sense. If you are a student, I added basic references at the end, which are consistent with the methods in this post.</p>
+
+<p><strong>Caveat</strong>: <em>these libraries are in development, I am refining the API and changing things all the time. It is very likely that as time progresses, code in this post will not run without changes.</em> In other words, treat this as a sneak peak into a library which is in development.</p>
+
+<h2 id="theory">Theory</h2>
+
+<p>This is standard material, I am just repeating it so that this post is self-contained. We solve</p>
+
+<p>$$\max \int_0^\infty e^{-\rho t} u(c_t) dt$$
+subject to
+$$\dot{k}_t = F(k_t) - c_t, k_t \ge 0 \forall t.$$</p>
+
+<p>where $u( c )$ is a CRRA utility function with IES $\theta$, $F(k) = A k^\alpha - \delta k$ is a production function that accounts for depreciation. Our problem is described by the Hamilton-Jacobi-Bellman equation</p>
+
+<p>$$\rho V(k) = \max_c u( c ) + (F(k)-c) V&rsquo;(k)$$</p>
+
+<p>Notice that once we have $V$, the first-order condition</p>
+
+<p>$$u&rsquo;(c(k)) = V&rsquo;(k)$$</p>
+
+<p>yields the policy function $c(k)$, which we are interested in. Combining the envelope condition</p>
+
+<p>$$\rho V&rsquo;(k) = F&rsquo;(k) V&rsquo;(k) + (F(k)-c) V{&lsquo;}{&rsquo;}(k)$$</p>
+
+<p>and using the functional form for CRRA utility, we obtain</p>
+
+<p>$$\frac{c&rsquo;(k)}{c(k)} (F(k)-c(k)) = \frac{1}{\theta} (F&rsquo;(k)-\rho)$$</p>
+
+<p>which is a recursive form of the so-called Euler equation.</p>
+
+<p>Also, note that we can characterize the steady state capital and consumption by</p>
+
+<p>$$k_s = \left(\frac{\delta+\rho}{A\alpha}\right)^{1/(\alpha-1)}$$</p>
+
+<p>and</p>
+
+<p>$$c_s = F(k_s)$$</p>
+
+<h2 id="julia-code-solving-the-euler-equation">Julia code: solving the Euler equation</h2>
+
+<p>Load the libraries (you need to clone some code, as the packages are not registered).</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s3e8">using</span> ParametricFunctions       <span class="s1770"># unregistered, clone from repo</span>
+<span class="s3e8">using</span> ContinuousTransformations <span class="s1770"># unregistered, clone from repo</span>
+<span class="s3e8">using</span> EconFunctions             <span class="s1770"># unregistered, clone from repo</span>
+<span class="s3e8">using</span> Plots; gr()
+<span class="s3e8">using</span> Parameters
+<span class="s3e8">using</span> NLsolve</code></pre>
+</div>
+<p>It is useful to put model parameters in a single structure.</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="sc1c">&#34;&#34;&#34;
+</span><span class="sc1c">Very simple (normalized) Ramsey model with isoelastic production
+</span><span class="sc1c">function and utility.
+</span><span class="sc1c">&#34;&#34;&#34;</span>
+<span class="s7d6">@with_kw</span> <span class="s3e8">immutable</span> RamseyModel{T}
+    θ<span class="sfa0">::</span>T                        <span class="s1770"># IES</span>
+    α<span class="sfa0">::</span>T                        <span class="s1770"># capital share</span>
+    A<span class="sfa0">::</span>T                        <span class="s1770"># TFP</span>
+    ρ<span class="sfa0">::</span>T                        <span class="s1770"># discount rate</span>
+    δ<span class="sfa0">::</span>T                        <span class="s1770"># depreciation</span>
+<span class="s3e8">end</span></code></pre>
+</div>
+<p>This is the key part: we code the residual for the Euler equation. The function should take the model (which contains the parameters), a function $c$ that has been constructed using a function family and a set of parameters, and a scalar $k$, at which we evaluate the residual above. Everything else can be automated very well.</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="sc1c">&#34;&#34;&#34;
+</span><span class="sc1c">Residual of the Euler equation.
+</span><span class="sc1c">&#34;&#34;&#34;</span>
+<span class="s3e8">function</span> euler_residual(model<span class="sfa0">::</span>RamseyModel, c, k)
+    <span class="s7d6">@unpack</span> θ, ρ, α, A, δ <span class="sfa0">=</span> model
+    Fk <span class="sfa0">=</span> A<span class="sfa0">*</span>k<span class="sfa0">^</span>α <span class="sfa0">-</span> δ<span class="sfa0">*</span>k
+    F′k <span class="sfa0">=</span> A<span class="sfa0">*</span>α<span class="sfa0">*</span>k<span class="sfa0">^</span>(α<span class="sfa0">-</span><span class="sc84">1</span>) <span class="sfa0">-</span> δ
+    ck, c′k <span class="sfa0">=</span> c(ValuePartial(k))
+    (c′k<span class="sfa0">/</span>ck)<span class="sfa0">*</span>(Fk<span class="sfa0">-</span>ck) <span class="sfa0">-</span> <span class="sc84">1</span><span class="sfa0">/</span>θ<span class="sfa0">*</span>(F′k<span class="sfa0">-</span>ρ)
+<span class="s3e8">end</span></code></pre>
+</div>
+<p>Above, <code>c</code> can be treated like an ordinary function, except that if you call it with <code>ValuePartial(x)</code>, you get the value <em>and</em> the derivative.</p>
+
+<p>The steady state will be handy:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="sc1c">&#34;Return the steady state capital and consumption for the model.&#34;</span>
+<span class="s3e8">function</span> steady_state(model<span class="sfa0">::</span>RamseyModel)
+    <span class="s7d6">@unpack</span> α, A, ρ, δ <span class="sfa0">=</span> model
+    k <span class="sfa0">=</span> ((δ<span class="sfa0">+</span>ρ)<span class="sfa0">/</span>(A<span class="sfa0">*</span>α))<span class="sfa0">^</span>(<span class="sc84">1</span><span class="sfa0">/</span>(α<span class="sfa0">-</span><span class="sc84">1</span>))
+    c <span class="sfa0">=</span> A<span class="sfa0">*</span>k<span class="sfa0">^</span>α <span class="sfa0">-</span> δ<span class="sfa0">*</span>k
+    k, c
+<span class="s3e8">end</span></code></pre>
+</div>
+<p>Let&rsquo;s make a model object (parameters are pretty standard), and calculate the steady state:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">model <span class="sfa0">=</span> RamseyModel(θ <span class="sfa0">=</span> <span class="sc82">2.0</span>, α <span class="sfa0">=</span> <span class="sc82">0.3</span>, A <span class="sfa0">=</span> <span class="sc82">1.0</span>, ρ <span class="sfa0">=</span> <span class="sc82">0.02</span>, δ <span class="sfa0">=</span> <span class="sc82">0.05</span>)
+
+kₛ, cₛ <span class="sfa0">=</span> steady_state(model)</code></pre>
+</div>
+<p>We will solve in a domain around the steady state capital.</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">kdom <span class="sfa0">=</span> (<span class="sc82">0.5</span><span class="sfa0">*</span>kₛ)<span class="sfa0">..</span>(<span class="sc84">2</span><span class="sfa0">*</span>kₛ)</code></pre>
+</div>
+<p>Given the pieces above, obtaining the solution can be done very conscisely: create a residual object, which is basically a mapping from parameters to the function family to the residuals:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">res <span class="sfa0">=</span> CollocationResidual(model, DomainTrans(kdom, Chebyshev(<span class="sc84">10</span>)),
+                          euler_residual)</code></pre>
+</div>
+<p>The above say that we want 10 Chebyshev polynomials, transformed to the domain <code>kdom</code>, to be used for constructing the $c(k)$.</p>
+
+<p>We call the solver, providing an initial guess, $c(k) = k\cdot c_s/k_s$, for the policy function $c(k)$. The guess is that consumption is linear in capital, and the line goes through the steady state values. Other reasonable guesses are possible, but note that it is worthwhile thinking a bit about a good one, so that you get fast convergence.</p>
+
+<p>The function below fits a parametric function from the given family to the initial guess, then solves for the residual being $0$ using <code>NLsolve</code> with automatic differentiation under the hood.</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">c_sol, o <span class="sfa0">=</span> solve_collocation(res, k<span class="sfa0">-&gt;</span>cₛ<span class="sfa0">*</span>k<span class="sfa0">/</span>kₛ; ftol<span class="sfa0">=</span><span class="sc82">1e-10</span>,
+                             method <span class="sfa0">=</span> <span class="sfa0">:</span>newton)</code></pre>
+</div>
+<p>Convergence statistics:</p>
+
+<pre><code>Results of Nonlinear Solver Algorithm
+ * Algorithm: Newton with line-search
+ * Starting Point: [1.83249,1.09949,7.10543e-16,4.44089e-16,-1.77636e-16,-8
+.88178e-17,-8.43769e-16,1.64313e-15,1.33227e-16,3.10862e-16]
+ * Zero: [1.57794,0.433992,-0.0360164,0.00624848,-0.00134301,0.000320829,-8
+.21347e-5,2.28742e-5,-6.85183e-6,1.48105e-6]
+ * Inf-norm of residuals: 0.000000
+ * Iterations: 6
+ * Convergence: true
+   * |x - x'| &lt; 0.0e+00: false
+   * |f(x)| &lt; 1.0e-10: true
+ * Function Calls (f): 7
+ * Jacobian Calls (df/dx): 6
+</code></pre>
+
+<p>Overall, pretty good, very few iterations. We plot the resulting function:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">plot(c_sol, xlab <span class="sfa0">=</span> <span class="sc1c">&#34;k&#34;</span>, ylab <span class="sfa0">=</span> <span class="sc1c">&#34;c(k)&#34;</span>, legend <span class="sfa0">=</span> <span class="s3e8">false</span>)
+scatter!([kₛ], [cₛ])</code></pre>
+</div>
+
+<figure >
+    
+        <img src="../figures/dynamic-programming_10_1.svg" />
+    
+    
+</figure>
+
+
+<p>Notive how the collocation nodes are added automatically (this is done with a plot recipe). It should, of course, go thought the steady state.</p>
+
+<p>It is very important to plot the residual:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">plot(k<span class="sfa0">-&gt;</span>euler_residual(model, c_sol, k), linspace(kdom, <span class="sc84">100</span>),
+     legend <span class="sfa0">=</span> <span class="s3e8">false</span>, xlab<span class="sfa0">=</span><span class="sc1c">&#34;k&#34;</span>, ylab<span class="sfa0">=</span><span class="sc1c">&#34;Euler residual&#34;</span>)
+scatter!(zero, points(c_sol))</code></pre>
+</div>
+
+<figure >
+    
+        <img src="../figures/dynamic-programming_11_1.svg" />
+    
+    
+</figure>
+
+
+<p>Note the near-equioscillation property, which you get from using Chebyshev polynomials. You get $10^{-6}$ accuracy, which is neat (but note that this is a simple textbook problem, very smooth and tractable).</p>
+
+<h2 id="selected-reading">Selected reading</h2>
+
+<p>Acemoglu, Daron. Introduction to modern economic growth. Princeton University Press, 2008. <em>Chapter 8.</em></p>
+
+<p>Miranda, Mario J., and Paul L. Fackler. Applied computational economics and finance. MIT press, 2004. <em>Chapters 10 and 11</em>.</p>
+
+
+
+<div id="pagenav">
+  
+  <span class="pagenav-label">next:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/privacy-badger/">Disabling Privacy Badger</a>
+  
+  
+  
+  <br/>
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/blogging-weave-julia-hugo/">Blogging with Hugo, Julia, Weave.jl</a>
+  
+</div>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+
