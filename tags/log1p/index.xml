@@ -1,27 +1,135 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Log1p on Tamás K. Papp&#39;s website</title>
-    <link>http://tpapp.github.io/tags/log1p/</link>
-    <description>Recent content in Log1p on Tamás K. Papp&#39;s website</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
-    <lastBuildDate>Wed, 13 Sep 2017 11:18:59 +0200</lastBuildDate>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Log1ponTamás K. Papp&#39;s website</title>
+  <link href="http://tpapp.github.io/index.xml" rel="self"/>
+  <link href="http://tpapp.github.io/tags/log1p/"/>
+  <updated>2017-09-13T11:18:59+02:00</updated>
+  
+  <id>http://tpapp.github.io/tags/log1p/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">log1p in Julia</title>
+    <link href="http://tpapp.github.io/post/log1p/"/>
+    <id>http://tpapp.github.io/post/log1p/</id>
+    <published>2017-09-13T11:18:59+02:00</published>
+    <updated>2017-09-13T11:18:59+02:00</updated>
     
-	<atom:link href="http://tpapp.github.io/tags/log1p/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>log1p in Julia</title>
-      <link>http://tpapp.github.io/post/log1p/</link>
-      <pubDate>Wed, 13 Sep 2017 11:18:59 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/log1p/</guid>
-      <description>edit: fixed bogus interaction of MathJax and code highlighting.
-edit2: added benchmarks.
-This is a follow-up on a question I asked on the Julia forums about calculating [ \text{log1p}(x) = \log(1+x) ] This calculation is tricky because if $x \approx 0$, [ \log(1+x) \approx x ] while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using log(1+x) will not be as accurate as it could be. Numerical analysts have developed specialized methods for these calculations that try to get an accurate answer, and all programming languages serious about numerical calculations have an implementation either in the core language or a library.</description>
-    </item>
-    
-  </channel>
-</rss>
+    <content type="html" xml:base="http://tpapp.github.io/post/log1p/">
+
+&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;edit&amp;lt;/em&amp;gt;: fixed bogus interaction of MathJax and code highlighting.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;edit2&amp;lt;/em&amp;gt;: added benchmarks.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;This is a follow-up on a &amp;lt;a href=&amp;#34;https://discourse.julialang.org/t/log1p-in-base-vs-base-math-julialibm/5852&amp;#34;&amp;gt;question&amp;lt;/a&amp;gt; I asked on the Julia forums about calculating
+[
+\text{log1p}(x) = \log(1&#43;x)
+]
+This calculation is tricky because if $x \approx 0$,
+[
+\log(1&#43;x) \approx x
+]
+while as $x \to \infty$, $\log(1&#43;x)$ approaches $\log(x)$, so simply using &amp;lt;code&amp;gt;log(1&#43;x)&amp;lt;/code&amp;gt; will not be as accurate as it could be. Numerical analysts have developed specialized methods for these calculations that try to get an accurate answer, and all programming languages serious about numerical calculations have an implementation either in the core language or a library.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Julia&amp;amp;rsquo;s &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt; currently suggests that &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; would be preferable, but then I was wondering why isn&amp;amp;rsquo;t that the default? So I decided to perform a trivial numerical experiment, calculating the error for both, and also benchmark the two methods.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;accuracy&amp;#34;&amp;gt;Accuracy&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;The key question is what to compare the results with. One could compare to an existing &amp;amp;ldquo;gold standard&amp;amp;rdquo; implementation, or simply calculate the results using a higher precision representation. Fortunately, Julia has &amp;lt;code&amp;gt;BigFloat&amp;lt;/code&amp;gt;s available right out of the box.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The graph below shows the base-2 logarithm of the &amp;lt;em&amp;gt;relative&amp;lt;/em&amp;gt; error for &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt; vs $\log_2(1&#43;x)$; horizontal lines are &amp;lt;code&amp;gt;log2(eps())&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;log2(eps())&#43;1&amp;lt;/code&amp;gt;. This suggests that &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt; is &amp;lt;em&amp;gt;very accurate&amp;lt;/em&amp;gt;, but not as good as it could be when $x \approx 0$.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;Base_log1p_error.svg&amp;#34; alt=&amp;#34;Base.log1p error&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The next plot shows the relative accuracy of the relative error above, comparing &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; to &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt; (lower values better). In these simulations, &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; is never worse, but sometimes significantly better (resulting in an extra binary digit of accuracy). This matters especially when $x \approx 0$.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;JuliaLibm_improvement.svg&amp;#34; alt=&amp;#34;relative log2 acccuracy improvement over Base.log1p&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The next plot confirms this.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;JuliaLibm_log1p_error.svg&amp;#34; alt=&amp;#34;JuliaLibm log1p error&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;speed&amp;#34;&amp;gt;Speed&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;I also evaluated relative speed. The graph below shows the relative runtimes, obtained using &amp;lt;code&amp;gt;BenchmarkTools.@belapsed&amp;lt;/code&amp;gt;. Values below $1$ mean that &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; is faster: indeed, this seems to be the case except for values very close to $0$, where there is a 10&amp;amp;ndash;20% performance penalty. At other values, &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; is 30&amp;amp;ndash;40% &amp;lt;em&amp;gt;faster&amp;lt;/em&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;relative_time.svg&amp;#34; alt=&amp;#34;relative time&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;conclusion&amp;#34;&amp;gt;Conclusion&amp;lt;/h2&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;For values near $0$, &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; is more accurate, at a slight performance cost.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;For values away from $0$, it is at least as accurate as &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt;, and 30&amp;amp;ndash;40% faster.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;p&amp;gt;To me, this suggests that &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; should be the default method &amp;amp;mdash; mostly because the extra accuracy is more important to me than the slight performance cost.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Code is available below.&amp;lt;/p&amp;gt;
+
+
+
+
+&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/log1p/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# consistent random numbers&amp;lt;/span&amp;gt;
+srand(&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;UInt32&amp;lt;/span&amp;gt;[&amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0xfd909253&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x7859c364&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x7cd42419&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x4c06a3b6&amp;lt;/span&amp;gt;])
+
+&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;    err(x, [prec])
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Return two values, which are the log2 relative errors for calculating
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;`log1p(x)`, using `Base.log1p` and `Base.Math.JuliaLibm.log1p`.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;The errors are calculated by compating to `BigFloat` calculations with the given
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;precision `prec`.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; err(x, prec &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1024&amp;lt;/span&amp;gt;)
+    yb &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; log(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;BigFloat&amp;lt;/span&amp;gt;(x, prec))
+    e2(y) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Float64&amp;lt;/span&amp;gt;(log2(abs(y&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;yb)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;abs(yb)))
+    e2(log1p(x)), e2(Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;Math&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;JuliaLibm&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;log1p(x))
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+
+z &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; exp&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(randn(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;20000&amp;lt;/span&amp;gt;)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;10&amp;lt;/span&amp;gt;)       &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# z &amp;amp;gt; 0, Lognormal(0, 10)&amp;lt;/span&amp;gt;
+x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; z &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.-&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;                      &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# x &amp;amp;gt; -1&amp;lt;/span&amp;gt;
+es &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; map(err, x)                &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# errors&amp;lt;/span&amp;gt;
+
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Plots; gr()               &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# plots&amp;lt;/span&amp;gt;
+
+scatter(log2&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(z), first&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(es), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2(x&#43;1)&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2 error of Base.log1p&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+hline!(log2(eps())&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;[&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;,&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;])
+Plots&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;svg(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Base_log1p_error.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+scatter(log2&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(z), last&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(es) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.-&amp;lt;/span&amp;gt; first&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(es), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2(x&#43;1)&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;improvement (Base.Math.JuliaLibm.log1p)&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+Plots&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;svg(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;JuliaLibm_improvement.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+scatter(log2&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(z), last&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(es), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2(x&#43;1)&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2 error of Base.Math.JuliaLibm.log1p&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+hline!(log2(eps())&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;[&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;,&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;])
+Plots&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;svg(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;JuliaLibm_log1p_error.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# WARNING: these run for a very long time&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; BenchmarkTools
+
+z &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; exp&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(vcat(randn(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;200&amp;lt;/span&amp;gt;)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;10&amp;lt;/span&amp;gt;, rand(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;200&amp;lt;/span&amp;gt;)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.1&amp;lt;/span&amp;gt;)) &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# z &amp;amp;gt; 0, more values around &amp;lt;/span&amp;gt;
+x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; z &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.-&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;                                   &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# x &amp;amp;gt; -1&amp;lt;/span&amp;gt;
+b1 &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; [&amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@belapsed&amp;lt;/span&amp;gt; log1p(&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;$&amp;lt;/span&amp;gt;x) &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;for&amp;lt;/span&amp;gt; x &amp;lt;span class=&amp;#34;s3ec&amp;#34;&amp;gt;in&amp;lt;/span&amp;gt; x]        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# WARNING: takes forever&amp;lt;/span&amp;gt;
+b2 &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; [&amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@belapsed&amp;lt;/span&amp;gt; Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;Math&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;JuliaLibm&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;log1p(&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;$&amp;lt;/span&amp;gt;x) &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;for&amp;lt;/span&amp;gt; x &amp;lt;span class=&amp;#34;s3ec&amp;#34;&amp;gt;in&amp;lt;/span&amp;gt; x] &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# ditto&amp;lt;/span&amp;gt;
+
+scatter(log2&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(z), b2 &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;./&amp;lt;/span&amp;gt; b1, xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2(x&#43;1)&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;time Math.JuliaLibm.log1p / log1p&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;, yticks &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.2&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;1.2&amp;lt;/span&amp;gt;)
+hline!([&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;])
+Plots&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;svg(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;relative_time.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+
+</content>
+  </entry>
+  
+</feed>

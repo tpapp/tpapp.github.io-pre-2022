@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Software on Tamás K. Papp&#39;s website</title>
-    <link>http://tpapp.github.io/software/</link>
-    <description>Recent content in Software on Tamás K. Papp&#39;s website</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
-    <lastBuildDate>Sun, 11 Jun 2017 14:48:06 +0200</lastBuildDate>
-    
-	<atom:link href="http://tpapp.github.io/software/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-  </channel>
-</rss>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>SoftwareonTamás K. Papp&#39;s website</title>
+  <link href="http://tpapp.github.io/index.xml" rel="self"/>
+  <link href="http://tpapp.github.io/software/"/>
+  <updated>2017-06-11T14:48:06+02:00</updated>
+  
+  <id>http://tpapp.github.io/software/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+</feed>

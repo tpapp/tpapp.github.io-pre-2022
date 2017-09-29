@@ -1,25 +1,185 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Economics on Tamás K. Papp&#39;s website</title>
-    <link>http://tpapp.github.io/tags/economics/</link>
-    <description>Recent content in Economics on Tamás K. Papp&#39;s website</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
-    <lastBuildDate>Sun, 02 Apr 2017 19:06:04 +0200</lastBuildDate>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>EconomicsonTamás K. Papp&#39;s website</title>
+  <link href="http://tpapp.github.io/index.xml" rel="self"/>
+  <link href="http://tpapp.github.io/tags/economics/"/>
+  <updated>2017-04-02T19:06:04+02:00</updated>
+  
+  <id>http://tpapp.github.io/tags/economics/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Continuous-time deterministic dynamic programming in Julia</title>
+    <link href="http://tpapp.github.io/post/dynamic-programming/"/>
+    <id>http://tpapp.github.io/post/dynamic-programming/</id>
+    <published>2017-04-02T19:06:04+02:00</published>
+    <updated>2017-04-02T19:06:04+02:00</updated>
     
-	<atom:link href="http://tpapp.github.io/tags/economics/index.xml" rel="self" type="application/rss+xml" />
+    <content type="html" xml:base="http://tpapp.github.io/post/dynamic-programming/">
+
+&amp;lt;p&amp;gt;For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. &amp;lt;a href=&amp;#34;https://github.com/tpapp/EconFunctions.jl&amp;#34;&amp;gt;EconFunctions.jl&amp;lt;/a&amp;gt; is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. &amp;lt;a href=&amp;#34;https://github.com/tpapp/ContinuousTransformations.jl&amp;#34;&amp;gt;ContinuousTransformations.jl&amp;lt;/a&amp;gt; is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally &amp;lt;a href=&amp;#34;https://github.com/tpapp/ParametricFunctions.jl&amp;#34;&amp;gt;ParametricFunctions.jl&amp;lt;/a&amp;gt; is for working with parametric function families.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;In this post I use these three to solve a simple, deterministic dynamic programming model in continuous time, known as the Ramsey growth model. If you are not an economist, it is very unlikely that it will make a lot of sense. If you are a student, I added basic references at the end, which are consistent with the methods in this post.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Caveat&amp;lt;/strong&amp;gt;: &amp;lt;em&amp;gt;these libraries are in development, I am refining the API and changing things all the time. It is very likely that as time progresses, code in this post will not run without changes.&amp;lt;/em&amp;gt; In other words, treat this as a sneak peak into a library which is in development.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;theory&amp;#34;&amp;gt;Theory&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;This is standard material, I am just repeating it so that this post is self-contained. We solve&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\max \int_0^\infty e^{-\rho t} u(c_t) dt$$
+subject to
+$$\dot{k}_t = F(k_t) - c_t, k_t \ge 0 \forall t.$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;where $u( c )$ is a CRRA utility function with IES $\theta$, $F(k) = A k^\alpha - \delta k$ is a production function that accounts for depreciation. Our problem is described by the Hamilton-Jacobi-Bellman equation&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\rho V(k) = \max_c u( c ) &#43; (F(k)-c) V&amp;amp;rsquo;(k)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Notice that once we have $V$, the first-order condition&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$u&amp;amp;rsquo;(c(k)) = V&amp;amp;rsquo;(k)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;yields the policy function $c(k)$, which we are interested in. Combining the envelope condition&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\rho V&amp;amp;rsquo;(k) = F&amp;amp;rsquo;(k) V&amp;amp;rsquo;(k) &#43; (F(k)-c) V{&amp;amp;lsquo;}{&amp;amp;rsquo;}(k)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;and using the functional form for CRRA utility, we obtain&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\frac{c&amp;amp;rsquo;(k)}{c(k)} (F(k)-c(k)) = \frac{1}{\theta} (F&amp;amp;rsquo;(k)-\rho)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;which is a recursive form of the so-called Euler equation.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Also, note that we can characterize the steady state capital and consumption by&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$k_s = \left(\frac{\delta&#43;\rho}{A\alpha}\right)^{1/(\alpha-1)}$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;and&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$c_s = F(k_s)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;julia-code-solving-the-euler-equation&amp;#34;&amp;gt;Julia code: solving the Euler equation&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Load the libraries (you need to clone some code, as the packages are not registered).&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; ParametricFunctions       &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# unregistered, clone from repo&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; ContinuousTransformations &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# unregistered, clone from repo&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; EconFunctions             &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# unregistered, clone from repo&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Plots; gr()
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Parameters
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; NLsolve&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;It is useful to put model parameters in a single structure.&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Very simple (normalized) Ramsey model with isoelastic production
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;function and utility.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@with_kw&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;immutable&amp;lt;/span&amp;gt; RamseyModel{T}
+    θ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# IES&amp;lt;/span&amp;gt;
+    α&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# capital share&amp;lt;/span&amp;gt;
+    A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# TFP&amp;lt;/span&amp;gt;
+    ρ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# discount rate&amp;lt;/span&amp;gt;
+    δ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# depreciation&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;This is the key part: we code the residual for the Euler equation. The function should take the model (which contains the parameters), a function $c$ that has been constructed using a function family and a set of parameters, and a scalar $k$, at which we evaluate the residual above. Everything else can be automated very well.&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Residual of the Euler equation.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; euler_residual(model&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;RamseyModel, c, k)
+    &amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@unpack&amp;lt;/span&amp;gt; θ, ρ, α, A, δ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; model
+    Fk &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;^&amp;lt;/span&amp;gt;α &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt; δ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k
+    F′k &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;α&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;^&amp;lt;/span&amp;gt;(α&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt; δ
+    ck, c′k &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; c(ValuePartial(k))
+    (c′k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;ck)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;(Fk&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;ck) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;θ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;(F′k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;ρ)
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Above, &amp;lt;code&amp;gt;c&amp;lt;/code&amp;gt; can be treated like an ordinary function, except that if you call it with &amp;lt;code&amp;gt;ValuePartial(x)&amp;lt;/code&amp;gt;, you get the value &amp;lt;em&amp;gt;and&amp;lt;/em&amp;gt; the derivative.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The steady state will be handy:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Return the steady state capital and consumption for the model.&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; steady_state(model&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;RamseyModel)
+    &amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@unpack&amp;lt;/span&amp;gt; α, A, ρ, δ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; model
+    k &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; ((δ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;ρ)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;(A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;α))&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;^&amp;lt;/span&amp;gt;(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;(α&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;))
+    c &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;^&amp;lt;/span&amp;gt;α &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt; δ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k
+    k, c
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Let&amp;amp;rsquo;s make a model object (parameters are pretty standard), and calculate the steady state:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;model &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; RamseyModel(θ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;2.0&amp;lt;/span&amp;gt;, α &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.3&amp;lt;/span&amp;gt;, A &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;1.0&amp;lt;/span&amp;gt;, ρ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.02&amp;lt;/span&amp;gt;, δ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.05&amp;lt;/span&amp;gt;)
+
+kₛ, cₛ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; steady_state(model)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;We will solve in a domain around the steady state capital.&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;kdom &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.5&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;kₛ)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;..&amp;lt;/span&amp;gt;(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;2&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;kₛ)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Given the pieces above, obtaining the solution can be done very conscisely: create a residual object, which is basically a mapping from parameters to the function family to the residuals:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;res &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; CollocationResidual(model, DomainTrans(kdom, Chebyshev(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;10&amp;lt;/span&amp;gt;)),
+                          euler_residual)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;The above say that we want 10 Chebyshev polynomials, transformed to the domain &amp;lt;code&amp;gt;kdom&amp;lt;/code&amp;gt;, to be used for constructing the $c(k)$.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;We call the solver, providing an initial guess, $c(k) = k\cdot c_s/k_s$, for the policy function $c(k)$. The guess is that consumption is linear in capital, and the line goes through the steady state values. Other reasonable guesses are possible, but note that it is worthwhile thinking a bit about a good one, so that you get fast convergence.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The function below fits a parametric function from the given family to the initial guess, then solves for the residual being $0$ using &amp;lt;code&amp;gt;NLsolve&amp;lt;/code&amp;gt; with automatic differentiation under the hood.&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;c_sol, o &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; solve_collocation(res, k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;amp;gt;&amp;lt;/span&amp;gt;cₛ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;kₛ; ftol&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;1e-10&amp;lt;/span&amp;gt;,
+                             method &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;newton)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Convergence statistics:&amp;lt;/p&amp;gt;
+
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;Results of Nonlinear Solver Algorithm
+ * Algorithm: Newton with line-search
+ * Starting Point: [1.83249,1.09949,7.10543e-16,4.44089e-16,-1.77636e-16,-8
+.88178e-17,-8.43769e-16,1.64313e-15,1.33227e-16,3.10862e-16]
+ * Zero: [1.57794,0.433992,-0.0360164,0.00624848,-0.00134301,0.000320829,-8
+.21347e-5,2.28742e-5,-6.85183e-6,1.48105e-6]
+ * Inf-norm of residuals: 0.000000
+ * Iterations: 6
+ * Convergence: true
+   * |x - x&amp;#39;| &amp;amp;lt; 0.0e&#43;00: false
+   * |f(x)| &amp;amp;lt; 1.0e-10: true
+ * Function Calls (f): 7
+ * Jacobian Calls (df/dx): 6
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+
+&amp;lt;p&amp;gt;Overall, pretty good, very few iterations. We plot the resulting function:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;plot(c_sol, xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;k&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;c(k)&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+scatter!([kₛ], [cₛ])&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;figure &amp;gt;
+    
+        &amp;lt;img src=&amp;#34;../figures/dynamic-programming_10_1.svg&amp;#34; /&amp;gt;
     
     
-    <item>
-      <title>Continuous-time deterministic dynamic programming in Julia</title>
-      <link>http://tpapp.github.io/post/dynamic-programming/</link>
-      <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/dynamic-programming/</guid>
-      <description>For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. EconFunctions.jl is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. ContinuousTransformations.jl is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally ParametricFunctions.jl is for working with parametric function families.</description>
-    </item>
+&amp;lt;/figure&amp;gt;
+
+
+&amp;lt;p&amp;gt;Notive how the collocation nodes are added automatically (this is done with a plot recipe). It should, of course, go thought the steady state.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;It is very important to plot the residual:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;plot(k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;amp;gt;&amp;lt;/span&amp;gt;euler_residual(model, c_sol, k), linspace(kdom, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;100&amp;lt;/span&amp;gt;),
+     legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;, xlab&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;k&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Euler residual&amp;amp;#34;&amp;lt;/span&amp;gt;)
+scatter!(zero, points(c_sol))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;figure &amp;gt;
     
-  </channel>
-</rss>
+        &amp;lt;img src=&amp;#34;../figures/dynamic-programming_11_1.svg&amp;#34; /&amp;gt;
+    
+    
+&amp;lt;/figure&amp;gt;
+
+
+&amp;lt;p&amp;gt;Note the near-equioscillation property, which you get from using Chebyshev polynomials. You get $10^{-6}$ accuracy, which is neat (but note that this is a simple textbook problem, very smooth and tractable).&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;selected-reading&amp;#34;&amp;gt;Selected reading&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Acemoglu, Daron. Introduction to modern economic growth. Princeton University Press, 2008. &amp;lt;em&amp;gt;Chapter 8.&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Miranda, Mario J., and Paul L. Fackler. Applied computational economics and finance. MIT press, 2004. &amp;lt;em&amp;gt;Chapters 10 and 11&amp;lt;/em&amp;gt;.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+</feed>

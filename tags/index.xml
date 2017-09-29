@@ -1,259 +1,284 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Tags on Tamás K. Papp&#39;s website</title>
-    <link>http://tpapp.github.io/tags/</link>
-    <description>Recent content in Tags on Tamás K. Papp&#39;s website</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
-    <lastBuildDate>Fri, 15 Sep 2017 16:03:10 +0200</lastBuildDate>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>TagsonTamás K. Papp&#39;s website</title>
+  <link href="http://tpapp.github.io/index.xml" rel="self"/>
+  <link href="http://tpapp.github.io/tags/"/>
+  <updated>2017-09-15T16:03:10+02:00</updated>
+  
+  <id>http://tpapp.github.io/tags/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Automatic differentiation</title>
+    <link href="http://tpapp.github.io/tags/automatic-differentiation/"/>
+    <id>http://tpapp.github.io/tags/automatic-differentiation/</id>
+    <published>2017-09-15T16:03:10+02:00</published>
+    <updated>2017-09-15T16:03:10+02:00</updated>
     
-	<atom:link href="http://tpapp.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <content type="html" xml:base="http://tpapp.github.io/tags/automatic-differentiation/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Bayesian</title>
+    <link href="http://tpapp.github.io/tags/bayesian/"/>
+    <id>http://tpapp.github.io/tags/bayesian/</id>
+    <published>2017-06-12T16:25:57+02:00</published>
+    <updated>2017-06-12T16:25:57+02:00</updated>
     
+    <content type="html" xml:base="http://tpapp.github.io/tags/bayesian/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Blogging</title>
+    <link href="http://tpapp.github.io/tags/blogging/"/>
+    <id>http://tpapp.github.io/tags/blogging/</id>
+    <published>2017-06-12T14:12:43+02:00</published>
+    <updated>2017-06-12T14:12:43+02:00</updated>
     
-    <item>
-      <title>Automatic differentiation</title>
-      <link>http://tpapp.github.io/tags/automatic-differentiation/</link>
-      <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/automatic-differentiation/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/blogging/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Browser plugins</title>
+    <link href="http://tpapp.github.io/tags/browser-plugins/"/>
+    <id>http://tpapp.github.io/tags/browser-plugins/</id>
+    <published>2017-05-02T16:35:37+02:00</published>
+    <updated>2017-05-02T16:35:37+02:00</updated>
     
-    <item>
-      <title>Bayesian</title>
-      <link>http://tpapp.github.io/tags/bayesian/</link>
-      <pubDate>Mon, 12 Jun 2017 16:25:57 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/bayesian/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/browser-plugins/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Economics</title>
+    <link href="http://tpapp.github.io/tags/economics/"/>
+    <id>http://tpapp.github.io/tags/economics/</id>
+    <published>2017-04-02T19:06:04+02:00</published>
+    <updated>2017-04-02T19:06:04+02:00</updated>
     
-    <item>
-      <title>Blogging</title>
-      <link>http://tpapp.github.io/tags/blogging/</link>
-      <pubDate>Mon, 12 Jun 2017 14:12:43 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/blogging/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/economics/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Emacs</title>
+    <link href="http://tpapp.github.io/tags/emacs/"/>
+    <id>http://tpapp.github.io/tags/emacs/</id>
+    <published>2017-09-29T19:55:44+02:00</published>
+    <updated>2017-09-29T19:55:44+02:00</updated>
     
-    <item>
-      <title>Browser plugins</title>
-      <link>http://tpapp.github.io/tags/browser-plugins/</link>
-      <pubDate>Tue, 02 May 2017 16:35:37 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/browser-plugins/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/emacs/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Emacs25</title>
+    <link href="http://tpapp.github.io/tags/emacs25/"/>
+    <id>http://tpapp.github.io/tags/emacs25/</id>
+    <published>2017-07-03T10:49:56+02:00</published>
+    <updated>2017-07-03T10:49:56+02:00</updated>
     
-    <item>
-      <title>Economics</title>
-      <link>http://tpapp.github.io/tags/economics/</link>
-      <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/economics/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/emacs25/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Firefox</title>
+    <link href="http://tpapp.github.io/tags/firefox/"/>
+    <id>http://tpapp.github.io/tags/firefox/</id>
+    <published>2017-05-02T16:35:37+02:00</published>
+    <updated>2017-05-02T16:35:37+02:00</updated>
     
-    <item>
-      <title>Emacs</title>
-      <link>http://tpapp.github.io/tags/emacs/</link>
-      <pubDate>Mon, 28 Aug 2017 14:41:58 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/emacs/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/firefox/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">ForwardDiff</title>
+    <link href="http://tpapp.github.io/tags/forwarddiff/"/>
+    <id>http://tpapp.github.io/tags/forwarddiff/</id>
+    <published>2017-09-15T16:03:10+02:00</published>
+    <updated>2017-09-15T16:03:10+02:00</updated>
     
-    <item>
-      <title>Emacs25</title>
-      <link>http://tpapp.github.io/tags/emacs25/</link>
-      <pubDate>Mon, 03 Jul 2017 10:49:56 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/emacs25/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/forwarddiff/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Hugo</title>
+    <link href="http://tpapp.github.io/tags/hugo/"/>
+    <id>http://tpapp.github.io/tags/hugo/</id>
+    <published>2017-03-03T13:11:53+01:00</published>
+    <updated>2017-03-03T13:11:53+01:00</updated>
     
-    <item>
-      <title>Firefox</title>
-      <link>http://tpapp.github.io/tags/firefox/</link>
-      <pubDate>Tue, 02 May 2017 16:35:37 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/firefox/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/hugo/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Hugo</title>
+    <link href="http://tpapp.github.io/tags/hugo/"/>
+    <id>http://tpapp.github.io/tags/hugo/</id>
+    <published>2017-09-29T19:55:44+02:00</published>
+    <updated>2017-09-29T19:55:44+02:00</updated>
     
-    <item>
-      <title>ForwardDiff</title>
-      <link>http://tpapp.github.io/tags/forwarddiff/</link>
-      <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/forwarddiff/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/hugo/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Jacobian</title>
+    <link href="http://tpapp.github.io/tags/jacobian/"/>
+    <id>http://tpapp.github.io/tags/jacobian/</id>
+    <published>2017-05-23T16:39:26+02:00</published>
+    <updated>2017-05-23T16:39:26+02:00</updated>
     
-    <item>
-      <title>Hugo</title>
-      <link>http://tpapp.github.io/tags/hugo/</link>
-      <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/hugo/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/jacobian/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Julia</title>
+    <link href="http://tpapp.github.io/tags/julia/"/>
+    <id>http://tpapp.github.io/tags/julia/</id>
+    <published>2017-09-15T16:03:10+02:00</published>
+    <updated>2017-09-15T16:03:10+02:00</updated>
     
-    <item>
-      <title>Hugo</title>
-      <link>http://tpapp.github.io/tags/hugo/</link>
-      <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/hugo/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/julia/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">LaTeX</title>
+    <link href="http://tpapp.github.io/tags/latex/"/>
+    <id>http://tpapp.github.io/tags/latex/</id>
+    <published>2017-05-24T12:59:53+02:00</published>
+    <updated>2017-05-24T12:59:53+02:00</updated>
     
-    <item>
-      <title>Jacobian</title>
-      <link>http://tpapp.github.io/tags/jacobian/</link>
-      <pubDate>Tue, 23 May 2017 16:39:26 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/jacobian/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/latex/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Log1p</title>
+    <link href="http://tpapp.github.io/tags/log1p/"/>
+    <id>http://tpapp.github.io/tags/log1p/</id>
+    <published>2017-09-13T11:18:59+02:00</published>
+    <updated>2017-09-13T11:18:59+02:00</updated>
     
-    <item>
-      <title>Julia</title>
-      <link>http://tpapp.github.io/tags/julia/</link>
-      <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/julia/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/log1p/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">MCMC</title>
+    <link href="http://tpapp.github.io/tags/mcmc/"/>
+    <id>http://tpapp.github.io/tags/mcmc/</id>
+    <published>2017-06-12T16:25:57+02:00</published>
+    <updated>2017-06-12T16:25:57+02:00</updated>
     
-    <item>
-      <title>LaTeX</title>
-      <link>http://tpapp.github.io/tags/latex/</link>
-      <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/latex/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/mcmc/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Math</title>
+    <link href="http://tpapp.github.io/tags/math/"/>
+    <id>http://tpapp.github.io/tags/math/</id>
+    <published>2017-05-24T12:59:53+02:00</published>
+    <updated>2017-05-24T12:59:53+02:00</updated>
     
-    <item>
-      <title>Log1p</title>
-      <link>http://tpapp.github.io/tags/log1p/</link>
-      <pubDate>Wed, 13 Sep 2017 11:18:59 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/log1p/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/math/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">My packages</title>
+    <link href="http://tpapp.github.io/tags/my-packages/"/>
+    <id>http://tpapp.github.io/tags/my-packages/</id>
+    <published>2017-04-02T19:06:04+02:00</published>
+    <updated>2017-04-02T19:06:04+02:00</updated>
     
-    <item>
-      <title>MCMC</title>
-      <link>http://tpapp.github.io/tags/mcmc/</link>
-      <pubDate>Mon, 12 Jun 2017 16:25:57 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/mcmc/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/my-packages/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Numerical error</title>
+    <link href="http://tpapp.github.io/tags/numerical-error/"/>
+    <id>http://tpapp.github.io/tags/numerical-error/</id>
+    <published>2017-09-13T11:18:59+02:00</published>
+    <updated>2017-09-13T11:18:59+02:00</updated>
     
-    <item>
-      <title>Math</title>
-      <link>http://tpapp.github.io/tags/math/</link>
-      <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/math/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/numerical-error/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Numerical methods</title>
+    <link href="http://tpapp.github.io/tags/numerical-methods/"/>
+    <id>http://tpapp.github.io/tags/numerical-methods/</id>
+    <published>2017-04-02T19:06:04+02:00</published>
+    <updated>2017-04-02T19:06:04+02:00</updated>
     
-    <item>
-      <title>My packages</title>
-      <link>http://tpapp.github.io/tags/my-packages/</link>
-      <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/my-packages/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/numerical-methods/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Packages</title>
+    <link href="http://tpapp.github.io/tags/packages/"/>
+    <id>http://tpapp.github.io/tags/packages/</id>
+    <published>2017-08-23T10:10:48+02:00</published>
+    <updated>2017-08-23T10:10:48+02:00</updated>
     
-    <item>
-      <title>Numerical error</title>
-      <link>http://tpapp.github.io/tags/numerical-error/</link>
-      <pubDate>Wed, 13 Sep 2017 11:18:59 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/numerical-error/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/packages/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Stan</title>
+    <link href="http://tpapp.github.io/tags/stan/"/>
+    <id>http://tpapp.github.io/tags/stan/</id>
+    <published>2017-05-23T16:39:26+02:00</published>
+    <updated>2017-05-23T16:39:26+02:00</updated>
     
-    <item>
-      <title>Numerical methods</title>
-      <link>http://tpapp.github.io/tags/numerical-methods/</link>
-      <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/numerical-methods/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/stan/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Teaching</title>
+    <link href="http://tpapp.github.io/tags/teaching/"/>
+    <id>http://tpapp.github.io/tags/teaching/</id>
+    <published>2017-03-24T14:34:22+01:00</published>
+    <updated>2017-03-24T14:34:22+01:00</updated>
     
-    <item>
-      <title>Packages</title>
-      <link>http://tpapp.github.io/tags/packages/</link>
-      <pubDate>Wed, 23 Aug 2017 10:10:48 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/packages/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/teaching/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Tutorial</title>
+    <link href="http://tpapp.github.io/tags/tutorial/"/>
+    <id>http://tpapp.github.io/tags/tutorial/</id>
+    <published>2017-04-02T19:06:04+02:00</published>
+    <updated>2017-04-02T19:06:04+02:00</updated>
     
-    <item>
-      <title>Stan</title>
-      <link>http://tpapp.github.io/tags/stan/</link>
-      <pubDate>Tue, 23 May 2017 16:39:26 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/stan/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/tutorial/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Ubuntu</title>
+    <link href="http://tpapp.github.io/tags/ubuntu/"/>
+    <id>http://tpapp.github.io/tags/ubuntu/</id>
+    <published>2017-07-03T10:49:56+02:00</published>
+    <updated>2017-07-03T10:49:56+02:00</updated>
     
-    <item>
-      <title>Teaching</title>
-      <link>http://tpapp.github.io/tags/teaching/</link>
-      <pubDate>Fri, 24 Mar 2017 14:34:22 +0100</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/teaching/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/ubuntu/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Weave</title>
+    <link href="http://tpapp.github.io/tags/weave/"/>
+    <id>http://tpapp.github.io/tags/weave/</id>
+    <published>2017-03-30T10:02:32+02:00</published>
+    <updated>2017-03-30T10:02:32+02:00</updated>
     
-    <item>
-      <title>Tutorial</title>
-      <link>http://tpapp.github.io/tags/tutorial/</link>
-      <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/tutorial/</guid>
-      <description></description>
-    </item>
+    <content type="html" xml:base="http://tpapp.github.io/tags/weave/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Weave</title>
+    <link href="http://tpapp.github.io/tags/weave/"/>
+    <id>http://tpapp.github.io/tags/weave/</id>
+    <published>2017-03-03T13:11:53+01:00</published>
+    <updated>2017-03-03T13:11:53+01:00</updated>
     
-    <item>
-      <title>Ubuntu</title>
-      <link>http://tpapp.github.io/tags/ubuntu/</link>
-      <pubDate>Mon, 03 Jul 2017 10:49:56 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/ubuntu/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Weave</title>
-      <link>http://tpapp.github.io/tags/weave/</link>
-      <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/weave/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Weave</title>
-      <link>http://tpapp.github.io/tags/weave/</link>
-      <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
-      
-      <guid>http://tpapp.github.io/tags/weave/</guid>
-      <description></description>
-    </item>
-    
-  </channel>
-</rss>
+    <content type="html" xml:base="http://tpapp.github.io/tags/weave/"></content>
+  </entry>
+  
+</feed>

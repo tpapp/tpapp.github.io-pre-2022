@@ -1,31 +1,60 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Weave on Tamás K. Papp&#39;s website</title>
-    <link>http://tpapp.github.io/tags/weave/</link>
-    <description>Recent content in Weave on Tamás K. Papp&#39;s website</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
-    <lastBuildDate>Fri, 03 Mar 2017 13:11:53 +0100</lastBuildDate>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>WeaveonTamás K. Papp&#39;s website</title>
+  <link href="http://tpapp.github.io/index.xml" rel="self"/>
+  <link href="http://tpapp.github.io/tags/weave/"/>
+  <updated>2017-03-03T13:11:53+01:00</updated>
+  
+  <id>http://tpapp.github.io/tags/weave/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Julia &#43; Weave.jl &#43; hugo test</title>
+    <link href="http://tpapp.github.io/post/hugo-julia-weave/"/>
+    <id>http://tpapp.github.io/post/hugo-julia-weave/</id>
+    <published>2017-03-03T13:11:53+01:00</published>
+    <updated>2017-03-03T13:11:53+01:00</updated>
     
-	<atom:link href="http://tpapp.github.io/tags/weave/index.xml" rel="self" type="application/rss+xml" />
+    <content type="html" xml:base="http://tpapp.github.io/post/hugo-julia-weave/">&amp;lt;p&amp;gt;Testing the &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt; formatter for &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Testing inline code: &amp;lt;code&amp;gt;1&#43;1=2&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Testing math:
+$$x^2&#43;y^2 = \int_0^1 f(z) dz$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Testing code:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;2
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+
+&amp;lt;p&amp;gt;Testing proper highlighting:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; foo(x, y)
+    x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;y
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;A plot:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;10&amp;lt;/span&amp;gt;
+y &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.^&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;2&amp;lt;/span&amp;gt;
+scatter(x, y, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;figure &amp;gt;
+    
+        &amp;lt;img src=&amp;#34;../figures/hugo-julia-weave_4_1.svg&amp;#34; /&amp;gt;
     
     
-    <item>
-      <title>Julia &#43; Weave.jl &#43; hugo test</title>
-      <link>http://tpapp.github.io/post/hugo-julia-weave/</link>
-      <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
-      
-      <guid>http://tpapp.github.io/post/hugo-julia-weave/</guid>
-      <description>Testing the Hugo formatter for Weave.jl.
-Testing inline code: 1+1=2.
-Testing math: $$x^2+y^2 = \int_0^1 f(z) dz$$
-Testing code:
-1+1  2  Testing proper highlighting:
-function foo(x, y) x+y end  A plot:
-x = 1:10 y = x.^2 scatter(x, y, legend = false)   Caption for this plot   </description>
-    </item>
+    &amp;lt;figcaption&amp;gt;
+        &amp;lt;h4&amp;gt;Caption for this plot&amp;lt;/h4&amp;gt;
+        
+    &amp;lt;/figcaption&amp;gt;
     
-  </channel>
-</rss>
+&amp;lt;/figure&amp;gt;
+
+</content>
+  </entry>
+  
+</feed>

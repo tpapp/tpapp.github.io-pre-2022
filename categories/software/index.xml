@@ -1,26 +1,77 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Software on Tamás K. Papp&#39;s website</title>
-    <link>http://tpapp.github.io/categories/software/</link>
-    <description>Recent content in Software on Tamás K. Papp&#39;s website</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
-    <lastBuildDate>Wed, 23 Aug 2017 10:10:48 +0200</lastBuildDate>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>SoftwareonTamás K. Papp&#39;s website</title>
+  <link href="http://tpapp.github.io/index.xml" rel="self"/>
+  <link href="http://tpapp.github.io/categories/software/"/>
+  <updated>2017-08-23T10:10:48+02:00</updated>
+  
+  <id>http://tpapp.github.io/categories/software/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Local packages in a separate directory in Julia</title>
+    <link href="http://tpapp.github.io/post/julia-local-test/"/>
+    <id>http://tpapp.github.io/post/julia-local-test/</id>
+    <published>2017-08-23T10:10:48+02:00</published>
+    <updated>2017-08-23T10:10:48+02:00</updated>
     
-	<atom:link href="http://tpapp.github.io/categories/software/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Local packages in a separate directory in Julia</title>
-      <link>http://tpapp.github.io/post/julia-local-test/</link>
-      <pubDate>Wed, 23 Aug 2017 10:10:48 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/julia-local-test/</guid>
-      <description>I run Pkg.update() fairly often to stay up to date and benefit from the latest improvements of various packages. I rarely ever pin to a specific package version, but I occasionally checkout master for some packages, especially if I am contributing.
-Despite updating regularly, I found that the documentation subtly diverged from what I was experiencing for some packages. After looking into the issue, I learned that I was 2&amp;ndash;3 minor versions behind despite updating regularly.</description>
-    </item>
-    
-  </channel>
-</rss>
+    <content type="html" xml:base="http://tpapp.github.io/post/julia-local-test/">&amp;lt;p&amp;gt;I run &amp;lt;code&amp;gt;Pkg.update()&amp;lt;/code&amp;gt; fairly often to stay up to date and benefit from
+the latest improvements of various packages. I rarely ever &amp;lt;code&amp;gt;pin&amp;lt;/code&amp;gt; to a
+specific package version, but I occasionally checkout &amp;lt;code&amp;gt;master&amp;lt;/code&amp;gt; for
+some packages, especially if I am contributing.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Despite updating regularly, I found that the documentation subtly diverged from what I was experiencing for some packages. After looking into the issue, I learned that I was 2&amp;amp;ndash;3 minor versions behind despite updating regularly. For example, when I would&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;Pkg&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;update(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;ForwardDiff&amp;amp;#34;&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;I would be told that there is a new version, and to get it I should update &amp;lt;code&amp;gt;ReverseDiff&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;Optim&amp;lt;/code&amp;gt;. But&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;Pkg&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;update(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;ForwardDiff&amp;amp;#34;&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;ReverseDiff&amp;amp;#34;&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Optim&amp;amp;#34;&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;would just run quietly without updating.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;I could not figure out the cause for this and did not want to get sidetracked debugging it, so I decided to wipe the package directory and start over. However, in order to do this, I had to make sure that no code is lost, especially for local packages. First, I moved my local packages into a separate directory, and added that to &amp;lt;code&amp;gt;LOAD_PATH&amp;lt;/code&amp;gt; in &amp;lt;code&amp;gt;.juliarc.jl&amp;lt;/code&amp;gt;:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;push!(&amp;lt;span class=&amp;#34;s7d2&amp;#34;&amp;gt;LOAD_PATH&amp;lt;/span&amp;gt;, expanduser(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;~/src/julia-local-packages/&amp;amp;#34;&amp;lt;/span&amp;gt;))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Then I ran &amp;lt;a href=&amp;#34;https://github.com/fboender/multi-git-status&amp;#34;&amp;gt;multi-git-status&amp;lt;/a&amp;gt; to make sure that there were no unpushed changes. Finally, I deleted the package directory and reinstalled everything. Surprisingly, &amp;lt;code&amp;gt;Pkg.add&amp;lt;/code&amp;gt; ran much faster than before.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;In case I have to do this again, I decided to keep my local packages separate &amp;amp;mdash; the only drawback is that &amp;lt;code&amp;gt;Pkg.test&amp;lt;/code&amp;gt; now can&amp;amp;rsquo;t find them. A workaround is below, using some code from &amp;lt;code&amp;gt;Base.Pkg&amp;lt;/code&amp;gt;:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;    local_test(pkgname, [coverage])
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Find and test a package in `LOAD_PATH`. Useful when the package is outside
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;`Pkg.dir()`.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Assumes the usual directory structure: package has the same name as the module,
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;the main file is in `src/Pkgname.jl`, while tests are in `test/runtests.jl`.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; local_test(pkgname; coverage&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Bool&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+    module_path &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;find_in_path(pkgname, &amp;lt;span class=&amp;#34;s7d2&amp;#34;&amp;gt;nothing&amp;lt;/span&amp;gt;)
+    src_dir, module_file &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; splitdir(module_path)
+    dir &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; normpath(src_dir, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;..&amp;amp;#34;&amp;lt;/span&amp;gt;)
+    test_path &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; joinpath(dir, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;test&amp;amp;#34;&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;runtests.jl&amp;amp;#34;&amp;lt;/span&amp;gt;)
+    &amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@assert&amp;lt;/span&amp;gt; isfile(test_path) &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Could not find &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$&amp;lt;/span&amp;gt;(test_path)&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;lt;/span&amp;gt;
+    Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;cd(dir) &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;do&amp;lt;/span&amp;gt;
+        &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;try&amp;lt;/span&amp;gt;
+            color &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;have_color&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;?&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--color=yes&amp;amp;#34;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--color=no&amp;amp;#34;&amp;lt;/span&amp;gt;
+            codecov &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; coverage&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;?&amp;lt;/span&amp;gt; [&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--code-coverage=user&amp;amp;#34;&amp;lt;/span&amp;gt;] &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; [&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--code-coverage=none&amp;amp;#34;&amp;lt;/span&amp;gt;]
+            compilecache &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--compilecache=&amp;amp;#34;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Bool&amp;lt;/span&amp;gt;(Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;JLOptions()&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;use_compilecache) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;?&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;yes&amp;amp;#34;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;no&amp;amp;#34;&amp;lt;/span&amp;gt;)
+            julia_exe &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;julia_cmd()
+            run(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;`&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$julia_exe&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; --check-bounds=yes &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$codecov&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$color&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$compilecache&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$test_path&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;`&amp;lt;/span&amp;gt;)
+            info(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$module_file&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; tests passed&amp;amp;#34;&amp;lt;/span&amp;gt;)
+        &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;catch&amp;lt;/span&amp;gt; err
+            Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;Pkg&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;Entry&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;warnbanner(err, label&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;[ ERROR: &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$module_file&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; ]&amp;amp;#34;&amp;lt;/span&amp;gt;)
+        &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Compared to simply &amp;lt;code&amp;gt;include(&amp;amp;quot;wherever-it-is/runtests.jl&amp;amp;quot;)&amp;lt;/code&amp;gt;, this has the advantage of running a separate Julia process, so your workspace does not contaminate the test environment and in case of segfaults, the parent process won&amp;amp;rsquo;t be affected.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Hopefully, the code above will be obsolete once &amp;lt;a href=&amp;#34;https://github.com/StefanKarpinski/Pkg3.jl&amp;#34;&amp;gt;Pkg3&amp;lt;/a&amp;gt; is released, but until then it is a useful workaround.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;edit&amp;lt;/strong&amp;gt;: function above was corrupted during copy-paste, corrected.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+</feed>

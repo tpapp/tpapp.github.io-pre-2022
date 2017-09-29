@@ -1,167 +1,1151 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Tamás K. Papp&#39;s website</title>
-    <link>http://tpapp.github.io/</link>
-    <description>Recent content on Tamás K. Papp&#39;s website</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>Copyright 2017, Tamás K. Papp. [CC-BY-SA](https://creativecommons.org/licenses/by-sa/4.0/legalcode).</copyright>
-    <lastBuildDate>Sun, 11 Jun 2017 14:48:06 +0200</lastBuildDate>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Tamás K. Papp&#39;s website</title>
+  <link href="http://tpapp.github.io/index.xml" rel="self"/>
+  <link href="http://tpapp.github.io/"/>
+  <updated>2017-06-11T14:48:06+02:00</updated>
+  
+  <id>http://tpapp.github.io/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Blog redesign 2.0</title>
+    <link href="http://tpapp.github.io/post/blog-redesign-201709/"/>
+    <id>http://tpapp.github.io/post/blog-redesign-201709/</id>
+    <published>2017-09-29T19:55:44+02:00</published>
+    <updated>2017-09-29T19:55:44+02:00</updated>
     
-	<atom:link href="http://tpapp.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <content type="html" xml:base="http://tpapp.github.io/post/blog-redesign-201709/">&amp;lt;p&amp;gt;I have redesigned my blog (again), mainly tweaking the CSS and
+hopefully achieving better support on small screens (which are still
+not ideal for math, but now you should get a red warning float at the
+bottom).&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;I also re-did the feed code so that it would render better on
+&amp;lt;a href=&amp;#34;https://www.juliabloggers.com/&amp;#34;&amp;gt;juliabloggers.com&amp;lt;/a&amp;gt;. Now the whole
+content of each post should be scraped seamlessly, and appear
+correctly. However, the only way to test the whole toolchain is to do
+it live, and I apologize if something is still not perfect and you get
+bogus updates (BTW, this post should not show up in the Julia feed).&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Highlights of the changes:&amp;lt;/p&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;responsive design,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;nicer fonts,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;line breaks in MathJax when necessary and supported,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;better highlighting (Julia now looks especially nice),&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;embedded code blocks with a download link,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;better image placement,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;Emacs screenshots now use a branch of &amp;lt;a href=&amp;#34;https://github.com/tpapp/emacs-htmlize/tree/pre-colors&amp;#34;&amp;gt;emacs-htmlize&amp;lt;/a&amp;gt;, which hopefully gets merged soon.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;p&amp;gt;As always, the source code for the whole site is &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;available&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Automatic differentiation of discontinuous integrals</title>
+    <link href="http://tpapp.github.io/post/discontinuous_integral_ad/"/>
+    <id>http://tpapp.github.io/post/discontinuous_integral_ad/</id>
+    <published>2017-09-15T16:03:10+02:00</published>
+    <updated>2017-09-15T16:03:10+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/discontinuous_integral_ad/">&amp;lt;p&amp;gt;This is a &amp;lt;em&amp;gt;much simplified&amp;lt;/em&amp;gt; writeup of a problem I encountered, in a self-contained blog post.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;You want to approximate the integral
+[
+I(\theta) = \int 1(g(x) &amp;amp;gt; 0) f(x,\theta) dx
+]
+where $g$ is a continuous function, and $f(x,\theta)$ is a parametric distribution over $x$. Everthing is continous, and thus $I$ is, too.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;You face the following constraints:&amp;lt;/p&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;$g$ is a black box. We will pretend that you can&amp;amp;rsquo;t invert it (except for checking our results, of course).&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;You can calculate the probability density function $f$ and even draw $x$&amp;amp;rsquo;s for a particular $\theta$, but that&amp;amp;rsquo;s pretty much it. You don&amp;amp;rsquo;t even get a cdf! (Again, except for checking our results.)&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;p&amp;gt;Using Monte Carlo methods, you can do the following:&amp;lt;/p&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;draw $x_i \sim F(\cdot, \theta)$, $i=1,\dots,N$,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;approximate
+[
+I(\theta) \approx \frac{1}{N}\sum_i 1(g(x_i) &amp;amp;gt; 0)
+]&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;p&amp;gt;You could code this in Julia as&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;d &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; distr(θ)   &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# suppose this returns some distribution that supports Base.rand&amp;lt;/span&amp;gt;
+x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; rand(d, N)
+mean(g&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;So far, neat and simple. Now, the fly in the ointment: &amp;lt;strong&amp;gt;you need the derivative&amp;lt;/strong&amp;gt; $I&amp;amp;rsquo;(\theta)$ for optimization or Hamiltonian Monte Carlo. The problem is that you cannot &amp;lt;code&amp;gt;ForwardDiff&amp;lt;/code&amp;gt; your way through the code above: AD&amp;amp;rsquo;ing a discontinuous step function will just give you $0$, and &amp;lt;code&amp;gt;rand&amp;lt;/code&amp;gt; does not work with &amp;lt;code&amp;gt;ForwardDiff.Dual&amp;lt;/code&amp;gt;s anyway (which is very sensible).&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;However, there &amp;lt;em&amp;gt;is&amp;lt;/em&amp;gt; a solution: rewrite the approximation as
+[
+I(\theta; \theta_0) \approx \frac{1}{N}\sum_i 1(g(x_i) &amp;amp;gt; 0) \frac{f(x_i,\theta)}{f(x_i,\theta_0)}
+]
+where $\theta_0$ is the parameter used to simulate the $x_i$. Differentiate the above at $\theta = \theta_0$. This approximates
+[
+I&amp;amp;rsquo;(\theta) = \int 1(g(x) &amp;amp;gt; 0) \frac{\partial f(x,\theta)/\partial \theta}{f(x,\theta)}f(x,\theta) dx = \int 1(g(x) &amp;amp;gt; 0) \partial f(x,\theta)/\partial \theta dx
+]
+which is exactly what you want.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Assume that the actual calculation is very complicated, so we would rather avoid implementing it for the integral and the derivative separately. It turns out that this is very simple to do with &amp;lt;code&amp;gt;ForwardDiff.Dual&amp;lt;/code&amp;gt; values: the code is literally a one-liner and a fallback method:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Real&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; one(x)
+elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;Dual{T,V,N}) where {T,V,N} &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Dual{T}(one(V), partials(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt; value(x))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;which you can use in a function like&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;integral_approx(g, d, x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; mean((g&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.*&amp;lt;/span&amp;gt; elasticity&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(pdf&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(d, x)))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;I demonstrate this with $g(x) = x$ and $x \sim \text{Normal}(\theta, 1)$, for which of course we know that the analytical values for $I$ and $I&amp;amp;rsquo;$ are the right tail probability and the pdf at 0, respectively.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Graphs below show that the approximation is reasonable &amp;amp;mdash; we could make it much better with &amp;lt;a href=&amp;#34;https://github.com/stevengj/Sobol.jl&amp;#34;&amp;gt;low-discrepancy sequences&amp;lt;/a&amp;gt;, but that is an orthogonal issue.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;integral.svg&amp;#34; alt=&amp;#34;integral&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;derivative.svg&amp;#34; alt=&amp;#34;derivative&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which ${ x: g(x) &amp;amp;gt; 0 }$, but I used &amp;lt;code&amp;gt;elasticity&amp;lt;/code&amp;gt; as above.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Self-contained code for everything is available below.&amp;lt;/p&amp;gt;
+
+
+
+
+&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/discontinuous_integral_ad/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; ForwardDiff
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;import&amp;lt;/span&amp;gt; ForwardDiff&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; Dual, value, partials, Tag
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Distributions
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Plots
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; LaTeXStrings
+gr()
+
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# elasticity calculation&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+
+&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;    elasticity(x)
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Calculate `x/x`, stripping `x` of partial derivative information. Useful for
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;calculating elasticities of the form `∂f/f` using ForwardDiff.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Real&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; one(x)
+
+elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;Dual{T,V,N}) where {T,V,N} &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Dual{T}(one(V), partials(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt; value(x))
+
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# example application&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+
+integral_approx(g, d, x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; mean((g&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.*&amp;lt;/span&amp;gt; elasticity&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(pdf&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(d, x)))
+
+&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Helper function that returns the value and derivative at the same time.&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; value_and_derivative(f&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;F, x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;R) where {F,R&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&amp;amp;lt;:&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Real&amp;lt;/span&amp;gt;}
+    T &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; typeof(Tag(F, R))
+    y &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; f(Dual{T}(x, one(x)))
+    value(y), partials(y, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;)
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+
+distr(θ) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Normal(θ, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;)
+
+g(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; x
+
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; ID_analytical(θ)
+    d &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; distr(θ)
+    ccdf(d, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;), pdf(d, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;)
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; ID_approx(θ)
+    x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; rand(distr(θ), &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1000&amp;lt;/span&amp;gt;)
+    value_and_derivative(θ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;amp;gt;&amp;lt;/span&amp;gt;integral_approx(g, distr(θ), x), θ)
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+
+θs &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; linspace(&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;2&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;2&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;51&amp;lt;/span&amp;gt;)
+ID0s &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; ID_analytical&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(θs)
+ID1s &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; ID_approx&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(θs)
+
+scatter(θs, first&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(ID0s), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc25&amp;#34;&amp;gt;\\&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;theta&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;integral&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        label &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;analytical&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;topleft)
+scatter!(θs, first&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(ID1s), label &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;approximation&amp;amp;#34;&amp;lt;/span&amp;gt;)
+savefig(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;integral.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+
+scatter(θs, last&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(ID0s), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc25&amp;#34;&amp;gt;\\&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;theta&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;derivative&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        label &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;analytical&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;topleft)
+scatter!(θs, last&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(ID1s), label &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;approximation&amp;amp;#34;&amp;lt;/span&amp;gt;)
+savefig(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;derivative.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">log1p in Julia</title>
+    <link href="http://tpapp.github.io/post/log1p/"/>
+    <id>http://tpapp.github.io/post/log1p/</id>
+    <published>2017-09-13T11:18:59+02:00</published>
+    <updated>2017-09-13T11:18:59+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/log1p/">
+
+&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;edit&amp;lt;/em&amp;gt;: fixed bogus interaction of MathJax and code highlighting.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;edit2&amp;lt;/em&amp;gt;: added benchmarks.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;This is a follow-up on a &amp;lt;a href=&amp;#34;https://discourse.julialang.org/t/log1p-in-base-vs-base-math-julialibm/5852&amp;#34;&amp;gt;question&amp;lt;/a&amp;gt; I asked on the Julia forums about calculating
+[
+\text{log1p}(x) = \log(1&#43;x)
+]
+This calculation is tricky because if $x \approx 0$,
+[
+\log(1&#43;x) \approx x
+]
+while as $x \to \infty$, $\log(1&#43;x)$ approaches $\log(x)$, so simply using &amp;lt;code&amp;gt;log(1&#43;x)&amp;lt;/code&amp;gt; will not be as accurate as it could be. Numerical analysts have developed specialized methods for these calculations that try to get an accurate answer, and all programming languages serious about numerical calculations have an implementation either in the core language or a library.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Julia&amp;amp;rsquo;s &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt; currently suggests that &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; would be preferable, but then I was wondering why isn&amp;amp;rsquo;t that the default? So I decided to perform a trivial numerical experiment, calculating the error for both, and also benchmark the two methods.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;accuracy&amp;#34;&amp;gt;Accuracy&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;The key question is what to compare the results with. One could compare to an existing &amp;amp;ldquo;gold standard&amp;amp;rdquo; implementation, or simply calculate the results using a higher precision representation. Fortunately, Julia has &amp;lt;code&amp;gt;BigFloat&amp;lt;/code&amp;gt;s available right out of the box.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The graph below shows the base-2 logarithm of the &amp;lt;em&amp;gt;relative&amp;lt;/em&amp;gt; error for &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt; vs $\log_2(1&#43;x)$; horizontal lines are &amp;lt;code&amp;gt;log2(eps())&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;log2(eps())&#43;1&amp;lt;/code&amp;gt;. This suggests that &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt; is &amp;lt;em&amp;gt;very accurate&amp;lt;/em&amp;gt;, but not as good as it could be when $x \approx 0$.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;Base_log1p_error.svg&amp;#34; alt=&amp;#34;Base.log1p error&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The next plot shows the relative accuracy of the relative error above, comparing &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; to &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt; (lower values better). In these simulations, &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; is never worse, but sometimes significantly better (resulting in an extra binary digit of accuracy). This matters especially when $x \approx 0$.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;JuliaLibm_improvement.svg&amp;#34; alt=&amp;#34;relative log2 acccuracy improvement over Base.log1p&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The next plot confirms this.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;JuliaLibm_log1p_error.svg&amp;#34; alt=&amp;#34;JuliaLibm log1p error&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;speed&amp;#34;&amp;gt;Speed&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;I also evaluated relative speed. The graph below shows the relative runtimes, obtained using &amp;lt;code&amp;gt;BenchmarkTools.@belapsed&amp;lt;/code&amp;gt;. Values below $1$ mean that &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; is faster: indeed, this seems to be the case except for values very close to $0$, where there is a 10&amp;amp;ndash;20% performance penalty. At other values, &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; is 30&amp;amp;ndash;40% &amp;lt;em&amp;gt;faster&amp;lt;/em&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;relative_time.svg&amp;#34; alt=&amp;#34;relative time&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;conclusion&amp;#34;&amp;gt;Conclusion&amp;lt;/h2&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;For values near $0$, &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; is more accurate, at a slight performance cost.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;For values away from $0$, it is at least as accurate as &amp;lt;code&amp;gt;Base.log1p&amp;lt;/code&amp;gt;, and 30&amp;amp;ndash;40% faster.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;p&amp;gt;To me, this suggests that &amp;lt;code&amp;gt;Base.Math.JuliaLibm.log1p&amp;lt;/code&amp;gt; should be the default method &amp;amp;mdash; mostly because the extra accuracy is more important to me than the slight performance cost.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Code is available below.&amp;lt;/p&amp;gt;
+
+
+
+
+&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/log1p/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# consistent random numbers&amp;lt;/span&amp;gt;
+srand(&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;UInt32&amp;lt;/span&amp;gt;[&amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0xfd909253&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x7859c364&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x7cd42419&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc83&amp;#34;&amp;gt;0x4c06a3b6&amp;lt;/span&amp;gt;])
+
+&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;    err(x, [prec])
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Return two values, which are the log2 relative errors for calculating
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;`log1p(x)`, using `Base.log1p` and `Base.Math.JuliaLibm.log1p`.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;The errors are calculated by compating to `BigFloat` calculations with the given
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;precision `prec`.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; err(x, prec &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1024&amp;lt;/span&amp;gt;)
+    yb &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; log(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;BigFloat&amp;lt;/span&amp;gt;(x, prec))
+    e2(y) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Float64&amp;lt;/span&amp;gt;(log2(abs(y&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;yb)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;abs(yb)))
+    e2(log1p(x)), e2(Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;Math&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;JuliaLibm&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;log1p(x))
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+
+z &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; exp&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(randn(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;20000&amp;lt;/span&amp;gt;)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;10&amp;lt;/span&amp;gt;)       &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# z &amp;amp;gt; 0, Lognormal(0, 10)&amp;lt;/span&amp;gt;
+x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; z &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.-&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;                      &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# x &amp;amp;gt; -1&amp;lt;/span&amp;gt;
+es &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; map(err, x)                &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# errors&amp;lt;/span&amp;gt;
+
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Plots; gr()               &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# plots&amp;lt;/span&amp;gt;
+
+scatter(log2&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(z), first&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(es), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2(x&#43;1)&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2 error of Base.log1p&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+hline!(log2(eps())&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;[&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;,&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;])
+Plots&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;svg(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Base_log1p_error.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+scatter(log2&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(z), last&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(es) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.-&amp;lt;/span&amp;gt; first&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(es), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2(x&#43;1)&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;improvement (Base.Math.JuliaLibm.log1p)&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+Plots&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;svg(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;JuliaLibm_improvement.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+scatter(log2&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(z), last&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(es), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2(x&#43;1)&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2 error of Base.Math.JuliaLibm.log1p&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+hline!(log2(eps())&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;[&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;,&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;])
+Plots&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;svg(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;JuliaLibm_log1p_error.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# WARNING: these run for a very long time&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; BenchmarkTools
+
+z &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; exp&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(vcat(randn(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;200&amp;lt;/span&amp;gt;)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;10&amp;lt;/span&amp;gt;, rand(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;200&amp;lt;/span&amp;gt;)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.1&amp;lt;/span&amp;gt;)) &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# z &amp;amp;gt; 0, more values around &amp;lt;/span&amp;gt;
+x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; z &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.-&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;                                   &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# x &amp;amp;gt; -1&amp;lt;/span&amp;gt;
+b1 &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; [&amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@belapsed&amp;lt;/span&amp;gt; log1p(&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;$&amp;lt;/span&amp;gt;x) &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;for&amp;lt;/span&amp;gt; x &amp;lt;span class=&amp;#34;s3ec&amp;#34;&amp;gt;in&amp;lt;/span&amp;gt; x]        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# WARNING: takes forever&amp;lt;/span&amp;gt;
+b2 &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; [&amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@belapsed&amp;lt;/span&amp;gt; Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;Math&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;JuliaLibm&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;log1p(&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;$&amp;lt;/span&amp;gt;x) &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;for&amp;lt;/span&amp;gt; x &amp;lt;span class=&amp;#34;s3ec&amp;#34;&amp;gt;in&amp;lt;/span&amp;gt; x] &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# ditto&amp;lt;/span&amp;gt;
+
+scatter(log2&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(z), b2 &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;./&amp;lt;/span&amp;gt; b1, xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;log2(x&#43;1)&amp;amp;#34;&amp;lt;/span&amp;gt;,
+        ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;time Math.JuliaLibm.log1p / log1p&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;, yticks &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.2&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;1.2&amp;lt;/span&amp;gt;)
+hline!([&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;])
+Plots&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;svg(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;relative_time.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Emacs customizations for julia-mode</title>
+    <link href="http://tpapp.github.io/post/emacs-julia-customizations/"/>
+    <id>http://tpapp.github.io/post/emacs-julia-customizations/</id>
+    <published>2017-08-28T14:41:58+02:00</published>
+    <updated>2017-08-28T14:41:58+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/emacs-julia-customizations/">
+
+&amp;lt;p&amp;gt;I find the following customizations very useful for &amp;lt;em&amp;gt;editing&amp;lt;/em&amp;gt; Julia
+code in Emacs. Add them to &amp;lt;code&amp;gt;julia-mode-hook&amp;lt;/code&amp;gt;, eg&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-emacs-lisp&amp;#34; data-lang=&amp;#34;emacs-lisp&amp;#34;&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;defun&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;customize-julia-mode&amp;lt;/span&amp;gt; ()
+  &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Customize julia-mode.&amp;amp;#34;&amp;lt;/span&amp;gt;
+  (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;interactive&amp;lt;/span&amp;gt;)
+  &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;;; my customizations go here&amp;lt;/span&amp;gt;
+  )
+
+(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;add-hook&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc2c&amp;#34;&amp;gt;&amp;amp;#39;julia-mode-hook&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc2c&amp;#34;&amp;gt;&amp;amp;#39;customize-julia-mode&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;h2 id=&amp;#34;highlight-fixme-todo&amp;#34;&amp;gt;Highlight FIXME/TODO/&amp;amp;hellip;&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;When I just want to note something in a comment for future reference,
+I prefer to have certain words highlighted. You can use something like
+this:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-emacs-lisp&amp;#34; data-lang=&amp;#34;emacs-lisp&amp;#34;&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;font-lock-add-keywords&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7d5&amp;#34;&amp;gt;nil&amp;lt;/span&amp;gt;
+                        &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&amp;amp;#39;&amp;lt;/span&amp;gt;((&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;\\&amp;amp;lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&amp;amp;#34;&amp;lt;/span&amp;gt;
+                        &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;font-lock-warning-face&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7d5&amp;#34;&amp;gt;t&amp;lt;/span&amp;gt;)))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;This is what it looks like:&amp;lt;/p&amp;gt;
+
+&amp;lt;pre style=&amp;#34;color: #262626; background-color: #ded6c5;&amp;#34;&amp;gt;
+            chklapackerror&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;info&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;[])&amp;lt;/span&amp;gt;
+            &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;if&amp;lt;/span&amp;gt; any&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;ifail .!= 0&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;
+                &amp;lt;span style=&amp;#34;color: #008b45;&amp;#34;&amp;gt;# &amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #f71010; font-weight: bold;&amp;#34;&amp;gt;TODO&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #008b45;&amp;#34;&amp;gt;: better error message / type
+&amp;lt;/span&amp;gt;                error&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #fa5151;&amp;#34;&amp;gt;&amp;#34;failed to converge eigenvectors:\n$(nonzeros(ifail))&amp;#34;&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;
+            &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+&amp;lt;/pre&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;highlight-symbols&amp;#34;&amp;gt;Highlight symbols&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;After&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-emacs-lisp&amp;#34; data-lang=&amp;#34;emacs-lisp&amp;#34;&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;require&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc2c&amp;#34;&amp;gt;&amp;amp;#39;highlight-symbol&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;add a hook for&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-emacs-lisp&amp;#34; data-lang=&amp;#34;emacs-lisp&amp;#34;&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;local-set-key&amp;lt;/span&amp;gt; [(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;control&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc21&amp;#34;&amp;gt;?c&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sc21&amp;#34;&amp;gt;?s&amp;lt;/span&amp;gt;] &amp;lt;span class=&amp;#34;sc2c&amp;#34;&amp;gt;&amp;amp;#39;highlight-symbol-at-point&amp;lt;/span&amp;gt;)
+(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;local-set-key&amp;lt;/span&amp;gt; [(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;control&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc21&amp;#34;&amp;gt;?c&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sc21&amp;#34;&amp;gt;?n&amp;lt;/span&amp;gt;] &amp;lt;span class=&amp;#34;sc2c&amp;#34;&amp;gt;&amp;amp;#39;highlight-symbol-next&amp;lt;/span&amp;gt;)
+(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;local-set-key&amp;lt;/span&amp;gt; [(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;control&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc21&amp;#34;&amp;gt;?c&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sc21&amp;#34;&amp;gt;?p&amp;lt;/span&amp;gt;] &amp;lt;span class=&amp;#34;sc2c&amp;#34;&amp;gt;&amp;amp;#39;highlight-symbol-prev&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;This highlights symbols with &amp;lt;code&amp;gt;C-c s&amp;lt;/code&amp;gt;:&amp;lt;/p&amp;gt;
+
+&amp;lt;pre style=&amp;#34;color: #262626; background-color: #ded6c5;&amp;#34;&amp;gt;
+&amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; &amp;lt;span style=&amp;#34;color: #2c53ca;&amp;#34;&amp;gt;issymmetric&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #000000; background-color: #ffff00;&amp;#34;&amp;gt;A&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626; background-color: #ded6c5;&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #9400d3;&amp;#34;&amp;gt;AbstractMatrix&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;
+    indsm, indsn = indices&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #000000; background-color: #ffff00;&amp;#34;&amp;gt;A&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;
+    &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;if&amp;lt;/span&amp;gt; indsm != indsn
+        &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;return&amp;lt;/span&amp;gt; &amp;lt;span style=&amp;#34;color: #259ea2;&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;
+    &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+    &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;for&amp;lt;/span&amp;gt; i = first&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;indsn&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;:last&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;indsn&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;, j = &amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;i&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;:last&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;indsn&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;
+        &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;if&amp;lt;/span&amp;gt; &amp;lt;span style=&amp;#34;color: #000000; background-color: #ffff00;&amp;#34;&amp;gt;A&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;[&amp;lt;/span&amp;gt;i,j&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;]&amp;lt;/span&amp;gt; != transpose&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #000000; background-color: #ffff00;&amp;#34;&amp;gt;A&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;[&amp;lt;/span&amp;gt;j,i&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;])&amp;lt;/span&amp;gt;
+            &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;return&amp;lt;/span&amp;gt; &amp;lt;span style=&amp;#34;color: #259ea2;&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;
+        &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+    &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+    &amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;return&amp;lt;/span&amp;gt; &amp;lt;span style=&amp;#34;color: #259ea2;&amp;#34;&amp;gt;true&amp;lt;/span&amp;gt;
+&amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+&amp;lt;/pre&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;fill-docstrings&amp;#34;&amp;gt;Fill docstrings&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;This is useful if you want to use &amp;lt;code&amp;gt;M-q&amp;lt;/code&amp;gt; on docstrings.&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-emacs-lisp&amp;#34; data-lang=&amp;#34;emacs-lisp&amp;#34;&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;defun&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;julia-fill-string&amp;lt;/span&amp;gt; ()
+  &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Fill a docstring, preserving newlines before and after triple quotation marks.&amp;amp;#34;&amp;lt;/span&amp;gt;
+  (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;interactive&amp;lt;/span&amp;gt;)
+  (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;if&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;and&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;transient-mark-mode&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;mark-active&amp;lt;/span&amp;gt;)
+      (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;fill-region&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;region-beginning&amp;lt;/span&amp;gt;) (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;region-end&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;s7d5&amp;#34;&amp;gt;nil&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7d5&amp;#34;&amp;gt;t&amp;lt;/span&amp;gt;)
+    (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;cl-flet&amp;lt;/span&amp;gt; ((&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;fill-if-string&amp;lt;/span&amp;gt; ()
+                              (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;when&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;or&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;looking-at&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;rx&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;\&amp;amp;#34;\&amp;amp;#34;\&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+                                                        (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;group&amp;lt;/span&amp;gt;
+                                                         (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;*?&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;or&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;not&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;any&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;\\&amp;amp;#34;&amp;lt;/span&amp;gt;))
+                                                                 (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;seq&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;\\&amp;amp;#34;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;anything&amp;lt;/span&amp;gt;))))
+                                                        &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;\&amp;amp;#34;\&amp;amp;#34;\&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;))
+                                        (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;looking-at&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;rx&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;\&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+                                                        (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;group&amp;lt;/span&amp;gt;
+                                                         (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;*?&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;or&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;not&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;any&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;\\&amp;amp;#34;&amp;lt;/span&amp;gt;))
+                                                                 (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;seq&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;\\&amp;amp;#34;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;anything&amp;lt;/span&amp;gt;))))
+                                                        &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;\&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;)))
+                                (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;let&amp;lt;/span&amp;gt; ((&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;start&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;match-beginning&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;))
+                                      (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;match-end&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;)))
+                                  &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;;; (ess-blink-region start end)&amp;lt;/span&amp;gt;
+                                  (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;fill-region&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;start&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7d5&amp;#34;&amp;gt;nil&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7d5&amp;#34;&amp;gt;nil&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7d5&amp;#34;&amp;gt;nil&amp;lt;/span&amp;gt;)))))
+      (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;save-excursion&amp;lt;/span&amp;gt;
+        (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;let&amp;lt;/span&amp;gt; ((&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;s&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;syntax-ppss&amp;lt;/span&amp;gt;)))
+          (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;when&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;fourth&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;s&amp;lt;/span&amp;gt;) (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;goto-char&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;ninth&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;s&amp;lt;/span&amp;gt;))))
+        (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;fill-if-string&amp;lt;/span&amp;gt;)))))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Add&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-emacs-lisp&amp;#34; data-lang=&amp;#34;emacs-lisp&amp;#34;&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;local-set-key&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;kbd&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;M-q&amp;amp;#34;&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sc2c&amp;#34;&amp;gt;&amp;amp;#39;julia-fill-string&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;to the mode hook.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;highlight-things-after-column-80&amp;#34;&amp;gt;Highlight things after column 80&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;I add this to the mode hook:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-emacs-lisp&amp;#34; data-lang=&amp;#34;emacs-lisp&amp;#34;&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;set-fill-column&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;80&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;I also use &amp;lt;code&amp;gt;whitespace&amp;lt;/code&amp;gt; globally:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-emacs-lisp&amp;#34; data-lang=&amp;#34;emacs-lisp&amp;#34;&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;require&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc2c&amp;#34;&amp;gt;&amp;amp;#39;whitespace&amp;lt;/span&amp;gt;)
+(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;setq&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;whitespace-style&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&amp;amp;#39;&amp;lt;/span&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;face&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;empty&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;tabs&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;lines-tail&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;trailing&amp;lt;/span&amp;gt;))
+(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;global-whitespace-mode&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s7d5&amp;#34;&amp;gt;t&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;This is what it looks like:&amp;lt;/p&amp;gt;
+
+&amp;lt;pre style=&amp;#34;color: #262626; background-color: #ded6c5;&amp;#34;&amp;gt;
+    QR&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;{&amp;lt;/span&amp;gt;T,S&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;}(&amp;lt;/span&amp;gt;factors&amp;lt;span style=&amp;#34;color: #262626; background-color: #ded6c5;&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #9400d3;&amp;#34;&amp;gt;AbstractMatrix&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;{&amp;lt;/span&amp;gt;T&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;}&amp;lt;/span&amp;gt;, &amp;amp;#964;&amp;lt;span style=&amp;#34;color: #262626; background-color: #ded6c5;&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #9400d3;&amp;#34;&amp;gt;Vector&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;{&amp;lt;/span&amp;gt;T&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;})&amp;lt;/span&amp;gt; where &amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;{&amp;lt;/span&amp;gt;T,S&amp;lt;span style=&amp;#34;color: #262626; background-color: #ded6c5;&amp;#34;&amp;gt;&amp;amp;lt;:&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #9400d3;&amp;#34;&amp;gt;AbstractMatrix&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626; background-color: #f6f0e1;&amp;#34;&amp;gt;}&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;background-color: #f6f0e1;&amp;#34;&amp;gt; = new&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626; background-color: #f6f0e1;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;background-color: #f6f0e1;&amp;#34;&amp;gt;factors, &amp;amp;#964;&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626; background-color: #f6f0e1;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;
+&amp;lt;span style=&amp;#34;color: #2020cc; font-weight: bold;&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+QR&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;factors&amp;lt;span style=&amp;#34;color: #262626; background-color: #ded6c5;&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #9400d3;&amp;#34;&amp;gt;AbstractMatrix&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;{&amp;lt;/span&amp;gt;T&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;}&amp;lt;/span&amp;gt;, &amp;amp;#964;&amp;lt;span style=&amp;#34;color: #262626; background-color: #ded6c5;&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #9400d3;&amp;#34;&amp;gt;Vector&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;{&amp;lt;/span&amp;gt;T&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;})&amp;lt;/span&amp;gt; where &amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;{&amp;lt;/span&amp;gt;T&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;}&amp;lt;/span&amp;gt; = QR&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;{&amp;lt;/span&amp;gt;T,typeof&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;(&amp;lt;/span&amp;gt;factors&amp;lt;span style=&amp;#34;color: #262626;&amp;#34;&amp;gt;)}(&amp;lt;/span&amp;gt;f&amp;lt;span style=&amp;#34;background-color: #f6f0e1;&amp;#34;&amp;gt;actors, &amp;amp;#964;&amp;lt;/span&amp;gt;&amp;lt;span style=&amp;#34;color: #262626; background-color: #f6f0e1;&amp;#34;&amp;gt;)&amp;lt;/span&amp;gt;
+&amp;lt;/pre&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;hungry-delete-mode&amp;#34;&amp;gt;Hungry delete-mode&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Add this to the mode hook:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-emacs-lisp&amp;#34; data-lang=&amp;#34;emacs-lisp&amp;#34;&amp;gt;(&amp;lt;span class=&amp;#34;s7e3&amp;#34;&amp;gt;hungry-delete-mode&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;and then backspace and delete will remove all whitespace near the point in the relevant direction.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;In case you are wondering, the theme is &amp;lt;a href=&amp;#34;https://github.com/alezost/alect-themes&amp;#34;&amp;gt;alect-light&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Local packages in a separate directory in Julia</title>
+    <link href="http://tpapp.github.io/post/julia-local-test/"/>
+    <id>http://tpapp.github.io/post/julia-local-test/</id>
+    <published>2017-08-23T10:10:48+02:00</published>
+    <updated>2017-08-23T10:10:48+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/julia-local-test/">&amp;lt;p&amp;gt;I run &amp;lt;code&amp;gt;Pkg.update()&amp;lt;/code&amp;gt; fairly often to stay up to date and benefit from
+the latest improvements of various packages. I rarely ever &amp;lt;code&amp;gt;pin&amp;lt;/code&amp;gt; to a
+specific package version, but I occasionally checkout &amp;lt;code&amp;gt;master&amp;lt;/code&amp;gt; for
+some packages, especially if I am contributing.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Despite updating regularly, I found that the documentation subtly diverged from what I was experiencing for some packages. After looking into the issue, I learned that I was 2&amp;amp;ndash;3 minor versions behind despite updating regularly. For example, when I would&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;Pkg&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;update(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;ForwardDiff&amp;amp;#34;&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;I would be told that there is a new version, and to get it I should update &amp;lt;code&amp;gt;ReverseDiff&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;Optim&amp;lt;/code&amp;gt;. But&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;Pkg&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;update(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;ForwardDiff&amp;amp;#34;&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;ReverseDiff&amp;amp;#34;&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Optim&amp;amp;#34;&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;would just run quietly without updating.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;I could not figure out the cause for this and did not want to get sidetracked debugging it, so I decided to wipe the package directory and start over. However, in order to do this, I had to make sure that no code is lost, especially for local packages. First, I moved my local packages into a separate directory, and added that to &amp;lt;code&amp;gt;LOAD_PATH&amp;lt;/code&amp;gt; in &amp;lt;code&amp;gt;.juliarc.jl&amp;lt;/code&amp;gt;:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;push!(&amp;lt;span class=&amp;#34;s7d2&amp;#34;&amp;gt;LOAD_PATH&amp;lt;/span&amp;gt;, expanduser(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;~/src/julia-local-packages/&amp;amp;#34;&amp;lt;/span&amp;gt;))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Then I ran &amp;lt;a href=&amp;#34;https://github.com/fboender/multi-git-status&amp;#34;&amp;gt;multi-git-status&amp;lt;/a&amp;gt; to make sure that there were no unpushed changes. Finally, I deleted the package directory and reinstalled everything. Surprisingly, &amp;lt;code&amp;gt;Pkg.add&amp;lt;/code&amp;gt; ran much faster than before.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;In case I have to do this again, I decided to keep my local packages separate &amp;amp;mdash; the only drawback is that &amp;lt;code&amp;gt;Pkg.test&amp;lt;/code&amp;gt; now can&amp;amp;rsquo;t find them. A workaround is below, using some code from &amp;lt;code&amp;gt;Base.Pkg&amp;lt;/code&amp;gt;:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;    local_test(pkgname, [coverage])
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Find and test a package in `LOAD_PATH`. Useful when the package is outside
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;`Pkg.dir()`.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Assumes the usual directory structure: package has the same name as the module,
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;the main file is in `src/Pkgname.jl`, while tests are in `test/runtests.jl`.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; local_test(pkgname; coverage&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Bool&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+    module_path &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;find_in_path(pkgname, &amp;lt;span class=&amp;#34;s7d2&amp;#34;&amp;gt;nothing&amp;lt;/span&amp;gt;)
+    src_dir, module_file &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; splitdir(module_path)
+    dir &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; normpath(src_dir, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;..&amp;amp;#34;&amp;lt;/span&amp;gt;)
+    test_path &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; joinpath(dir, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;test&amp;amp;#34;&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;runtests.jl&amp;amp;#34;&amp;lt;/span&amp;gt;)
+    &amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@assert&amp;lt;/span&amp;gt; isfile(test_path) &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Could not find &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$&amp;lt;/span&amp;gt;(test_path)&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;lt;/span&amp;gt;
+    Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;cd(dir) &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;do&amp;lt;/span&amp;gt;
+        &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;try&amp;lt;/span&amp;gt;
+            color &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;have_color&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;?&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--color=yes&amp;amp;#34;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--color=no&amp;amp;#34;&amp;lt;/span&amp;gt;
+            codecov &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; coverage&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;?&amp;lt;/span&amp;gt; [&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--code-coverage=user&amp;amp;#34;&amp;lt;/span&amp;gt;] &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; [&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--code-coverage=none&amp;amp;#34;&amp;lt;/span&amp;gt;]
+            compilecache &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;--compilecache=&amp;amp;#34;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Bool&amp;lt;/span&amp;gt;(Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;JLOptions()&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;use_compilecache) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;?&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;yes&amp;amp;#34;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;no&amp;amp;#34;&amp;lt;/span&amp;gt;)
+            julia_exe &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;julia_cmd()
+            run(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;`&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$julia_exe&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; --check-bounds=yes &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$codecov&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$color&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$compilecache&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$test_path&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;`&amp;lt;/span&amp;gt;)
+            info(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$module_file&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; tests passed&amp;amp;#34;&amp;lt;/span&amp;gt;)
+        &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;catch&amp;lt;/span&amp;gt; err
+            Base&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;Pkg&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;Entry&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;warnbanner(err, label&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;[ ERROR: &amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc27&amp;#34;&amp;gt;$module_file&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt; ]&amp;amp;#34;&amp;lt;/span&amp;gt;)
+        &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Compared to simply &amp;lt;code&amp;gt;include(&amp;amp;quot;wherever-it-is/runtests.jl&amp;amp;quot;)&amp;lt;/code&amp;gt;, this has the advantage of running a separate Julia process, so your workspace does not contaminate the test environment and in case of segfaults, the parent process won&amp;amp;rsquo;t be affected.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Hopefully, the code above will be obsolete once &amp;lt;a href=&amp;#34;https://github.com/StefanKarpinski/Pkg3.jl&amp;#34;&amp;gt;Pkg3&amp;lt;/a&amp;gt; is released, but until then it is a useful workaround.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;edit&amp;lt;/strong&amp;gt;: function above was corrupted during copy-paste, corrected.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Emacs 25.2 on Ubuntu</title>
+    <link href="http://tpapp.github.io/post/emacs25-ubuntu/"/>
+    <id>http://tpapp.github.io/post/emacs25-ubuntu/</id>
+    <published>2017-07-03T10:49:56+02:00</published>
+    <updated>2017-07-03T10:49:56+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/emacs25-ubuntu/">&amp;lt;p&amp;gt;Emacs is undoubtedly the most important program on my computers. On my
+laptop, I use it to keep track of stuff with &amp;lt;a href=&amp;#34;http://orgmode.org/&amp;#34;&amp;gt;org-mode&amp;lt;/a&amp;gt;, read mail with &amp;lt;a href=&amp;#34;https://www.djcbsoftware.nl/code/mu/mu4e.html&amp;#34;&amp;gt;mu4e&amp;lt;/a&amp;gt;, edit LaTeX with &amp;lt;a href=&amp;#34;https://www.gnu.org/software/auctex/&amp;#34;&amp;gt;AUCTeX&amp;lt;/a&amp;gt;, and of course program. On servers, the first alias I define is usually &amp;lt;code&amp;gt;qe=&amp;#39;emacs -Q -nw&amp;#39;&amp;lt;/code&amp;gt;, which give me a fast and responsive editor. With &amp;lt;a href=&amp;#34;https://github.com/emacs-helm/helm&amp;#34;&amp;gt;helm&amp;lt;/a&amp;gt;, doing just about anything (eg locating files, &amp;lt;code&amp;gt;rgrep&amp;lt;/code&amp;gt;ing for something) is orders of magnitude faster and more convenient than any alternative I have tried.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;I also try to keep up with the latest versions for software in general. Usually, whatever Ubuntu stable/Debian testing has is good enough not to justify the extra effort, but when I really need it, I grab the source and compile. That is usually only a minor hassle, but I try to restrict it to a few critical programs, otherwise it adds up. The major issue is not compiling, but having cruft in the filesystem (despite &amp;lt;a href=&amp;#34;https://www.gnu.org/software/stow/manual/stow.html&amp;#34;&amp;gt;stow&amp;lt;/a&amp;gt; and &amp;lt;a href=&amp;#34;https://wiki.debian.org/CheckInstall&amp;#34;&amp;gt;checkinstall&amp;lt;/a&amp;gt;, it piles up). So I try to avoid it if I can.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Emacs 25.2 was released in April 2017, but there is no sign of an Ubuntu package for it yet. On various forums the &amp;lt;a href=&amp;#34;https://launchpad.net/~kelleyk/&#43;archive/ubuntu/emacs&amp;#34;&amp;gt;PPA of kelleyk&amp;lt;/a&amp;gt; is recommended, but that does not have 25.2 for 17.04 (some files clash if you install previous versions).&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Fortunately, Robert Bruce Park has now added Emacs 25.2 to the &amp;lt;a href=&amp;#34;https://launchpad.net/~ubuntu-elisp/&#43;archive/ubuntu/ppa&amp;#34;&amp;gt;Ubuntu Emacs Lisp PPA&amp;lt;/a&amp;gt;, so having the latest of your favorite editor is only an &amp;lt;code&amp;gt;add-apt-repository&amp;lt;/code&amp;gt; away. You may want to add a file to &amp;lt;code&amp;gt;/etc/apt/preferences.d&amp;lt;/code&amp;gt; with contents&amp;lt;/p&amp;gt;
+
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;Package: *
+Pin: release o=LP-PPA-ubuntu-elisp
+Pin-Priority: 600
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+
+&amp;lt;p&amp;gt;to make sure the right packages are installed.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Sampling variation in effective sample size estimates (MCMC)</title>
+    <link href="http://tpapp.github.io/post/ess-sampling/ess-sampling/"/>
+    <id>http://tpapp.github.io/post/ess-sampling/ess-sampling/</id>
+    <published>2017-06-12T16:25:57+02:00</published>
+    <updated>2017-06-12T16:25:57+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/ess-sampling/ess-sampling/">
+
+&amp;lt;h2 id=&amp;#34;introduction&amp;#34;&amp;gt;Introduction&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;MCMC samples, used in Bayesian statistics, are not independent &amp;amp;mdash; in fact, unless one uses specialized methods or &amp;lt;a href=&amp;#34;https://arxiv.org/abs/1701.02434&amp;#34;&amp;gt;modern HMC&amp;lt;/a&amp;gt;, posterior draws are usually at highly autocorrelated. For independent draws,
+[
+\text{variance of simulation mean} \propto \frac1N
+]
+where $N$ is the sample size, but for correlated draws, one has to scale the sample size with a factor
+[
+\tau = \frac{1}{1&#43;2\sum_{k=1}^\infty \rho_k}
+]
+where $\rho_k$ is the lag-$k$ autocorrelation. $\tau N$ is the &amp;lt;em&amp;gt;effective sample size&amp;lt;/em&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Usually, $\rho_k$ is estimated from the data using the variogram
+[
+V_k = \frac{1}{N-k} \sum_{i=1}^{N-k} x_i x_{i&#43;k}
+]
+from which we obtain
+[
+\rho_k = 1-\frac{V_k}{2\text{var}(x)}
+]
+where an estimator for the variance is also used. Then, to avoid using noisy estimates, we only add up to the last $K$ where
+[
+\rho_{K} &#43; \rho_{K&#43;1} \ge 0
+]
+I will call $K$ the &amp;lt;em&amp;gt;last lag&amp;lt;/em&amp;gt;. &amp;lt;a href=&amp;#34;http://mc-stan.org/&amp;#34;&amp;gt;Stan&amp;lt;/a&amp;gt; does something slightly different, using FFT for autocorrelations, and cutting off at the first negative $\rho_K$, but for HMC this does not make a whole lot of difference.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;the-sampling-variation&amp;#34;&amp;gt;The sampling variation&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;I was coding up the above calculation, and needed some unit tests. Surprisignly, I could not find anything on the sampling variation of $\tau$, so I wrote some simulations in Julia (&amp;lt;a href=&amp;#34;../ess-sampling.jl&amp;#34;&amp;gt;source code for everything&amp;lt;/a&amp;gt;). I did the following simulation exercise:&amp;lt;/p&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;for a given autocorrelation coefficient $\phi$, simulate $N$ draws from the AR(1) process
+[
+x_t = \phi x_{t-1} &#43; \sigma \epsilon_t
+\qquad
+\epsilon_t \sim \text{Normal}(0,1), \text{IID}
+]&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;calculate $\tau$ and $K$,&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;repeat 1000 times and plot the results.&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;p&amp;gt;I use $N=1000$ and $N=10000$, as these would be typical sample sizes, first for a fairly efficient algorithm, then for a more stubborn but still manageable posterior.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;iid-samples&amp;#34;&amp;gt;IID samples&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Let $\phi=0$, then we expect $\tau=1$ (red line in histogram, coefficient of variation on top).&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;
+&amp;lt;figure &amp;gt;
+    
+        &amp;lt;img src=&amp;#34;../ess-phi0N1000.svg&amp;#34; /&amp;gt;
     
     
-    <item>
-      <title>Automatic differentiation of discontinuous integrals</title>
-      <link>http://tpapp.github.io/post/discontinuous_integral_ad/</link>
-      <pubDate>Fri, 15 Sep 2017 16:03:10 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/discontinuous_integral_ad/</guid>
-      <description>This is a much simplified writeup of a problem I encountered, in a self-contained blog post.
-You want to approximate the integral [ I(\theta) = \int 1(g(x) &amp;gt; 0) f(x,\theta) dx ] where $g$ is a continuous function, and $f(x,\theta)$ is a parametric distribution over $x$. Everthing is continous, and thus $I$ is, too.
-You face the following constraints:
- $g$ is a black box. We will pretend that you can&amp;rsquo;t invert it (except for checking our results, of course).</description>
-    </item>
+    &amp;lt;figcaption&amp;gt;
+        &amp;lt;h4&amp;gt;Results with $\phi=0$ (IID), $N=1000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&amp;lt;/h4&amp;gt;
+        
+    &amp;lt;/figcaption&amp;gt;
     
-    <item>
-      <title>log1p in Julia</title>
-      <link>http://tpapp.github.io/post/log1p/</link>
-      <pubDate>Wed, 13 Sep 2017 11:18:59 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/log1p/</guid>
-      <description>edit: fixed bogus interaction of MathJax and code highlighting.
-edit2: added benchmarks.
-This is a follow-up on a question I asked on the Julia forums about calculating [ \text{log1p}(x) = \log(1+x) ] This calculation is tricky because if $x \approx 0$, [ \log(1+x) \approx x ] while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using log(1+x) will not be as accurate as it could be. Numerical analysts have developed specialized methods for these calculations that try to get an accurate answer, and all programming languages serious about numerical calculations have an implementation either in the core language or a library.</description>
-    </item>
+&amp;lt;/figure&amp;gt;
+
+
+&amp;lt;figure &amp;gt;
     
-    <item>
-      <title>Emacs customizations for julia-mode</title>
-      <link>http://tpapp.github.io/post/emacs-julia-customizations/</link>
-      <pubDate>Mon, 28 Aug 2017 14:41:58 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/emacs-julia-customizations/</guid>
-      <description>I find the following customizations very useful for editing Julia code in Emacs. Add them to julia-mode-hook, eg
-(defun customize-julia-mode () &amp;#34;Customize julia-mode.&amp;#34; (interactive) ;; my customizations go here ) (add-hook &amp;#39;julia-mode-hook &amp;#39;customize-julia-mode)  Highlight FIXME/TODO/&amp;hellip; When I just want to note something in a comment for future reference, I prefer to have certain words highlighted. You can use something like this:
-(font-lock-add-keywords nil &amp;#39;((&amp;#34;\\&amp;lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&amp;#34; 1 font-lock-warning-face t)))  This is what it looks like:</description>
-    </item>
+        &amp;lt;img src=&amp;#34;../ess-phi0N10000.svg&amp;#34; /&amp;gt;
     
-    <item>
-      <title>Local packages in a separate directory in Julia</title>
-      <link>http://tpapp.github.io/post/julia-local-test/</link>
-      <pubDate>Wed, 23 Aug 2017 10:10:48 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/julia-local-test/</guid>
-      <description>I run Pkg.update() fairly often to stay up to date and benefit from the latest improvements of various packages. I rarely ever pin to a specific package version, but I occasionally checkout master for some packages, especially if I am contributing.
-Despite updating regularly, I found that the documentation subtly diverged from what I was experiencing for some packages. After looking into the issue, I learned that I was 2&amp;ndash;3 minor versions behind despite updating regularly.</description>
-    </item>
     
-    <item>
-      <title>Emacs 25.2 on Ubuntu</title>
-      <link>http://tpapp.github.io/post/emacs25-ubuntu/</link>
-      <pubDate>Mon, 03 Jul 2017 10:49:56 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/emacs25-ubuntu/</guid>
-      <description>Emacs is undoubtedly the most important program on my computers. On my laptop, I use it to keep track of stuff with org-mode, read mail with mu4e, edit LaTeX with AUCTeX, and of course program. On servers, the first alias I define is usually qe=&#39;emacs -Q -nw&#39;, which give me a fast and responsive editor. With helm, doing just about anything (eg locating files, rgreping for something) is orders of magnitude faster and more convenient than any alternative I have tried.</description>
-    </item>
+    &amp;lt;figcaption&amp;gt;
+        &amp;lt;h4&amp;gt;Results with $\phi=0$ (IID), $N=10000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&amp;lt;/h4&amp;gt;
+        
+    &amp;lt;/figcaption&amp;gt;
     
-    <item>
-      <title>Sampling variation in effective sample size estimates (MCMC)</title>
-      <link>http://tpapp.github.io/post/ess-sampling/ess-sampling/</link>
-      <pubDate>Mon, 12 Jun 2017 16:25:57 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/ess-sampling/ess-sampling/</guid>
-      <description>Introduction MCMC samples, used in Bayesian statistics, are not independent &amp;mdash; in fact, unless one uses specialized methods or modern HMC, posterior draws are usually at highly autocorrelated. For independent draws, [ \text{variance of simulation mean} \propto \frac1N ] where $N$ is the sample size, but for correlated draws, one has to scale the sample size with a factor [ \tau = \frac{1}{1+2\sum_{k=1}^\infty \rho_k} ] where $\rho_k$ is the lag-$k$ autocorrelation.</description>
-    </item>
+&amp;lt;/figure&amp;gt;
+&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;With $1000$ samples, there is a lot of variation in ESS: 800 could show up very easily in practice. $600$ is not improbable either. Using up to $10$ lags is not uncommon.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;For $10000$ samples, the precision is improved considerably, we commonly use $2$ or $4$ lags.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;For both sample sizes, notice the high correlation between the last lag $K$, and $\tau$: given the method above, using more lags increases $\tau^{-1}$, so this is to be expected.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;ar-1-samples-with-rho-0-5&amp;#34;&amp;gt;AR(1) samples with $\rho=0.5$&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;This is a more autocorrelated process, here theory tells us that $\tau$=&amp;lt;sup&amp;gt;1&amp;lt;/sup&amp;gt;&amp;amp;frasl;&amp;lt;sub&amp;gt;3&amp;lt;/sub&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;
+&amp;lt;figure &amp;gt;
     
-    <item>
-      <title>Blog redesign</title>
-      <link>http://tpapp.github.io/post/blog-redesign/</link>
-      <pubDate>Mon, 12 Jun 2017 14:12:43 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/blog-redesign/</guid>
-      <description>I am in the process of rebuilding my personal website using Hugo. I tried various themes, including hugo-academic, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.
-The result is now 80% ready (blog works, automatic listing of research papers will take some more work), and the source is on Github. It is available under the CC-BY-SA license, feel free to adapt parts from it, not that there is anything special in there.</description>
-    </item>
+        &amp;lt;img src=&amp;#34;../ess-phi05N1000.svg&amp;#34; /&amp;gt;
     
-    <item>
-      <title>Getting a nice &#43;= in LaTeX math</title>
-      <link>http://tpapp.github.io/post/latex-math-increment/</link>
-      <pubDate>Wed, 24 May 2017 12:59:53 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/latex-math-increment/</guid>
-      <description>I am working on an appendix for a paper that uses MCMC, and I decided to document some change of varible calculations in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?
-\mathtt{target} += J_f  gives $$ \mathtt{target} += J_f $$ which is to be expected, as + is a binary operator and = is a relation, so $\LaTeX$ is not expecting them to show up this way.</description>
-    </item>
     
-    <item>
-      <title>Two tricks for change of variables in MCMC</title>
-      <link>http://tpapp.github.io/post/jacobian-chain/</link>
-      <pubDate>Tue, 23 May 2017 16:39:26 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/jacobian-chain/</guid>
-      <description>Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the lognormal distribution: when
-$$\log(y) \sim N(\mu, \sigma^2)$$
-one has to adjust the log posterior by $-\log y$ since
-$$\frac{\partial \log(y)}{\partial y} = \frac{1}{y}$$
-and
-$$\log(1/y) = -\log(y).$$
-In Stan, one would accomplish this as
-target += -log(y)  In general, when you transform using a multivariate function $f$, you would adjust by</description>
-    </item>
+    &amp;lt;figcaption&amp;gt;
+        &amp;lt;h4&amp;gt;Results with $\phi=0.5$, $N=1000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&amp;lt;/h4&amp;gt;
+        
+    &amp;lt;/figcaption&amp;gt;
     
-    <item>
-      <title>Disabling Privacy Badger</title>
-      <link>http://tpapp.github.io/post/privacy-badger/</link>
-      <pubDate>Tue, 02 May 2017 16:35:37 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/privacy-badger/</guid>
-      <description>Firefox has been my primary browser for the last decade. I find it very fast and convenient, and use quite a few addons, including Google Scholar Button, NoScript, and uBlock Origin.
-I can&amp;rsquo;t recall exactly when, but about half a year ago various sites started to break. I have not bothered to debug what&amp;rsquo;s happening, suspecting it was was a combination of various plugins, but continued to use Firefox and installed openwith to open broken pages in Chromium (yes, I know, the ultimate kludge).</description>
-    </item>
+&amp;lt;/figure&amp;gt;
+
+
+&amp;lt;figure &amp;gt;
     
-    <item>
-      <title>Continuous-time deterministic dynamic programming in Julia</title>
-      <link>http://tpapp.github.io/post/dynamic-programming/</link>
-      <pubDate>Sun, 02 Apr 2017 19:06:04 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/dynamic-programming/</guid>
-      <description>For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. EconFunctions.jl is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. ContinuousTransformations.jl is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally ParametricFunctions.jl is for working with parametric function families.</description>
-    </item>
+        &amp;lt;img src=&amp;#34;../ess-phi05N10000.svg&amp;#34; /&amp;gt;
     
-    <item>
-      <title>Blogging with Hugo, Julia, Weave.jl</title>
-      <link>http://tpapp.github.io/post/blogging-weave-julia-hugo/</link>
-      <pubDate>Thu, 30 Mar 2017 10:02:32 +0200</pubDate>
-      
-      <guid>http://tpapp.github.io/post/blogging-weave-julia-hugo/</guid>
-      <description>I have made a PR to Weave.jl which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator Hugo, and generating some pages with plots and evaluated Julia results. I made the source for my blog available so that others can use it for their own blogging about Julia. An example is this post.
-The gist of the workflow is as follows:</description>
-    </item>
     
-    <item>
-      <title>Teaching a course using Julia</title>
-      <link>http://tpapp.github.io/post/teaching-a-course/</link>
-      <pubDate>Fri, 24 Mar 2017 14:34:22 +0100</pubDate>
-      
-      <guid>http://tpapp.github.io/post/teaching-a-course/</guid>
-      <description>I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods.</description>
-    </item>
+    &amp;lt;figcaption&amp;gt;
+        &amp;lt;h4&amp;gt;Results with $\phi=0.5$, $N=10000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&amp;lt;/h4&amp;gt;
+        
+    &amp;lt;/figcaption&amp;gt;
     
-    <item>
-      <title>Julia &#43; Weave.jl &#43; hugo test</title>
-      <link>http://tpapp.github.io/post/hugo-julia-weave/</link>
-      <pubDate>Fri, 03 Mar 2017 13:11:53 +0100</pubDate>
-      
-      <guid>http://tpapp.github.io/post/hugo-julia-weave/</guid>
-      <description>Testing the Hugo formatter for Weave.jl.
-Testing inline code: 1+1=2.
-Testing math: $$x^2+y^2 = \int_0^1 f(z) dz$$
-Testing code:
-1+1  2  Testing proper highlighting:
-function foo(x, y) x+y end  A plot:
-x = 1:10 y = x.^2 scatter(x, y, legend = false)   Caption for this plot   </description>
-    </item>
+&amp;lt;/figure&amp;gt;
+&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Notice that $\tau$ is now more dispersed, compared to the IID case. Even with 10000 samples, the coefficient of variation is 6%, with 1000 it is around &amp;lt;sup&amp;gt;1&amp;lt;/sup&amp;gt;&amp;amp;frasl;&amp;lt;sub&amp;gt;6&amp;lt;/sub&amp;gt;. In practice, expect effective sample sizes all over the place.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;ar-1-samples-with-rho-0-8&amp;#34;&amp;gt;AR(1) samples with $\rho=0.8$&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;This is an even more autocorrelated process, here theory tells us that $\tau$=&amp;lt;sup&amp;gt;1&amp;lt;/sup&amp;gt;&amp;amp;frasl;&amp;lt;sub&amp;gt;9&amp;lt;/sub&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;
+&amp;lt;figure &amp;gt;
     
-  </channel>
-</rss>
+        &amp;lt;img src=&amp;#34;../ess-phi08N1000.svg&amp;#34; /&amp;gt;
+    
+    
+    &amp;lt;figcaption&amp;gt;
+        &amp;lt;h4&amp;gt;Results with $\phi=0.8$, $N=1000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&amp;lt;/h4&amp;gt;
+        
+    &amp;lt;/figcaption&amp;gt;
+    
+&amp;lt;/figure&amp;gt;
+
+
+&amp;lt;figure &amp;gt;
+    
+        &amp;lt;img src=&amp;#34;../ess-phi08N10000.svg&amp;#34; /&amp;gt;
+    
+    
+    &amp;lt;figcaption&amp;gt;
+        &amp;lt;h4&amp;gt;Results with $\phi=0.8$, $N=10000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&amp;lt;/h4&amp;gt;
+        
+    &amp;lt;/figcaption&amp;gt;
+    
+&amp;lt;/figure&amp;gt;
+&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;There is now so much variation that in order to get an estimate for ESS that we can use for comparing various MCMC implementations, we need to run much more than $1000$ samples.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;conclusion&amp;#34;&amp;gt;Conclusion&amp;lt;/h2&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;For unit testing ESS calculations, I will need to use 10000 samples, with $\pm10$ or similar error bands.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;As a rule of thumb, I would ignore less than 1.5x variation in ESS for 1000 samples, or run longer chains: it may be just random noise.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;bibliography&amp;#34;&amp;gt;Bibliography&amp;lt;/h2&amp;gt;
+
+&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;Gelman, Andrew, et al. 2013. Bayesian data analysis. 3rd edition. Chapman &amp;amp;amp; Hall/CRC.&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;Stan Development Team. 2016. Stan Modeling Language Users Guide and Reference Manual, Version 2.15.0. &amp;lt;a href=&amp;#34;http://mc-stan.org&amp;#34;&amp;gt;http://mc-stan.org&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Blog redesign</title>
+    <link href="http://tpapp.github.io/post/blog-redesign/"/>
+    <id>http://tpapp.github.io/post/blog-redesign/</id>
+    <published>2017-06-12T14:12:43+02:00</published>
+    <updated>2017-06-12T14:12:43+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/blog-redesign/">&amp;lt;p&amp;gt;I am in the process of rebuilding my personal website using &amp;lt;a href=&amp;#34;http://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;. I tried various themes, including &amp;lt;a href=&amp;#34;https://github.com/gcushen/hugo-academic&amp;#34;&amp;gt;hugo-academic&amp;lt;/a&amp;gt;, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The result is now 80% ready (blog works, automatic listing of research papers will take some more work), and the &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;source is on Github&amp;lt;/a&amp;gt;. It is available under the CC-BY-SA license, feel free to adapt parts from it, not that there is anything special in there.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Hugo is really an excellent framework, it is clean, logical, and allows a lot of code reuse. I &amp;lt;del&amp;gt;wasted&amp;lt;/del&amp;gt; spent most of the time on fiddling with CSS, and I am still not 100% satisfied with the result, but at some point I decided to stop. &amp;lt;a href=&amp;#34;http://sass-lang.com/&amp;#34;&amp;gt;SCSS&amp;lt;/a&amp;gt; was extremely useful for writing organized CSS.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;I am especially satisfied with moving the code highlighting to the generator side. The only non-static parts are now &amp;lt;a href=&amp;#34;https://disqus.com/&amp;#34;&amp;gt;Disqus&amp;lt;/a&amp;gt; and &amp;lt;a href=&amp;#34;http://www.mathjax.org/&amp;#34;&amp;gt;MathJax&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Getting a nice &#43;= in LaTeX math</title>
+    <link href="http://tpapp.github.io/post/latex-math-increment/"/>
+    <id>http://tpapp.github.io/post/latex-math-increment/</id>
+    <published>2017-05-24T12:59:53+02:00</published>
+    <updated>2017-05-24T12:59:53+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/latex-math-increment/">&amp;lt;p&amp;gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &amp;lt;a href=&amp;#34;http://tpapp.github.io/post/jacobian-chain/&amp;#34;&amp;gt;change of varible calculations&amp;lt;/a&amp;gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathtt{target} &#43;= J_f&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;gives
+$$
+\mathtt{target} &#43;= J_f
+$$
+which is to be expected, as &amp;lt;code&amp;gt;&#43;&amp;lt;/code&amp;gt; is a binary operator and &amp;lt;code&amp;gt;=&amp;lt;/code&amp;gt; is a relation, so $\LaTeX$ is not expecting them to show up this way.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;We can remedy this as&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathtt{target} \mathrel{&#43;}= J_f&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;which shows up as
+$$
+\mathtt{target} \mathrel{&#43;}= J_f
+$$
+which is an improvement, but is still not visually appealing.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Making the &amp;lt;code&amp;gt;&#43;&amp;lt;/code&amp;gt; a bit smaller with&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathrel{\raisebox{0.19ex}{$\scriptstyle&#43;$}}=}&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;yields
+$$
+\mathtt{target} \mathrel{\raise{0.19ex}{\scriptstyle&#43;}} = J_f
+$$
+which looks OK enough to preclude further tweaking. Note that &amp;lt;a href=&amp;#34;http://www.mathjax.org/&amp;#34;&amp;gt;MathJax&amp;lt;/a&amp;gt; does not support &amp;lt;code&amp;gt;\raisebox&amp;lt;/code&amp;gt;, but you can use&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathrel{\raise{0.19ex}{\scriptstyle&#43;}} = J_f&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;which renders the as above.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Two tricks for change of variables in MCMC</title>
+    <link href="http://tpapp.github.io/post/jacobian-chain/"/>
+    <id>http://tpapp.github.io/post/jacobian-chain/</id>
+    <published>2017-05-23T16:39:26+02:00</published>
+    <updated>2017-05-23T16:39:26+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/jacobian-chain/">
+
+&amp;lt;p&amp;gt;Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the &amp;lt;em&amp;gt;lognormal distribution&amp;lt;/em&amp;gt;: when&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\log(y) \sim N(\mu, \sigma^2)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;one has to adjust the log posterior by $-\log y$ since&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\frac{\partial \log(y)}{\partial y} = \frac{1}{y}$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;and&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\log(1/y) = -\log(y).$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;In &amp;lt;a href=&amp;#34;http://mc-stan.org/&amp;#34;&amp;gt;Stan&amp;lt;/a&amp;gt;, one would accomplish this as&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-stan&amp;#34; data-lang=&amp;#34;stan&amp;#34;&amp;gt;target &#43;= -log(y)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;In general, when you transform using a multivariate function $f$, you would adjust by&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\log\det J_f(y)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;which is the log of the determinant of the Jacobian &amp;amp;mdash; some texts simply refer to this as &amp;amp;ldquo;the Jacobian&amp;amp;rdquo;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The above is well-known, but the following two tricks are worth mentioning.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;chaining-transformations&amp;#34;&amp;gt;Chaining transformations&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Suppose that you are changing a variable by using a chain of two functions $f \circ g$. Then
+\begin{multline}
+\log\det J_{f \circ g}(y) = \log \bigl(\det J_f(g(y)) \cdot \det J_g(y)\bigr) \\
+= \log\det J_f(g(y)) &#43; \log\det J_g(y)
+\end{multline}
+which means that you can simply add (the log determinant of) the Jacobians, of course evaluated at the appropriate points.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;This is very useful when $f \circ g$ is complicated and $J_{f\circ g}$ is tedious to derive, or if you want to use multiple $f$s or $g$s and economize on the algebra.
+ From the above, it is also easy to see that this generalizes to arbitrarily long chains of functions $f_1 \circ f_2 \circ \dots$.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;This trick turned out to be very useful when I was fitting a model where a transformation was general to both equilibrium concepts I was using (a noncooperative game and a social planner), so I could save on code. Of course, since &amp;lt;a href=&amp;#34;https://github.com/stan-dev/stan/issues/2224&amp;#34;&amp;gt;#2224&amp;lt;/a&amp;gt; is WIP, I had to copy-paste the code, but still saved quite a bit of work.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;transforming-a-subset-of-variables&amp;#34;&amp;gt;Transforming a subset of variables&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Suppose $x \in \mathbb{R}^m$ and $y \in \mathbb{R}^n$ are vectors, and you are interested in transforming to
+$$
+z = f(x,y)
+$$
+where $x$ and $z$ have the same dimension. It is useful to think about this transformation as
+$$g(x,y) = [f(x,y), y]^\top$$
+where $g : \mathbb{R}^{m&#43;n} \to \mathbb{R}^{m&#43;n}$. Since $y$ is mapped to itself,
+$$
+J_g = \begin{bmatrix}
+J_{f,x} &amp;amp;amp; J_{f,y} \\
+0 &amp;amp;amp; I
+\end{bmatrix}
+$$
+has a block structure, where
+$$
+J_{f,x} = \frac{\partial f(x,y)}{\partial x}
+$$
+and similarly for $J_{f,y}$. For the calculation of the determinant, you can safely ignore the latter, and $\log \det I = 0$, so
+$$
+\log\det J_g = \log\det J_{f,x}
+$$&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Disabling Privacy Badger</title>
+    <link href="http://tpapp.github.io/post/privacy-badger/"/>
+    <id>http://tpapp.github.io/post/privacy-badger/</id>
+    <published>2017-05-02T16:35:37+02:00</published>
+    <updated>2017-05-02T16:35:37+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/privacy-badger/">&amp;lt;p&amp;gt;Firefox has been my primary browser for the last decade. I find it very fast and convenient, and use quite a few addons, including &amp;lt;a href=&amp;#34;https://addons.mozilla.org/en-gb/firefox/addon/google-scholar-button/&amp;#34;&amp;gt;Google Scholar Button&amp;lt;/a&amp;gt;, &amp;lt;a href=&amp;#34;https://addons.mozilla.org/en-gb/firefox/addon/noscript/?src=search&amp;#34;&amp;gt;NoScript&amp;lt;/a&amp;gt;,  and &amp;lt;a href=&amp;#34;https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/&amp;#34;&amp;gt;uBlock Origin&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;I can&amp;amp;rsquo;t recall exactly when, but about half a year ago various sites started to break. I have not bothered to debug what&amp;amp;rsquo;s happening, suspecting it was was a combination of various plugins, but continued to use Firefox and installed &amp;lt;a href=&amp;#34;https://github.com/darktrojan/openwith&amp;#34;&amp;gt;openwith&amp;lt;/a&amp;gt; to open broken pages in Chromium (yes, I know, the ultimate kludge). More sites became broken, and I found that now I am spending 99% of my time in Chromium, which I don&amp;amp;rsquo;t like that much, but moreover, it is a resource hog: while using the plugins above I can get the CPU load of Firefox to around 1&amp;amp;ndash;2% when I am not using it, Chromium drains my laptop battery in effectively half the time. To make things worse, Chromium apparently can&amp;amp;rsquo;t open links in the background like Firefox, and insists on raising the window every time I open a link from another process, which is distracting.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Finally, &amp;lt;a href=&amp;#34;https://discourse.julialang.org/&amp;#34;&amp;gt;Julia&amp;amp;rsquo;s Discourse forum&amp;lt;/a&amp;gt; started showing up empty, which was the last straw and I went through my plugins. It turns out hat &amp;lt;a href=&amp;#34;https://www.eff.org/privacybadger&amp;#34;&amp;gt;Privacy Badger&amp;lt;/a&amp;gt; was responsible for everything: apparently it relies on heavy-handed heuristics and breaks a lot of webpages. One can report this, but instead of reporting around 10&amp;amp;ndash;20 pages which were broken, I simply removed the plugin. I have a lot of respect for what the Electronic Frontier Foundation does, but I am not sure that this plugin is very useful.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;So finally I got back the web the way I like it. Moral of the story: temporary workarounds become permanent, and bite back.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Continuous-time deterministic dynamic programming in Julia</title>
+    <link href="http://tpapp.github.io/post/dynamic-programming/"/>
+    <id>http://tpapp.github.io/post/dynamic-programming/</id>
+    <published>2017-04-02T19:06:04+02:00</published>
+    <updated>2017-04-02T19:06:04+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/dynamic-programming/">
+
+&amp;lt;p&amp;gt;For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. &amp;lt;a href=&amp;#34;https://github.com/tpapp/EconFunctions.jl&amp;#34;&amp;gt;EconFunctions.jl&amp;lt;/a&amp;gt; is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. &amp;lt;a href=&amp;#34;https://github.com/tpapp/ContinuousTransformations.jl&amp;#34;&amp;gt;ContinuousTransformations.jl&amp;lt;/a&amp;gt; is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally &amp;lt;a href=&amp;#34;https://github.com/tpapp/ParametricFunctions.jl&amp;#34;&amp;gt;ParametricFunctions.jl&amp;lt;/a&amp;gt; is for working with parametric function families.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;In this post I use these three to solve a simple, deterministic dynamic programming model in continuous time, known as the Ramsey growth model. If you are not an economist, it is very unlikely that it will make a lot of sense. If you are a student, I added basic references at the end, which are consistent with the methods in this post.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Caveat&amp;lt;/strong&amp;gt;: &amp;lt;em&amp;gt;these libraries are in development, I am refining the API and changing things all the time. It is very likely that as time progresses, code in this post will not run without changes.&amp;lt;/em&amp;gt; In other words, treat this as a sneak peak into a library which is in development.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;theory&amp;#34;&amp;gt;Theory&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;This is standard material, I am just repeating it so that this post is self-contained. We solve&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\max \int_0^\infty e^{-\rho t} u(c_t) dt$$
+subject to
+$$\dot{k}_t = F(k_t) - c_t, k_t \ge 0 \forall t.$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;where $u( c )$ is a CRRA utility function with IES $\theta$, $F(k) = A k^\alpha - \delta k$ is a production function that accounts for depreciation. Our problem is described by the Hamilton-Jacobi-Bellman equation&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\rho V(k) = \max_c u( c ) &#43; (F(k)-c) V&amp;amp;rsquo;(k)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Notice that once we have $V$, the first-order condition&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$u&amp;amp;rsquo;(c(k)) = V&amp;amp;rsquo;(k)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;yields the policy function $c(k)$, which we are interested in. Combining the envelope condition&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\rho V&amp;amp;rsquo;(k) = F&amp;amp;rsquo;(k) V&amp;amp;rsquo;(k) &#43; (F(k)-c) V{&amp;amp;lsquo;}{&amp;amp;rsquo;}(k)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;and using the functional form for CRRA utility, we obtain&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$\frac{c&amp;amp;rsquo;(k)}{c(k)} (F(k)-c(k)) = \frac{1}{\theta} (F&amp;amp;rsquo;(k)-\rho)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;which is a recursive form of the so-called Euler equation.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Also, note that we can characterize the steady state capital and consumption by&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$k_s = \left(\frac{\delta&#43;\rho}{A\alpha}\right)^{1/(\alpha-1)}$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;and&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;$$c_s = F(k_s)$$&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;julia-code-solving-the-euler-equation&amp;#34;&amp;gt;Julia code: solving the Euler equation&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Load the libraries (you need to clone some code, as the packages are not registered).&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; ParametricFunctions       &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# unregistered, clone from repo&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; ContinuousTransformations &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# unregistered, clone from repo&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; EconFunctions             &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# unregistered, clone from repo&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Plots; gr()
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Parameters
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; NLsolve&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;It is useful to put model parameters in a single structure.&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Very simple (normalized) Ramsey model with isoelastic production
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;function and utility.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@with_kw&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;immutable&amp;lt;/span&amp;gt; RamseyModel{T}
+    θ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# IES&amp;lt;/span&amp;gt;
+    α&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# capital share&amp;lt;/span&amp;gt;
+    A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# TFP&amp;lt;/span&amp;gt;
+    ρ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# discount rate&amp;lt;/span&amp;gt;
+    δ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;T                        &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# depreciation&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;This is the key part: we code the residual for the Euler equation. The function should take the model (which contains the parameters), a function $c$ that has been constructed using a function family and a set of parameters, and a scalar $k$, at which we evaluate the residual above. Everything else can be automated very well.&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Residual of the Euler equation.
+&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; euler_residual(model&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;RamseyModel, c, k)
+    &amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@unpack&amp;lt;/span&amp;gt; θ, ρ, α, A, δ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; model
+    Fk &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;^&amp;lt;/span&amp;gt;α &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt; δ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k
+    F′k &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;α&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;^&amp;lt;/span&amp;gt;(α&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt; δ
+    ck, c′k &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; c(ValuePartial(k))
+    (c′k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;ck)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;(Fk&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;ck) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;θ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;(F′k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;ρ)
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Above, &amp;lt;code&amp;gt;c&amp;lt;/code&amp;gt; can be treated like an ordinary function, except that if you call it with &amp;lt;code&amp;gt;ValuePartial(x)&amp;lt;/code&amp;gt;, you get the value &amp;lt;em&amp;gt;and&amp;lt;/em&amp;gt; the derivative.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The steady state will be handy:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Return the steady state capital and consumption for the model.&amp;amp;#34;&amp;lt;/span&amp;gt;
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; steady_state(model&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;RamseyModel)
+    &amp;lt;span class=&amp;#34;s7d6&amp;#34;&amp;gt;@unpack&amp;lt;/span&amp;gt; α, A, ρ, δ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; model
+    k &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; ((δ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;ρ)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;(A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;α))&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;^&amp;lt;/span&amp;gt;(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;(α&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;))
+    c &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; A&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;^&amp;lt;/span&amp;gt;α &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt; δ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k
+    k, c
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Let&amp;amp;rsquo;s make a model object (parameters are pretty standard), and calculate the steady state:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;model &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; RamseyModel(θ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;2.0&amp;lt;/span&amp;gt;, α &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.3&amp;lt;/span&amp;gt;, A &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;1.0&amp;lt;/span&amp;gt;, ρ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.02&amp;lt;/span&amp;gt;, δ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.05&amp;lt;/span&amp;gt;)
+
+kₛ, cₛ &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; steady_state(model)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;We will solve in a domain around the steady state capital.&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;kdom &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; (&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;0.5&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;kₛ)&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;..&amp;lt;/span&amp;gt;(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;2&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;kₛ)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Given the pieces above, obtaining the solution can be done very conscisely: create a residual object, which is basically a mapping from parameters to the function family to the residuals:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;res &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; CollocationResidual(model, DomainTrans(kdom, Chebyshev(&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;10&amp;lt;/span&amp;gt;)),
+                          euler_residual)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;The above say that we want 10 Chebyshev polynomials, transformed to the domain &amp;lt;code&amp;gt;kdom&amp;lt;/code&amp;gt;, to be used for constructing the $c(k)$.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;We call the solver, providing an initial guess, $c(k) = k\cdot c_s/k_s$, for the policy function $c(k)$. The guess is that consumption is linear in capital, and the line goes through the steady state values. Other reasonable guesses are possible, but note that it is worthwhile thinking a bit about a good one, so that you get fast convergence.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The function below fits a parametric function from the given family to the initial guess, then solves for the residual being $0$ using &amp;lt;code&amp;gt;NLsolve&amp;lt;/code&amp;gt; with automatic differentiation under the hood.&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;c_sol, o &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; solve_collocation(res, k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;amp;gt;&amp;lt;/span&amp;gt;cₛ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;*&amp;lt;/span&amp;gt;k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt;kₛ; ftol&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc82&amp;#34;&amp;gt;1e-10&amp;lt;/span&amp;gt;,
+                             method &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;newton)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;Convergence statistics:&amp;lt;/p&amp;gt;
+
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;Results of Nonlinear Solver Algorithm
+ * Algorithm: Newton with line-search
+ * Starting Point: [1.83249,1.09949,7.10543e-16,4.44089e-16,-1.77636e-16,-8
+.88178e-17,-8.43769e-16,1.64313e-15,1.33227e-16,3.10862e-16]
+ * Zero: [1.57794,0.433992,-0.0360164,0.00624848,-0.00134301,0.000320829,-8
+.21347e-5,2.28742e-5,-6.85183e-6,1.48105e-6]
+ * Inf-norm of residuals: 0.000000
+ * Iterations: 6
+ * Convergence: true
+   * |x - x&amp;#39;| &amp;amp;lt; 0.0e&#43;00: false
+   * |f(x)| &amp;amp;lt; 1.0e-10: true
+ * Function Calls (f): 7
+ * Jacobian Calls (df/dx): 6
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+
+&amp;lt;p&amp;gt;Overall, pretty good, very few iterations. We plot the resulting function:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;plot(c_sol, xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;k&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;c(k)&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)
+scatter!([kₛ], [cₛ])&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;figure &amp;gt;
+    
+        &amp;lt;img src=&amp;#34;../figures/dynamic-programming_10_1.svg&amp;#34; /&amp;gt;
+    
+    
+&amp;lt;/figure&amp;gt;
+
+
+&amp;lt;p&amp;gt;Notive how the collocation nodes are added automatically (this is done with a plot recipe). It should, of course, go thought the steady state.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;It is very important to plot the residual:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;plot(k&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;amp;gt;&amp;lt;/span&amp;gt;euler_residual(model, c_sol, k), linspace(kdom, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;100&amp;lt;/span&amp;gt;),
+     legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;, xlab&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;k&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Euler residual&amp;amp;#34;&amp;lt;/span&amp;gt;)
+scatter!(zero, points(c_sol))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;figure &amp;gt;
+    
+        &amp;lt;img src=&amp;#34;../figures/dynamic-programming_11_1.svg&amp;#34; /&amp;gt;
+    
+    
+&amp;lt;/figure&amp;gt;
+
+
+&amp;lt;p&amp;gt;Note the near-equioscillation property, which you get from using Chebyshev polynomials. You get $10^{-6}$ accuracy, which is neat (but note that this is a simple textbook problem, very smooth and tractable).&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;selected-reading&amp;#34;&amp;gt;Selected reading&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Acemoglu, Daron. Introduction to modern economic growth. Princeton University Press, 2008. &amp;lt;em&amp;gt;Chapter 8.&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Miranda, Mario J., and Paul L. Fackler. Applied computational economics and finance. MIT press, 2004. &amp;lt;em&amp;gt;Chapters 10 and 11&amp;lt;/em&amp;gt;.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Blogging with Hugo, Julia, Weave.jl</title>
+    <link href="http://tpapp.github.io/post/blogging-weave-julia-hugo/"/>
+    <id>http://tpapp.github.io/post/blogging-weave-julia-hugo/</id>
+    <published>2017-03-30T10:02:32+02:00</published>
+    <updated>2017-03-30T10:02:32+02:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/blogging-weave-julia-hugo/">&amp;lt;p&amp;gt;I have made a PR to &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;available&amp;lt;/a&amp;gt; so that others can use it for their own blogging about Julia. An example is &amp;lt;a href=&amp;#34;/post/hugo-julia-weave/&amp;#34;&amp;gt;this post&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The gist of the workflow is as follows:&amp;lt;/p&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;for posts which do not need &amp;lt;code&amp;gt;Weave&amp;lt;/code&amp;gt;, just use &amp;lt;code&amp;gt;Hugo&amp;lt;/code&amp;gt;. Make sure you read their &amp;lt;a href=&amp;#34;https://gohugo.io/overview/introduction/&amp;#34;&amp;gt;excellent tutorial&amp;lt;/a&amp;gt;. &amp;lt;strong&amp;gt;This very fast&amp;lt;/strong&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+
+&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the &amp;lt;code&amp;gt;.md&amp;lt;/code&amp;gt; file using &amp;lt;code&amp;gt;Weave.jl&amp;lt;/code&amp;gt;. &amp;lt;strong&amp;gt;This is the slow part&amp;lt;/strong&amp;gt;, so it is not automated.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;p&amp;gt;The &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;README&amp;lt;/a&amp;gt; gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Teaching a course using Julia</title>
+    <link href="http://tpapp.github.io/post/teaching-a-course/"/>
+    <id>http://tpapp.github.io/post/teaching-a-course/</id>
+    <published>2017-03-24T14:34:22+01:00</published>
+    <updated>2017-03-24T14:34:22+01:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/teaching-a-course/">
+
+&amp;lt;p&amp;gt;I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods. The students had prior exposure to R and Matlab, and some of them have been using Julia for a while. In some classes, I talked about theory, sometimes I wrote code, ran it, and made improved versions, sometimes we treated the class as a practice session.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;I wanted to focus on the actual methods, so I decided to use a subset of the language, &amp;amp;ldquo;Julia light&amp;amp;rdquo;, using the following concepts:&amp;lt;/p&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;scalars, algebra, arrays, indexing&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;functions (with very basic dispatch, on an argument that contained problem parameters)&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;control flow: &amp;lt;code&amp;gt;for&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;comprehension, concatenation&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;structures (only &amp;lt;code&amp;gt;immutable&amp;lt;/code&amp;gt;)&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;docstrings&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;p&amp;gt;The purpose of the course was to show that one can easily implement seemingly abstract methods encountered in textbooks, dissect them, look at the caveats, and possibly adapt them to particular problems. Writing what I think of as production code would have involved teaching many new concepts to a class coming with very heterogeneous experience in programming, so I decided to steer clear of the following topics:&amp;lt;/p&amp;gt;
+
+&amp;lt;ol&amp;gt;
+&amp;lt;li&amp;gt;modules&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;macros&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;the type system&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;writing efficient code (even though we ended up doing a bit on that, and benchmarking, could not resist)&amp;lt;/li&amp;gt;
+&amp;lt;/ol&amp;gt;
+
+&amp;lt;p&amp;gt;We used &amp;lt;a href=&amp;#34;https://github.com/EconForge/NLsolve.jl&amp;#34;&amp;gt;NLsolve&amp;lt;/a&amp;gt;, &amp;lt;a href=&amp;#34;https://github.com/JuliaNLSolvers/Optim.jl&amp;#34;&amp;gt;Optim&amp;lt;/a&amp;gt;, and &amp;lt;a href=&amp;#34;https://github.com/JuliaPlots/Plots.jl&amp;#34;&amp;gt;Plots&amp;lt;/a&amp;gt; extensively, and &amp;lt;a href=&amp;#34;https://github.com/JuliaDiff/ForwardDiff.jl&amp;#34;&amp;gt;ForwardDiff&amp;lt;/a&amp;gt; under the hood. &amp;lt;a href=&amp;#34;https://github.com/mauro3/Parameters.jl&amp;#34;&amp;gt;Parameters&amp;lt;/a&amp;gt; was very useful for clean code.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;perspective-of-the-instructor&amp;#34;&amp;gt;Perspective of the instructor&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Even when I wrote something in a suboptimal manner, it turned out to be fast enough. Julia is great in that respect. However, compilation time dominated almost everything that we did, especially for plots.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;I was using Jupyter notebooks, inspired by &amp;lt;a href=&amp;#34;https://math.mit.edu/classes/18.S096/iap17/&amp;#34;&amp;gt;18.S096&amp;lt;/a&amp;gt;. While I am much, much slower writing code in Jupyter compared to Emacs, I think that this turned out to be a benefit: jumping around between windows is very difficult to follow. &amp;lt;a href=&amp;#34;https://github.com/JuliaGizmos/Interact.jl&amp;#34;&amp;gt;Interact&amp;lt;/a&amp;gt; was just great.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;I made a small package for code we wrote in class, and distributed new code via &amp;lt;code&amp;gt;Pkg.update()&amp;lt;/code&amp;gt;. This worked well most of the time.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;We were using &amp;lt;code&amp;gt;v0.5.0&amp;lt;/code&amp;gt; and later transitioned to &amp;lt;code&amp;gt;v0.5.1&amp;lt;/code&amp;gt;, which was seamless.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Since I was not using modules, sometimes the best way to extricate myself from a state was restarting the kernel. This became a running joke among the students (&amp;amp;ldquo;when in doubt, restart the kernel&amp;amp;rdquo;). This actually worked very well for the infamous &amp;lt;a href=&amp;#34;https://github.com/julialang/julia/issues/265&amp;#34;&amp;gt;#265&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Jupyter is great for interactive notes in class. I mixed a great deal of marked up text and LaTeX equations into the workbooks. Problem sets were handed in using Jupyter notebooks, and the exam (solving a dynamic programming problem) was also written in and graded as a notebook.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Unicode specials are addictive. Once you learn about &amp;lt;code&amp;gt;α&amp;lt;/code&amp;gt;, you never name a variable &amp;lt;code&amp;gt;alpha&amp;lt;/code&amp;gt; again.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;perspective-of-the-students&amp;#34;&amp;gt;Perspective of the students&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;I talked to the class at the end of the course about their experience with Julia, and some of them individually. The biggest issue for them was lack of easily searchable answers to common questions: for R and Matlab, a &amp;amp;ldquo;how do you &amp;amp;hellip;&amp;amp;rdquo; query turns up 100&#43; answers because many people have encountered the problem before. This was not the case for Julia. Lack of examples was an especially difficult issue for plots.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Debugging in Jupyter was difficult, since it mostly amounted to debugging by bisection, isolation, and occasionally printing. Students found some of the error messages cryptic (especially when it was about not having a matching method, since we did not really go into the type system).&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;The most puzzling transient bugs were because of &amp;lt;a href=&amp;#34;https://github.com/julialang/julia/issues/265&amp;#34;&amp;gt;#265&amp;lt;/a&amp;gt; (&amp;amp;ldquo;but I recompiled that function!&amp;amp;rdquo;). This was solved by restarting the kernel, so the latter became somewhat of a panacea. Since compilation time dominated everything, this slowed things down considerably.&amp;lt;/p&amp;gt;
+
+&amp;lt;h2 id=&amp;#34;takeaway&amp;#34;&amp;gt;Takeaway&amp;lt;/h2&amp;gt;
+
+&amp;lt;p&amp;gt;Would definitely do it again. Even with the issues, Julia was the most comfortable language to teach in.&amp;lt;/p&amp;gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Julia &#43; Weave.jl &#43; hugo test</title>
+    <link href="http://tpapp.github.io/post/hugo-julia-weave/"/>
+    <id>http://tpapp.github.io/post/hugo-julia-weave/</id>
+    <published>2017-03-03T13:11:53+01:00</published>
+    <updated>2017-03-03T13:11:53+01:00</updated>
+    
+    <content type="html" xml:base="http://tpapp.github.io/post/hugo-julia-weave/">&amp;lt;p&amp;gt;Testing the &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt; formatter for &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Testing inline code: &amp;lt;code&amp;gt;1&#43;1=2&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Testing math:
+$$x^2&#43;y^2 = \int_0^1 f(z) dz$$&amp;lt;/p&amp;gt;
+
+&amp;lt;p&amp;gt;Testing code:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;2
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+
+&amp;lt;p&amp;gt;Testing proper highlighting:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; foo(x, y)
+    x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;y
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;A plot:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;10&amp;lt;/span&amp;gt;
+y &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.^&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;2&amp;lt;/span&amp;gt;
+scatter(x, y, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;figure &amp;gt;
+    
+        &amp;lt;img src=&amp;#34;../figures/hugo-julia-weave_4_1.svg&amp;#34; /&amp;gt;
+    
+    
+    &amp;lt;figcaption&amp;gt;
+        &amp;lt;h4&amp;gt;Caption for this plot&amp;lt;/h4&amp;gt;
+        
+    &amp;lt;/figcaption&amp;gt;
+    
+&amp;lt;/figure&amp;gt;
+
+</content>
+  </entry>
+  
+</feed>
