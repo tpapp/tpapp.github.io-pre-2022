@@ -3,7 +3,7 @@
   <title>WeaveonTamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/tags/weave/"/>
-  <updated>2017-03-30T10:02:32+02:00</updated>
+  <updated>2017-03-03T13:11:53+01:00</updated>
   
   <id>https://tpapp.github.io/tags/weave/</id>
   <author>
@@ -12,23 +12,48 @@
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
-    <title type="html">Blogging with Hugo, Julia, Weave.jl</title>
-    <link href="https://tpapp.github.io/post/blogging-weave-julia-hugo/"/>
-    <id>https://tpapp.github.io/post/blogging-weave-julia-hugo/</id>
-    <published>2017-03-30T10:02:32+02:00</published>
-    <updated>2017-03-30T10:02:32+02:00</updated>
+    <title type="html">Julia &#43; Weave.jl &#43; hugo test</title>
+    <link href="https://tpapp.github.io/post/hugo-julia-weave/"/>
+    <id>https://tpapp.github.io/post/hugo-julia-weave/</id>
+    <published>2017-03-03T13:11:53+01:00</published>
+    <updated>2017-03-03T13:11:53+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/blogging-weave-julia-hugo/">&amp;lt;p&amp;gt;I have made a PR to &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;available&amp;lt;/a&amp;gt; so that others can use it for their own blogging about Julia. An example is &amp;lt;a href=&amp;#34;/post/hugo-julia-weave/&amp;#34;&amp;gt;this post&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/hugo-julia-weave/">&amp;lt;p&amp;gt;Testing the &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt; formatter for &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
 
-&amp;lt;p&amp;gt;The gist of the workflow is as follows:&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Testing inline code: &amp;lt;code&amp;gt;1&#43;1=2&amp;lt;/code&amp;gt;.&amp;lt;/p&amp;gt;
 
-&amp;lt;ol&amp;gt;
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;for posts which do not need &amp;lt;code&amp;gt;Weave&amp;lt;/code&amp;gt;, just use &amp;lt;code&amp;gt;Hugo&amp;lt;/code&amp;gt;. Make sure you read their &amp;lt;a href=&amp;#34;https://gohugo.io/overview/introduction/&amp;#34;&amp;gt;excellent tutorial&amp;lt;/a&amp;gt;. &amp;lt;strong&amp;gt;This very fast&amp;lt;/strong&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&amp;lt;p&amp;gt;Testing math:
+$$x^2&#43;y^2 = \int_0^1 f(z) dz$$&amp;lt;/p&amp;gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the &amp;lt;code&amp;gt;.md&amp;lt;/code&amp;gt; file using &amp;lt;code&amp;gt;Weave.jl&amp;lt;/code&amp;gt;. &amp;lt;strong&amp;gt;This is the slow part&amp;lt;/strong&amp;gt;, so it is not automated.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
-&amp;lt;/ol&amp;gt;
+&amp;lt;p&amp;gt;Testing code:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;2
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 
-&amp;lt;p&amp;gt;The &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;README&amp;lt;/a&amp;gt; gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Testing proper highlighting:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; foo(x, y)
+    x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&#43;&amp;lt;/span&amp;gt;y
+&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;p&amp;gt;A plot:&amp;lt;/p&amp;gt;
+&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;10&amp;lt;/span&amp;gt;
+y &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.^&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;2&amp;lt;/span&amp;gt;
+scatter(x, y, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;false&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;figure &amp;gt;
+    
+        &amp;lt;img src=&amp;#34;../figures/hugo-julia-weave_4_1.svg&amp;#34; /&amp;gt;
+    
+    
+    &amp;lt;figcaption&amp;gt;
+        &amp;lt;h4&amp;gt;Caption for this plot&amp;lt;/h4&amp;gt;
+        
+    &amp;lt;/figcaption&amp;gt;
+    
+&amp;lt;/figure&amp;gt;
+
 </content>
   </entry>
   
