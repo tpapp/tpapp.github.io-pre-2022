@@ -18,136 +18,136 @@
     <published>2017-09-15T16:03:10+02:00</published>
     <updated>2017-09-15T16:03:10+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/discontinuous_integral_ad/">&amp;lt;p&amp;gt;This is a &amp;lt;em&amp;gt;much simplified&amp;lt;/em&amp;gt; writeup of a problem I encountered, in a self-contained blog post.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/discontinuous_integral_ad/">&lt;p&gt;This is a &lt;em&gt;much simplified&lt;/em&gt; writeup of a problem I encountered, in a self-contained blog post.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;You want to approximate the integral
+&lt;p&gt;You want to approximate the integral
 [
-I(\theta) = \int 1(g(x) &amp;amp;gt; 0) f(x,\theta) dx
+I(\theta) = \int 1(g(x) &amp;gt; 0) f(x,\theta) dx
 ]
-where $g$ is a continuous function, and $f(x,\theta)$ is a parametric distribution over $x$. Everthing is continous, and thus $I$ is, too.&amp;lt;/p&amp;gt;
+where $g$ is a continuous function, and $f(x,\theta)$ is a parametric distribution over $x$. Everthing is continous, and thus $I$ is, too.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;You face the following constraints:&amp;lt;/p&amp;gt;
+&lt;p&gt;You face the following constraints:&lt;/p&gt;
 
-&amp;lt;ol&amp;gt;
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;$g$ is a black box. We will pretend that you can&amp;amp;rsquo;t invert it (except for checking our results, of course).&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;$g$ is a black box. We will pretend that you can&amp;rsquo;t invert it (except for checking our results, of course).&lt;/p&gt;&lt;/li&gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;You can calculate the probability density function $f$ and even draw $x$&amp;amp;rsquo;s for a particular $\theta$, but that&amp;amp;rsquo;s pretty much it. You don&amp;amp;rsquo;t even get a cdf! (Again, except for checking our results.)&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
-&amp;lt;/ol&amp;gt;
+&lt;li&gt;&lt;p&gt;You can calculate the probability density function $f$ and even draw $x$&amp;rsquo;s for a particular $\theta$, but that&amp;rsquo;s pretty much it. You don&amp;rsquo;t even get a cdf! (Again, except for checking our results.)&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
-&amp;lt;p&amp;gt;Using Monte Carlo methods, you can do the following:&amp;lt;/p&amp;gt;
+&lt;p&gt;Using Monte Carlo methods, you can do the following:&lt;/p&gt;
 
-&amp;lt;ol&amp;gt;
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;draw $x_i \sim F(\cdot, \theta)$, $i=1,\dots,N$,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;draw $x_i \sim F(\cdot, \theta)$, $i=1,\dots,N$,&lt;/p&gt;&lt;/li&gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;approximate
+&lt;li&gt;&lt;p&gt;approximate
 [
-I(\theta) \approx \frac{1}{N}\sum_i 1(g(x_i) &amp;amp;gt; 0)
-]&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
-&amp;lt;/ol&amp;gt;
+I(\theta) \approx \frac{1}{N}\sum_i 1(g(x_i) &amp;gt; 0)
+]&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
-&amp;lt;p&amp;gt;You could code this in Julia as&amp;lt;/p&amp;gt;
-&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;d &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; distr(θ)   &amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# suppose this returns some distribution that supports Base.rand&amp;lt;/span&amp;gt;
-x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; rand(d, N)
-mean(g&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&amp;amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;)&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;So far, neat and simple. Now, the fly in the ointment: &amp;lt;strong&amp;gt;you need the derivative&amp;lt;/strong&amp;gt; $I&amp;amp;rsquo;(\theta)$ for optimization or Hamiltonian Monte Carlo. The problem is that you cannot &amp;lt;code&amp;gt;ForwardDiff&amp;lt;/code&amp;gt; your way through the code above: AD&amp;amp;rsquo;ing a discontinuous step function will just give you $0$, and &amp;lt;code&amp;gt;rand&amp;lt;/code&amp;gt; does not work with &amp;lt;code&amp;gt;ForwardDiff.Dual&amp;lt;/code&amp;gt;s anyway (which is very sensible).&amp;lt;/p&amp;gt;
+&lt;p&gt;You could code this in Julia as&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;d &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; distr(θ)   &lt;span class=&#34;s1770&#34;&gt;# suppose this returns some distribution that supports Base.rand&lt;/span&gt;
+x &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; rand(d, N)
+mean(g&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(x) &lt;span class=&#34;sfa0&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;So far, neat and simple. Now, the fly in the ointment: &lt;strong&gt;you need the derivative&lt;/strong&gt; $I&amp;rsquo;(\theta)$ for optimization or Hamiltonian Monte Carlo. The problem is that you cannot &lt;code&gt;ForwardDiff&lt;/code&gt; your way through the code above: AD&amp;rsquo;ing a discontinuous step function will just give you $0$, and &lt;code&gt;rand&lt;/code&gt; does not work with &lt;code&gt;ForwardDiff.Dual&lt;/code&gt;s anyway (which is very sensible).&lt;/p&gt;
 
-&amp;lt;p&amp;gt;However, there &amp;lt;em&amp;gt;is&amp;lt;/em&amp;gt; a solution: rewrite the approximation as
+&lt;p&gt;However, there &lt;em&gt;is&lt;/em&gt; a solution: rewrite the approximation as
 [
-I(\theta; \theta_0) \approx \frac{1}{N}\sum_i 1(g(x_i) &amp;amp;gt; 0) \frac{f(x_i,\theta)}{f(x_i,\theta_0)}
+I(\theta; \theta_0) \approx \frac{1}{N}\sum_i 1(g(x_i) &amp;gt; 0) \frac{f(x_i,\theta)}{f(x_i,\theta_0)}
 ]
 where $\theta_0$ is the parameter used to simulate the $x_i$. Differentiate the above at $\theta = \theta_0$. This approximates
 [
-I&amp;amp;rsquo;(\theta) = \int 1(g(x) &amp;amp;gt; 0) \frac{\partial f(x,\theta)/\partial \theta}{f(x,\theta)}f(x,\theta) dx = \int 1(g(x) &amp;amp;gt; 0) \partial f(x,\theta)/\partial \theta dx
+I&amp;rsquo;(\theta) = \int 1(g(x) &amp;gt; 0) \frac{\partial f(x,\theta)/\partial \theta}{f(x,\theta)}f(x,\theta) dx = \int 1(g(x) &amp;gt; 0) \partial f(x,\theta)/\partial \theta dx
 ]
-which is exactly what you want.&amp;lt;/p&amp;gt;
+which is exactly what you want.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;Assume that the actual calculation is very complicated, so we would rather avoid implementing it for the integral and the derivative separately. It turns out that this is very simple to do with &amp;lt;code&amp;gt;ForwardDiff.Dual&amp;lt;/code&amp;gt; values: the code is literally a one-liner and a fallback method:&amp;lt;/p&amp;gt;
-&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Real&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; one(x)
-elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;Dual{T,V,N}) where {T,V,N} &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Dual{T}(one(V), partials(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt; value(x))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;which you can use in a function like&amp;lt;/p&amp;gt;
-&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;integral_approx(g, d, x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; mean((g&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.*&amp;lt;/span&amp;gt; elasticity&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(pdf&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(d, x)))&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;I demonstrate this with $g(x) = x$ and $x \sim \text{Normal}(\theta, 1)$, for which of course we know that the analytical values for $I$ and $I&amp;amp;rsquo;$ are the right tail probability and the pdf at 0, respectively.&amp;lt;/p&amp;gt;
+&lt;p&gt;Assume that the actual calculation is very complicated, so we would rather avoid implementing it for the integral and the derivative separately. It turns out that this is very simple to do with &lt;code&gt;ForwardDiff.Dual&lt;/code&gt; values: the code is literally a one-liner and a fallback method:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;elasticity(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Real&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; one(x)
+elasticity(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Dual{T,V,N}) where {T,V,N} &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; Dual{T}(one(V), partials(x) &lt;span class=&#34;sfa0&#34;&gt;/&lt;/span&gt; value(x))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;which you can use in a function like&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;integral_approx(g, d, x) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; mean((g&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(x) &lt;span class=&#34;sfa0&#34;&gt;.&amp;gt;&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;.*&lt;/span&gt; elasticity&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(pdf&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(d, x)))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;I demonstrate this with $g(x) = x$ and $x \sim \text{Normal}(\theta, 1)$, for which of course we know that the analytical values for $I$ and $I&amp;rsquo;$ are the right tail probability and the pdf at 0, respectively.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;Graphs below show that the approximation is reasonable &amp;amp;mdash; we could make it much better with &amp;lt;a href=&amp;#34;https://github.com/stevengj/Sobol.jl&amp;#34;&amp;gt;low-discrepancy sequences&amp;lt;/a&amp;gt;, but that is an orthogonal issue.&amp;lt;/p&amp;gt;
+&lt;p&gt;Graphs below show that the approximation is reasonable &amp;mdash; we could make it much better with &lt;a href=&#34;https://github.com/stevengj/Sobol.jl&#34;&gt;low-discrepancy sequences&lt;/a&gt;, but that is an orthogonal issue.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;integral.svg&amp;#34; alt=&amp;#34;integral&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+&lt;p&gt;&lt;img src=&#34;integral.svg&#34; alt=&#34;integral&#34; /&gt;&lt;/p&gt;
 
-&amp;lt;p&amp;gt;&amp;lt;img src=&amp;#34;derivative.svg&amp;#34; alt=&amp;#34;derivative&amp;#34; /&amp;gt;&amp;lt;/p&amp;gt;
+&lt;p&gt;&lt;img src=&#34;derivative.svg&#34; alt=&#34;derivative&#34; /&gt;&lt;/p&gt;
 
-&amp;lt;p&amp;gt;It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which ${ x: g(x) &amp;amp;gt; 0 }$, but I used &amp;lt;code&amp;gt;elasticity&amp;lt;/code&amp;gt; as above.&amp;lt;/p&amp;gt;
+&lt;p&gt;It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which ${ x: g(x) &amp;gt; 0 }$, but I used &lt;code&gt;elasticity&lt;/code&gt; as above.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;Self-contained code for everything is available below.&amp;lt;/p&amp;gt;
-
-
+&lt;p&gt;Self-contained code for everything is available below.&lt;/p&gt;
 
 
-&amp;lt;div class=&amp;#34;codeheader&amp;#34;&amp;gt;&amp;lt;p&amp;gt;download as &amp;lt;a href=&amp;#34;https://tpapp.github.io/post/discontinuous_integral_ad/code.jl&amp;#34;&amp;gt;code.jl&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;/div&amp;gt;
-&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-julia&amp;#34; data-lang=&amp;#34;julia&amp;#34;&amp;gt;&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; ForwardDiff
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;import&amp;lt;/span&amp;gt; ForwardDiff&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt; Dual, value, partials, Tag
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Distributions
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; Plots
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;using&amp;lt;/span&amp;gt; LaTeXStrings
+
+
+&lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tpapp.github.io/post/discontinuous_integral_ad/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; ForwardDiff
+&lt;span class=&#34;s3e8&#34;&gt;import&lt;/span&gt; ForwardDiff&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt; Dual, value, partials, Tag
+&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; Distributions
+&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; Plots
+&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; LaTeXStrings
 gr()
 
-&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
-&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# elasticity calculation&amp;lt;/span&amp;gt;
-&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+&lt;span class=&#34;s1770&#34;&gt;######################################################################&lt;/span&gt;
+&lt;span class=&#34;s1770&#34;&gt;# elasticity calculation&lt;/span&gt;
+&lt;span class=&#34;s1770&#34;&gt;######################################################################&lt;/span&gt;
 
-&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;
-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;    elasticity(x)
-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;
-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;Calculate `x/x`, stripping `x` of partial derivative information. Useful for
-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;calculating elasticities of the form `∂f/f` using ForwardDiff.
-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;amp;#34;&amp;amp;#34;&amp;lt;/span&amp;gt;
-elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Real&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; one(x)
+&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;    elasticity(x)
+&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;Calculate `x/x`, stripping `x` of partial derivative information. Useful for
+&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;calculating elasticities of the form `∂f/f` using ForwardDiff.
+&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+elasticity(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Real&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; one(x)
 
-elasticity(x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;Dual{T,V,N}) where {T,V,N} &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Dual{T}(one(V), partials(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;/&amp;lt;/span&amp;gt; value(x))
+elasticity(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Dual{T,V,N}) where {T,V,N} &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; Dual{T}(one(V), partials(x) &lt;span class=&#34;sfa0&#34;&gt;/&lt;/span&gt; value(x))
 
-&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
-&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;# example application&amp;lt;/span&amp;gt;
-&amp;lt;span class=&amp;#34;s1770&amp;#34;&amp;gt;######################################################################&amp;lt;/span&amp;gt;
+&lt;span class=&#34;s1770&#34;&gt;######################################################################&lt;/span&gt;
+&lt;span class=&#34;s1770&#34;&gt;# example application&lt;/span&gt;
+&lt;span class=&#34;s1770&#34;&gt;######################################################################&lt;/span&gt;
 
-integral_approx(g, d, x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; mean((g&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;amp;gt;&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.*&amp;lt;/span&amp;gt; elasticity&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(pdf&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(d, x)))
+integral_approx(g, d, x) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; mean((g&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(x) &lt;span class=&#34;sfa0&#34;&gt;.&amp;gt;&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;.*&lt;/span&gt; elasticity&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(pdf&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(d, x)))
 
-&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;Helper function that returns the value and derivative at the same time.&amp;amp;#34;&amp;lt;/span&amp;gt;
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; value_and_derivative(f&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;F, x&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;::&amp;lt;/span&amp;gt;R) where {F,R&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;&amp;amp;lt;:&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;s3ee&amp;#34;&amp;gt;Real&amp;lt;/span&amp;gt;}
-    T &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; typeof(Tag(F, R))
-    y &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; f(Dual{T}(x, one(x)))
-    value(y), partials(y, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;)
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;Helper function that returns the value and derivative at the same time.&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; value_and_derivative(f&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;F, x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;R) where {F,R&lt;span class=&#34;sfa0&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Real&lt;/span&gt;}
+    T &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; typeof(Tag(F, R))
+    y &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; f(Dual{T}(x, one(x)))
+    value(y), partials(y, &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;)
+&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;
 
-distr(θ) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; Normal(θ, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1&amp;lt;/span&amp;gt;)
+distr(θ) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; Normal(θ, &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;)
 
-g(x) &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; x
+g(x) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; x
 
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; ID_analytical(θ)
-    d &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; distr(θ)
-    ccdf(d, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;), pdf(d, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;0&amp;lt;/span&amp;gt;)
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; ID_analytical(θ)
+    d &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; distr(θ)
+    ccdf(d, &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;), pdf(d, &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;)
+&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;
 
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;function&amp;lt;/span&amp;gt; ID_approx(θ)
-    x &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; rand(distr(θ), &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;1000&amp;lt;/span&amp;gt;)
-    value_and_derivative(θ&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;amp;gt;&amp;lt;/span&amp;gt;integral_approx(g, distr(θ), x), θ)
-&amp;lt;span class=&amp;#34;s3e8&amp;#34;&amp;gt;end&amp;lt;/span&amp;gt;
+&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; ID_approx(θ)
+    x &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; rand(distr(θ), &lt;span class=&#34;sc84&#34;&gt;1000&lt;/span&gt;)
+    value_and_derivative(θ&lt;span class=&#34;sfa0&#34;&gt;-&amp;gt;&lt;/span&gt;integral_approx(g, distr(θ), x), θ)
+&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;
 
-θs &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; linspace(&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;2&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;2&amp;lt;/span&amp;gt;, &amp;lt;span class=&amp;#34;sc84&amp;#34;&amp;gt;51&amp;lt;/span&amp;gt;)
-ID0s &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; ID_analytical&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(θs)
-ID1s &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; ID_approx&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(θs)
+θs &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; linspace(&lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;51&lt;/span&gt;)
+ID0s &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; ID_analytical&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(θs)
+ID1s &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; ID_approx&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(θs)
 
-scatter(θs, first&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(ID0s), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc25&amp;#34;&amp;gt;\\&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;theta&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;integral&amp;amp;#34;&amp;lt;/span&amp;gt;,
-        label &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;analytical&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;topleft)
-scatter!(θs, first&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(ID1s), label &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;approximation&amp;amp;#34;&amp;lt;/span&amp;gt;)
-savefig(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;integral.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
+scatter(θs, first&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(ID0s), xlab &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;sc25&#34;&gt;\\&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;theta&amp;#34;&lt;/span&gt;, ylab &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;integral&amp;#34;&lt;/span&gt;,
+        label &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;analytical&amp;#34;&lt;/span&gt;, legend &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;topleft)
+scatter!(θs, first&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(ID1s), label &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;approximation&amp;#34;&lt;/span&gt;)
+savefig(&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;integral.svg&amp;#34;&lt;/span&gt;)
 
-scatter(θs, last&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(ID0s), xlab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc25&amp;#34;&amp;gt;\\&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;theta&amp;amp;#34;&amp;lt;/span&amp;gt;, ylab &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;derivative&amp;amp;#34;&amp;lt;/span&amp;gt;,
-        label &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;analytical&amp;amp;#34;&amp;lt;/span&amp;gt;, legend &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;:&amp;lt;/span&amp;gt;topleft)
-scatter!(θs, last&amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;.&amp;lt;/span&amp;gt;(ID1s), label &amp;lt;span class=&amp;#34;sfa0&amp;#34;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;approximation&amp;amp;#34;&amp;lt;/span&amp;gt;)
-savefig(&amp;lt;span class=&amp;#34;sc1c&amp;#34;&amp;gt;&amp;amp;#34;derivative.svg&amp;amp;#34;&amp;lt;/span&amp;gt;)
-&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;/div&amp;gt;
+scatter(θs, last&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(ID0s), xlab &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;sc25&#34;&gt;\\&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;theta&amp;#34;&lt;/span&gt;, ylab &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;derivative&amp;#34;&lt;/span&gt;,
+        label &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;analytical&amp;#34;&lt;/span&gt;, legend &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;topleft)
+scatter!(θs, last&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(ID1s), label &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;approximation&amp;#34;&lt;/span&gt;)
+savefig(&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;derivative.svg&amp;#34;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 
 </content>

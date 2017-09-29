@@ -20,57 +20,57 @@
     
     <content type="html" xml:base="https://tpapp.github.io/post/teaching-a-course/">
 
-&amp;lt;p&amp;gt;I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods. The students had prior exposure to R and Matlab, and some of them have been using Julia for a while. In some classes, I talked about theory, sometimes I wrote code, ran it, and made improved versions, sometimes we treated the class as a practice session.&amp;lt;/p&amp;gt;
+&lt;p&gt;I just finished teaching a graduate course on practical aspects of dynamic optimization to our economics students. This year, for the first time, I taught the course using Julia, and this is a writeup of the experience. This was an intensive, 10-week course, with two classes per week, taught in the computer lab. A course on the theory of dynamic optimization was a prerequisite, this one was all about the actual numerical methods. The students had prior exposure to R and Matlab, and some of them have been using Julia for a while. In some classes, I talked about theory, sometimes I wrote code, ran it, and made improved versions, sometimes we treated the class as a practice session.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;I wanted to focus on the actual methods, so I decided to use a subset of the language, &amp;amp;ldquo;Julia light&amp;amp;rdquo;, using the following concepts:&amp;lt;/p&amp;gt;
+&lt;p&gt;I wanted to focus on the actual methods, so I decided to use a subset of the language, &amp;ldquo;Julia light&amp;rdquo;, using the following concepts:&lt;/p&gt;
 
-&amp;lt;ol&amp;gt;
-&amp;lt;li&amp;gt;scalars, algebra, arrays, indexing&amp;lt;/li&amp;gt;
-&amp;lt;li&amp;gt;functions (with very basic dispatch, on an argument that contained problem parameters)&amp;lt;/li&amp;gt;
-&amp;lt;li&amp;gt;control flow: &amp;lt;code&amp;gt;for&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;if&amp;lt;/code&amp;gt;&amp;lt;/li&amp;gt;
-&amp;lt;li&amp;gt;comprehension, concatenation&amp;lt;/li&amp;gt;
-&amp;lt;li&amp;gt;structures (only &amp;lt;code&amp;gt;immutable&amp;lt;/code&amp;gt;)&amp;lt;/li&amp;gt;
-&amp;lt;li&amp;gt;docstrings&amp;lt;/li&amp;gt;
-&amp;lt;/ol&amp;gt;
+&lt;ol&gt;
+&lt;li&gt;scalars, algebra, arrays, indexing&lt;/li&gt;
+&lt;li&gt;functions (with very basic dispatch, on an argument that contained problem parameters)&lt;/li&gt;
+&lt;li&gt;control flow: &lt;code&gt;for&lt;/code&gt; and &lt;code&gt;if&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;comprehension, concatenation&lt;/li&gt;
+&lt;li&gt;structures (only &lt;code&gt;immutable&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;docstrings&lt;/li&gt;
+&lt;/ol&gt;
 
-&amp;lt;p&amp;gt;The purpose of the course was to show that one can easily implement seemingly abstract methods encountered in textbooks, dissect them, look at the caveats, and possibly adapt them to particular problems. Writing what I think of as production code would have involved teaching many new concepts to a class coming with very heterogeneous experience in programming, so I decided to steer clear of the following topics:&amp;lt;/p&amp;gt;
+&lt;p&gt;The purpose of the course was to show that one can easily implement seemingly abstract methods encountered in textbooks, dissect them, look at the caveats, and possibly adapt them to particular problems. Writing what I think of as production code would have involved teaching many new concepts to a class coming with very heterogeneous experience in programming, so I decided to steer clear of the following topics:&lt;/p&gt;
 
-&amp;lt;ol&amp;gt;
-&amp;lt;li&amp;gt;modules&amp;lt;/li&amp;gt;
-&amp;lt;li&amp;gt;macros&amp;lt;/li&amp;gt;
-&amp;lt;li&amp;gt;the type system&amp;lt;/li&amp;gt;
-&amp;lt;li&amp;gt;writing efficient code (even though we ended up doing a bit on that, and benchmarking, could not resist)&amp;lt;/li&amp;gt;
-&amp;lt;/ol&amp;gt;
+&lt;ol&gt;
+&lt;li&gt;modules&lt;/li&gt;
+&lt;li&gt;macros&lt;/li&gt;
+&lt;li&gt;the type system&lt;/li&gt;
+&lt;li&gt;writing efficient code (even though we ended up doing a bit on that, and benchmarking, could not resist)&lt;/li&gt;
+&lt;/ol&gt;
 
-&amp;lt;p&amp;gt;We used &amp;lt;a href=&amp;#34;https://github.com/EconForge/NLsolve.jl&amp;#34;&amp;gt;NLsolve&amp;lt;/a&amp;gt;, &amp;lt;a href=&amp;#34;https://github.com/JuliaNLSolvers/Optim.jl&amp;#34;&amp;gt;Optim&amp;lt;/a&amp;gt;, and &amp;lt;a href=&amp;#34;https://github.com/JuliaPlots/Plots.jl&amp;#34;&amp;gt;Plots&amp;lt;/a&amp;gt; extensively, and &amp;lt;a href=&amp;#34;https://github.com/JuliaDiff/ForwardDiff.jl&amp;#34;&amp;gt;ForwardDiff&amp;lt;/a&amp;gt; under the hood. &amp;lt;a href=&amp;#34;https://github.com/mauro3/Parameters.jl&amp;#34;&amp;gt;Parameters&amp;lt;/a&amp;gt; was very useful for clean code.&amp;lt;/p&amp;gt;
+&lt;p&gt;We used &lt;a href=&#34;https://github.com/EconForge/NLsolve.jl&#34;&gt;NLsolve&lt;/a&gt;, &lt;a href=&#34;https://github.com/JuliaNLSolvers/Optim.jl&#34;&gt;Optim&lt;/a&gt;, and &lt;a href=&#34;https://github.com/JuliaPlots/Plots.jl&#34;&gt;Plots&lt;/a&gt; extensively, and &lt;a href=&#34;https://github.com/JuliaDiff/ForwardDiff.jl&#34;&gt;ForwardDiff&lt;/a&gt; under the hood. &lt;a href=&#34;https://github.com/mauro3/Parameters.jl&#34;&gt;Parameters&lt;/a&gt; was very useful for clean code.&lt;/p&gt;
 
-&amp;lt;h2 id=&amp;#34;perspective-of-the-instructor&amp;#34;&amp;gt;Perspective of the instructor&amp;lt;/h2&amp;gt;
+&lt;h2 id=&#34;perspective-of-the-instructor&#34;&gt;Perspective of the instructor&lt;/h2&gt;
 
-&amp;lt;p&amp;gt;Even when I wrote something in a suboptimal manner, it turned out to be fast enough. Julia is great in that respect. However, compilation time dominated almost everything that we did, especially for plots.&amp;lt;/p&amp;gt;
+&lt;p&gt;Even when I wrote something in a suboptimal manner, it turned out to be fast enough. Julia is great in that respect. However, compilation time dominated almost everything that we did, especially for plots.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;I was using Jupyter notebooks, inspired by &amp;lt;a href=&amp;#34;https://math.mit.edu/classes/18.S096/iap17/&amp;#34;&amp;gt;18.S096&amp;lt;/a&amp;gt;. While I am much, much slower writing code in Jupyter compared to Emacs, I think that this turned out to be a benefit: jumping around between windows is very difficult to follow. &amp;lt;a href=&amp;#34;https://github.com/JuliaGizmos/Interact.jl&amp;#34;&amp;gt;Interact&amp;lt;/a&amp;gt; was just great.&amp;lt;/p&amp;gt;
+&lt;p&gt;I was using Jupyter notebooks, inspired by &lt;a href=&#34;https://math.mit.edu/classes/18.S096/iap17/&#34;&gt;18.S096&lt;/a&gt;. While I am much, much slower writing code in Jupyter compared to Emacs, I think that this turned out to be a benefit: jumping around between windows is very difficult to follow. &lt;a href=&#34;https://github.com/JuliaGizmos/Interact.jl&#34;&gt;Interact&lt;/a&gt; was just great.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;I made a small package for code we wrote in class, and distributed new code via &amp;lt;code&amp;gt;Pkg.update()&amp;lt;/code&amp;gt;. This worked well most of the time.&amp;lt;/p&amp;gt;
+&lt;p&gt;I made a small package for code we wrote in class, and distributed new code via &lt;code&gt;Pkg.update()&lt;/code&gt;. This worked well most of the time.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;We were using &amp;lt;code&amp;gt;v0.5.0&amp;lt;/code&amp;gt; and later transitioned to &amp;lt;code&amp;gt;v0.5.1&amp;lt;/code&amp;gt;, which was seamless.&amp;lt;/p&amp;gt;
+&lt;p&gt;We were using &lt;code&gt;v0.5.0&lt;/code&gt; and later transitioned to &lt;code&gt;v0.5.1&lt;/code&gt;, which was seamless.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;Since I was not using modules, sometimes the best way to extricate myself from a state was restarting the kernel. This became a running joke among the students (&amp;amp;ldquo;when in doubt, restart the kernel&amp;amp;rdquo;). This actually worked very well for the infamous &amp;lt;a href=&amp;#34;https://github.com/julialang/julia/issues/265&amp;#34;&amp;gt;#265&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;p&gt;Since I was not using modules, sometimes the best way to extricate myself from a state was restarting the kernel. This became a running joke among the students (&amp;ldquo;when in doubt, restart the kernel&amp;rdquo;). This actually worked very well for the infamous &lt;a href=&#34;https://github.com/julialang/julia/issues/265&#34;&gt;#265&lt;/a&gt;.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;Jupyter is great for interactive notes in class. I mixed a great deal of marked up text and LaTeX equations into the workbooks. Problem sets were handed in using Jupyter notebooks, and the exam (solving a dynamic programming problem) was also written in and graded as a notebook.&amp;lt;/p&amp;gt;
+&lt;p&gt;Jupyter is great for interactive notes in class. I mixed a great deal of marked up text and LaTeX equations into the workbooks. Problem sets were handed in using Jupyter notebooks, and the exam (solving a dynamic programming problem) was also written in and graded as a notebook.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;Unicode specials are addictive. Once you learn about &amp;lt;code&amp;gt;α&amp;lt;/code&amp;gt;, you never name a variable &amp;lt;code&amp;gt;alpha&amp;lt;/code&amp;gt; again.&amp;lt;/p&amp;gt;
+&lt;p&gt;Unicode specials are addictive. Once you learn about &lt;code&gt;α&lt;/code&gt;, you never name a variable &lt;code&gt;alpha&lt;/code&gt; again.&lt;/p&gt;
 
-&amp;lt;h2 id=&amp;#34;perspective-of-the-students&amp;#34;&amp;gt;Perspective of the students&amp;lt;/h2&amp;gt;
+&lt;h2 id=&#34;perspective-of-the-students&#34;&gt;Perspective of the students&lt;/h2&gt;
 
-&amp;lt;p&amp;gt;I talked to the class at the end of the course about their experience with Julia, and some of them individually. The biggest issue for them was lack of easily searchable answers to common questions: for R and Matlab, a &amp;amp;ldquo;how do you &amp;amp;hellip;&amp;amp;rdquo; query turns up 100&#43; answers because many people have encountered the problem before. This was not the case for Julia. Lack of examples was an especially difficult issue for plots.&amp;lt;/p&amp;gt;
+&lt;p&gt;I talked to the class at the end of the course about their experience with Julia, and some of them individually. The biggest issue for them was lack of easily searchable answers to common questions: for R and Matlab, a &amp;ldquo;how do you &amp;hellip;&amp;rdquo; query turns up 100+ answers because many people have encountered the problem before. This was not the case for Julia. Lack of examples was an especially difficult issue for plots.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;Debugging in Jupyter was difficult, since it mostly amounted to debugging by bisection, isolation, and occasionally printing. Students found some of the error messages cryptic (especially when it was about not having a matching method, since we did not really go into the type system).&amp;lt;/p&amp;gt;
+&lt;p&gt;Debugging in Jupyter was difficult, since it mostly amounted to debugging by bisection, isolation, and occasionally printing. Students found some of the error messages cryptic (especially when it was about not having a matching method, since we did not really go into the type system).&lt;/p&gt;
 
-&amp;lt;p&amp;gt;The most puzzling transient bugs were because of &amp;lt;a href=&amp;#34;https://github.com/julialang/julia/issues/265&amp;#34;&amp;gt;#265&amp;lt;/a&amp;gt; (&amp;amp;ldquo;but I recompiled that function!&amp;amp;rdquo;). This was solved by restarting the kernel, so the latter became somewhat of a panacea. Since compilation time dominated everything, this slowed things down considerably.&amp;lt;/p&amp;gt;
+&lt;p&gt;The most puzzling transient bugs were because of &lt;a href=&#34;https://github.com/julialang/julia/issues/265&#34;&gt;#265&lt;/a&gt; (&amp;ldquo;but I recompiled that function!&amp;rdquo;). This was solved by restarting the kernel, so the latter became somewhat of a panacea. Since compilation time dominated everything, this slowed things down considerably.&lt;/p&gt;
 
-&amp;lt;h2 id=&amp;#34;takeaway&amp;#34;&amp;gt;Takeaway&amp;lt;/h2&amp;gt;
+&lt;h2 id=&#34;takeaway&#34;&gt;Takeaway&lt;/h2&gt;
 
-&amp;lt;p&amp;gt;Would definitely do it again. Even with the issues, Julia was the most comfortable language to teach in.&amp;lt;/p&amp;gt;
+&lt;p&gt;Would definitely do it again. Even with the issues, Julia was the most comfortable language to teach in.&lt;/p&gt;
 </content>
   </entry>
   

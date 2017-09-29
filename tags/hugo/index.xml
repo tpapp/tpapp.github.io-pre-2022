@@ -18,37 +18,37 @@
     <published>2017-09-29T19:55:44+02:00</published>
     <updated>2017-09-29T19:55:44+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/blog-redesign-201709/">&amp;lt;p&amp;gt;I have redesigned my blog (again), mainly tweaking the CSS and
+    <content type="html" xml:base="https://tpapp.github.io/post/blog-redesign-201709/">&lt;p&gt;I have redesigned my blog (again), mainly tweaking the CSS and
 hopefully achieving better support on small screens (which are still
 not ideal for math, but now you should get a red warning float at the
-bottom).&amp;lt;/p&amp;gt;
+bottom).&lt;/p&gt;
 
-&amp;lt;p&amp;gt;I also re-did the feed code so that it would render better on
-&amp;lt;a href=&amp;#34;https://www.juliabloggers.com/&amp;#34;&amp;gt;juliabloggers.com&amp;lt;/a&amp;gt;. Now the whole
+&lt;p&gt;I also re-did the feed code so that it would render better on
+&lt;a href=&#34;https://www.juliabloggers.com/&#34;&gt;juliabloggers.com&lt;/a&gt;. Now the whole
 content of each post should be scraped seamlessly, and appear
 correctly. However, the only way to test the whole toolchain is to do
 it live, and I apologize if something is still not perfect and you get
-bogus updates (BTW, this post should not show up in the Julia feed).&amp;lt;/p&amp;gt;
+bogus updates (BTW, this post should not show up in the Julia feed).&lt;/p&gt;
 
-&amp;lt;p&amp;gt;Highlights of the changes:&amp;lt;/p&amp;gt;
+&lt;p&gt;Highlights of the changes:&lt;/p&gt;
 
-&amp;lt;ol&amp;gt;
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;responsive design,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;responsive design,&lt;/p&gt;&lt;/li&gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;nicer fonts,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&lt;li&gt;&lt;p&gt;nicer fonts,&lt;/p&gt;&lt;/li&gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;line breaks in MathJax when necessary and supported,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&lt;li&gt;&lt;p&gt;line breaks in MathJax when necessary and supported,&lt;/p&gt;&lt;/li&gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;better highlighting (Julia now looks especially nice),&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&lt;li&gt;&lt;p&gt;better highlighting (Julia now looks especially nice),&lt;/p&gt;&lt;/li&gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;embedded code blocks with a download link,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&lt;li&gt;&lt;p&gt;embedded code blocks with a download link,&lt;/p&gt;&lt;/li&gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;better image placement,&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&lt;li&gt;&lt;p&gt;better image placement,&lt;/p&gt;&lt;/li&gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;Emacs screenshots now use a branch of &amp;lt;a href=&amp;#34;https://github.com/tpapp/emacs-htmlize/tree/pre-colors&amp;#34;&amp;gt;emacs-htmlize&amp;lt;/a&amp;gt;, which hopefully gets merged soon.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
-&amp;lt;/ol&amp;gt;
+&lt;li&gt;&lt;p&gt;Emacs screenshots now use a branch of &lt;a href=&#34;https://github.com/tpapp/emacs-htmlize/tree/pre-colors&#34;&gt;emacs-htmlize&lt;/a&gt;, which hopefully gets merged soon.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
-&amp;lt;p&amp;gt;As always, the source code for the whole site is &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;available&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;p&gt;As always, the source code for the whole site is &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt;.&lt;/p&gt;
 </content>
   </entry>
   
@@ -59,17 +59,17 @@ bogus updates (BTW, this post should not show up in the Julia feed).&amp;lt;/p&a
     <published>2017-03-30T10:02:32+02:00</published>
     <updated>2017-03-30T10:02:32+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/blogging-weave-julia-hugo/">&amp;lt;p&amp;gt;I have made a PR to &amp;lt;a href=&amp;#34;https://github.com/mpastell/Weave.jl&amp;#34;&amp;gt;Weave.jl&amp;lt;/a&amp;gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &amp;lt;a href=&amp;#34;https://gohugo.io/&amp;#34;&amp;gt;Hugo&amp;lt;/a&amp;gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;available&amp;lt;/a&amp;gt; so that others can use it for their own blogging about Julia. An example is &amp;lt;a href=&amp;#34;/post/hugo-julia-weave/&amp;#34;&amp;gt;this post&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/blogging-weave-julia-hugo/">&lt;p&gt;I have made a PR to &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt; so that others can use it for their own blogging about Julia. An example is &lt;a href=&#34;https://tpapp.github.io/post/hugo-julia-weave/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;The gist of the workflow is as follows:&amp;lt;/p&amp;gt;
+&lt;p&gt;The gist of the workflow is as follows:&lt;/p&gt;
 
-&amp;lt;ol&amp;gt;
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;for posts which do not need &amp;lt;code&amp;gt;Weave&amp;lt;/code&amp;gt;, just use &amp;lt;code&amp;gt;Hugo&amp;lt;/code&amp;gt;. Make sure you read their &amp;lt;a href=&amp;#34;https://gohugo.io/overview/introduction/&amp;#34;&amp;gt;excellent tutorial&amp;lt;/a&amp;gt;. &amp;lt;strong&amp;gt;This very fast&amp;lt;/strong&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;for posts which do not need &lt;code&gt;Weave&lt;/code&gt;, just use &lt;code&gt;Hugo&lt;/code&gt;. Make sure you read their &lt;a href=&#34;https://gohugo.io/overview/introduction/&#34;&gt;excellent tutorial&lt;/a&gt;. &lt;strong&gt;This very fast&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
 
-&amp;lt;li&amp;gt;&amp;lt;p&amp;gt;for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the &amp;lt;code&amp;gt;.md&amp;lt;/code&amp;gt; file using &amp;lt;code&amp;gt;Weave.jl&amp;lt;/code&amp;gt;. &amp;lt;strong&amp;gt;This is the slow part&amp;lt;/strong&amp;gt;, so it is not automated.&amp;lt;/p&amp;gt;&amp;lt;/li&amp;gt;
-&amp;lt;/ol&amp;gt;
+&lt;li&gt;&lt;p&gt;for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the &lt;code&gt;.md&lt;/code&gt; file using &lt;code&gt;Weave.jl&lt;/code&gt;. &lt;strong&gt;This is the slow part&lt;/strong&gt;, so it is not automated.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
-&amp;lt;p&amp;gt;The &amp;lt;a href=&amp;#34;https://github.com/tpapp/tpapp.github.io-source&amp;#34;&amp;gt;README&amp;lt;/a&amp;gt; gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.&amp;lt;/p&amp;gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;README&lt;/a&gt; gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.&lt;/p&gt;
 </content>
   </entry>
   

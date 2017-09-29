@@ -18,35 +18,35 @@
     <published>2017-05-24T12:59:53+02:00</published>
     <updated>2017-05-24T12:59:53+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/latex-math-increment/">&amp;lt;p&amp;gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &amp;lt;a href=&amp;#34;https://tpapp.github.io/post/jacobian-chain/&amp;#34;&amp;gt;change of varible calculations&amp;lt;/a&amp;gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&amp;lt;/p&amp;gt;
-&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathtt{target} &#43;= J_f&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;gives
+    <content type="html" xml:base="https://tpapp.github.io/post/latex-math-increment/">&lt;p&gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &lt;a href=&#34;https://tpapp.github.io/post/jacobian-chain/&#34;&gt;change of varible calculations&lt;/a&gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;\mathtt{target} += J_f&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;gives
 $$
-\mathtt{target} &#43;= J_f
+\mathtt{target} += J_f
 $$
-which is to be expected, as &amp;lt;code&amp;gt;&#43;&amp;lt;/code&amp;gt; is a binary operator and &amp;lt;code&amp;gt;=&amp;lt;/code&amp;gt; is a relation, so $\LaTeX$ is not expecting them to show up this way.&amp;lt;/p&amp;gt;
+which is to be expected, as &lt;code&gt;+&lt;/code&gt; is a binary operator and &lt;code&gt;=&lt;/code&gt; is a relation, so $\LaTeX$ is not expecting them to show up this way.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;We can remedy this as&amp;lt;/p&amp;gt;
-&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathtt{target} \mathrel{&#43;}= J_f&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;which shows up as
+&lt;p&gt;We can remedy this as&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;\mathtt{target} \mathrel{+}= J_f&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;which shows up as
 $$
-\mathtt{target} \mathrel{&#43;}= J_f
+\mathtt{target} \mathrel{+}= J_f
 $$
-which is an improvement, but is still not visually appealing.&amp;lt;/p&amp;gt;
+which is an improvement, but is still not visually appealing.&lt;/p&gt;
 
-&amp;lt;p&amp;gt;Making the &amp;lt;code&amp;gt;&#43;&amp;lt;/code&amp;gt; a bit smaller with&amp;lt;/p&amp;gt;
-&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathrel{\raisebox{0.19ex}{$\scriptstyle&#43;$}}=}&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;yields
+&lt;p&gt;Making the &lt;code&gt;+&lt;/code&gt; a bit smaller with&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;\mathrel{\raisebox{0.19ex}{$\scriptstyle+$}}=}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;yields
 $$
-\mathtt{target} \mathrel{\raise{0.19ex}{\scriptstyle&#43;}} = J_f
+\mathtt{target} \mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f
 $$
-which looks OK enough to preclude further tweaking. Note that &amp;lt;a href=&amp;#34;http://www.mathjax.org/&amp;#34;&amp;gt;MathJax&amp;lt;/a&amp;gt; does not support &amp;lt;code&amp;gt;\raisebox&amp;lt;/code&amp;gt;, but you can use&amp;lt;/p&amp;gt;
-&amp;lt;div class=&amp;#34;highlight&amp;#34;&amp;gt;&amp;lt;pre class=&amp;#34;chroma&amp;#34;&amp;gt;&amp;lt;code class=&amp;#34;language-latex&amp;#34; data-lang=&amp;#34;latex&amp;#34;&amp;gt;\mathrel{\raise{0.19ex}{\scriptstyle&#43;}} = J_f&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;/div&amp;gt;
-&amp;lt;p&amp;gt;which renders the as above.&amp;lt;/p&amp;gt;
+which looks OK enough to preclude further tweaking. Note that &lt;a href=&#34;http://www.mathjax.org/&#34;&gt;MathJax&lt;/a&gt; does not support &lt;code&gt;\raisebox&lt;/code&gt;, but you can use&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;\mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;which renders the as above.&lt;/p&gt;
 </content>
   </entry>
   
