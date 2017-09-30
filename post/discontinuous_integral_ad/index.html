@@ -12,8 +12,8 @@
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
-          inlineMath: [['$','$'], ['\\(','\\)']],
-          displayMath: [['$$','$$'], ['\[','\]']],
+          
+          
           processEscapes: true,
           processEnvironments: true,
           skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
@@ -188,47 +188,54 @@
 
 <p>This is a <em>much simplified</em> writeup of a problem I encountered, in a self-contained blog post.</p>
 
-<p>You want to approximate the integral
-$$
-I(\theta) = \int 1(g(x) &gt; 0) f(x,\theta) dx
-$$
-where (g) is a continuous function, and $f(x,\theta)$ is a parametric distribution over $x$. Everthing is continous, and thus $I$ is, too.</p>
+<p>You want to approximate the integral</p>
+
+<p><span  class="math">\[
+I(\theta) = \int 1(g(x) > 0) f(x,\theta) dx
+\]</span></p>
+
+<p>where <span  class="math">\(g\)</span> is a continuous function, and <span  class="math">\(f(x,\theta)\)</span> is a parametric distribution over <span  class="math">\(x\)</span>. Everthing is continous, and thus <span  class="math">\(I\)</span> is, too.</p>
 
 <p>You face the following constraints:</p>
 
 <ol>
-<li><p>$g$ is a black box. We will pretend that you can&rsquo;t invert it (except for checking our results, of course).</p></li>
+<li><p><span  class="math">\(g\)</span> is a black box. We will pretend that you can't invert it (except for checking our results, of course).</p></li>
 
-<li><p>You can calculate the probability density function $f$ and even draw $x$&rsquo;s for a particular $\theta$, but that&rsquo;s pretty much it. You don&rsquo;t even get a cdf! (Again, except for checking our results.)</p></li>
+<li><p>You can calculate the probability density function <span  class="math">\(f\)</span> and even draw <span  class="math">\(x\)</span>'s for a particular <span  class="math">\(\theta\)</span>, but that's pretty much it. You don't even get a cdf! (Again, except for checking our results.)</p></li>
 </ol>
 
 <p>Using Monte Carlo methods, you can do the following:</p>
 
 <ol>
-<li><p>draw $x_i \sim F(\cdot, \theta)$, $i=1,\dots,N$,</p></li>
+<li><p>draw <span  class="math">\(x_i \sim F(\cdot, \theta)\)</span>, <span  class="math">\(i=1,\dots,N\)</span>,</p></li>
 
-<li><p>approximate
-$$
-I(\theta) \approx \frac{1}{N}\sum_i 1(g(x_i) &gt; 0)
-$$</p></li>
+<li><p>approximate</p></li>
 </ol>
+
+<p><span  class="math">\[
+I(\theta) \approx \frac{1}{N}\sum_i 1(g(x_i) > 0)
+\]</span></p>
 
 <p>You could code this in Julia as</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">d <span class="sfa0">=</span> distr(θ)   <span class="s1770"># suppose this returns some distribution that supports Base.rand</span>
 x <span class="sfa0">=</span> rand(d, N)
 mean(g<span class="sfa0">.</span>(x) <span class="sfa0">&gt;</span> <span class="sc84">0</span>)</code></pre>
 </div>
-<p>So far, neat and simple. Now, the fly in the ointment: <strong>you need the derivative</strong> $I&rsquo;(\theta)$ for optimization or Hamiltonian Monte Carlo. The problem is that you cannot <code>ForwardDiff</code> your way through the code above: AD&rsquo;ing a discontinuous step function will just give you $0$, and <code>rand</code> does not work with <code>ForwardDiff.Dual</code>s anyway (which is very sensible).</p>
+<p>So far, neat and simple. Now, the fly in the ointment: <strong>you need the derivative</strong> <span  class="math">\(I'(\theta)\)</span> for optimization or Hamiltonian Monte Carlo. The problem is that you cannot <code>ForwardDiff</code> your way through the code above: AD'ing a discontinuous step function will just give you <span  class="math">\(0\)</span>, and <code>rand</code> does not work with <code>ForwardDiff.Dual</code>s anyway (which is very sensible).</p>
 
-<p>However, there <em>is</em> a solution: rewrite the approximation as
-[
-I(\theta; \theta_0) \approx \frac{1}{N}\sum_i 1(g(x_i) &gt; 0) \frac{f(x_i,\theta)}{f(x_i,\theta_0)}
-]
-where $\theta_0$ is the parameter used to simulate the $x_i$. Differentiate the above at $\theta = \theta_0$. This approximates
-[
-I&rsquo;(\theta) = \int 1(g(x) &gt; 0) \frac{\partial f(x,\theta)/\partial \theta}{f(x,\theta)}f(x,\theta) dx = \int 1(g(x) &gt; 0) \partial f(x,\theta)/\partial \theta dx
-]
-which is exactly what you want.</p>
+<p>However, there <em>is</em> a solution: rewrite the approximation as</p>
+
+<p><span  class="math">\[
+I(\theta; \theta_0) \approx \frac{1}{N}\sum_i 1(g(x_i) > 0) \frac{f(x_i,\theta)}{f(x_i,\theta_0)}
+\]</span></p>
+
+<p>where <span  class="math">\(\theta_0\)</span> is the parameter used to simulate the <span  class="math">\(x_i\)</span>. Differentiate the above at <span  class="math">\(\theta = \theta_0\)</span>. This approximates</p>
+
+<p><span  class="math">\[
+I'(\theta) = \int 1(g(x) > 0) \frac{\partial f(x,\theta)/\partial \theta}{f(x,\theta)}f(x,\theta) dx = \int 1(g(x) > 0) \partial f(x,\theta)/\partial \theta dx
+\]</span></p>
+
+<p>which is exactly what you want.</p>
 
 <p>Assume that the actual calculation is very complicated, so we would rather avoid implementing it for the integral and the derivative separately. It turns out that this is very simple to do with <code>ForwardDiff.Dual</code> values: the code is literally a one-liner and a fallback method:</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">elasticity(x<span class="sfa0">::</span><span class="s3ee">Real</span>) <span class="sfa0">=</span> one(x)
@@ -237,9 +244,9 @@ elasticity(x<span class="sfa0">::</span>Dual{T,V,N}) where {T,V,N} <span class="
 <p>which you can use in a function like</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">integral_approx(g, d, x) <span class="sfa0">=</span> mean((g<span class="sfa0">.</span>(x) <span class="sfa0">.&gt;</span> <span class="sc84">0</span>) <span class="sfa0">.*</span> elasticity<span class="sfa0">.</span>(pdf<span class="sfa0">.</span>(d, x)))</code></pre>
 </div>
-<p>I demonstrate this with $g(x) = x$ and $x \sim \text{Normal}(\theta, 1)$, for which of course we know that the analytical values for $I$ and $I&rsquo;$ are the right tail probability and the pdf at 0, respectively.</p>
+<p>I demonstrate this with <span  class="math">\(g(x) = x\)</span> and <span  class="math">\(x \sim \text{Normal}(\theta, 1)\)</span>, for which of course we know that the analytical values for <span  class="math">\(I\)</span> and <span  class="math">\(I'\)</span> are the right tail probability and the pdf at 0, respectively.</p>
 
-<p>Graphs below show that the approximation is reasonable &mdash; we could make it much better with <a href="https://github.com/stevengj/Sobol.jl">low-discrepancy sequences</a>, but that is an orthogonal issue.</p>
+<p>Graphs below show that the approximation is reasonable — we could make it much better with <a href="https://github.com/stevengj/Sobol.jl">low-discrepancy sequences</a>, but that is an orthogonal issue.</p>
 
 
 
@@ -251,7 +258,7 @@ elasticity(x<span class="sfa0">::</span>Dual{T,V,N}) where {T,V,N} <span class="
 <img src="/post/discontinuous_integral_ad/derivative.svg" alt="derivative">
 
 
-<p>It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which ${ x: g(x) &gt; 0 }$, but I used <code>elasticity</code> as above.</p>
+<p>It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which <span  class="math">\(\{ x: g(x) > 0 \}\)</span>, but I used <code>elasticity</code> as above.</p>
 
 <p>Self-contained code for everything is available below.</p>
 

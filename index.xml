@@ -61,47 +61,54 @@ bogus updates (BTW, this post should not show up in the Julia feed).&lt;/p&gt;
     
     <content type="html" xml:base="https://tpapp.github.io/post/discontinuous_integral_ad/">&lt;p&gt;This is a &lt;em&gt;much simplified&lt;/em&gt; writeup of a problem I encountered, in a self-contained blog post.&lt;/p&gt;
 
-&lt;p&gt;You want to approximate the integral
-$$
-I(\theta) = \int 1(g(x) &amp;gt; 0) f(x,\theta) dx
-$$
-where (g) is a continuous function, and $f(x,\theta)$ is a parametric distribution over $x$. Everthing is continous, and thus $I$ is, too.&lt;/p&gt;
+&lt;p&gt;You want to approximate the integral&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+I(\theta) = \int 1(g(x) &gt; 0) f(x,\theta) dx
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;where &lt;span  class=&#34;math&#34;&gt;\(g\)&lt;/span&gt; is a continuous function, and &lt;span  class=&#34;math&#34;&gt;\(f(x,\theta)\)&lt;/span&gt; is a parametric distribution over &lt;span  class=&#34;math&#34;&gt;\(x\)&lt;/span&gt;. Everthing is continous, and thus &lt;span  class=&#34;math&#34;&gt;\(I\)&lt;/span&gt; is, too.&lt;/p&gt;
 
 &lt;p&gt;You face the following constraints:&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;$g$ is a black box. We will pretend that you can&amp;rsquo;t invert it (except for checking our results, of course).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\(g\)&lt;/span&gt; is a black box. We will pretend that you can&#39;t invert it (except for checking our results, of course).&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;You can calculate the probability density function $f$ and even draw $x$&amp;rsquo;s for a particular $\theta$, but that&amp;rsquo;s pretty much it. You don&amp;rsquo;t even get a cdf! (Again, except for checking our results.)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;You can calculate the probability density function &lt;span  class=&#34;math&#34;&gt;\(f\)&lt;/span&gt; and even draw &lt;span  class=&#34;math&#34;&gt;\(x\)&lt;/span&gt;&#39;s for a particular &lt;span  class=&#34;math&#34;&gt;\(\theta\)&lt;/span&gt;, but that&#39;s pretty much it. You don&#39;t even get a cdf! (Again, except for checking our results.)&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;Using Monte Carlo methods, you can do the following:&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;draw $x_i \sim F(\cdot, \theta)$, $i=1,\dots,N$,&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;draw &lt;span  class=&#34;math&#34;&gt;\(x_i \sim F(\cdot, \theta)\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(i=1,\dots,N\)&lt;/span&gt;,&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;approximate
-$$
-I(\theta) \approx \frac{1}{N}\sum_i 1(g(x_i) &amp;gt; 0)
-$$&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;approximate&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+I(\theta) \approx \frac{1}{N}\sum_i 1(g(x_i) &gt; 0)
+\]&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;You could code this in Julia as&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;d &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; distr(θ)   &lt;span class=&#34;s1770&#34;&gt;# suppose this returns some distribution that supports Base.rand&lt;/span&gt;
 x &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; rand(d, N)
 mean(g&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(x) &lt;span class=&#34;sfa0&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;So far, neat and simple. Now, the fly in the ointment: &lt;strong&gt;you need the derivative&lt;/strong&gt; $I&amp;rsquo;(\theta)$ for optimization or Hamiltonian Monte Carlo. The problem is that you cannot &lt;code&gt;ForwardDiff&lt;/code&gt; your way through the code above: AD&amp;rsquo;ing a discontinuous step function will just give you $0$, and &lt;code&gt;rand&lt;/code&gt; does not work with &lt;code&gt;ForwardDiff.Dual&lt;/code&gt;s anyway (which is very sensible).&lt;/p&gt;
+&lt;p&gt;So far, neat and simple. Now, the fly in the ointment: &lt;strong&gt;you need the derivative&lt;/strong&gt; &lt;span  class=&#34;math&#34;&gt;\(I&#39;(\theta)\)&lt;/span&gt; for optimization or Hamiltonian Monte Carlo. The problem is that you cannot &lt;code&gt;ForwardDiff&lt;/code&gt; your way through the code above: AD&#39;ing a discontinuous step function will just give you &lt;span  class=&#34;math&#34;&gt;\(0\)&lt;/span&gt;, and &lt;code&gt;rand&lt;/code&gt; does not work with &lt;code&gt;ForwardDiff.Dual&lt;/code&gt;s anyway (which is very sensible).&lt;/p&gt;
 
-&lt;p&gt;However, there &lt;em&gt;is&lt;/em&gt; a solution: rewrite the approximation as
-[
-I(\theta; \theta_0) \approx \frac{1}{N}\sum_i 1(g(x_i) &amp;gt; 0) \frac{f(x_i,\theta)}{f(x_i,\theta_0)}
-]
-where $\theta_0$ is the parameter used to simulate the $x_i$. Differentiate the above at $\theta = \theta_0$. This approximates
-[
-I&amp;rsquo;(\theta) = \int 1(g(x) &amp;gt; 0) \frac{\partial f(x,\theta)/\partial \theta}{f(x,\theta)}f(x,\theta) dx = \int 1(g(x) &amp;gt; 0) \partial f(x,\theta)/\partial \theta dx
-]
-which is exactly what you want.&lt;/p&gt;
+&lt;p&gt;However, there &lt;em&gt;is&lt;/em&gt; a solution: rewrite the approximation as&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+I(\theta; \theta_0) \approx \frac{1}{N}\sum_i 1(g(x_i) &gt; 0) \frac{f(x_i,\theta)}{f(x_i,\theta_0)}
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;where &lt;span  class=&#34;math&#34;&gt;\(\theta_0\)&lt;/span&gt; is the parameter used to simulate the &lt;span  class=&#34;math&#34;&gt;\(x_i\)&lt;/span&gt;. Differentiate the above at &lt;span  class=&#34;math&#34;&gt;\(\theta = \theta_0\)&lt;/span&gt;. This approximates&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+I&#39;(\theta) = \int 1(g(x) &gt; 0) \frac{\partial f(x,\theta)/\partial \theta}{f(x,\theta)}f(x,\theta) dx = \int 1(g(x) &gt; 0) \partial f(x,\theta)/\partial \theta dx
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;which is exactly what you want.&lt;/p&gt;
 
 &lt;p&gt;Assume that the actual calculation is very complicated, so we would rather avoid implementing it for the integral and the derivative separately. It turns out that this is very simple to do with &lt;code&gt;ForwardDiff.Dual&lt;/code&gt; values: the code is literally a one-liner and a fallback method:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;elasticity(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Real&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; one(x)
@@ -110,9 +117,9 @@ elasticity(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Dual{T,V,N}) where {
 &lt;p&gt;which you can use in a function like&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;integral_approx(g, d, x) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; mean((g&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(x) &lt;span class=&#34;sfa0&#34;&gt;.&amp;gt;&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;.*&lt;/span&gt; elasticity&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(pdf&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;(d, x)))&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;p&gt;I demonstrate this with $g(x) = x$ and $x \sim \text{Normal}(\theta, 1)$, for which of course we know that the analytical values for $I$ and $I&amp;rsquo;$ are the right tail probability and the pdf at 0, respectively.&lt;/p&gt;
+&lt;p&gt;I demonstrate this with &lt;span  class=&#34;math&#34;&gt;\(g(x) = x\)&lt;/span&gt; and &lt;span  class=&#34;math&#34;&gt;\(x \sim \text{Normal}(\theta, 1)\)&lt;/span&gt;, for which of course we know that the analytical values for &lt;span  class=&#34;math&#34;&gt;\(I\)&lt;/span&gt; and &lt;span  class=&#34;math&#34;&gt;\(I&#39;\)&lt;/span&gt; are the right tail probability and the pdf at 0, respectively.&lt;/p&gt;
 
-&lt;p&gt;Graphs below show that the approximation is reasonable &amp;mdash; we could make it much better with &lt;a href=&#34;https://github.com/stevengj/Sobol.jl&#34;&gt;low-discrepancy sequences&lt;/a&gt;, but that is an orthogonal issue.&lt;/p&gt;
+&lt;p&gt;Graphs below show that the approximation is reasonable — we could make it much better with &lt;a href=&#34;https://github.com/stevengj/Sobol.jl&#34;&gt;low-discrepancy sequences&lt;/a&gt;, but that is an orthogonal issue.&lt;/p&gt;
 
 
 
@@ -124,7 +131,7 @@ elasticity(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Dual{T,V,N}) where {
 &lt;img src=&#34;https://tpapp.github.io/post/discontinuous_integral_ad/derivative.svg&#34; alt=&#34;derivative&#34;&gt;
 
 
-&lt;p&gt;It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which ${ x: g(x) &amp;gt; 0 }$, but I used &lt;code&gt;elasticity&lt;/code&gt; as above.&lt;/p&gt;
+&lt;p&gt;It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which &lt;span  class=&#34;math&#34;&gt;\(\{ x: g(x) &gt; 0 \}\)&lt;/span&gt;, but I used &lt;code&gt;elasticity&lt;/code&gt; as above.&lt;/p&gt;
 
 &lt;p&gt;Self-contained code for everything is available below.&lt;/p&gt;
 
@@ -206,36 +213,38 @@ savefig(&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;derivative.svg&amp;#34;&lt;/sp
     <published>2017-09-13T11:18:59+02:00</published>
     <updated>2017-09-13T11:18:59+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/log1p/">
-
-&lt;p&gt;&lt;em&gt;edit&lt;/em&gt;: fixed bogus interaction of MathJax and code highlighting.&lt;/p&gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/log1p/">&lt;p&gt;&lt;em&gt;edit&lt;/em&gt;: fixed bogus interaction of MathJax and code highlighting.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;edit2&lt;/em&gt;: added benchmarks.&lt;/p&gt;
 
-&lt;p&gt;This is a follow-up on a &lt;a href=&#34;https://discourse.julialang.org/t/log1p-in-base-vs-base-math-julialibm/5852&#34;&gt;question&lt;/a&gt; I asked on the Julia forums about calculating
-[
-\text{log1p}(x) = \log(1+x)
-]
-This calculation is tricky because if $x \approx 0$,
-[
-\log(1+x) \approx x
-]
-while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using &lt;code&gt;log(1+x)&lt;/code&gt; will not be as accurate as it could be. Numerical analysts have developed specialized methods for these calculations that try to get an accurate answer, and all programming languages serious about numerical calculations have an implementation either in the core language or a library.&lt;/p&gt;
+&lt;p&gt;This is a follow-up on a &lt;a href=&#34;https://discourse.julialang.org/t/log1p-in-base-vs-base-math-julialibm/5852&#34;&gt;question&lt;/a&gt; I asked on the Julia forums about calculating&lt;/p&gt;
 
-&lt;p&gt;Julia&amp;rsquo;s &lt;code&gt;Base.log1p&lt;/code&gt; currently suggests that &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; would be preferable, but then I was wondering why isn&amp;rsquo;t that the default? So I decided to perform a trivial numerical experiment, calculating the error for both, and also benchmark the two methods.&lt;/p&gt;
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+\text{log1p}(x) = \log(1+x)
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;This calculation is tricky because if &lt;span  class=&#34;math&#34;&gt;\(x \approx 0\)&lt;/span&gt;,&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+\log(1+x) \approx x
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;while as &lt;span  class=&#34;math&#34;&gt;\(x \to \infty\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(\log(1+x)\)&lt;/span&gt; approaches &lt;span  class=&#34;math&#34;&gt;\(\log(x)\)&lt;/span&gt;, so simply using &lt;code&gt;log(1+x)&lt;/code&gt; will not be as accurate as it could be. Numerical analysts have developed specialized methods for these calculations that try to get an accurate answer, and all programming languages serious about numerical calculations have an implementation either in the core language or a library.&lt;/p&gt;
+
+&lt;p&gt;Julia&#39;s &lt;code&gt;Base.log1p&lt;/code&gt; currently suggests that &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; would be preferable, but then I was wondering why isn&#39;t that the default? So I decided to perform a trivial numerical experiment, calculating the error for both, and also benchmark the two methods.&lt;/p&gt;
 
 &lt;h2 id=&#34;accuracy&#34;&gt;Accuracy&lt;/h2&gt;
 
-&lt;p&gt;The key question is what to compare the results with. One could compare to an existing &amp;ldquo;gold standard&amp;rdquo; implementation, or simply calculate the results using a higher precision representation. Fortunately, Julia has &lt;code&gt;BigFloat&lt;/code&gt;s available right out of the box.&lt;/p&gt;
+&lt;p&gt;The key question is what to compare the results with. One could compare to an existing &amp;quot;gold standard&amp;quot; implementation, or simply calculate the results using a higher precision representation. Fortunately, Julia has &lt;code&gt;BigFloat&lt;/code&gt;s available right out of the box.&lt;/p&gt;
 
-&lt;p&gt;The graph below shows the base-2 logarithm of the &lt;em&gt;relative&lt;/em&gt; error for &lt;code&gt;Base.log1p&lt;/code&gt; vs $\log_2(1+x)$; horizontal lines are &lt;code&gt;log2(eps())&lt;/code&gt; and &lt;code&gt;log2(eps())+1&lt;/code&gt;. This suggests that &lt;code&gt;Base.log1p&lt;/code&gt; is &lt;em&gt;very accurate&lt;/em&gt;, but not as good as it could be when $x \approx 0$.&lt;/p&gt;
+&lt;p&gt;The graph below shows the base-2 logarithm of the &lt;em&gt;relative&lt;/em&gt; error for &lt;code&gt;Base.log1p&lt;/code&gt; vs &lt;span  class=&#34;math&#34;&gt;\(\log\_2(1+x)\)&lt;/span&gt;; horizontal lines are &lt;code&gt;log2(eps())&lt;/code&gt; and &lt;code&gt;log2(eps())+1&lt;/code&gt;. This suggests that &lt;code&gt;Base.log1p&lt;/code&gt; is &lt;em&gt;very accurate&lt;/em&gt;, but not as good as it could be when &lt;span  class=&#34;math&#34;&gt;\(x \approx 0\)&lt;/span&gt;.&lt;/p&gt;
 
 
 
 &lt;img src=&#34;https://tpapp.github.io/post/log1p/Base_log1p_error.svg&#34; alt=&#34;Base.log1p error&#34;&gt;
 
 
-&lt;p&gt;The next plot shows the relative accuracy of the relative error above, comparing &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; to &lt;code&gt;Base.log1p&lt;/code&gt; (lower values better). In these simulations, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is never worse, but sometimes significantly better (resulting in an extra binary digit of accuracy). This matters especially when $x \approx 0$.&lt;/p&gt;
+&lt;p&gt;The next plot shows the relative accuracy of the relative error above, comparing &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; to &lt;code&gt;Base.log1p&lt;/code&gt; (lower values better). In these simulations, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is never worse, but sometimes significantly better (resulting in an extra binary digit of accuracy). This matters especially when &lt;span  class=&#34;math&#34;&gt;\(x \approx 0\)&lt;/span&gt;.&lt;/p&gt;
 
 
 
@@ -251,7 +260,7 @@ while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using &lt;c
 
 &lt;h2 id=&#34;speed&#34;&gt;Speed&lt;/h2&gt;
 
-&lt;p&gt;I also evaluated relative speed. The graph below shows the relative runtimes, obtained using &lt;code&gt;BenchmarkTools.@belapsed&lt;/code&gt;. Values below $1$ mean that &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is faster: indeed, this seems to be the case except for values very close to $0$, where there is a 10&amp;ndash;20% performance penalty. At other values, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is 30&amp;ndash;40% &lt;em&gt;faster&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;I also evaluated relative speed. The graph below shows the relative runtimes, obtained using &lt;code&gt;BenchmarkTools.@belapsed&lt;/code&gt;. Values below &lt;span  class=&#34;math&#34;&gt;\(1\)&lt;/span&gt; mean that &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is faster: indeed, this seems to be the case except for values very close to &lt;span  class=&#34;math&#34;&gt;\(0\)&lt;/span&gt;, where there is a 10–20% performance penalty. At other values, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is 30–40% &lt;em&gt;faster&lt;/em&gt;.&lt;/p&gt;
 
 
 
@@ -261,12 +270,12 @@ while as $x \to \infty$, $\log(1+x)$ approaches $\log(x)$, so simply using &lt;c
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;For values near $0$, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is more accurate, at a slight performance cost.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For values near &lt;span  class=&#34;math&#34;&gt;\(0\)&lt;/span&gt;, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is more accurate, at a slight performance cost.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;For values away from $0$, it is at least as accurate as &lt;code&gt;Base.log1p&lt;/code&gt;, and 30&amp;ndash;40% faster.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For values away from &lt;span  class=&#34;math&#34;&gt;\(0\)&lt;/span&gt;, it is at least as accurate as &lt;code&gt;Base.log1p&lt;/code&gt;, and 30—40% faster.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;To me, this suggests that &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; should be the default method &amp;mdash; mostly because the extra accuracy is more important to me than the slight performance cost.&lt;/p&gt;
+&lt;p&gt;To me, this suggests that &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; should be the default method — mostly because the extra accuracy is more important to me than the slight performance cost.&lt;/p&gt;
 
 &lt;p&gt;Code is available below.&lt;/p&gt;
 
