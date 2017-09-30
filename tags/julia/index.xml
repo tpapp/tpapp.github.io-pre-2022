@@ -491,163 +491,122 @@ some packages, especially if I am contributing.&lt;/p&gt;
   
   <entry>
     <title type="html">Sampling variation in effective sample size estimates (MCMC)</title>
-    <link href="https://tpapp.github.io/post/ess-sampling/ess-sampling/"/>
-    <id>https://tpapp.github.io/post/ess-sampling/ess-sampling/</id>
+    <link href="https://tpapp.github.io/post/ess-sampling/"/>
+    <id>https://tpapp.github.io/post/ess-sampling/</id>
     <published>2017-06-12T16:25:57+02:00</published>
     <updated>2017-06-12T16:25:57+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/ess-sampling/ess-sampling/">
+    <content type="html" xml:base="https://tpapp.github.io/post/ess-sampling/">&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
-&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;MCMC samples, used in Bayesian statistics, are not independent --- in fact, unless one uses specialized methods or &lt;a href=&#34;https://arxiv.org/abs/1701.02434&#34;&gt;modern HMC&lt;/a&gt;, posterior draws are usually at highly autocorrelated. For independent draws,&lt;/p&gt;
 
-&lt;p&gt;MCMC samples, used in Bayesian statistics, are not independent &amp;mdash; in fact, unless one uses specialized methods or &lt;a href=&#34;https://arxiv.org/abs/1701.02434&#34;&gt;modern HMC&lt;/a&gt;, posterior draws are usually at highly autocorrelated. For independent draws,
-[
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
 \text{variance of simulation mean} \propto \frac1N
-]
-where $N$ is the sample size, but for correlated draws, one has to scale the sample size with a factor
-[
-\tau = \frac{1}{1+2\sum_{k=1}^\infty \rho_k}
-]
-where $\rho_k$ is the lag-$k$ autocorrelation. $\tau N$ is the &lt;em&gt;effective sample size&lt;/em&gt;.&lt;/p&gt;
+\]&lt;/span&gt;&lt;/p&gt;
 
-&lt;p&gt;Usually, $\rho_k$ is estimated from the data using the variogram
-[
+&lt;p&gt;where &lt;span  class=&#34;math&#34;&gt;\(N\)&lt;/span&gt; is the sample size, but for correlated draws, one has to scale the sample size with a factor&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+\tau = \frac{1}{1+2\sum_{k=1}^\infty \rho_k}
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;where &lt;span  class=&#34;math&#34;&gt;\(\rho_k\)&lt;/span&gt; is the lag-&lt;span  class=&#34;math&#34;&gt;\(k\)&lt;/span&gt; autocorrelation. &lt;span  class=&#34;math&#34;&gt;\(\tau N\)&lt;/span&gt; is the &lt;em&gt;effective sample size&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Usually, &lt;span  class=&#34;math&#34;&gt;\(\rho_k\)&lt;/span&gt; is estimated from the data using the variogram&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
 V_k = \frac{1}{N-k} \sum_{i=1}^{N-k} x_i x_{i+k}
-]
-from which we obtain
-[
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;from which we obtain&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
 \rho_k = 1-\frac{V_k}{2\text{var}(x)}
-]
-where an estimator for the variance is also used. Then, to avoid using noisy estimates, we only add up to the last $K$ where
-[
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;where an estimator for the variance is also used. Then, to avoid using noisy estimates, we only add up to the last &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt; where&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
 \rho_{K} + \rho_{K+1} \ge 0
-]
-I will call $K$ the &lt;em&gt;last lag&lt;/em&gt;. &lt;a href=&#34;http://mc-stan.org/&#34;&gt;Stan&lt;/a&gt; does something slightly different, using FFT for autocorrelations, and cutting off at the first negative $\rho_K$, but for HMC this does not make a whole lot of difference.&lt;/p&gt;
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;I will call &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt; the &lt;em&gt;last lag&lt;/em&gt;. &lt;a href=&#34;http://mc-stan.org/&#34;&gt;Stan&lt;/a&gt; does something slightly different, using FFT for autocorrelations, and cutting off at the first negative &lt;span  class=&#34;math&#34;&gt;\(\rho_K\)&lt;/span&gt;, but for HMC this does not make a whole lot of difference.&lt;/p&gt;
 
 &lt;h2 id=&#34;the-sampling-variation&#34;&gt;The sampling variation&lt;/h2&gt;
 
-&lt;p&gt;I was coding up the above calculation, and needed some unit tests. Surprisignly, I could not find anything on the sampling variation of $\tau$, so I wrote some simulations in Julia (&lt;a href=&#34;../ess-sampling.jl&#34;&gt;source code for everything&lt;/a&gt;). I did the following simulation exercise:&lt;/p&gt;
+&lt;p&gt;I was coding up the above calculation, and needed some unit tests. Surprisignly, I could not find anything on the sampling variation of &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, so I wrote some simulations in Julia (&lt;a href=&#34;../ess-sampling.jl&#34;&gt;source code for everything&lt;/a&gt;). I did the following simulation exercise:&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;for a given autocorrelation coefficient $\phi$, simulate $N$ draws from the AR(1) process
-[
+&lt;li&gt;for a given autocorrelation coefficient &lt;span  class=&#34;math&#34;&gt;\(\phi\)&lt;/span&gt;, simulate &lt;span  class=&#34;math&#34;&gt;\(N\)&lt;/span&gt; draws from the AR(1) process
+&lt;span  class=&#34;math&#34;&gt;\(
 x_t = \phi x_{t-1} + \sigma \epsilon_t
 \qquad
 \epsilon_t \sim \text{Normal}(0,1), \text{IID}
-]&lt;/li&gt;
-&lt;li&gt;calculate $\tau$ and $K$,&lt;/li&gt;
+\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;calculate &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt; and &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;,&lt;/li&gt;
 &lt;li&gt;repeat 1000 times and plot the results.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;I use $N=1000$ and $N=10000$, as these would be typical sample sizes, first for a fairly efficient algorithm, then for a more stubborn but still manageable posterior.&lt;/p&gt;
+&lt;p&gt;I use &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt; and &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;, as these would be typical sample sizes, first for a fairly efficient algorithm, then for a more stubborn but still manageable posterior.&lt;/p&gt;
 
 &lt;h2 id=&#34;iid-samples&#34;&gt;IID samples&lt;/h2&gt;
 
-&lt;p&gt;Let $\phi=0$, then we expect $\tau=1$ (red line in histogram, coefficient of variation on top).&lt;/p&gt;
+&lt;p&gt;Let &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt;, then we expect &lt;span  class=&#34;math&#34;&gt;\(\tau=1\)&lt;/span&gt; (red line in histogram, coefficient of variation on top).&lt;/p&gt;
 
-&lt;p&gt;
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../ess-phi0N1000.svg&#34; /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h4&gt;Results with $\phi=0$ (IID), $N=1000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&lt;/h4&gt;
-        
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt; (IID), &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../ess-phi0N10000.svg&#34; /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h4&gt;Results with $\phi=0$ (IID), $N=10000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&lt;/h4&gt;
-        
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
+&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi0N1000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
-&lt;p&gt;With $1000$ samples, there is a lot of variation in ESS: 800 could show up very easily in practice. $600$ is not improbable either. Using up to $10$ lags is not uncommon.&lt;/p&gt;
-
-&lt;p&gt;For $10000$ samples, the precision is improved considerably, we commonly use $2$ or $4$ lags.&lt;/p&gt;
-
-&lt;p&gt;For both sample sizes, notice the high correlation between the last lag $K$, and $\tau$: given the method above, using more lags increases $\tau^{-1}$, so this is to be expected.&lt;/p&gt;
-
-&lt;h2 id=&#34;ar-1-samples-with-rho-0-5&#34;&gt;AR(1) samples with $\rho=0.5$&lt;/h2&gt;
-
-&lt;p&gt;This is a more autocorrelated process, here theory tells us that $\tau$=&lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3&lt;/sub&gt;.&lt;/p&gt;
-
-&lt;p&gt;
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../ess-phi05N1000.svg&#34; /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h4&gt;Results with $\phi=0.5$, $N=1000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&lt;/h4&gt;
-        
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt; (IID), &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../ess-phi05N10000.svg&#34; /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h4&gt;Results with $\phi=0.5$, $N=10000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&lt;/h4&gt;
-        
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
+&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi0N10000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
-&lt;p&gt;Notice that $\tau$ is now more dispersed, compared to the IID case. Even with 10000 samples, the coefficient of variation is 6%, with 1000 it is around &lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;6&lt;/sub&gt;. In practice, expect effective sample sizes all over the place.&lt;/p&gt;
+&lt;p&gt;With &lt;span  class=&#34;math&#34;&gt;\(1000\)&lt;/span&gt; samples, there is a lot of variation in ESS: 800 could show up very easily in practice. &lt;span  class=&#34;math&#34;&gt;\(600\)&lt;/span&gt; is not improbable either. Using up to &lt;span  class=&#34;math&#34;&gt;\(10\)&lt;/span&gt; lags is not uncommon. For &lt;span  class=&#34;math&#34;&gt;\(10000\)&lt;/span&gt; samples, the precision is improved considerably, we commonly use &lt;span  class=&#34;math&#34;&gt;\(2\)&lt;/span&gt; or &lt;span  class=&#34;math&#34;&gt;\(4\)&lt;/span&gt; lags. For both sample sizes, notice the high correlation between the last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, and &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;: given the method above, using more lags increases &lt;span  class=&#34;math&#34;&gt;\(\tau^{-1}\)&lt;/span&gt;, so this is to be expected.&lt;/p&gt;
 
-&lt;h2 id=&#34;ar-1-samples-with-rho-0-8&#34;&gt;AR(1) samples with $\rho=0.8$&lt;/h2&gt;
+&lt;h2 id=&#34;ar1-samples-with-rho05&#34;&gt;AR(1) samples with &lt;span  class=&#34;math&#34;&gt;\(\rho=0.5\)&lt;/span&gt;&lt;/h2&gt;
 
-&lt;p&gt;This is an even more autocorrelated process, here theory tells us that $\tau$=&lt;sup&gt;1&lt;/sup&gt;&amp;frasl;&lt;sub&gt;9&lt;/sub&gt;.&lt;/p&gt;
+&lt;p&gt;This is a more autocorrelated process, here theory tells us that &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;=1/3.&lt;/p&gt;
 
-&lt;p&gt;
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../ess-phi08N1000.svg&#34; /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h4&gt;Results with $\phi=0.8$, $N=1000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&lt;/h4&gt;
-        
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.5\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../ess-phi08N10000.svg&#34; /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h4&gt;Results with $\phi=0.8$, $N=10000$. (a) $\tau$, (b) last lag $K$, (c) scatterplot.&lt;/h4&gt;
-        
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
+&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi05N1000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
-&lt;p&gt;There is now so much variation that in order to get an estimate for ESS that we can use for comparing various MCMC implementations, we need to run much more than $1000$ samples.&lt;/p&gt;
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.5\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi05N10000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Notice that &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt; is now more dispersed, compared to the IID case. Even with 10000 samples, the coefficient of variation is 6%, with 1000 it is around 1/6. In practice, expect effective sample sizes all over the place.&lt;/p&gt;
+
+&lt;h2 id=&#34;ar1-samples-with-rho08&#34;&gt;AR(1) samples with &lt;span  class=&#34;math&#34;&gt;\(\rho=0.8\)&lt;/span&gt;&lt;/h2&gt;
+
+&lt;p&gt;This is an even more autocorrelated process, here theory tells us that &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;=1/9.&lt;/p&gt;
+
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.8\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi08N1000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.8\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi08N10000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;/p&gt;
+
+&lt;p&gt;There is now so much variation that in order to get an estimate for ESS that we can use for comparing various MCMC implementations, we need to run much more than &lt;span  class=&#34;math&#34;&gt;\(1000\)&lt;/span&gt; samples.&lt;/p&gt;
 
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;For unit testing ESS calculations, I will need to use 10000 samples, with $\pm10$ or similar error bands.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;For unit testing ESS calculations, I will need to use 10000 samples, with &lt;span  class=&#34;math&#34;&gt;\(\pm10\)&lt;/span&gt; or similar error bands.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;As a rule of thumb, I would ignore less than 1.5x variation in ESS for 1000 samples, or run longer chains: it may be just random noise.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -658,177 +617,6 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 &lt;li&gt;Gelman, Andrew, et al. 2013. Bayesian data analysis. 3rd edition. Chapman &amp;amp; Hall/CRC.&lt;/li&gt;
 &lt;li&gt;Stan Development Team. 2016. Stan Modeling Language Users Guide and Reference Manual, Version 2.15.0. &lt;a href=&#34;http://mc-stan.org&#34;&gt;http://mc-stan.org&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title type="html">Continuous-time deterministic dynamic programming in Julia</title>
-    <link href="https://tpapp.github.io/post/dynamic-programming/"/>
-    <id>https://tpapp.github.io/post/dynamic-programming/</id>
-    <published>2017-04-02T19:06:04+02:00</published>
-    <updated>2017-04-02T19:06:04+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/post/dynamic-programming/">
-
-&lt;p&gt;For the past few weeks I have been organizing pieces of code I have used to solve economic models into Julia packages. &lt;a href=&#34;https://github.com/tpapp/EconFunctions.jl&#34;&gt;EconFunctions.jl&lt;/a&gt; is a collection of trivial functions that I noticed that I kept recoding/copy-pasting everywhere, occasionally making errors. &lt;a href=&#34;https://github.com/tpapp/ContinuousTransformations.jl&#34;&gt;ContinuousTransformations.jl&lt;/a&gt; is a library for manipulating various commonly used homeomorphisms (univariate at the moment), which are useful in functional equations or Markov Chain Monte Carlo. Finally &lt;a href=&#34;https://github.com/tpapp/ParametricFunctions.jl&#34;&gt;ParametricFunctions.jl&lt;/a&gt; is for working with parametric function families.&lt;/p&gt;
-
-&lt;p&gt;In this post I use these three to solve a simple, deterministic dynamic programming model in continuous time, known as the Ramsey growth model. If you are not an economist, it is very unlikely that it will make a lot of sense. If you are a student, I added basic references at the end, which are consistent with the methods in this post.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Caveat&lt;/strong&gt;: &lt;em&gt;these libraries are in development, I am refining the API and changing things all the time. It is very likely that as time progresses, code in this post will not run without changes.&lt;/em&gt; In other words, treat this as a sneak peak into a library which is in development.&lt;/p&gt;
-
-&lt;h2 id=&#34;theory&#34;&gt;Theory&lt;/h2&gt;
-
-&lt;p&gt;This is standard material, I am just repeating it so that this post is self-contained. We solve&lt;/p&gt;
-
-&lt;p&gt;$$\max \int_0^\infty e^{-\rho t} u(c_t) dt$$
-subject to
-$$\dot{k}_t = F(k_t) - c_t, k_t \ge 0 \forall t.$$&lt;/p&gt;
-
-&lt;p&gt;where $u( c )$ is a CRRA utility function with IES $\theta$, $F(k) = A k^\alpha - \delta k$ is a production function that accounts for depreciation. Our problem is described by the Hamilton-Jacobi-Bellman equation&lt;/p&gt;
-
-&lt;p&gt;$$\rho V(k) = \max_c u( c ) + (F(k)-c) V&amp;rsquo;(k)$$&lt;/p&gt;
-
-&lt;p&gt;Notice that once we have $V$, the first-order condition&lt;/p&gt;
-
-&lt;p&gt;$$u&amp;rsquo;(c(k)) = V&amp;rsquo;(k)$$&lt;/p&gt;
-
-&lt;p&gt;yields the policy function $c(k)$, which we are interested in. Combining the envelope condition&lt;/p&gt;
-
-&lt;p&gt;$$\rho V&amp;rsquo;(k) = F&amp;rsquo;(k) V&amp;rsquo;(k) + (F(k)-c) V{&amp;lsquo;}{&amp;rsquo;}(k)$$&lt;/p&gt;
-
-&lt;p&gt;and using the functional form for CRRA utility, we obtain&lt;/p&gt;
-
-&lt;p&gt;$$\frac{c&amp;rsquo;(k)}{c(k)} (F(k)-c(k)) = \frac{1}{\theta} (F&amp;rsquo;(k)-\rho)$$&lt;/p&gt;
-
-&lt;p&gt;which is a recursive form of the so-called Euler equation.&lt;/p&gt;
-
-&lt;p&gt;Also, note that we can characterize the steady state capital and consumption by&lt;/p&gt;
-
-&lt;p&gt;$$k_s = \left(\frac{\delta+\rho}{A\alpha}\right)^{1/(\alpha-1)}$$&lt;/p&gt;
-
-&lt;p&gt;and&lt;/p&gt;
-
-&lt;p&gt;$$c_s = F(k_s)$$&lt;/p&gt;
-
-&lt;h2 id=&#34;julia-code-solving-the-euler-equation&#34;&gt;Julia code: solving the Euler equation&lt;/h2&gt;
-
-&lt;p&gt;Load the libraries (you need to clone some code, as the packages are not registered).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; ParametricFunctions       &lt;span class=&#34;s1770&#34;&gt;# unregistered, clone from repo&lt;/span&gt;
-&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; ContinuousTransformations &lt;span class=&#34;s1770&#34;&gt;# unregistered, clone from repo&lt;/span&gt;
-&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; EconFunctions             &lt;span class=&#34;s1770&#34;&gt;# unregistered, clone from repo&lt;/span&gt;
-&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; Plots; gr()
-&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; Parameters
-&lt;span class=&#34;s3e8&#34;&gt;using&lt;/span&gt; NLsolve&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;It is useful to put model parameters in a single structure.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
-&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;Very simple (normalized) Ramsey model with isoelastic production
-&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;function and utility.
-&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;span class=&#34;s7d6&#34;&gt;@with_kw&lt;/span&gt; &lt;span class=&#34;s3e8&#34;&gt;immutable&lt;/span&gt; RamseyModel{T}
-    θ&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;T                        &lt;span class=&#34;s1770&#34;&gt;# IES&lt;/span&gt;
-    α&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;T                        &lt;span class=&#34;s1770&#34;&gt;# capital share&lt;/span&gt;
-    A&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;T                        &lt;span class=&#34;s1770&#34;&gt;# TFP&lt;/span&gt;
-    ρ&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;T                        &lt;span class=&#34;s1770&#34;&gt;# discount rate&lt;/span&gt;
-    δ&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;T                        &lt;span class=&#34;s1770&#34;&gt;# depreciation&lt;/span&gt;
-&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;This is the key part: we code the residual for the Euler equation. The function should take the model (which contains the parameters), a function $c$ that has been constructed using a function family and a set of parameters, and a scalar $k$, at which we evaluate the residual above. Everything else can be automated very well.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
-&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;Residual of the Euler equation.
-&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; euler_residual(model&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;RamseyModel, c, k)
-    &lt;span class=&#34;s7d6&#34;&gt;@unpack&lt;/span&gt; θ, ρ, α, A, δ &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; model
-    Fk &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; A&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;k&lt;span class=&#34;sfa0&#34;&gt;^&lt;/span&gt;α &lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt; δ&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;k
-    F′k &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; A&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;α&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;k&lt;span class=&#34;sfa0&#34;&gt;^&lt;/span&gt;(α&lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt; δ
-    ck, c′k &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; c(ValuePartial(k))
-    (c′k&lt;span class=&#34;sfa0&#34;&gt;/&lt;/span&gt;ck)&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;(Fk&lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt;ck) &lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;/&lt;/span&gt;θ&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;(F′k&lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt;ρ)
-&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Above, &lt;code&gt;c&lt;/code&gt; can be treated like an ordinary function, except that if you call it with &lt;code&gt;ValuePartial(x)&lt;/code&gt;, you get the value &lt;em&gt;and&lt;/em&gt; the derivative.&lt;/p&gt;
-
-&lt;p&gt;The steady state will be handy:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;Return the steady state capital and consumption for the model.&amp;#34;&lt;/span&gt;
-&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; steady_state(model&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;RamseyModel)
-    &lt;span class=&#34;s7d6&#34;&gt;@unpack&lt;/span&gt; α, A, ρ, δ &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; model
-    k &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; ((δ&lt;span class=&#34;sfa0&#34;&gt;+&lt;/span&gt;ρ)&lt;span class=&#34;sfa0&#34;&gt;/&lt;/span&gt;(A&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;α))&lt;span class=&#34;sfa0&#34;&gt;^&lt;/span&gt;(&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;/&lt;/span&gt;(α&lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;))
-    c &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; A&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;k&lt;span class=&#34;sfa0&#34;&gt;^&lt;/span&gt;α &lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt; δ&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;k
-    k, c
-&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Let&amp;rsquo;s make a model object (parameters are pretty standard), and calculate the steady state:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;model &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; RamseyModel(θ &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc82&#34;&gt;2.0&lt;/span&gt;, α &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc82&#34;&gt;0.3&lt;/span&gt;, A &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc82&#34;&gt;1.0&lt;/span&gt;, ρ &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc82&#34;&gt;0.02&lt;/span&gt;, δ &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc82&#34;&gt;0.05&lt;/span&gt;)
-
-kₛ, cₛ &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; steady_state(model)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;We will solve in a domain around the steady state capital.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;kdom &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (&lt;span class=&#34;sc82&#34;&gt;0.5&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;kₛ)&lt;span class=&#34;sfa0&#34;&gt;..&lt;/span&gt;(&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;kₛ)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Given the pieces above, obtaining the solution can be done very conscisely: create a residual object, which is basically a mapping from parameters to the function family to the residuals:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;res &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; CollocationResidual(model, DomainTrans(kdom, Chebyshev(&lt;span class=&#34;sc84&#34;&gt;10&lt;/span&gt;)),
-                          euler_residual)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;The above say that we want 10 Chebyshev polynomials, transformed to the domain &lt;code&gt;kdom&lt;/code&gt;, to be used for constructing the $c(k)$.&lt;/p&gt;
-
-&lt;p&gt;We call the solver, providing an initial guess, $c(k) = k\cdot c_s/k_s$, for the policy function $c(k)$. The guess is that consumption is linear in capital, and the line goes through the steady state values. Other reasonable guesses are possible, but note that it is worthwhile thinking a bit about a good one, so that you get fast convergence.&lt;/p&gt;
-
-&lt;p&gt;The function below fits a parametric function from the given family to the initial guess, then solves for the residual being $0$ using &lt;code&gt;NLsolve&lt;/code&gt; with automatic differentiation under the hood.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;c_sol, o &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; solve_collocation(res, k&lt;span class=&#34;sfa0&#34;&gt;-&amp;gt;&lt;/span&gt;cₛ&lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt;k&lt;span class=&#34;sfa0&#34;&gt;/&lt;/span&gt;kₛ; ftol&lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;sc82&#34;&gt;1e-10&lt;/span&gt;,
-                             method &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;newton)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;Convergence statistics:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Results of Nonlinear Solver Algorithm
- * Algorithm: Newton with line-search
- * Starting Point: [1.83249,1.09949,7.10543e-16,4.44089e-16,-1.77636e-16,-8
-.88178e-17,-8.43769e-16,1.64313e-15,1.33227e-16,3.10862e-16]
- * Zero: [1.57794,0.433992,-0.0360164,0.00624848,-0.00134301,0.000320829,-8
-.21347e-5,2.28742e-5,-6.85183e-6,1.48105e-6]
- * Inf-norm of residuals: 0.000000
- * Iterations: 6
- * Convergence: true
-   * |x - x&#39;| &amp;lt; 0.0e+00: false
-   * |f(x)| &amp;lt; 1.0e-10: true
- * Function Calls (f): 7
- * Jacobian Calls (df/dx): 6
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Overall, pretty good, very few iterations. We plot the resulting function:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;plot(c_sol, xlab &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;k&amp;#34;&lt;/span&gt;, ylab &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;c(k)&amp;#34;&lt;/span&gt;, legend &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s3e8&#34;&gt;false&lt;/span&gt;)
-scatter!([kₛ], [cₛ])&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../figures/dynamic-programming_10_1.svg&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;Notive how the collocation nodes are added automatically (this is done with a plot recipe). It should, of course, go thought the steady state.&lt;/p&gt;
-
-&lt;p&gt;It is very important to plot the residual:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;plot(k&lt;span class=&#34;sfa0&#34;&gt;-&amp;gt;&lt;/span&gt;euler_residual(model, c_sol, k), linspace(kdom, &lt;span class=&#34;sc84&#34;&gt;100&lt;/span&gt;),
-     legend &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s3e8&#34;&gt;false&lt;/span&gt;, xlab&lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;k&amp;#34;&lt;/span&gt;, ylab&lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;Euler residual&amp;#34;&lt;/span&gt;)
-scatter!(zero, points(c_sol))&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;../figures/dynamic-programming_11_1.svg&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;Note the near-equioscillation property, which you get from using Chebyshev polynomials. You get $10^{-6}$ accuracy, which is neat (but note that this is a simple textbook problem, very smooth and tractable).&lt;/p&gt;
-
-&lt;h2 id=&#34;selected-reading&#34;&gt;Selected reading&lt;/h2&gt;
-
-&lt;p&gt;Acemoglu, Daron. Introduction to modern economic growth. Princeton University Press, 2008. &lt;em&gt;Chapter 8.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Miranda, Mario J., and Paul L. Fackler. Applied computational economics and finance. MIT press, 2004. &lt;em&gt;Chapters 10 and 11&lt;/em&gt;.&lt;/p&gt;
 </content>
   </entry>
   

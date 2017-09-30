@@ -18,7 +18,7 @@
     <published>2017-05-24T12:59:53+02:00</published>
     <updated>2017-05-24T12:59:53+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/latex-math-increment/">&lt;p&gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &lt;a href=&#34;https://tpapp.github.io/post/jacobian-chain/&#34;&gt;change of varible calculations&lt;/a&gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&lt;/p&gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/latex-math-increment/">&lt;p&gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &lt;a href=&#34;&#34;&gt;change of varible calculations&lt;/a&gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;\mathtt{target} += J_f&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;p&gt;gives

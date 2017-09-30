@@ -33,7 +33,7 @@
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/ess-sampling/ess-sampling/</loc>
+    <loc>https://tpapp.github.io/post/ess-sampling/</loc>
     <lastmod>2017-06-12T16:25:57+02:00</lastmod>
   </url>
   
@@ -75,11 +75,6 @@
   <url>
     <loc>https://tpapp.github.io/post/privacy-badger/</loc>
     <lastmod>2017-05-02T16:35:37+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/post/dynamic-programming/</loc>
-    <lastmod>2017-04-02T19:06:04+02:00</lastmod>
   </url>
   
   <url>
@@ -130,12 +125,6 @@
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
     <lastmod>2017-09-29T19:55:44+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/economics/</loc>
-    <lastmod>2017-04-02T19:06:04+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -212,20 +201,8 @@
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/my-packages/</loc>
-    <lastmod>2017-04-02T19:06:04+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://tpapp.github.io/tags/numerical-error/</loc>
     <lastmod>2017-09-13T11:18:59+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/numerical-methods/</loc>
-    <lastmod>2017-04-02T19:06:04+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -256,12 +233,6 @@
   <url>
     <loc>https://tpapp.github.io/tags/teaching/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/tutorial/</loc>
-    <lastmod>2017-04-02T19:06:04+02:00</lastmod>
     <priority>0</priority>
   </url>
   

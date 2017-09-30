@@ -65,8 +65,6 @@
     
     <a href="/tags/browser-plugins">browser plugins</a>
     
-    <a href="/tags/economics">economics</a>
-    
     <a href="/tags/emacs">emacs</a>
     
     <a href="/tags/emacs25">emacs25</a>
@@ -81,17 +79,11 @@
     
     <a href="/tags/math">math</a>
     
-    <a href="/tags/my-packages">my packages</a>
-    
     <a href="/tags/numerical-error">numerical error</a>
-    
-    <a href="/tags/numerical-methods">numerical methods</a>
     
     <a href="/tags/packages">packages</a>
     
     <a href="/tags/teaching">teaching</a>
-    
-    <a href="/tags/tutorial">tutorial</a>
     
     <a href="/tags/weave">weave</a>
     
@@ -135,8 +127,6 @@
     
     <a href="/tags/browser-plugins">browser plugins</a>
     
-    <a href="/tags/economics">economics</a>
-    
     <a href="/tags/emacs">emacs</a>
     
     <a href="/tags/emacs25">emacs25</a>
@@ -151,17 +141,11 @@
     
     <a href="/tags/math">math</a>
     
-    <a href="/tags/my-packages">my packages</a>
-    
     <a href="/tags/numerical-error">numerical error</a>
-    
-    <a href="/tags/numerical-methods">numerical methods</a>
     
     <a href="/tags/packages">packages</a>
     
     <a href="/tags/teaching">teaching</a>
-    
-    <a href="/tags/tutorial">tutorial</a>
     
     <a href="/tags/weave">weave</a>
     
@@ -186,68 +170,90 @@
 
 
 
-
-
 <p>Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the <em>lognormal distribution</em>: when</p>
 
-<p>$$\log(y) \sim N(\mu, \sigma^2)$$</p>
+<p><span  class="math">\[\log(y) \sim N(\mu, \sigma^2)\]</span></p>
 
-<p>one has to adjust the log posterior by $-\log y$ since</p>
+<p>one has to adjust the log posterior by <span  class="math">\(-\log y\)</span> since</p>
 
-<p>$$\frac{\partial \log(y)}{\partial y} = \frac{1}{y}$$</p>
+<p><span  class="math">\[\frac{\partial \log(y)}{\partial y} = \frac{1}{y}\]</span></p>
 
 <p>and</p>
 
-<p>$$\log(1/y) = -\log(y).$$</p>
+<p><span  class="math">\[\log(1/y) = -\log(y).\]</span></p>
 
 <p>In <a href="http://mc-stan.org/">Stan</a>, one would accomplish this as</p>
 <div class="highlight"><pre class="chroma"><code class="language-stan" data-lang="stan">target += -log(y)</code></pre>
 </div>
-<p>In general, when you transform using a multivariate function $f$, you would adjust by</p>
+<p>In general, when you transform using a multivariate function <span  class="math">\(f\)</span>, you would adjust by</p>
 
-<p>$$\log\det J_f(y)$$</p>
+<p><span  class="math">\[\log\det J_f(y)\]</span></p>
 
-<p>which is the log of the determinant of the Jacobian &mdash; some texts simply refer to this as &ldquo;the Jacobian&rdquo;.</p>
+<p>which is the log of the determinant of the Jacobian — some texts
+simply refer to this as &quot;the Jacobian&quot;.</p>
 
 <p>The above is well-known, but the following two tricks are worth mentioning.</p>
 
 <h2 id="chaining-transformations">Chaining transformations</h2>
 
-<p>Suppose that you are changing a variable by using a chain of two functions $f \circ g$. Then
-\begin{multline}
-\log\det J_{f \circ g}(y) = \log \bigl(\det J_f(g(y)) \cdot \det J_g(y)\bigr) \\
+<p>Suppose that you are changing a variable by using a chain of two
+functions <span  class="math">\(f \circ g\)</span>. Then</p>
+
+<p><span  class="math">\[
+\log\det J_{f \circ g}(y) = \log \bigl(\det J_f(g(y)) \cdot \det J_g(y)\bigr) \\\\
 = \log\det J_f(g(y)) + \log\det J_g(y)
-\end{multline}
-which means that you can simply add (the log determinant of) the Jacobians, of course evaluated at the appropriate points.</p>
+\]</span></p>
 
-<p>This is very useful when $f \circ g$ is complicated and $J_{f\circ g}$ is tedious to derive, or if you want to use multiple $f$s or $g$s and economize on the algebra.
- From the above, it is also easy to see that this generalizes to arbitrarily long chains of functions $f_1 \circ f_2 \circ \dots$.</p>
+<p>which means that you can simply add (the log determinant of) the
+Jacobians, of course evaluated at the appropriate points.</p>
 
-<p>This trick turned out to be very useful when I was fitting a model where a transformation was general to both equilibrium concepts I was using (a noncooperative game and a social planner), so I could save on code. Of course, since <a href="https://github.com/stan-dev/stan/issues/2224">#2224</a> is WIP, I had to copy-paste the code, but still saved quite a bit of work.</p>
+<p>This is very useful when <span  class="math">\(f \circ g\)</span> is complicated and <span  class="math">\(J_{f\circ g}\)</span>
+is tedious to derive, or if you want to use multiple <span  class="math">\(f\)</span>s or <span  class="math">\(g\)</span>s and
+economize on the algebra.  From the above, it is also easy to see that this
+generalizes to arbitrarily long chains of functions <span  class="math">\(f_1 \circ f_2 \circ \dots\)</span>.</p>
+
+<p>This trick turned out to be very useful when I was fitting a model
+where a transformation was general to both equilibrium concepts I was
+using (a noncooperative game and a social planner), so I could save on
+code. Of course, since
+<a href="https://github.com/stan-dev/stan/issues/2224">#2224</a> is WIP, I had to
+copy-paste the code, but still saved quite a bit of work.</p>
 
 <h2 id="transforming-a-subset-of-variables">Transforming a subset of variables</h2>
 
-<p>Suppose $x \in \mathbb{R}^m$ and $y \in \mathbb{R}^n$ are vectors, and you are interested in transforming to
-$$
+<p>Suppose <span  class="math">\(x \in \mathbb{R}^m\)</span> and <span  class="math">\(y \in \mathbb{R}^n\)</span> are vectors, and you are interested in transforming to</p>
+
+<p><span  class="math">\[
 z = f(x,y)
-$$
-where $x$ and $z$ have the same dimension. It is useful to think about this transformation as
-$$g(x,y) = [f(x,y), y]^\top$$
-where $g : \mathbb{R}^{m+n} \to \mathbb{R}^{m+n}$. Since $y$ is mapped to itself,
-$$
+\]</span></p>
+
+<p>where <span  class="math">\(x\)</span> and <span  class="math">\(z\)</span> have the same dimension. It is useful to think
+about this transformation as</p>
+
+<p><span  class="math">\[
+g(x,y) = [f(x,y), y]^\top
+\]</span></p>
+
+<p>where <span  class="math">\(g : \mathbb{R}^{m+n} \to \mathbb{R}^{m+n}\)</span>. Since <span  class="math">\(y\)</span> is mapped to itself,</p>
+
+<p><span  class="math">\[
 J_g = \begin{bmatrix}
-J_{f,x} &amp; J_{f,y} \\
-0 &amp; I
+J_{f,x} & J_{f,y} \\\\
+0 & I
 \end{bmatrix}
-$$
-has a block structure, where
-$$
+\]</span></p>
+
+<p>has a block structure, where</p>
+
+<p><span  class="math">\[
 J_{f,x} = \frac{\partial f(x,y)}{\partial x}
-$$
-and similarly for $J_{f,y}$. For the calculation of the determinant, you can safely ignore the latter, and $\log \det I = 0$, so
-$$
+\]</span></p>
+
+<p>and similarly for <span  class="math">\(J_{f,y}\)</span>. For the calculation of the determinant, you can safely ignore the latter, and <span  class="math">\(\log \det I = 0\)</span>, so</p>
+
+<p><span  class="math">\[
 \log\det J_g = \log\det J_{f,x}
-$$</p>
+\]</span></p>
 
 
 
