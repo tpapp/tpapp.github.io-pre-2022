@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tpapp.github.io/post/branch_prediction/</loc>
+    <lastmod>2017-10-03T11:40:58+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tpapp.github.io/post/blog-redesign-201709/</loc>
     <lastmod>2017-09-29T19:55:44+02:00</lastmod>
   </url>
@@ -94,7 +99,7 @@
   
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
+    <lastmod>2017-10-03T11:40:58+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -124,7 +129,7 @@
   
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
+    <lastmod>2017-10-03T11:40:58+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -154,13 +159,13 @@
   
   <url>
     <loc>https://tpapp.github.io/tags/hugo/</loc>
-    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
+    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tpapp.github.io/tags/hugo/</loc>
-    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
+    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -172,7 +177,7 @@
   
   <url>
     <loc>https://tpapp.github.io/tags/julia/</loc>
-    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
+    <lastmod>2017-10-03T11:40:58+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -197,6 +202,12 @@
   <url>
     <loc>https://tpapp.github.io/tags/math/</loc>
     <lastmod>2017-05-24T12:59:53+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/microoptimization/</loc>
+    <lastmod>2017-10-03T11:40:58+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -244,13 +255,13 @@
   
   <url>
     <loc>https://tpapp.github.io/tags/weave/</loc>
-    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
+    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tpapp.github.io/tags/weave/</loc>
-    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   
