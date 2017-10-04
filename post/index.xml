@@ -12,6 +12,124 @@
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
+    <title type="html">Branch prediction: yet another example</title>
+    <link href="https://tpapp.github.io/post/branch_prediction2/"/>
+    <id>https://tpapp.github.io/post/branch_prediction2/</id>
+    <published>2017-10-04T10:12:02+02:00</published>
+    <updated>2017-10-04T10:12:02+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/branch_prediction2/">&lt;p&gt;Tomas Lycken linked a &lt;a href=&#34;https://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array/11227902#11227902&#34;&gt;very nice discussion on StackOverflow&lt;/a&gt; about branch prediction as a comment on the &lt;a href=&#34;https://tpapp.github.io/post/branch_prediction/&#34;&gt;previous post&lt;/a&gt;. It has an intuitive explanation (read it if you like good metaphors) and some Java benchmarks. I was curious about how it looks in Julia.&lt;/p&gt;
+
+&lt;p&gt;The exercise is to sum elements in a vector &lt;em&gt;only if&lt;/em&gt; they are greater than or equal to 128.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; sumabove_if(x)
+    s &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; zero(eltype(x))
+    &lt;span class=&#34;s3e8&#34;&gt;for&lt;/span&gt; elt &lt;span class=&#34;s3ec&#34;&gt;in&lt;/span&gt; x
+        &lt;span class=&#34;s3e8&#34;&gt;if&lt;/span&gt; elt &lt;span class=&#34;sfa0&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;128&lt;/span&gt;
+            s &lt;span class=&#34;sfa0&#34;&gt;+=&lt;/span&gt; elt
+        &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;
+    &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;
+    s
+&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;This calculation naturally has a branch in it, while the branchless
+version, using &lt;code&gt;ifelse&lt;/code&gt;, does not:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; sumabove_ifelse(x)
+    s &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; zero(eltype(x))
+    &lt;span class=&#34;s3e8&#34;&gt;for&lt;/span&gt; elt &lt;span class=&#34;s3ec&#34;&gt;in&lt;/span&gt; x
+        s &lt;span class=&#34;sfa0&#34;&gt;+=&lt;/span&gt; ifelse(elt &lt;span class=&#34;sfa0&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;128&lt;/span&gt;, elt, zero(eltype(x)))
+    &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;
+    s
+&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;The actual example has something different: using tricky bit-twiddling
+to calculate the same value. I generally like to leave this sort of
+thing up to the compiler, because it is much, much better at it than I
+am, and I make mistakes all the time; worse, I don&#39;t know what I
+actually did when I reread the code 6 months later. But I included it
+here for comparison:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; sumabove_tricky(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Vector&lt;/span&gt;{&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;})
+    s &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;(&lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;)
+    &lt;span class=&#34;s3e8&#34;&gt;for&lt;/span&gt; elt &lt;span class=&#34;s3ec&#34;&gt;in&lt;/span&gt; x
+        s &lt;span class=&#34;sfa0&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;~&lt;/span&gt;((elt &lt;span class=&#34;sfa0&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;128&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;63&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;&amp;amp;&lt;/span&gt; elt
+    &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;
+    s
+&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Following the original example on StackOverflow, we sum &lt;code&gt;2^15&lt;/code&gt; random integers in &lt;code&gt;1:256&lt;/code&gt;. For this, we don&#39;t need to worry about overflow. We also sum the &lt;em&gt;sorted&lt;/em&gt; vector: this will facilitate branch predicion, since the various branches will be contiguous.&lt;/p&gt;
+
+&lt;p&gt;I also benchmark a simple version using generators:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;sumabove_generator(x) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; sum(y &lt;span class=&#34;s3e8&#34;&gt;for&lt;/span&gt; y &lt;span class=&#34;s3ec&#34;&gt;in&lt;/span&gt; x &lt;span class=&#34;s3e8&#34;&gt;if&lt;/span&gt; y &lt;span class=&#34;sfa0&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;128&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;caption&gt;
+Benchmarks (&lt;span  class=&#34;math&#34;&gt;\(μ\)&lt;/span&gt;s)
+
+&lt;/caption&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;random&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;sorted&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;if&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;139&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;28&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;ifelse&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;21&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;21&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;if&lt;/code&gt; &amp;amp; &lt;code&gt;sort&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;96&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;n/a&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;tricky&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;27&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;27&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;generator&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;219&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;168&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Benchmarks are in the table above. Note that&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;for the version with &lt;code&gt;if&lt;/code&gt;, working on sorted vectors is dramatically faster (about 5x).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;the non-branching &lt;code&gt;ifelse&lt;/code&gt; version beats them hands down, and naturally it does not care about sorting.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;if you have to use &lt;code&gt;if&lt;/code&gt;, then you are better off sorting, &lt;em&gt;even if you take the time of that into account&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;generators are susprisingly bad.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;the tricky bit-twiddling version is actually worse than &lt;code&gt;ifelse&lt;/code&gt; (which reinforces my aversion to it).&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Self-contained code for everything is available below.&lt;/p&gt;
+
+
+
+&lt;div class=&#34;codedownload&#34;&gt;&lt;p&gt;download code as &lt;a href=&#34;https://tpapp.github.io/post/branch_prediction2/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+
+</content>
+  </entry>
+  
+  <entry>
     <title type="html">CPU pipelines: when more is less</title>
     <link href="https://tpapp.github.io/post/branch_prediction/"/>
     <id>https://tpapp.github.io/post/branch_prediction/</id>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Branch prediction: yet another example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.28" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/pastie.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          
+          
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>Branch prediction: yet another example</h1>2017/10/04
+<span class="tags">
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+</span>
+
+
+
+<p>Tomas Lycken linked a <a href="https://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array/11227902#11227902">very nice discussion on StackOverflow</a> about branch prediction as a comment on the <a href="https://tpapp.github.io/post/branch_prediction/">previous post</a>. It has an intuitive explanation (read it if you like good metaphors) and some Java benchmarks. I was curious about how it looks in Julia.</p>
+
+<p>The exercise is to sum elements in a vector <em>only if</em> they are greater than or equal to 128.</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s3e8">function</span> sumabove_if(x)
+    s <span class="sfa0">=</span> zero(eltype(x))
+    <span class="s3e8">for</span> elt <span class="s3ec">in</span> x
+        <span class="s3e8">if</span> elt <span class="sfa0">≥</span> <span class="sc84">128</span>
+            s <span class="sfa0">+=</span> elt
+        <span class="s3e8">end</span>
+    <span class="s3e8">end</span>
+    s
+<span class="s3e8">end</span></code></pre>
+</div>
+<p>This calculation naturally has a branch in it, while the branchless
+version, using <code>ifelse</code>, does not:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s3e8">function</span> sumabove_ifelse(x)
+    s <span class="sfa0">=</span> zero(eltype(x))
+    <span class="s3e8">for</span> elt <span class="s3ec">in</span> x
+        s <span class="sfa0">+=</span> ifelse(elt <span class="sfa0">≥</span> <span class="sc84">128</span>, elt, zero(eltype(x)))
+    <span class="s3e8">end</span>
+    s
+<span class="s3e8">end</span></code></pre>
+</div>
+<p>The actual example has something different: using tricky bit-twiddling
+to calculate the same value. I generally like to leave this sort of
+thing up to the compiler, because it is much, much better at it than I
+am, and I make mistakes all the time; worse, I don't know what I
+actually did when I reread the code 6 months later. But I included it
+here for comparison:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s3e8">function</span> sumabove_tricky(x<span class="sfa0">::</span><span class="s3ee">Vector</span>{<span class="s3ee">Int64</span>})
+    s <span class="sfa0">=</span> <span class="s3ee">Int64</span>(<span class="sc84">0</span>)
+    <span class="s3e8">for</span> elt <span class="s3ec">in</span> x
+        s <span class="sfa0">+=</span> <span class="sfa0">~</span>((elt <span class="sfa0">-</span> <span class="sc84">128</span>) <span class="sfa0">&gt;&gt;</span> <span class="sc84">63</span>) <span class="sfa0">&amp;</span> elt
+    <span class="s3e8">end</span>
+    s
+<span class="s3e8">end</span></code></pre>
+</div>
+<p>Following the original example on StackOverflow, we sum <code>2^15</code> random integers in <code>1:256</code>. For this, we don't need to worry about overflow. We also sum the <em>sorted</em> vector: this will facilitate branch predicion, since the various branches will be contiguous.</p>
+
+<p>I also benchmark a simple version using generators:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">sumabove_generator(x) <span class="sfa0">=</span> sum(y <span class="s3e8">for</span> y <span class="s3ec">in</span> x <span class="s3e8">if</span> y <span class="sfa0">≥</span> <span class="sc84">128</span>)</code></pre>
+</div>
+<table>
+<caption>
+Benchmarks (<span  class="math">\(μ\)</span>s)
+
+</caption>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="right">random</th>
+<th align="right">sorted</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left"><code>if</code></td>
+<td align="right">139</td>
+<td align="right">28</td>
+</tr>
+
+<tr>
+<td align="left"><code>ifelse</code></td>
+<td align="right">21</td>
+<td align="right">21</td>
+</tr>
+
+<tr>
+<td align="left"><code>if</code> &amp; <code>sort</code></td>
+<td align="right">96</td>
+<td align="right">n/a</td>
+</tr>
+
+<tr>
+<td align="left">tricky</td>
+<td align="right">27</td>
+<td align="right">27</td>
+</tr>
+
+<tr>
+<td align="left">generator</td>
+<td align="right">219</td>
+<td align="right">168</td>
+</tr>
+</tbody>
+</table>
+
+<p>Benchmarks are in the table above. Note that</p>
+
+<ol>
+<li><p>for the version with <code>if</code>, working on sorted vectors is dramatically faster (about 5x).</p></li>
+
+<li><p>the non-branching <code>ifelse</code> version beats them hands down, and naturally it does not care about sorting.</p></li>
+
+<li><p>if you have to use <code>if</code>, then you are better off sorting, <em>even if you take the time of that into account</em>.</p></li>
+
+<li><p>generators are susprisingly bad.</p></li>
+
+<li><p>the tricky bit-twiddling version is actually worse than <code>ifelse</code> (which reinforces my aversion to it).</p></li>
+</ol>
+
+<p>Self-contained code for everything is available below.</p>
+
+
+
+<div class="codedownload"><p>download code as <a href="https://tpapp.github.io/post/branch_prediction2/code.jl">code.jl</a></p></div>
+
+
+
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/branch_prediction/">CPU pipelines: when more is less</a>
+  
+</div>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+
