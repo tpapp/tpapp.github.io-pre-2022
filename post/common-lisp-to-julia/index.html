@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Switching from Common Lisp to Julia</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.28" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/pastie.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          
+          
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://tpapp.github.io/software">Software</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>Switching from Common Lisp to Julia</h1>2017/10/15
+<span class="tags">
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+</span>
+
+
+
+<p>I have written this post for developers in the Common Lisp community
+who asked why I am switching to Julia. It may only be relevant for the
+small set of people who use Common Lisp for scientific computing.</p>
+
+<p>I used Common Lisp for scientific computing for a while, from 2008 to
+about 2015, in combination with R and C++. This choice may surprise
+people who don't know about projects like
+<a href="https://en.wikipedia.org/wiki/Maxima_(software)">Maxima</a> or
+<a href="http://www.femlisp.org/">FEMLISP</a>, but Common Lisp is not a bad
+language for <a href="https://link.springer.com/chapter/10.1007/978-3-642-19014-8_11">scientific
+computing</a>:
+it has a great FFI, compilers like <a href="http://sbcl.org/">SBCL</a> can
+generate very fast code with a few hints, and the language itself is
+composed of convenient features that interact nicely.</p>
+
+<p>However, around 2012 I started to become very frustrated with Common
+Lisp. Despite various attempts, it became very clear that libraries
+for scientific computing were not goint to take off: there were many
+one-person efforts (including <a href="https://tpapp.github.io/post/orphaned-lisp-libraries/">mine</a>), but very few of
+them evolved into general tools.</p>
+
+<p>Initially, I was puzzled by this: Common Lisp is an extremely
+convenient and productive language. Experienced Lisp hackers can write
+very complex, fast, and elegant libraries in reasonably short
+time. Why did this not happen for numerical code?</p>
+
+<h1 id="the-problem-with-common-lisp">The problem with Common Lisp</h1>
+
+<p>Now I think that one of the main reasons for this is that while you
+can write scientific code in CL that will be (1) fast, (2) portable,
+and (3) convenient, you <em>cannot do all of these at the same
+time</em>. Arrays provide a convenient example for this.</p>
+
+<p>Consider</p>
+<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp">(<span class="s7e3">make-array</span> <span class="sc84">5</span> <span class="sc2c">:element-type</span> <span class="sc2c">&#39;double-float</span>)</code></pre>
+</div>
+<p>The <a href="http://clhs.lisp.se/Body/f_upgr_1.htm">standard</a> does not
+guarantee that this gives you an array of <code>double-float</code>: it may (if
+the implementation provides them), otherwise you get an array of
+element type <code>T</code>. This turned out to be a major difficulty for
+implementing portable scientific code in Common Lisp.</p>
+
+<p>However, this gets worse: while you can tell a function that operates
+on arrays that these arrays have element type <code>double-float</code>, you
+cannot dispatch on this, as Common Lisp does not have parametric
+types. For example, if you want to write a sum as</p>
+<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp">(<span class="s7e3">defmethod</span> <span class="s7e3">mysum</span> ((<span class="s7e3">vec</span> <span class="s7e3">vector</span>))
+  (<span class="s7e3">let</span> ((<span class="s7e3">s</span> <span class="sc84">0</span>))
+    (<span class="s7e3">loop</span> <span class="s7e3">for</span> <span class="s7e3">elt</span> <span class="s7e3">across</span> <span class="s7e3">vec</span>
+       <span class="s7e3">do</span> (<span class="s7e3">incf</span> <span class="s7e3">s</span> <span class="s7e3">elt</span>))
+    <span class="s7e3">s</span>))</code></pre>
+</div>
+<p>you can dispatch on the argument being a <code>vector</code>, but not on the
+element type. The compiled code may be generic.</p>
+
+<p>You can of course branch on the array element types and maybe
+even paper over the whole mess with sufficient macrology (which is
+what <a href="https://github.com/tpapp/lla">LLA</a> ended up doing), but this
+approach is not very extensible, as eventually you end up hardcoding a
+few special types for which your functions will be &quot;fast&quot;, otherwise
+they have to fall back to a generic, boxed type. With multiple
+arguments, the number of combinations explodes very quickly.</p>
+
+<h1 id="how-julia-solves-this-problem">How Julia solves this problem</h1>
+
+<p>A comparable native implementation in Julia would be<sup class="footnote-ref" id="fnref:This-is-not-the"><a class="footnote" href="#fn:This-is-not-the">1</a></sup></p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s3e8">function</span> mysum(vec<span class="sfa0">::</span><span class="s3ee">AbstractVector</span>{T}) where T
+    s <span class="sfa0">=</span> zero(T)
+    <span class="s3e8">for</span> elt <span class="s3ec">in</span> vec
+        s <span class="sfa0">+=</span> elt
+    <span class="s3e8">end</span>
+    s
+<span class="s3e8">end</span></code></pre>
+</div>
+<p>This is still generic: it works for all subtypes of <code>AbstractVector</code>
+(including vectors and vector-like objects), but notice how the generated code
+is conditional on the element type:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">julia<span class="sfa0">&gt;</span> <span class="s7d6">@code_warntype</span> mysum([<span class="sc84">1</span>, <span class="sc84">2</span>, <span class="sc84">3</span>])
+Variables<span class="sfa0">:</span>
+  <span class="s1770">#self#::#mysum</span>
+  vec<span class="sfa0">::</span><span class="s3ee">Array</span>{<span class="s3ee">Int64</span>,<span class="sc84">1</span>}
+  elt<span class="sfa0">::</span><span class="s3ee">Int64</span>
+  <span class="s1770">#temp#::Int64</span>
+  s<span class="sfa0">::</span><span class="s3ee">Int64</span>
+
+Body<span class="sfa0">:</span>
+  <span class="s3e8">begin</span> 
+      s<span class="sfa0">::</span><span class="s3ee">Int64</span> <span class="sfa0">=</span> <span class="sc84">0</span> <span class="s1770"># line 3:</span>
+      <span class="s1770">#temp#::Int64 = 1</span>
+      <span class="sc84">4</span><span class="sfa0">:</span> 
+      unless (Base<span class="sfa0">.</span>not_int)((<span class="s1770">#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Int64,1</span>
+})<span class="sfa0">::</span><span class="s3ee">Int64</span>, <span class="sc84">1</span>)<span class="sfa0">::</span><span class="s3ee">Int64</span>)<span class="sfa0">::</span><span class="s3ee">Bool</span>)<span class="sfa0">::</span><span class="s3ee">Bool</span> goto <span class="sc84">14</span>                                                     
+      SSAValue(<span class="sc84">2</span>) <span class="sfa0">=</span> (Base<span class="sfa0">.</span>arrayref)(vec<span class="sfa0">::</span><span class="s3ee">Array</span>{<span class="s3ee">Int64</span>,<span class="sc84">1</span>}, <span class="s1770">#temp#::Int64)::Int64</span>
+      SSAValue(<span class="sc84">3</span>) <span class="sfa0">=</span> (Base<span class="sfa0">.</span>add_int)(<span class="s1770">#temp#::Int64, 1)::Int64</span>
+      elt<span class="sfa0">::</span><span class="s3ee">Int64</span> <span class="sfa0">=</span> SSAValue(<span class="sc84">2</span>)
+      <span class="s1770">#temp#::Int64 = SSAValue(3) # line 4:</span>
+      s<span class="sfa0">::</span><span class="s3ee">Int64</span> <span class="sfa0">=</span> (Base<span class="sfa0">.</span>add_int)(s<span class="sfa0">::</span><span class="s3ee">Int64</span>, elt<span class="sfa0">::</span><span class="s3ee">Int64</span>)<span class="sfa0">::</span><span class="s3ee">Int64</span>
+      <span class="sc84">12</span><span class="sfa0">:</span> 
+      goto <span class="sc84">4</span>
+      <span class="sc84">14</span><span class="sfa0">:</span>  <span class="s1770"># line 6:</span>
+      <span class="s3e8">return</span> s<span class="sfa0">::</span><span class="s3ee">Int64</span>
+  <span class="s3e8">end</span><span class="sfa0">::</span><span class="s3ee">Int64</span>
+
+julia<span class="sfa0">&gt;</span> <span class="s7d6">@code_warntype</span> mysum([<span class="sc82">1.0</span>, <span class="sc82">2.0</span>, <span class="sc82">3.0</span>])
+Variables<span class="sfa0">:</span>
+  <span class="s1770">#self#::#mysum</span>
+  vec<span class="sfa0">::</span><span class="s3ee">Array</span>{<span class="s3ee">Float64</span>,<span class="sc84">1</span>}
+  elt<span class="sfa0">::</span><span class="s3ee">Float64</span>
+  <span class="s1770">#temp#::Int64</span>
+  s<span class="sfa0">::</span><span class="s3ee">Float64</span>
+
+Body<span class="sfa0">:</span>
+  <span class="s3e8">begin</span> 
+      s<span class="sfa0">::</span><span class="s3ee">Float64</span> <span class="sfa0">=</span> (Base<span class="sfa0">.</span>sitofp)(<span class="s3ee">Float64</span>, <span class="sc84">0</span>)<span class="sfa0">::</span><span class="s3ee">Float64</span> <span class="s1770"># line 3:</span>
+      <span class="s1770">#temp#::Int64 = 1</span>
+      <span class="sc84">4</span><span class="sfa0">:</span> 
+      unless (Base<span class="sfa0">.</span>not_int)((<span class="s1770">#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Float64</span>
+,<span class="sc84">1</span>})<span class="sfa0">::</span><span class="s3ee">Int64</span>, <span class="sc84">1</span>)<span class="sfa0">::</span><span class="s3ee">Int64</span>)<span class="sfa0">::</span><span class="s3ee">Bool</span>)<span class="sfa0">::</span><span class="s3ee">Bool</span> goto <span class="sc84">14</span>                                                   
+      SSAValue(<span class="sc84">2</span>) <span class="sfa0">=</span> (Base<span class="sfa0">.</span>arrayref)(vec<span class="sfa0">::</span><span class="s3ee">Array</span>{<span class="s3ee">Float64</span>,<span class="sc84">1</span>}, <span class="s1770">#temp#::Int64)::Float64</span>
+      SSAValue(<span class="sc84">3</span>) <span class="sfa0">=</span> (Base<span class="sfa0">.</span>add_int)(<span class="s1770">#temp#::Int64, 1)::Int64</span>
+      elt<span class="sfa0">::</span><span class="s3ee">Float64</span> <span class="sfa0">=</span> SSAValue(<span class="sc84">2</span>)
+      <span class="s1770">#temp#::Int64 = SSAValue(3) # line 4:</span>
+      s<span class="sfa0">::</span><span class="s3ee">Float64</span> <span class="sfa0">=</span> (Base<span class="sfa0">.</span>add_float)(s<span class="sfa0">::</span><span class="s3ee">Float64</span>, elt<span class="sfa0">::</span><span class="s3ee">Float64</span>)<span class="sfa0">::</span><span class="s3ee">Float64</span>
+      <span class="sc84">12</span><span class="sfa0">:</span> 
+      goto <span class="sc84">4</span>
+      <span class="sc84">14</span><span class="sfa0">:</span>  <span class="s1770"># line 6:</span>
+      <span class="s3e8">return</span> s<span class="sfa0">::</span><span class="s3ee">Float64</span>
+  <span class="s3e8">end</span><span class="sfa0">::</span><span class="s3ee">Float64</span></code></pre>
+</div>
+<p>I mentioned &quot;vector-like objects&quot; above, since I can choose different
+representations for special objects. For example, to do calculations
+with a vector of <code>1</code>s, I can define</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">struct Ones{T <span class="sfa0">&lt;:</span> <span class="s3ee">Number</span>} <span class="sfa0">&lt;:</span> <span class="s3ee">AbstractVector</span>{T}
+    len<span class="sfa0">::</span><span class="s3ee">Int</span>
+<span class="s3e8">end</span></code></pre>
+</div>
+<p>At this point, in order to calculate the sum above, I have two choices:</p>
+
+<ol>
+<li><p>Implement the <a href="https://docs.julialang.org/en/latest/manual/interfaces/">relevant
+interface</a>,
+with functions like</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">Base<span class="sfa0">.</span>length(x<span class="sfa0">::</span>Ones) <span class="sfa0">=</span> x<span class="sfa0">.</span>len</code></pre>
+</div>
+<p>and similarly for element access, etc. This would generate specialized code for the method above, reasonably efficient code, but still iterate over the &quot;elements&quot;.</p></li>
+
+<li><p>In addition, I can define</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">mysum(vec<span class="sfa0">::</span>Ones{T}) where T <span class="sfa0">=</span> vec<span class="sfa0">.</span>len <span class="sfa0">*</span> one(T)</code></pre>
+</div>
+<p>which would provide a method for <code>mysum</code>.</p></li>
+</ol>
+
+<p>A sufficiently rich parametric type system with multiple dispatch
+integrated into the language and supported by a JIT compiler is the
+secret weapon of Julia. Most of the time, <em>you don't have to do
+anything</em>, as it happens automatically for concrete types. Sometimes,
+you have to help the compiler a bit, by writing code where the result
+is <a href="https://docs.julialang.org/en/latest/manual/performance-tips/#Write-%22type-stable%22-functions-1">type
+stable</a>,
+ie the result type just depends on the type (not the value) of the
+arguments and can be inferred by the compiler. Sometimes you have to
+nudge the compiler a bit, and sometimes you have to be careful not to
+mess up type inference: for example, the <code>zero(T)</code> above gives a <code>0</code>
+of type <code>T</code>, always ensuring a correct type that does not change
+during the summation.</p>
+
+<h1 id="comparison-of-other-language-features">Comparison of other language features</h1>
+
+<p>While I would say that multiple dispatch with parametric types
+designed into the language from the ground up is the most important
+feature of Julia, there are other language features worth comparing to
+Common Lisp.</p>
+
+<p><a href="https://docs.julialang.org/en/latest/manual/metaprogramming/">Metaprogramming</a>
+is supported. Because of infix syntax, the AST is not as simple as
+S-expressions, but the tools to work with it are evolving fast. That
+said, I don't write as many macros as I did in Common Lisp. Parametric
+types are so powerful that I rarely need macros for performance
+reasons, and instead of syntax extensions, I often go for zero-cost
+abstraction via functions and wrapper types. An interesting
+metaprogramming tool in Julia is <a href="https://docs.julialang.org/en/latest/manual/metaprogramming/#Generated-functions-1">generated
+functions</a>,
+which allow code generation based on argument templates, I use this
+frequently. The equivalent of reader macros are called <a href="https://docs.julialang.org/en/latest/manual/metaprogramming/#Non-Standard-String-Literals-1">non-standard
+string
+literals</a>
+in Julia.</p>
+
+<p>The foreign function interface of Julia is seamlessly integrated into
+the language and very convenient to use. Docstrings are almost the
+same as in Common Lisp, but they support Markdown. Strings are UTF8 by
+default, and very fast. The
+<a href="https://discourse.julialang.org/">community</a> is very vibrant, open,
+and helpful. Simple questions get an answer within minutes,
+complicated ones (eg compiler internals) may take a bit longer, but
+are usually answered within a few hours or a day at most. If you are
+coming from the Common Lisp community, you will see quite a few
+familiar faces.</p>
+
+<p>The library ecosystem already surpasses that of Common Lisp, at least
+for scientific programming. High-quality, well-tested code is
+available for linear algebra including sparse matrices (most of it in
+the standard library), optimization, differential equations, and
+automatic differentiation. The
+<a href="http://www.juliadiff.org/ForwardDiff.jl/stable/">latter</a> is simply
+amazing: by providing a type for dual numbers and a few operations,
+forward-mode AD can be used without any implementation
+overhead. Plotting libraries are available (mostly using foreign
+function backends), and R-like &quot;dataframes&quot; are under development.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Common Lisp has been and remains a great language, with many excellent
+features that preceded other languages by decades. It has an ANSI
+standard, which means that portable code written decades ago
+will run on a recent implementation. This is a great advantage, but at
+the same time this freezes the language development at the point the
+standard was finalized. No matter how flexible and forward-looking it
+is, it cannot predict and accommodate all possible advances for
+decades.</p>
+
+<p>In contrast, Julia is rapidly evolving. At this stage, code that was
+written half a year ago is very likely to be broken with the most
+recent release.<sup class="footnote-ref" id="fnref:An-elegant-depre"><a class="footnote" href="#fn:An-elegant-depre">2</a></sup> The pace of change will most likely slow down a bit after 1.0 is released, but for now, expect a lot of churning.</p>
+
+<p>On the other hand, programmers who used Common Lisp for scientific
+computing have always expected to get their hands dirty, since so
+little existing code was available. This is a good time to consider
+investing into Julia instead: you will get more done with less work,
+and you still get to program in a very elegant language that traces a
+lot of its roots to the Lisp family.</p>
+<div class="footnotes">
+
+<hr>
+
+<ol>
+<li id="fn:This-is-not-the">This is not the fastest, nor the most precise implementation, just a comparable example. <a class="footnote-return" href="#fnref:This-is-not-the"><sup>[return]</sup></a></li>
+<li id="fn:An-elegant-depre">An elegant <a href="https://github.com/JuliaLang/Compat.jl">deprecation mechanism</a> is available, but that can't deal with some fundamental language changes. <a class="footnote-return" href="#fnref:An-elegant-depre"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/orphaned-lisp-libraries/">Clarification: on orphaning my Common Lisp libraries</a>
+  
+</div>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+

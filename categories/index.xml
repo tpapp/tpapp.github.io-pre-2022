@@ -3,13 +3,263 @@
   <title>Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/categories/"/>
-  <updated>2017-10-03T11:40:58+02:00</updated>
+  <updated>2017-10-15T14:17:47+02:00</updated>
   
   <id>https://tpapp.github.io/categories/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Switching from Common Lisp to Julia</title>
+    <link href="https://tpapp.github.io/post/common-lisp-to-julia/"/>
+    <id>https://tpapp.github.io/post/common-lisp-to-julia/</id>
+    <published>2017-10-15T14:17:47+02:00</published>
+    <updated>2017-10-15T14:17:47+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/common-lisp-to-julia/">&lt;p&gt;I have written this post for developers in the Common Lisp community
+who asked why I am switching to Julia. It may only be relevant for the
+small set of people who use Common Lisp for scientific computing.&lt;/p&gt;
+
+&lt;p&gt;I used Common Lisp for scientific computing for a while, from 2008 to
+about 2015, in combination with R and C++. This choice may surprise
+people who don&#39;t know about projects like
+&lt;a href=&#34;https://en.wikipedia.org/wiki/Maxima_(software)&#34;&gt;Maxima&lt;/a&gt; or
+&lt;a href=&#34;http://www.femlisp.org/&#34;&gt;FEMLISP&lt;/a&gt;, but Common Lisp is not a bad
+language for &lt;a href=&#34;https://link.springer.com/chapter/10.1007/978-3-642-19014-8_11&#34;&gt;scientific
+computing&lt;/a&gt;:
+it has a great FFI, compilers like &lt;a href=&#34;http://sbcl.org/&#34;&gt;SBCL&lt;/a&gt; can
+generate very fast code with a few hints, and the language itself is
+composed of convenient features that interact nicely.&lt;/p&gt;
+
+&lt;p&gt;However, around 2012 I started to become very frustrated with Common
+Lisp. Despite various attempts, it became very clear that libraries
+for scientific computing were not goint to take off: there were many
+one-person efforts (including &lt;a href=&#34;https://tpapp.github.io/post/orphaned-lisp-libraries/&#34;&gt;mine&lt;/a&gt;), but very few of
+them evolved into general tools.&lt;/p&gt;
+
+&lt;p&gt;Initially, I was puzzled by this: Common Lisp is an extremely
+convenient and productive language. Experienced Lisp hackers can write
+very complex, fast, and elegant libraries in reasonably short
+time. Why did this not happen for numerical code?&lt;/p&gt;
+
+&lt;h1 id=&#34;the-problem-with-common-lisp&#34;&gt;The problem with Common Lisp&lt;/h1&gt;
+
+&lt;p&gt;Now I think that one of the main reasons for this is that while you
+can write scientific code in CL that will be (1) fast, (2) portable,
+and (3) convenient, you &lt;em&gt;cannot do all of these at the same
+time&lt;/em&gt;. Arrays provide a convenient example for this.&lt;/p&gt;
+
+&lt;p&gt;Consider&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;make-array&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;:element-type&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;double-float&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;a href=&#34;http://clhs.lisp.se/Body/f_upgr_1.htm&#34;&gt;standard&lt;/a&gt; does not
+guarantee that this gives you an array of &lt;code&gt;double-float&lt;/code&gt;: it may (if
+the implementation provides them), otherwise you get an array of
+element type &lt;code&gt;T&lt;/code&gt;. This turned out to be a major difficulty for
+implementing portable scientific code in Common Lisp.&lt;/p&gt;
+
+&lt;p&gt;However, this gets worse: while you can tell a function that operates
+on arrays that these arrays have element type &lt;code&gt;double-float&lt;/code&gt;, you
+cannot dispatch on this, as Common Lisp does not have parametric
+types. For example, if you want to write a sum as&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;defmethod&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;mysum&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;vec&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;vector&lt;/span&gt;))
+  (&lt;span class=&#34;s7e3&#34;&gt;let&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;))
+    (&lt;span class=&#34;s7e3&#34;&gt;loop&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;across&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;vec&lt;/span&gt;
+       &lt;span class=&#34;s7e3&#34;&gt;do&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;incf&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;elt&lt;/span&gt;))
+    &lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;you can dispatch on the argument being a &lt;code&gt;vector&lt;/code&gt;, but not on the
+element type. The compiled code may be generic.&lt;/p&gt;
+
+&lt;p&gt;You can of course branch on the array element types and maybe
+even paper over the whole mess with sufficient macrology (which is
+what &lt;a href=&#34;https://github.com/tpapp/lla&#34;&gt;LLA&lt;/a&gt; ended up doing), but this
+approach is not very extensible, as eventually you end up hardcoding a
+few special types for which your functions will be &amp;quot;fast&amp;quot;, otherwise
+they have to fall back to a generic, boxed type. With multiple
+arguments, the number of combinations explodes very quickly.&lt;/p&gt;
+
+&lt;h1 id=&#34;how-julia-solves-this-problem&#34;&gt;How Julia solves this problem&lt;/h1&gt;
+
+&lt;p&gt;A comparable native implementation in Julia would be&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:This-is-not-the&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:This-is-not-the&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; mysum(vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;AbstractVector&lt;/span&gt;{T}) where T
+    s &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; zero(T)
+    &lt;span class=&#34;s3e8&#34;&gt;for&lt;/span&gt; elt &lt;span class=&#34;s3ec&#34;&gt;in&lt;/span&gt; vec
+        s &lt;span class=&#34;sfa0&#34;&gt;+=&lt;/span&gt; elt
+    &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;
+    s
+&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;This is still generic: it works for all subtypes of &lt;code&gt;AbstractVector&lt;/code&gt;
+(including vectors and vector-like objects), but notice how the generated code
+is conditional on the element type:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;julia&lt;span class=&#34;sfa0&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;s7d6&#34;&gt;@code_warntype&lt;/span&gt; mysum([&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;3&lt;/span&gt;])
+Variables&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;s1770&#34;&gt;#self#::#mysum&lt;/span&gt;
+  vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Array&lt;/span&gt;{&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;}
+  elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
+  &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64&lt;/span&gt;
+  s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
+
+Body&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;s3e8&#34;&gt;begin&lt;/span&gt; 
+      s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;s1770&#34;&gt;# line 3:&lt;/span&gt;
+      &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 = 1&lt;/span&gt;
+      &lt;span class=&#34;sc84&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt; 
+      unless (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;not_int)((&lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Int64,1&lt;/span&gt;
+})&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Bool&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Bool&lt;/span&gt; goto &lt;span class=&#34;sc84&#34;&gt;14&lt;/span&gt;                                                     
+      SSAValue(&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;arrayref)(vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Array&lt;/span&gt;{&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;}, &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64)::Int64&lt;/span&gt;
+      SSAValue(&lt;span class=&#34;sc84&#34;&gt;3&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;add_int)(&lt;span class=&#34;s1770&#34;&gt;#temp#::Int64, 1)::Int64&lt;/span&gt;
+      elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; SSAValue(&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;)
+      &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 = SSAValue(3) # line 4:&lt;/span&gt;
+      s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;add_int)(s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;, elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
+      &lt;span class=&#34;sc84&#34;&gt;12&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt; 
+      goto &lt;span class=&#34;sc84&#34;&gt;4&lt;/span&gt;
+      &lt;span class=&#34;sc84&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;  &lt;span class=&#34;s1770&#34;&gt;# line 6:&lt;/span&gt;
+      &lt;span class=&#34;s3e8&#34;&gt;return&lt;/span&gt; s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
+  &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
+
+julia&lt;span class=&#34;sfa0&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;s7d6&#34;&gt;@code_warntype&lt;/span&gt; mysum([&lt;span class=&#34;sc82&#34;&gt;1.0&lt;/span&gt;, &lt;span class=&#34;sc82&#34;&gt;2.0&lt;/span&gt;, &lt;span class=&#34;sc82&#34;&gt;3.0&lt;/span&gt;])
+Variables&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;s1770&#34;&gt;#self#::#mysum&lt;/span&gt;
+  vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Array&lt;/span&gt;{&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;}
+  elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;
+  &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64&lt;/span&gt;
+  s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;
+
+Body&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;s3e8&#34;&gt;begin&lt;/span&gt; 
+      s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;sitofp)(&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;s1770&#34;&gt;# line 3:&lt;/span&gt;
+      &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 = 1&lt;/span&gt;
+      &lt;span class=&#34;sc84&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt; 
+      unless (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;not_int)((&lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Float64&lt;/span&gt;
+,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;})&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Bool&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Bool&lt;/span&gt; goto &lt;span class=&#34;sc84&#34;&gt;14&lt;/span&gt;                                                   
+      SSAValue(&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;arrayref)(vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Array&lt;/span&gt;{&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;}, &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64)::Float64&lt;/span&gt;
+      SSAValue(&lt;span class=&#34;sc84&#34;&gt;3&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;add_int)(&lt;span class=&#34;s1770&#34;&gt;#temp#::Int64, 1)::Int64&lt;/span&gt;
+      elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; SSAValue(&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;)
+      &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 = SSAValue(3) # line 4:&lt;/span&gt;
+      s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;add_float)(s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;, elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;
+      &lt;span class=&#34;sc84&#34;&gt;12&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt; 
+      goto &lt;span class=&#34;sc84&#34;&gt;4&lt;/span&gt;
+      &lt;span class=&#34;sc84&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;  &lt;span class=&#34;s1770&#34;&gt;# line 6:&lt;/span&gt;
+      &lt;span class=&#34;s3e8&#34;&gt;return&lt;/span&gt; s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;
+  &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;I mentioned &amp;quot;vector-like objects&amp;quot; above, since I can choose different
+representations for special objects. For example, to do calculations
+with a vector of &lt;code&gt;1&lt;/code&gt;s, I can define&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct Ones{T &lt;span class=&#34;sfa0&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;s3ee&#34;&gt;Number&lt;/span&gt;} &lt;span class=&#34;sfa0&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;s3ee&#34;&gt;AbstractVector&lt;/span&gt;{T}
+    len&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int&lt;/span&gt;
+&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;At this point, in order to calculate the sum above, I have two choices:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Implement the &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/interfaces/&#34;&gt;relevant
+interface&lt;/a&gt;,
+with functions like&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;length(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Ones) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; x&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;len&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;and similarly for element access, etc. This would generate specialized code for the method above, reasonably efficient code, but still iterate over the &amp;quot;elements&amp;quot;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;In addition, I can define&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;mysum(vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Ones{T}) where T &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; vec&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;len &lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt; one(T)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;which would provide a method for &lt;code&gt;mysum&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;A sufficiently rich parametric type system with multiple dispatch
+integrated into the language and supported by a JIT compiler is the
+secret weapon of Julia. Most of the time, &lt;em&gt;you don&#39;t have to do
+anything&lt;/em&gt;, as it happens automatically for concrete types. Sometimes,
+you have to help the compiler a bit, by writing code where the result
+is &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/performance-tips/#Write-%22type-stable%22-functions-1&#34;&gt;type
+stable&lt;/a&gt;,
+ie the result type just depends on the type (not the value) of the
+arguments and can be inferred by the compiler. Sometimes you have to
+nudge the compiler a bit, and sometimes you have to be careful not to
+mess up type inference: for example, the &lt;code&gt;zero(T)&lt;/code&gt; above gives a &lt;code&gt;0&lt;/code&gt;
+of type &lt;code&gt;T&lt;/code&gt;, always ensuring a correct type that does not change
+during the summation.&lt;/p&gt;
+
+&lt;h1 id=&#34;comparison-of-other-language-features&#34;&gt;Comparison of other language features&lt;/h1&gt;
+
+&lt;p&gt;While I would say that multiple dispatch with parametric types
+designed into the language from the ground up is the most important
+feature of Julia, there are other language features worth comparing to
+Common Lisp.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://docs.julialang.org/en/latest/manual/metaprogramming/&#34;&gt;Metaprogramming&lt;/a&gt;
+is supported. Because of infix syntax, the AST is not as simple as
+S-expressions, but the tools to work with it are evolving fast. That
+said, I don&#39;t write as many macros as I did in Common Lisp. Parametric
+types are so powerful that I rarely need macros for performance
+reasons, and instead of syntax extensions, I often go for zero-cost
+abstraction via functions and wrapper types. An interesting
+metaprogramming tool in Julia is &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/metaprogramming/#Generated-functions-1&#34;&gt;generated
+functions&lt;/a&gt;,
+which allow code generation based on argument templates, I use this
+frequently. The equivalent of reader macros are called &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/metaprogramming/#Non-Standard-String-Literals-1&#34;&gt;non-standard
+string
+literals&lt;/a&gt;
+in Julia.&lt;/p&gt;
+
+&lt;p&gt;The foreign function interface of Julia is seamlessly integrated into
+the language and very convenient to use. Docstrings are almost the
+same as in Common Lisp, but they support Markdown. Strings are UTF8 by
+default, and very fast. The
+&lt;a href=&#34;https://discourse.julialang.org/&#34;&gt;community&lt;/a&gt; is very vibrant, open,
+and helpful. Simple questions get an answer within minutes,
+complicated ones (eg compiler internals) may take a bit longer, but
+are usually answered within a few hours or a day at most. If you are
+coming from the Common Lisp community, you will see quite a few
+familiar faces.&lt;/p&gt;
+
+&lt;p&gt;The library ecosystem already surpasses that of Common Lisp, at least
+for scientific programming. High-quality, well-tested code is
+available for linear algebra including sparse matrices (most of it in
+the standard library), optimization, differential equations, and
+automatic differentiation. The
+&lt;a href=&#34;http://www.juliadiff.org/ForwardDiff.jl/stable/&#34;&gt;latter&lt;/a&gt; is simply
+amazing: by providing a type for dual numbers and a few operations,
+forward-mode AD can be used without any implementation
+overhead. Plotting libraries are available (mostly using foreign
+function backends), and R-like &amp;quot;dataframes&amp;quot; are under development.&lt;/p&gt;
+
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;Common Lisp has been and remains a great language, with many excellent
+features that preceded other languages by decades. It has an ANSI
+standard, which means that portable code written decades ago
+will run on a recent implementation. This is a great advantage, but at
+the same time this freezes the language development at the point the
+standard was finalized. No matter how flexible and forward-looking it
+is, it cannot predict and accommodate all possible advances for
+decades.&lt;/p&gt;
+
+&lt;p&gt;In contrast, Julia is rapidly evolving. At this stage, code that was
+written half a year ago is very likely to be broken with the most
+recent release.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:An-elegant-depre&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:An-elegant-depre&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; The pace of change will most likely slow down a bit after 1.0 is released, but for now, expect a lot of churning.&lt;/p&gt;
+
+&lt;p&gt;On the other hand, programmers who used Common Lisp for scientific
+computing have always expected to get their hands dirty, since so
+little existing code was available. This is a good time to consider
+investing into Julia instead: you will get more done with less work,
+and you still get to program in a very elegant language that traces a
+lot of its roots to the Lisp family.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:This-is-not-the&#34;&gt;This is not the fastest, nor the most precise implementation, just a comparable example. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:This-is-not-the&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:An-elegant-depre&#34;&gt;An elegant &lt;a href=&#34;https://github.com/JuliaLang/Compat.jl&#34;&gt;deprecation mechanism&lt;/a&gt; is available, but that can&#39;t deal with some fundamental language changes. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:An-elegant-depre&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">CPU pipelines: when more is less</title>
