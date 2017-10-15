@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Lisp on Tamás K. Papp&#39;s website</title>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/lisp/"/>
+  <updated>2017-10-15T13:02:14+02:00</updated>
+  
+  <id>https://tpapp.github.io/tags/lisp/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Clarification: on orphaning my Common Lisp libraries</title>
+    <link href="https://tpapp.github.io/post/orphaned-lisp-libraries/"/>
+    <id>https://tpapp.github.io/post/orphaned-lisp-libraries/</id>
+    <published>2017-10-15T13:02:14+02:00</published>
+    <updated>2017-10-15T13:02:14+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/orphaned-lisp-libraries/">&lt;p&gt;I have not been programming in Common Lisp for a few years, and since
+I find &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; a &amp;quot;much better Lisp&amp;quot;, I am
+unlikely to go back to it in the foreseeable future. This is a
+clarification regarding some
+&lt;a href=&#34;https://github.com/tpapp?utf8=%E2%9C%93&amp;amp;tab=repositories&amp;amp;q=&amp;amp;type=public&amp;amp;language=common%20lisp&#34;&gt;libraries&lt;/a&gt;
+I have written in Common Lisp and made public.&lt;/p&gt;
+
+&lt;h1 id=&#34;all-of-my-common-lisp-libraries-are-orphaned&#34;&gt;All of my Common Lisp libraries are orphaned&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;They are effectively &lt;em&gt;abandonware&lt;/em&gt; as far as I am concerned. Since
+fixing issues and evaluating PRs entails a large fixed cost for
+which I don&#39;t have the time (setting up my CL environment again,
+understanding what I wrote years ago, thinking about code
+correctness and corner cases of the language spec that I have
+forgotten), I will ignore issues and pull requests. Sorry about this.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If you find anything of value in these libraries, please feel free
+to use that according to their licenses. &lt;em&gt;You don&#39;t have to ask me
+explicitly.&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If you want to take over maintaining any of these libraries, &lt;em&gt;you
+don&#39;t have to ask me&lt;/em&gt;. &lt;strong&gt;Just fork, and start coding.&lt;/strong&gt; If you have
+been consistently maintaining one of these libraries for a year or
+more, announce that you are resurrecting the library on the
+relevant Common Lisp forums. You can also drop me an e-mail and I
+will put a line in the README of my version that redirects users to
+your version. Eventually, you should convince &lt;a href=&#34;https://github.com/quicklisp/&#34;&gt;Zach
+Beane&lt;/a&gt; to use your version in
+Quicklisp.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;I cannot provide any significant help regarding the code
+due to time constraints. Some of it is documented, and most of it
+has unit tests, you have to figure out the rest yourself.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&#34;which-libraries-are-worth-the-effort&#34;&gt;Which libraries are worth the effort?&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;let-plus&lt;/code&gt; is an extensible destructuring library. The syntax is
+versatile and intuitive.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;LLA&lt;/code&gt;, aka Lisp Linear Algebra, is a wrapper for BLAS/LAPACK using
+native Common Lisp arrays. It is somewhat incomplete (eigenvalues
+need some work) but what is available works. It is &lt;em&gt;fast&lt;/em&gt; on
+implementations which provide arrays for certain float element
+types, so that it does not have to copy the data, and is a bit
+slower on implementations that don&#39;t allow this. Still, copying is
+&lt;span  class=&#34;math&#34;&gt;\(O(n)\)&lt;/span&gt;, while most LAPACK operations are &lt;span  class=&#34;math&#34;&gt;\(O(n^2)\)&lt;/span&gt; or worse, so
+this is not a huge concern. Nevertheless, it is possible that
+implementations that did not provide specialized arrays at the time
+I wrote LLA have caught up. You would need to extend the glue code
+to work with them.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-slice&lt;/code&gt;, array slices for native Common Lisp arrays.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-random&lt;/code&gt;, &lt;code&gt;cl-num-utils&lt;/code&gt;, &lt;code&gt;cl-rmath&lt;/code&gt;: random numbers, simple
+numerical algorithms, a wrapper for libRmath.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-colors&lt;/code&gt;, named colors and color combinations.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The rest are either early experiments, preliminary versions that
+evolved into the libraries above, or projects that did not pan out.&lt;/p&gt;
+
+&lt;p&gt;PS.: Some people asked why I switched to Julia from Common Lisp. A
+post about that will follow soon.&lt;/p&gt;
+</content>
+  </entry>
+  
+</feed>

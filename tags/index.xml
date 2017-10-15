@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>TagsonTamás K. Papp&#39;s website</title>
+  <title>Tags on Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/tags/"/>
   <updated>2017-09-15T16:03:10+02:00</updated>
@@ -142,6 +142,16 @@
   </entry>
   
   <entry>
+    <title type="html">Lisp</title>
+    <link href="https://tpapp.github.io/tags/lisp/"/>
+    <id>https://tpapp.github.io/tags/lisp/</id>
+    <published>2017-10-15T13:02:14+02:00</published>
+    <updated>2017-10-15T13:02:14+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/tags/lisp/"></content>
+  </entry>
+  
+  <entry>
     <title type="html">Log1p</title>
     <link href="https://tpapp.github.io/tags/log1p/"/>
     <id>https://tpapp.github.io/tags/log1p/</id>
@@ -195,8 +205,8 @@
     <title type="html">Packages</title>
     <link href="https://tpapp.github.io/tags/packages/"/>
     <id>https://tpapp.github.io/tags/packages/</id>
-    <published>2017-08-23T10:10:48+02:00</published>
-    <updated>2017-08-23T10:10:48+02:00</updated>
+    <published>2017-10-15T13:02:14+02:00</published>
+    <updated>2017-10-15T13:02:14+02:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/packages/"></content>
   </entry>
@@ -235,8 +245,8 @@
     <title type="html">Weave</title>
     <link href="https://tpapp.github.io/tags/weave/"/>
     <id>https://tpapp.github.io/tags/weave/</id>
-    <published>2017-03-03T13:11:53+01:00</published>
-    <updated>2017-03-03T13:11:53+01:00</updated>
+    <published>2017-03-30T10:02:32+02:00</published>
+    <updated>2017-03-30T10:02:32+02:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/weave/"></content>
   </entry>
@@ -245,8 +255,8 @@
     <title type="html">Weave</title>
     <link href="https://tpapp.github.io/tags/weave/"/>
     <id>https://tpapp.github.io/tags/weave/</id>
-    <published>2017-03-30T10:02:32+02:00</published>
-    <updated>2017-03-30T10:02:32+02:00</updated>
+    <published>2017-03-03T13:11:53+01:00</published>
+    <updated>2017-03-03T13:11:53+01:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/weave/"></content>
   </entry>

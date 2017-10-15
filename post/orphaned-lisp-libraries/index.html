@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Teaching</title>
+    <title>Clarification: on orphaning my Common Lisp libraries</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.28" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/pastie.css">
-    <link href="https://tpapp.github.io/tags/teaching/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s website" />
     
     <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -166,27 +165,116 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>Teaching</h1>
-
-<ul class="mainlist">
-
-<li>
-  <a href="https://tpapp.github.io/post/teaching-a-course/">Teaching a course using Julia</a>
-  <p class="additionalinfo">
-    <span class="date">2017-03-24</span>&emsp;
+<h1>Clarification: on orphaning my Common Lisp libraries</h1>2017/10/15
 <span class="tags">
     
-    <a href="/tags/julia">julia</a>
+    <a href="/tags/lisp">lisp</a>
     
-    <a href="/tags/teaching">teaching</a>
+    <a href="/tags/packages">packages</a>
     
 </span>
 
 
-  </p>
-</li>
 
-</ul>
+<p>I have not been programming in Common Lisp for a few years, and since
+I find <a href="https://julialang.org/">Julia</a> a &quot;much better Lisp&quot;, I am
+unlikely to go back to it in the foreseeable future. This is a
+clarification regarding some
+<a href="https://github.com/tpapp?utf8=%E2%9C%93&amp;tab=repositories&amp;q=&amp;type=public&amp;language=common%20lisp">libraries</a>
+I have written in Common Lisp and made public.</p>
+
+<h1 id="all-of-my-common-lisp-libraries-are-orphaned">All of my Common Lisp libraries are orphaned</h1>
+
+<ol>
+<li><p>They are effectively <em>abandonware</em> as far as I am concerned. Since
+fixing issues and evaluating PRs entails a large fixed cost for
+which I don't have the time (setting up my CL environment again,
+understanding what I wrote years ago, thinking about code
+correctness and corner cases of the language spec that I have
+forgotten), I will ignore issues and pull requests. Sorry about this.</p></li>
+
+<li><p>If you find anything of value in these libraries, please feel free
+to use that according to their licenses. <em>You don't have to ask me
+explicitly.</em></p></li>
+
+<li><p>If you want to take over maintaining any of these libraries, <em>you
+don't have to ask me</em>. <strong>Just fork, and start coding.</strong> If you have
+been consistently maintaining one of these libraries for a year or
+more, announce that you are resurrecting the library on the
+relevant Common Lisp forums. You can also drop me an e-mail and I
+will put a line in the README of my version that redirects users to
+your version. Eventually, you should convince <a href="https://github.com/quicklisp/">Zach
+Beane</a> to use your version in
+Quicklisp.</p></li>
+
+<li><p>I cannot provide any significant help regarding the code
+due to time constraints. Some of it is documented, and most of it
+has unit tests, you have to figure out the rest yourself.</p></li>
+</ol>
+
+<h1 id="which-libraries-are-worth-the-effort">Which libraries are worth the effort?</h1>
+
+<ol>
+<li><p><code>let-plus</code> is an extensible destructuring library. The syntax is
+versatile and intuitive.</p></li>
+
+<li><p><code>LLA</code>, aka Lisp Linear Algebra, is a wrapper for BLAS/LAPACK using
+native Common Lisp arrays. It is somewhat incomplete (eigenvalues
+need some work) but what is available works. It is <em>fast</em> on
+implementations which provide arrays for certain float element
+types, so that it does not have to copy the data, and is a bit
+slower on implementations that don't allow this. Still, copying is
+<span  class="math">\(O(n)\)</span>, while most LAPACK operations are <span  class="math">\(O(n^2)\)</span> or worse, so
+this is not a huge concern. Nevertheless, it is possible that
+implementations that did not provide specialized arrays at the time
+I wrote LLA have caught up. You would need to extend the glue code
+to work with them.</p></li>
+
+<li><p><code>cl-slice</code>, array slices for native Common Lisp arrays.</p></li>
+
+<li><p><code>cl-random</code>, <code>cl-num-utils</code>, <code>cl-rmath</code>: random numbers, simple
+numerical algorithms, a wrapper for libRmath.</p></li>
+
+<li><p><code>cl-colors</code>, named colors and color combinations.</p></li>
+</ol>
+
+<p>The rest are either early experiments, preliminary versions that
+evolved into the libraries above, or projects that did not pan out.</p>
+
+<p>PS.: Some people asked why I switched to Julia from Common Lisp. A
+post about that will follow soon.</p>
+
+
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/branch_prediction2/">Branch prediction: yet another example</a>
+  
+</div>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
 
     </div>

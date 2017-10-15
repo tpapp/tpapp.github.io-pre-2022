@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tpapp.github.io/post/orphaned-lisp-libraries/</loc>
+    <lastmod>2017-10-15T13:02:14+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tpapp.github.io/post/branch_prediction2/</loc>
     <lastmod>2017-10-04T10:12:02+02:00</lastmod>
   </url>
@@ -193,6 +198,12 @@
   </url>
   
   <url>
+    <loc>https://tpapp.github.io/tags/lisp/</loc>
+    <lastmod>2017-10-15T13:02:14+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://tpapp.github.io/tags/log1p/</loc>
     <lastmod>2017-09-13T11:18:59+02:00</lastmod>
     <priority>0</priority>
@@ -224,7 +235,7 @@
   
   <url>
     <loc>https://tpapp.github.io/tags/packages/</loc>
-    <lastmod>2017-08-23T10:10:48+02:00</lastmod>
+    <lastmod>2017-10-15T13:02:14+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -260,13 +271,13 @@
   
   <url>
     <loc>https://tpapp.github.io/tags/weave/</loc>
-    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tpapp.github.io/tags/weave/</loc>
-    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
+    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
     <priority>0</priority>
   </url>
   
