@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Blog posts</title>
+    <title>HTML &#34;screenshots&#34; from Emacs</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.28" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/pastie.css">
-    <link href="https://tpapp.github.io/post/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s website" />
     
     <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -166,14 +165,7 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>Blog posts</h1>
-
-<ul class="mainlist">
-
-<li>
-  <a href="https://tpapp.github.io/post/htmlize-screenshot/">HTML &#34;screenshots&#34; from Emacs</a>
-  <p class="additionalinfo">
-    <span class="date">2017-10-17</span>&emsp;
+<h1>HTML &#34;screenshots&#34; from Emacs</h1>2017/10/17
 <span class="tags">
     
     <a href="/tags/emacs">emacs</a>
@@ -181,158 +173,69 @@
 </span>
 
 
-  </p>
-</li>
 
-<li>
+<p><a href="https://github.com/hniksic/emacs-htmlize"><code>htmlize</code></a>, written by Hrvoje
+Nikšić, is a neat little Emacs package that converts face information
+from an Emacs buffer (or region) into HTML, effectively allowing the
+verbatim reproduction of what it looks like.</p>
+
+<p>I found this so useful for blogging that I submitted a PR which saves
+marked up regions as self-contained <code>&lt;pre&gt;</code> snippets, complete with
+inline CSS. Hrvoje kindly merged the PR today, so now you can call
+<code>htmlize-region-save-screenshot</code> and the result will be saved into the
+kill ring. You can paste this into, say, a blog post written in Markdown or <a href="https://github.com/miekg/mmark">Mmark</a>, such as this one, and get a &quot;screenshot&quot; like</p>
+
+<pre style="color: #262626; background-color: #ded6c5;">
+<span style="color: #262626;">(</span><span style="color: #2020cc; font-weight: bold;">defun</span> <span style="color: #2c53ca;">htmlize-region-save-screenshot</span> <span style="color: #262626;">(</span>beg end<span style="color: #262626;">)</span>
+  <span style="color: #505050; font-style: italic;">"Save the htmlized (see `</span><span style="color: #259ea2; font-style: italic;">htmlize-region-for-paste</span><span style="color: #505050; font-style: italic;">') region in
+the kill ring. Uses `</span><span style="color: #259ea2; font-style: italic;">inline-css</span><span style="color: #505050; font-style: italic;">', with style information in
+`</span><span style="color: #259ea2; font-style: italic;">&lt;pre&gt;</span><span style="color: #505050; font-style: italic;">' tags, so that the rendering of the marked up text
+approximates the buffer as closely as possible."</span>
+  <span style="color: #262626;">(</span><span style="color: #2020cc; font-weight: bold;">interactive</span> <span style="color: #fa5151;">"r"</span><span style="color: #262626;">)</span>
+  <span style="color: #262626;">(</span><span style="color: #2020cc; font-weight: bold;">let</span> <span style="color: #262626;">((</span>htmlize-pre-style t<span style="color: #262626;">))</span>
+    <span style="color: #262626;">(</span>kill-new <span style="color: #262626;">(</span>htmlize-region-for-paste beg end<span style="color: #262626;">)))</span>
+  <span style="color: #262626;">(</span>deactivate-mark<span style="color: #262626;">))</span>
+</pre>
+
+<p>which is <em>almost</em> exactly what it looks like on my screen when it
+comes to colors and font style/weight, but using a different font of
+course. This allows integration of Emacs &quot;screenshots&quot; into blog posts
+without resorting to pixel-based formats, which would result from
+taking actual screenshots.</p>
+
+<p>You can install <code>htmlize</code> from <a href="https://melpa.org/">MELPA</a>.</p>
+
+
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
   <a href="https://tpapp.github.io/post/common-lisp-to-julia/">Switching from Common Lisp to Julia</a>
-  <p class="additionalinfo">
-    <span class="date">2017-10-15</span>&emsp;
-<span class="tags">
-    
-    <a href="/tags/julia">julia</a>
-    
-    <a href="/tags/lisp">lisp</a>
-    
-</span>
+  
+</div>
 
-
-  </p>
-</li>
-
-<li>
-  <a href="https://tpapp.github.io/post/orphaned-lisp-libraries/">Clarification: on orphaning my Common Lisp libraries</a>
-  <p class="additionalinfo">
-    <span class="date">2017-10-15</span>&emsp;
-<span class="tags">
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
     
-    <a href="/tags/lisp">lisp</a>
     
-    <a href="/tags/packages">packages</a>
     
-</span>
-
-
-  </p>
-</li>
-
-<li>
-  <a href="https://tpapp.github.io/post/branch_prediction2/">Branch prediction: yet another example</a>
-  <p class="additionalinfo">
-    <span class="date">2017-10-04</span>&emsp;
-<span class="tags">
-    
-    <a href="/tags/julia">julia</a>
-    
-    <a href="/tags/microoptimization">microoptimization</a>
-    
-</span>
-
-
-  </p>
-</li>
-
-<li>
-  <a href="https://tpapp.github.io/post/branch_prediction/">CPU pipelines: when more is less</a>
-  <p class="additionalinfo">
-    <span class="date">2017-10-03</span>&emsp;
-<span class="tags">
-    
-    <a href="/tags/julia">julia</a>
-    
-    <a href="/tags/microoptimization">microoptimization</a>
-    
-</span>
-
-
-  </p>
-</li>
-
-<li>
-  <a href="https://tpapp.github.io/post/blog-redesign-201709/">Blog redesign 2.0</a>
-  <p class="additionalinfo">
-    <span class="date">2017-09-29</span>&emsp;
-<span class="tags">
-    
-    <a href="/tags/emacs">emacs</a>
-    
-    <a href="/tags/hugo">Hugo</a>
-    
-</span>
-
-
-  </p>
-</li>
-
-<li>
-  <a href="https://tpapp.github.io/post/discontinuous_integral_ad/">Automatic differentiation of discontinuous integrals</a>
-  <p class="additionalinfo">
-    <span class="date">2017-09-15</span>&emsp;
-<span class="tags">
-    
-    <a href="/tags/julia">julia</a>
-    
-    <a href="/tags/automatic-differentiation">automatic differentiation</a>
-    
-    <a href="/tags/forwarddiff">ForwardDiff</a>
-    
-</span>
-
-
-  </p>
-</li>
-
-<li>
-  <a href="https://tpapp.github.io/post/log1p/">log1p in Julia</a>
-  <p class="additionalinfo">
-    <span class="date">2017-09-13</span>&emsp;
-<span class="tags">
-    
-    <a href="/tags/julia">julia</a>
-    
-    <a href="/tags/log1p">log1p</a>
-    
-    <a href="/tags/numerical-error">numerical error</a>
-    
-</span>
-
-
-  </p>
-</li>
-
-<li>
-  <a href="https://tpapp.github.io/post/emacs-julia-customizations/">Emacs customizations for julia-mode</a>
-  <p class="additionalinfo">
-    <span class="date">2017-08-28</span>&emsp;
-<span class="tags">
-    
-    <a href="/tags/julia">julia</a>
-    
-    <a href="/tags/emacs">emacs</a>
-    
-</span>
-
-
-  </p>
-</li>
-
-<li>
-  <a href="https://tpapp.github.io/post/julia-local-test/">Local packages in a separate directory in Julia</a>
-  <p class="additionalinfo">
-    <span class="date">2017-08-23</span>&emsp;
-<span class="tags">
-    
-    <a href="/tags/julia">julia</a>
-    
-    <a href="/tags/packages">packages</a>
-    
-</span>
-
-
-  </p>
-</li>
-
-</ul>
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
 
     </div>

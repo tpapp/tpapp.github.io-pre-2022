@@ -12,6 +12,46 @@
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
+    <title type="html">HTML &amp;#34;screenshots&amp;#34; from Emacs</title>
+    <link href="https://tpapp.github.io/post/htmlize-screenshot/"/>
+    <id>https://tpapp.github.io/post/htmlize-screenshot/</id>
+    <published>2017-10-17T13:26:04+02:00</published>
+    <updated>2017-10-17T13:26:04+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/htmlize-screenshot/">&lt;p&gt;&lt;a href=&#34;https://github.com/hniksic/emacs-htmlize&#34;&gt;&lt;code&gt;htmlize&lt;/code&gt;&lt;/a&gt;, written by Hrvoje
+Nikšić, is a neat little Emacs package that converts face information
+from an Emacs buffer (or region) into HTML, effectively allowing the
+verbatim reproduction of what it looks like.&lt;/p&gt;
+
+&lt;p&gt;I found this so useful for blogging that I submitted a PR which saves
+marked up regions as self-contained &lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt; snippets, complete with
+inline CSS. Hrvoje kindly merged the PR today, so now you can call
+&lt;code&gt;htmlize-region-save-screenshot&lt;/code&gt; and the result will be saved into the
+kill ring. You can paste this into, say, a blog post written in Markdown or &lt;a href=&#34;https://github.com/miekg/mmark&#34;&gt;Mmark&lt;/a&gt;, such as this one, and get a &amp;quot;screenshot&amp;quot; like&lt;/p&gt;
+
+&lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;defun&lt;/span&gt; &lt;span style=&#34;color: #2c53ca;&#34;&gt;htmlize-region-save-screenshot&lt;/span&gt; &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;beg end&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
+  &lt;span style=&#34;color: #505050; font-style: italic;&#34;&gt;&#34;Save the htmlized (see `&lt;/span&gt;&lt;span style=&#34;color: #259ea2; font-style: italic;&#34;&gt;htmlize-region-for-paste&lt;/span&gt;&lt;span style=&#34;color: #505050; font-style: italic;&#34;&gt;&#39;) region in
+the kill ring. Uses `&lt;/span&gt;&lt;span style=&#34;color: #259ea2; font-style: italic;&#34;&gt;inline-css&lt;/span&gt;&lt;span style=&#34;color: #505050; font-style: italic;&#34;&gt;&#39;, with style information in
+`&lt;/span&gt;&lt;span style=&#34;color: #259ea2; font-style: italic;&#34;&gt;&amp;lt;pre&amp;gt;&lt;/span&gt;&lt;span style=&#34;color: #505050; font-style: italic;&#34;&gt;&#39; tags, so that the rendering of the marked up text
+approximates the buffer as closely as possible.&#34;&lt;/span&gt;
+  &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;interactive&lt;/span&gt; &lt;span style=&#34;color: #fa5151;&#34;&gt;&#34;r&#34;&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
+  &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color: #262626;&#34;&gt;((&lt;/span&gt;htmlize-pre-style t&lt;span style=&#34;color: #262626;&#34;&gt;))&lt;/span&gt;
+    &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;kill-new &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;htmlize-region-for-paste beg end&lt;span style=&#34;color: #262626;&#34;&gt;)))&lt;/span&gt;
+  &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;deactivate-mark&lt;span style=&#34;color: #262626;&#34;&gt;))&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;p&gt;which is &lt;em&gt;almost&lt;/em&gt; exactly what it looks like on my screen when it
+comes to colors and font style/weight, but using a different font of
+course. This allows integration of Emacs &amp;quot;screenshots&amp;quot; into blog posts
+without resorting to pixel-based formats, which would result from
+taking actual screenshots.&lt;/p&gt;
+
+&lt;p&gt;You can install &lt;code&gt;htmlize&lt;/code&gt; from &lt;a href=&#34;https://melpa.org/&#34;&gt;MELPA&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
     <title type="html">Switching from Common Lisp to Julia</title>
     <link href="https://tpapp.github.io/post/common-lisp-to-julia/"/>
     <id>https://tpapp.github.io/post/common-lisp-to-julia/</id>
