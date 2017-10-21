@@ -3,13 +3,51 @@
   <title>Emacs on Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/tags/emacs/"/>
-  <updated>2017-10-17T13:26:04+02:00</updated>
+  <updated>2017-10-21T12:40:04+02:00</updated>
   
   <id>https://tpapp.github.io/tags/emacs/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">My Julia workflow</title>
+    <link href="https://tpapp.github.io/post/julia-workflow/"/>
+    <id>https://tpapp.github.io/post/julia-workflow/</id>
+    <published>2017-10-21T12:40:04+02:00</published>
+    <updated>2017-10-21T12:40:04+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/julia-workflow/">&lt;p&gt;This is a summary of the workflow I find ideal for working with Julia. Although the manual has a &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/workflow-tips/&#34;&gt;section on workflow&lt;/a&gt;, it does not mention all the tools that I find useful, so perhaps this will benefit some users of Julia.&lt;/p&gt;
+
+&lt;p&gt;I use Emacs, with &lt;a href=&#34;https://github.com/JuliaEditorSupport/julia-emacs&#34;&gt;&lt;code&gt;julia-mode&lt;/code&gt;&lt;/a&gt; (for editing the source) and &lt;a href=&#34;https://github.com/tpapp/julia-repl&#34;&gt;&lt;code&gt;julia-repl&lt;/code&gt;&lt;/a&gt; (REPL integration). The latter is my own package; you can use &lt;a href=&#34;https://ess.r-project.org/&#34;&gt;&lt;code&gt;ESS&lt;/code&gt;&lt;/a&gt; instead, which has some advantages (eg multiple inferior processes) and disadvantages (no ANSI terminal support). The choice of an editor is highly subjective: at the end of the day, all you need is one that is capable of sending code to the REPL and can, in turn, be used by the REPL to open a file at a particular point. I use&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;nb&#34;&gt;ENV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;EDITOR&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;emacsclient&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;in &lt;code&gt;~/.juliarc.jl&lt;/code&gt; to ensure this. This helps me find code with the &lt;code&gt;@edit&lt;/code&gt; macro.&lt;/p&gt;
+
+&lt;p&gt;Small code snippets and experiments below ~30 lines just go into files, from which I send regions of code to the REPL. Frequently, for throwaway code, I just open a file in &lt;code&gt;/tmp/&lt;/code&gt;, which will get removed automatically after the next reboot.&lt;/p&gt;
+
+&lt;p&gt;Even very small projects get their own &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/packages/&#34;&gt;package&lt;/a&gt;. This way I get version control&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:I-use-the-amazin&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:I-use-the-amazin&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; and a sensible structure for unit tests set up automatically. I put my own packages in their own directory, &lt;em&gt;keeping them separate from &lt;code&gt;Pkg.dir()&lt;/code&gt;&lt;/em&gt;. This allows me to use the same package across Julia versions, and makes &lt;code&gt;Pkg.update()&lt;/code&gt; ignore them. I tell Julia where they are with&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;kd&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LOCAL_PACKAGES&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;expanduser&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;~/src/julia-local-packages/&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;push!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;LOAD_PATH&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LOCAL_PACKAGES&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I create local packages with&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PkgDev&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;PkgDev&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;generate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;MyPkg&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;MIT&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;joinpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;LOCAL_PACKAGES&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;MyPkg&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then I open the file and start working on it with&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MyPkg&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I use &lt;a href=&#34;https://github.com/timholy/Revise.jl&#34;&gt;&lt;code&gt;Revise.jl&lt;/code&gt;&lt;/a&gt; to automate reloading.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:You-just-need-to&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:You-just-need-to&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; This package has changed my workflow completely; it can cope with most changes, except for type redefinitions. For these, I need to restart the REPL.&lt;/p&gt;
+
+&lt;p&gt;To test my code, I use &lt;code&gt;Pkg.test&lt;/code&gt; with &lt;a href=&#34;https://github.com/tpapp/RoguePkg.jl&#34;&gt;&lt;code&gt;RoguePkg.jl&lt;/code&gt;&lt;/a&gt;, which makes it find packages outside &lt;code&gt;Pkg.dir()&lt;/code&gt; for testing and benchmarks:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;Pkg&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pkg_for&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;MyPkg&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:I-use-the-amazin&#34;&gt;I use the amazing &lt;a href=&#34;https://magit.vc/&#34;&gt;&lt;code&gt;magit&lt;/code&gt;&lt;/a&gt; for interacting with &lt;code&gt;git&lt;/code&gt; &amp;mdash; having obtained &lt;a href=&#34;https://www.kickstarter.com/projects/1681258897/its-magit-the-magical-git-client&#34;&gt;funding on KickStarter&lt;/a&gt; recently, it is bound to become even more convenient. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:I-use-the-amazin&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:You-just-need-to&#34;&gt;You just need to set it up once according to its documentation, after that it is automatic. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:You-just-need-to&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">HTML &amp;#34;screenshots&amp;#34; from Emacs</title>
@@ -103,23 +141,21 @@ bogus updates (BTW, this post should not show up in the Julia feed).&lt;/p&gt;
 
 &lt;p&gt;I find the following customizations very useful for &lt;em&gt;editing&lt;/em&gt; Julia
 code in Emacs. Add them to &lt;code&gt;julia-mode-hook&lt;/code&gt;, eg&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;defun&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;customize-julia-mode&lt;/span&gt; ()
-  &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;Customize julia-mode.&amp;#34;&lt;/span&gt;
-  (&lt;span class=&#34;s7e3&#34;&gt;interactive&lt;/span&gt;)
-  &lt;span class=&#34;s1770&#34;&gt;;; my customizations go here&lt;/span&gt;
-  )
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;defun&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;customize-julia-mode&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+  &lt;span class=&#34;s&#34;&gt;&amp;#34;Customize julia-mode.&amp;#34;&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;interactive&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;;; my customizations go here&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
-(&lt;span class=&#34;s7e3&#34;&gt;add-hook&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;julia-mode-hook&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;customize-julia-mode&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;add-hook&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;julia-mode-hook&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;customize-julia-mode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id=&#34;highlight-fixme-todo&#34;&gt;Highlight FIXME/TODO/&amp;hellip;&lt;/h2&gt;
 
 &lt;p&gt;When I just want to note something in a comment for future reference,
 I prefer to have certain words highlighted. You can use something like
 this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;font-lock-add-keywords&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt;
-                        &lt;span class=&#34;sfa0&#34;&gt;&amp;#39;&lt;/span&gt;((&lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&amp;#34;&lt;/span&gt;
-                        &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;font-lock-warning-face&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;t&lt;/span&gt;)))&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;font-lock-add-keywords&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;nil&lt;/span&gt;
+                        &lt;span class=&#34;o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;\\&amp;lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&amp;#34;&lt;/span&gt;
+                        &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;font-lock-warning-face&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This is what it looks like:&lt;/p&gt;
 
 &lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
@@ -133,13 +169,11 @@ this:&lt;/p&gt;
 &lt;h2 id=&#34;highlight-symbols&#34;&gt;Highlight symbols&lt;/h2&gt;
 
 &lt;p&gt;After&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;highlight-symbol&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;highlight-symbol&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;add a hook for&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;local-set-key&lt;/span&gt; [(&lt;span class=&#34;s7e3&#34;&gt;control&lt;/span&gt; &lt;span class=&#34;sc21&#34;&gt;?c&lt;/span&gt;) &lt;span class=&#34;sc21&#34;&gt;?s&lt;/span&gt;] &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;highlight-symbol-at-point&lt;/span&gt;)
-(&lt;span class=&#34;s7e3&#34;&gt;local-set-key&lt;/span&gt; [(&lt;span class=&#34;s7e3&#34;&gt;control&lt;/span&gt; &lt;span class=&#34;sc21&#34;&gt;?c&lt;/span&gt;) &lt;span class=&#34;sc21&#34;&gt;?n&lt;/span&gt;] &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;highlight-symbol-next&lt;/span&gt;)
-(&lt;span class=&#34;s7e3&#34;&gt;local-set-key&lt;/span&gt; [(&lt;span class=&#34;s7e3&#34;&gt;control&lt;/span&gt; &lt;span class=&#34;sc21&#34;&gt;?c&lt;/span&gt;) &lt;span class=&#34;sc21&#34;&gt;?p&lt;/span&gt;] &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;highlight-symbol-prev&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;local-set-key&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;control&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;?c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;?s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;highlight-symbol-at-point&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;local-set-key&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;control&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;?c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;?n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;highlight-symbol-next&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;local-set-key&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;control&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;?c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;?p&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;highlight-symbol-prev&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This highlights symbols with &lt;code&gt;C-c s&lt;/code&gt;:&lt;/p&gt;
 
 &lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
@@ -160,46 +194,42 @@ this:&lt;/p&gt;
 &lt;h2 id=&#34;fill-docstrings&#34;&gt;Fill docstrings&lt;/h2&gt;
 
 &lt;p&gt;This is useful if you want to use &lt;code&gt;M-q&lt;/code&gt; on docstrings.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;defun&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;julia-fill-string&lt;/span&gt; ()
-  &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;Fill a docstring, preserving newlines before and after triple quotation marks.&amp;#34;&lt;/span&gt;
-  (&lt;span class=&#34;s7e3&#34;&gt;interactive&lt;/span&gt;)
-  (&lt;span class=&#34;s7e3&#34;&gt;if&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;transient-mark-mode&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;mark-active&lt;/span&gt;)
-      (&lt;span class=&#34;s7e3&#34;&gt;fill-region&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;region-beginning&lt;/span&gt;) (&lt;span class=&#34;s7e3&#34;&gt;region-end&lt;/span&gt;) &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;t&lt;/span&gt;)
-    (&lt;span class=&#34;s7e3&#34;&gt;cl-flet&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;fill-if-string&lt;/span&gt; ()
-                              (&lt;span class=&#34;s7e3&#34;&gt;when&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;or&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;looking-at&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;rx&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\&amp;#34;\&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;
-                                                        (&lt;span class=&#34;s7e3&#34;&gt;group&lt;/span&gt;
-                                                         (&lt;span class=&#34;s7e3&#34;&gt;*?&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;or&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;not&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;any&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt;))
-                                                                 (&lt;span class=&#34;s7e3&#34;&gt;seq&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;anything&lt;/span&gt;))))
-                                                        &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\&amp;#34;\&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;))
-                                        (&lt;span class=&#34;s7e3&#34;&gt;looking-at&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;rx&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;
-                                                        (&lt;span class=&#34;s7e3&#34;&gt;group&lt;/span&gt;
-                                                         (&lt;span class=&#34;s7e3&#34;&gt;*?&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;or&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;not&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;any&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt;))
-                                                                 (&lt;span class=&#34;s7e3&#34;&gt;seq&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;anything&lt;/span&gt;))))
-                                                        &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;)))
-                                (&lt;span class=&#34;s7e3&#34;&gt;let&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;start&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;match-beginning&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;))
-                                      (&lt;span class=&#34;s7e3&#34;&gt;end&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;match-end&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;)))
-                                  &lt;span class=&#34;s1770&#34;&gt;;; (ess-blink-region start end)&lt;/span&gt;
-                                  (&lt;span class=&#34;s7e3&#34;&gt;fill-region&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;end&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;nil&lt;/span&gt;)))))
-      (&lt;span class=&#34;s7e3&#34;&gt;save-excursion&lt;/span&gt;
-        (&lt;span class=&#34;s7e3&#34;&gt;let&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;syntax-ppss&lt;/span&gt;)))
-          (&lt;span class=&#34;s7e3&#34;&gt;when&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;fourth&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt;) (&lt;span class=&#34;s7e3&#34;&gt;goto-char&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;ninth&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt;))))
-        (&lt;span class=&#34;s7e3&#34;&gt;fill-if-string&lt;/span&gt;)))))&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;defun&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;julia-fill-string&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+  &lt;span class=&#34;s&#34;&gt;&amp;#34;Fill a docstring, preserving newlines before and after triple quotation marks.&amp;#34;&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;interactive&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;transient-mark-mode&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;mark-active&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;fill-region&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;region-beginning&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;region-end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;cl-flet&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;fill-if-string&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+                              &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;when&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;or&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;looking-at&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rx&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;\&amp;#34;\&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;
+                                                        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;group&lt;/span&gt;
+                                                         &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;*?&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;or&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;any&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+                                                                 &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;seq&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;anything&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))))&lt;/span&gt;
+                                                        &lt;span class=&#34;s&#34;&gt;&amp;#34;\&amp;#34;\&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+                                        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;looking-at&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;rx&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;
+                                                        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;group&lt;/span&gt;
+                                                         &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;*?&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;or&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;any&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+                                                                 &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;seq&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;\\&amp;#34;&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;anything&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))))&lt;/span&gt;
+                                                        &lt;span class=&#34;s&#34;&gt;&amp;#34;\&amp;#34;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
+                                &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;match-beginning&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+                                      &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;end&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;match-end&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
+                                  &lt;span class=&#34;c1&#34;&gt;;; (ess-blink-region start end)&lt;/span&gt;
+                                  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;fill-region&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;end&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))))&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;save-excursion&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;syntax-ppss&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
+          &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;when&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;fourth&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;goto-char&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;ninth&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))))&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;fill-if-string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Add&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;local-set-key&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;kbd&lt;/span&gt; &lt;span class=&#34;sc1c&#34;&gt;&amp;#34;M-q&amp;#34;&lt;/span&gt;) &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;julia-fill-string&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;local-set-key&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;kbd&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;M-q&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;julia-fill-string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;to the mode hook.&lt;/p&gt;
 
 &lt;h2 id=&#34;highlight-things-after-column-80&#34;&gt;Highlight things after column 80&lt;/h2&gt;
 
 &lt;p&gt;I add this to the mode hook:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;set-fill-column&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;80&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;set-fill-column&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;80&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;I also use &lt;code&gt;whitespace&lt;/code&gt; globally:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;whitespace&lt;/span&gt;)
-(&lt;span class=&#34;s7e3&#34;&gt;setq&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;whitespace-style&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;&amp;#39;&lt;/span&gt;(&lt;span class=&#34;s7e3&#34;&gt;face&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;empty&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;tabs&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;lines-tail&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;trailing&lt;/span&gt;))
-(&lt;span class=&#34;s7e3&#34;&gt;global-whitespace-mode&lt;/span&gt; &lt;span class=&#34;s7d5&#34;&gt;t&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;whitespace&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;setq&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;whitespace-style&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;face&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;empty&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;tabs&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;lines-tail&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;trailing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;global-whitespace-mode&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This is what it looks like:&lt;/p&gt;
 
 &lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
@@ -211,8 +241,7 @@ QR&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;factors&lt;span styl
 &lt;h2 id=&#34;hungry-delete-mode&#34;&gt;Hungry delete-mode&lt;/h2&gt;
 
 &lt;p&gt;Add this to the mode hook:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;hungry-delete-mode&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;hungry-delete-mode&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;and then backspace and delete will remove all whitespace near the point in the relevant direction.&lt;/p&gt;
 
 &lt;p&gt;In case you are wondering, the theme is &lt;a href=&#34;https://github.com/alezost/alect-themes&#34;&gt;alect-light&lt;/a&gt;.&lt;/p&gt;

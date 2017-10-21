@@ -52,8 +52,7 @@ and (3) convenient, you &lt;em&gt;cannot do all of these at the same
 time&lt;/em&gt;. Arrays provide a convenient example for this.&lt;/p&gt;
 
 &lt;p&gt;Consider&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;make-array&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;:element-type&lt;/span&gt; &lt;span class=&#34;sc2c&#34;&gt;&amp;#39;double-float&lt;/span&gt;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;make-array&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;:element-type&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;double-float&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The &lt;a href=&#34;http://clhs.lisp.se/Body/f_upgr_1.htm&#34;&gt;standard&lt;/a&gt; does not
 guarantee that this gives you an array of &lt;code&gt;double-float&lt;/code&gt;: it may (if
 the implementation provides them), otherwise you get an array of
@@ -64,12 +63,11 @@ implementing portable scientific code in Common Lisp.&lt;/p&gt;
 on arrays that these arrays have element type &lt;code&gt;double-float&lt;/code&gt;, you
 cannot dispatch on this, as Common Lisp does not have parametric
 types. For example, if you want to write a sum as&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;(&lt;span class=&#34;s7e3&#34;&gt;defmethod&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;mysum&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;vec&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;vector&lt;/span&gt;))
-  (&lt;span class=&#34;s7e3&#34;&gt;let&lt;/span&gt; ((&lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;))
-    (&lt;span class=&#34;s7e3&#34;&gt;loop&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;across&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;vec&lt;/span&gt;
-       &lt;span class=&#34;s7e3&#34;&gt;do&lt;/span&gt; (&lt;span class=&#34;s7e3&#34;&gt;incf&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;s7e3&#34;&gt;elt&lt;/span&gt;))
-    &lt;span class=&#34;s7e3&#34;&gt;s&lt;/span&gt;))&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;defmethod&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;mysum&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vec&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;loop&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;across&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;vec&lt;/span&gt;
+       &lt;span class=&#34;nv&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;incf&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;you can dispatch on the argument being a &lt;code&gt;vector&lt;/code&gt;, but not on the
 element type. The compiled code may be generic.&lt;/p&gt;
 
@@ -84,89 +82,84 @@ arguments, the number of combinations explodes very quickly.&lt;/p&gt;
 &lt;h1 id=&#34;how-julia-solves-this-problem&#34;&gt;How Julia solves this problem&lt;/h1&gt;
 
 &lt;p&gt;A comparable native implementation in Julia would be&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:This-is-not-the&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:This-is-not-the&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s3e8&#34;&gt;function&lt;/span&gt; mysum(vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;AbstractVector&lt;/span&gt;{T}) where T
-    s &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; zero(T)
-    &lt;span class=&#34;s3e8&#34;&gt;for&lt;/span&gt; elt &lt;span class=&#34;s3ec&#34;&gt;in&lt;/span&gt; vec
-        s &lt;span class=&#34;sfa0&#34;&gt;+=&lt;/span&gt; elt
-    &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;
-    s
-&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mysum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;AbstractVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;zero&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;This is still generic: it works for all subtypes of &lt;code&gt;AbstractVector&lt;/code&gt;
 (including vectors and vector-like objects), but notice how the generated code
 is conditional on the element type:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;julia&lt;span class=&#34;sfa0&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;s7d6&#34;&gt;@code_warntype&lt;/span&gt; mysum([&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;3&lt;/span&gt;])
-Variables&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;s1770&#34;&gt;#self#::#mysum&lt;/span&gt;
-  vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Array&lt;/span&gt;{&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;}
-  elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
-  &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64&lt;/span&gt;
-  s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nd&#34;&gt;@code_warntype&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mysum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;Variables&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;c&#34;&gt;#self#::#mysum&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Array&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;
+  &lt;span class=&#34;c&#34;&gt;#temp#::Int64&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;
 
-Body&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;s3e8&#34;&gt;begin&lt;/span&gt; 
-      s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;s1770&#34;&gt;# line 3:&lt;/span&gt;
-      &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 = 1&lt;/span&gt;
-      &lt;span class=&#34;sc84&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt; 
-      unless (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;not_int)((&lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Int64,1&lt;/span&gt;
-})&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Bool&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Bool&lt;/span&gt; goto &lt;span class=&#34;sc84&#34;&gt;14&lt;/span&gt;                                                     
-      SSAValue(&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;arrayref)(vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Array&lt;/span&gt;{&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;}, &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64)::Int64&lt;/span&gt;
-      SSAValue(&lt;span class=&#34;sc84&#34;&gt;3&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;add_int)(&lt;span class=&#34;s1770&#34;&gt;#temp#::Int64, 1)::Int64&lt;/span&gt;
-      elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; SSAValue(&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;)
-      &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 = SSAValue(3) # line 4:&lt;/span&gt;
-      s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;add_int)(s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;, elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
-      &lt;span class=&#34;sc84&#34;&gt;12&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt; 
-      goto &lt;span class=&#34;sc84&#34;&gt;4&lt;/span&gt;
-      &lt;span class=&#34;sc84&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;  &lt;span class=&#34;s1770&#34;&gt;# line 6:&lt;/span&gt;
-      &lt;span class=&#34;s3e8&#34;&gt;return&lt;/span&gt; s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
-  &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;Body&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;begin&lt;/span&gt; 
+      &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# line 3:&lt;/span&gt;
+      &lt;span class=&#34;c&#34;&gt;#temp#::Int64 = 1&lt;/span&gt;
+      &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; 
+      &lt;span class=&#34;n&#34;&gt;unless&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;not_int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)((&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Int64,1&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Bool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Bool&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;goto&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;14&lt;/span&gt;                                                     
+      &lt;span class=&#34;n&#34;&gt;SSAValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;arrayref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Array&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;#temp#::Int64)::Int64&lt;/span&gt;
+      &lt;span class=&#34;n&#34;&gt;SSAValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;add_int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;#temp#::Int64, 1)::Int64&lt;/span&gt;
+      &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SSAValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+      &lt;span class=&#34;c&#34;&gt;#temp#::Int64 = SSAValue(3) # line 4:&lt;/span&gt;
+      &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;add_int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;
+      &lt;span class=&#34;mi&#34;&gt;12&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; 
+      &lt;span class=&#34;n&#34;&gt;goto&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;
+      &lt;span class=&#34;mi&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;# line 6:&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;
 
-julia&lt;span class=&#34;sfa0&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;s7d6&#34;&gt;@code_warntype&lt;/span&gt; mysum([&lt;span class=&#34;sc82&#34;&gt;1.0&lt;/span&gt;, &lt;span class=&#34;sc82&#34;&gt;2.0&lt;/span&gt;, &lt;span class=&#34;sc82&#34;&gt;3.0&lt;/span&gt;])
-Variables&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;s1770&#34;&gt;#self#::#mysum&lt;/span&gt;
-  vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Array&lt;/span&gt;{&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;}
-  elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;
-  &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64&lt;/span&gt;
-  s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nd&#34;&gt;@code_warntype&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mysum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;1.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;2.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;3.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;Variables&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;c&#34;&gt;#self#::#mysum&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Array&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;
+  &lt;span class=&#34;c&#34;&gt;#temp#::Int64&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;
 
-Body&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;s3e8&#34;&gt;begin&lt;/span&gt; 
-      s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;sitofp)(&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;0&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;s1770&#34;&gt;# line 3:&lt;/span&gt;
-      &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 = 1&lt;/span&gt;
-      &lt;span class=&#34;sc84&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt; 
-      unless (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;not_int)((&lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Float64&lt;/span&gt;
-,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;})&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;, &lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int64&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Bool&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Bool&lt;/span&gt; goto &lt;span class=&#34;sc84&#34;&gt;14&lt;/span&gt;                                                   
-      SSAValue(&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;arrayref)(vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Array&lt;/span&gt;{&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;,&lt;span class=&#34;sc84&#34;&gt;1&lt;/span&gt;}, &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64)::Float64&lt;/span&gt;
-      SSAValue(&lt;span class=&#34;sc84&#34;&gt;3&lt;/span&gt;) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;add_int)(&lt;span class=&#34;s1770&#34;&gt;#temp#::Int64, 1)::Int64&lt;/span&gt;
-      elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; SSAValue(&lt;span class=&#34;sc84&#34;&gt;2&lt;/span&gt;)
-      &lt;span class=&#34;s1770&#34;&gt;#temp#::Int64 = SSAValue(3) # line 4:&lt;/span&gt;
-      s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; (Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;add_float)(s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;, elt&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;)&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;
-      &lt;span class=&#34;sc84&#34;&gt;12&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt; 
-      goto &lt;span class=&#34;sc84&#34;&gt;4&lt;/span&gt;
-      &lt;span class=&#34;sc84&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;:&lt;/span&gt;  &lt;span class=&#34;s1770&#34;&gt;# line 6:&lt;/span&gt;
-      &lt;span class=&#34;s3e8&#34;&gt;return&lt;/span&gt; s&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;
-  &lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Float64&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;span class=&#34;n&#34;&gt;Body&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;begin&lt;/span&gt; 
+      &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sitofp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# line 3:&lt;/span&gt;
+      &lt;span class=&#34;c&#34;&gt;#temp#::Int64 = 1&lt;/span&gt;
+      &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; 
+      &lt;span class=&#34;n&#34;&gt;unless&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;not_int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)((&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Float64&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Bool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Bool&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;goto&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;14&lt;/span&gt;                                                   
+      &lt;span class=&#34;n&#34;&gt;SSAValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;arrayref&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Array&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;#temp#::Int64)::Float64&lt;/span&gt;
+      &lt;span class=&#34;n&#34;&gt;SSAValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;add_int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;c&#34;&gt;#temp#::Int64, 1)::Int64&lt;/span&gt;
+      &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SSAValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+      &lt;span class=&#34;c&#34;&gt;#temp#::Int64 = SSAValue(3) # line 4:&lt;/span&gt;
+      &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;add_float&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;
+      &lt;span class=&#34;mi&#34;&gt;12&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; 
+      &lt;span class=&#34;n&#34;&gt;goto&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;
+      &lt;span class=&#34;mi&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;# line 6:&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;I mentioned &amp;quot;vector-like objects&amp;quot; above, since I can choose different
 representations for special objects. For example, to do calculations
 with a vector of &lt;code&gt;1&lt;/code&gt;s, I can define&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;struct Ones{T &lt;span class=&#34;sfa0&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;s3ee&#34;&gt;Number&lt;/span&gt;} &lt;span class=&#34;sfa0&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;s3ee&#34;&gt;AbstractVector&lt;/span&gt;{T}
-    len&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;s3ee&#34;&gt;Int&lt;/span&gt;
-&lt;span class=&#34;s3e8&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;AbstractVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;At this point, in order to calculate the sum above, I have two choices:&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;Implement the &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/interfaces/&#34;&gt;relevant
 interface&lt;/a&gt;,
 with functions like&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;Base&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;length(x&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Ones) &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; x&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;len&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;len&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;and similarly for element access, etc. This would generate specialized code for the method above, reasonably efficient code, but still iterate over the &amp;quot;elements&amp;quot;.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;In addition, I can define&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;mysum(vec&lt;span class=&#34;sfa0&#34;&gt;::&lt;/span&gt;Ones{T}) where T &lt;span class=&#34;sfa0&#34;&gt;=&lt;/span&gt; vec&lt;span class=&#34;sfa0&#34;&gt;.&lt;/span&gt;len &lt;span class=&#34;sfa0&#34;&gt;*&lt;/span&gt; one(T)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;mysum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;len&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;one&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;which would provide a method for &lt;code&gt;mysum&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 

@@ -4,9 +4,9 @@
     <title>Emacs customizations for julia-mode</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.28" />
+    <meta name="generator" content="Hugo 0.30.2" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/pastie.css">
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css">
     
     <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -180,23 +180,21 @@
 
 <p>I find the following customizations very useful for <em>editing</em> Julia
 code in Emacs. Add them to <code>julia-mode-hook</code>, eg</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span class="s7e3">defun</span> <span class="s7e3">customize-julia-mode</span> ()
-  <span class="sc1c">&#34;Customize julia-mode.&#34;</span>
-  (<span class="s7e3">interactive</span>)
-  <span class="s1770">;; my customizations go here</span>
-  )
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">customize-julia-mode</span> <span class="p">()</span>
+  <span class="s">&#34;Customize julia-mode.&#34;</span>
+  <span class="p">(</span><span class="nb">interactive</span><span class="p">)</span>
+  <span class="c1">;; my customizations go here</span>
+  <span class="p">)</span>
 
-(<span class="s7e3">add-hook</span> <span class="sc2c">&#39;julia-mode-hook</span> <span class="sc2c">&#39;customize-julia-mode</span>)</code></pre>
-</div>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;julia-mode-hook</span> <span class="ss">&#39;customize-julia-mode</span><span class="p">)</span></code></pre></div>
 <h2 id="highlight-fixme-todo">Highlight FIXME/TODO/&hellip;</h2>
 
 <p>When I just want to note something in a comment for future reference,
 I prefer to have certain words highlighted. You can use something like
 this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span class="s7e3">font-lock-add-keywords</span> <span class="s7d5">nil</span>
-                        <span class="sfa0">&#39;</span>((<span class="sc1c">&#34;\\&lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&#34;</span>
-                        <span class="sc84">1</span> <span class="s7e3">font-lock-warning-face</span> <span class="s7d5">t</span>)))</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">font-lock-add-keywords</span> <span class="no">nil</span>
+                        <span class="o">&#39;</span><span class="p">((</span><span class="s">&#34;\\&lt;\\(FIXME\\|TODO\\|QUESTION\\|NOTE\\)&#34;</span>
+                        <span class="mi">1</span> <span class="nv">font-lock-warning-face</span> <span class="no">t</span><span class="p">)))</span></code></pre></div>
 <p>This is what it looks like:</p>
 
 <pre style="color: #262626; background-color: #ded6c5;">
@@ -210,13 +208,11 @@ this:</p>
 <h2 id="highlight-symbols">Highlight symbols</h2>
 
 <p>After</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span class="s7e3">require</span> <span class="sc2c">&#39;highlight-symbol</span>)</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;highlight-symbol</span><span class="p">)</span></code></pre></div>
 <p>add a hook for</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span class="s7e3">local-set-key</span> [(<span class="s7e3">control</span> <span class="sc21">?c</span>) <span class="sc21">?s</span>] <span class="sc2c">&#39;highlight-symbol-at-point</span>)
-(<span class="s7e3">local-set-key</span> [(<span class="s7e3">control</span> <span class="sc21">?c</span>) <span class="sc21">?n</span>] <span class="sc2c">&#39;highlight-symbol-next</span>)
-(<span class="s7e3">local-set-key</span> [(<span class="s7e3">control</span> <span class="sc21">?c</span>) <span class="sc21">?p</span>] <span class="sc2c">&#39;highlight-symbol-prev</span>)</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">local-set-key</span> <span class="p">[(</span><span class="nv">control</span> <span class="sc">?c</span><span class="p">)</span> <span class="sc">?s</span><span class="p">]</span> <span class="ss">&#39;highlight-symbol-at-point</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">local-set-key</span> <span class="p">[(</span><span class="nv">control</span> <span class="sc">?c</span><span class="p">)</span> <span class="sc">?n</span><span class="p">]</span> <span class="ss">&#39;highlight-symbol-next</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">local-set-key</span> <span class="p">[(</span><span class="nv">control</span> <span class="sc">?c</span><span class="p">)</span> <span class="sc">?p</span><span class="p">]</span> <span class="ss">&#39;highlight-symbol-prev</span><span class="p">)</span></code></pre></div>
 <p>This highlights symbols with <code>C-c s</code>:</p>
 
 <pre style="color: #262626; background-color: #ded6c5;">
@@ -237,46 +233,42 @@ this:</p>
 <h2 id="fill-docstrings">Fill docstrings</h2>
 
 <p>This is useful if you want to use <code>M-q</code> on docstrings.</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span class="s7e3">defun</span> <span class="s7e3">julia-fill-string</span> ()
-  <span class="sc1c">&#34;Fill a docstring, preserving newlines before and after triple quotation marks.&#34;</span>
-  (<span class="s7e3">interactive</span>)
-  (<span class="s7e3">if</span> (<span class="s7e3">and</span> <span class="s7e3">transient-mark-mode</span> <span class="s7e3">mark-active</span>)
-      (<span class="s7e3">fill-region</span> (<span class="s7e3">region-beginning</span>) (<span class="s7e3">region-end</span>) <span class="s7d5">nil</span> <span class="s7d5">t</span>)
-    (<span class="s7e3">cl-flet</span> ((<span class="s7e3">fill-if-string</span> ()
-                              (<span class="s7e3">when</span> (<span class="s7e3">or</span> (<span class="s7e3">looking-at</span> (<span class="s7e3">rx</span> <span class="sc1c">&#34;\&#34;\&#34;\&#34;&#34;</span>
-                                                        (<span class="s7e3">group</span>
-                                                         (<span class="s7e3">*?</span> (<span class="s7e3">or</span> (<span class="s7e3">not</span> (<span class="s7e3">any</span> <span class="sc1c">&#34;\\&#34;</span>))
-                                                                 (<span class="s7e3">seq</span> <span class="sc1c">&#34;\\&#34;</span> <span class="s7e3">anything</span>))))
-                                                        <span class="sc1c">&#34;\&#34;\&#34;\&#34;&#34;</span>))
-                                        (<span class="s7e3">looking-at</span> (<span class="s7e3">rx</span> <span class="sc1c">&#34;\&#34;&#34;</span>
-                                                        (<span class="s7e3">group</span>
-                                                         (<span class="s7e3">*?</span> (<span class="s7e3">or</span> (<span class="s7e3">not</span> (<span class="s7e3">any</span> <span class="sc1c">&#34;\\&#34;</span>))
-                                                                 (<span class="s7e3">seq</span> <span class="sc1c">&#34;\\&#34;</span> <span class="s7e3">anything</span>))))
-                                                        <span class="sc1c">&#34;\&#34;&#34;</span>)))
-                                (<span class="s7e3">let</span> ((<span class="s7e3">start</span> (<span class="s7e3">match-beginning</span> <span class="sc84">1</span>))
-                                      (<span class="s7e3">end</span> (<span class="s7e3">match-end</span> <span class="sc84">1</span>)))
-                                  <span class="s1770">;; (ess-blink-region start end)</span>
-                                  (<span class="s7e3">fill-region</span> <span class="s7e3">start</span> <span class="s7e3">end</span> <span class="s7d5">nil</span> <span class="s7d5">nil</span> <span class="s7d5">nil</span>)))))
-      (<span class="s7e3">save-excursion</span>
-        (<span class="s7e3">let</span> ((<span class="s7e3">s</span> (<span class="s7e3">syntax-ppss</span>)))
-          (<span class="s7e3">when</span> (<span class="s7e3">fourth</span> <span class="s7e3">s</span>) (<span class="s7e3">goto-char</span> (<span class="s7e3">ninth</span> <span class="s7e3">s</span>))))
-        (<span class="s7e3">fill-if-string</span>)))))</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">julia-fill-string</span> <span class="p">()</span>
+  <span class="s">&#34;Fill a docstring, preserving newlines before and after triple quotation marks.&#34;</span>
+  <span class="p">(</span><span class="nb">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">if</span> <span class="p">(</span><span class="nb">and</span> <span class="nv">transient-mark-mode</span> <span class="nv">mark-active</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">fill-region</span> <span class="p">(</span><span class="nf">region-beginning</span><span class="p">)</span> <span class="p">(</span><span class="nf">region-end</span><span class="p">)</span> <span class="no">nil</span> <span class="no">t</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">cl-flet</span> <span class="p">((</span><span class="nv">fill-if-string</span> <span class="p">()</span>
+                              <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">or</span> <span class="p">(</span><span class="nf">looking-at</span> <span class="p">(</span><span class="nb">rx</span> <span class="s">&#34;\&#34;\&#34;\&#34;&#34;</span>
+                                                        <span class="p">(</span><span class="nv">group</span>
+                                                         <span class="p">(</span><span class="nv">*?</span> <span class="p">(</span><span class="nb">or</span> <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nv">any</span> <span class="s">&#34;\\&#34;</span><span class="p">))</span>
+                                                                 <span class="p">(</span><span class="nv">seq</span> <span class="s">&#34;\\&#34;</span> <span class="nv">anything</span><span class="p">))))</span>
+                                                        <span class="s">&#34;\&#34;\&#34;\&#34;&#34;</span><span class="p">))</span>
+                                        <span class="p">(</span><span class="nf">looking-at</span> <span class="p">(</span><span class="nb">rx</span> <span class="s">&#34;\&#34;&#34;</span>
+                                                        <span class="p">(</span><span class="nv">group</span>
+                                                         <span class="p">(</span><span class="nv">*?</span> <span class="p">(</span><span class="nb">or</span> <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nv">any</span> <span class="s">&#34;\\&#34;</span><span class="p">))</span>
+                                                                 <span class="p">(</span><span class="nv">seq</span> <span class="s">&#34;\\&#34;</span> <span class="nv">anything</span><span class="p">))))</span>
+                                                        <span class="s">&#34;\&#34;&#34;</span><span class="p">)))</span>
+                                <span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">start</span> <span class="p">(</span><span class="nf">match-beginning</span> <span class="mi">1</span><span class="p">))</span>
+                                      <span class="p">(</span><span class="nv">end</span> <span class="p">(</span><span class="nf">match-end</span> <span class="mi">1</span><span class="p">)))</span>
+                                  <span class="c1">;; (ess-blink-region start end)</span>
+                                  <span class="p">(</span><span class="nv">fill-region</span> <span class="nv">start</span> <span class="nv">end</span> <span class="no">nil</span> <span class="no">nil</span> <span class="no">nil</span><span class="p">)))))</span>
+      <span class="p">(</span><span class="nb">save-excursion</span>
+        <span class="p">(</span><span class="nb">let</span> <span class="p">((</span><span class="nv">s</span> <span class="p">(</span><span class="nv">syntax-ppss</span><span class="p">)))</span>
+          <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nv">fourth</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">goto-char</span> <span class="p">(</span><span class="nv">ninth</span> <span class="nv">s</span><span class="p">))))</span>
+        <span class="p">(</span><span class="nv">fill-if-string</span><span class="p">)))))</span></code></pre></div>
 <p>Add</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span class="s7e3">local-set-key</span> (<span class="s7e3">kbd</span> <span class="sc1c">&#34;M-q&#34;</span>) <span class="sc2c">&#39;julia-fill-string</span>)</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">local-set-key</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">&#34;M-q&#34;</span><span class="p">)</span> <span class="ss">&#39;julia-fill-string</span><span class="p">)</span></code></pre></div>
 <p>to the mode hook.</p>
 
 <h2 id="highlight-things-after-column-80">Highlight things after column 80</h2>
 
 <p>I add this to the mode hook:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span class="s7e3">set-fill-column</span> <span class="sc84">80</span>)</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">set-fill-column</span> <span class="mi">80</span><span class="p">)</span></code></pre></div>
 <p>I also use <code>whitespace</code> globally:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span class="s7e3">require</span> <span class="sc2c">&#39;whitespace</span>)
-(<span class="s7e3">setq</span> <span class="s7e3">whitespace-style</span> <span class="sfa0">&#39;</span>(<span class="s7e3">face</span> <span class="s7e3">empty</span> <span class="s7e3">tabs</span> <span class="s7e3">lines-tail</span> <span class="s7e3">trailing</span>))
-(<span class="s7e3">global-whitespace-mode</span> <span class="s7d5">t</span>)</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;whitespace</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">setq</span> <span class="nv">whitespace-style</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">face</span> <span class="nv">empty</span> <span class="nv">tabs</span> <span class="nv">lines-tail</span> <span class="nv">trailing</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">global-whitespace-mode</span> <span class="no">t</span><span class="p">)</span></code></pre></div>
 <p>This is what it looks like:</p>
 
 <pre style="color: #262626; background-color: #ded6c5;">
@@ -288,8 +280,7 @@ QR<span style="color: #262626;">(</span>factors<span style="color: #262626; back
 <h2 id="hungry-delete-mode">Hungry delete-mode</h2>
 
 <p>Add this to the mode hook:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span class="s7e3">hungry-delete-mode</span>)</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">hungry-delete-mode</span><span class="p">)</span></code></pre></div>
 <p>and then backspace and delete will remove all whitespace near the point in the relevant direction.</p>
 
 <p>In case you are wondering, the theme is <a href="https://github.com/alezost/alect-themes">alect-light</a>.</p>

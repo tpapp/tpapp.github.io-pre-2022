@@ -31,8 +31,7 @@
 &lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[\log(1/y) = -\log(y).\]&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;In &lt;a href=&#34;http://mc-stan.org/&#34;&gt;Stan&lt;/a&gt;, one would accomplish this as&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-stan&#34; data-lang=&#34;stan&#34;&gt;target += -log(y)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-stan&#34; data-lang=&#34;stan&#34;&gt;target += -log(y)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;In general, when you transform using a multivariate function &lt;span  class=&#34;math&#34;&gt;\(f\)&lt;/span&gt;, you would adjust by&lt;/p&gt;
 
 &lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[\log\det J_f(y)\]&lt;/span&gt;&lt;/p&gt;

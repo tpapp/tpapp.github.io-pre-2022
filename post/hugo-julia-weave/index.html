@@ -4,9 +4,9 @@
     <title>Julia &#43; Weave.jl &#43; hugo test</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.28" />
+    <meta name="generator" content="Hugo 0.30.2" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/pastie.css">
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css">
     
     <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -186,21 +186,18 @@
 $$x^2+y^2 = \int_0^1 f(z) dz$$</p>
 
 <p>Testing code:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="sc84">1</span><span class="sfa0">+</span><span class="sc84">1</span></code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="mi">1</span><span class="o">+</span><span class="mi">1</span></code></pre></div>
 <pre><code>2
 </code></pre>
 
 <p>Testing proper highlighting:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s3e8">function</span> foo(x, y)
-    x<span class="sfa0">+</span>y
-<span class="s3e8">end</span></code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">foo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">+</span><span class="n">y</span>
+<span class="k">end</span></code></pre></div>
 <p>A plot:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">x <span class="sfa0">=</span> <span class="sc84">1</span><span class="sfa0">:</span><span class="sc84">10</span>
-y <span class="sfa0">=</span> x<span class="sfa0">.^</span><span class="sc84">2</span>
-scatter(x, y, legend <span class="sfa0">=</span> <span class="s3e8">false</span>)</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="mi">10</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre></div>
 
 <figure >
     

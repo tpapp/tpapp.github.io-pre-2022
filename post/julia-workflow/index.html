@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Clarification: on orphaning my Common Lisp libraries</title>
+    <title>My Julia workflow</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.30.2" />
@@ -165,98 +165,54 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>Clarification: on orphaning my Common Lisp libraries</h1>2017/10/15
+<h1>My Julia workflow</h1>2017/10/21
 <span class="tags">
     
-    <a href="/tags/lisp">lisp</a>
+    <a href="/tags/julia">julia</a>
     
-    <a href="/tags/packages">packages</a>
+    <a href="/tags/emacs">emacs</a>
     
 </span>
 
 
 
-<p>I have not been programming in Common Lisp for a few years, and since
-I find <a href="https://julialang.org/">Julia</a> a &quot;much better Lisp&quot;, I am
-unlikely to go back to it in the foreseeable future. This is a
-clarification regarding some
-<a href="https://github.com/tpapp?utf8=%E2%9C%93&amp;tab=repositories&amp;q=&amp;type=public&amp;language=common%20lisp">libraries</a>
-I have written in Common Lisp and made public.</p>
+<p>This is a summary of the workflow I find ideal for working with Julia. Although the manual has a <a href="https://docs.julialang.org/en/latest/manual/workflow-tips/">section on workflow</a>, it does not mention all the tools that I find useful, so perhaps this will benefit some users of Julia.</p>
 
-<h1 id="all-of-my-common-lisp-libraries-are-orphaned">All of my Common Lisp libraries are orphaned</h1>
+<p>I use Emacs, with <a href="https://github.com/JuliaEditorSupport/julia-emacs"><code>julia-mode</code></a> (for editing the source) and <a href="https://github.com/tpapp/julia-repl"><code>julia-repl</code></a> (REPL integration). The latter is my own package; you can use <a href="https://ess.r-project.org/"><code>ESS</code></a> instead, which has some advantages (eg multiple inferior processes) and disadvantages (no ANSI terminal support). The choice of an editor is highly subjective: at the end of the day, all you need is one that is capable of sending code to the REPL and can, in turn, be used by the REPL to open a file at a particular point. I use</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="nb">ENV</span><span class="p">[</span><span class="s">&#34;EDITOR&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;emacsclient&#34;</span></code></pre></div>
+<p>in <code>~/.juliarc.jl</code> to ensure this. This helps me find code with the <code>@edit</code> macro.</p>
 
-<ol>
-<li><p>They are effectively <em>abandonware</em> as far as I am concerned. Since
-fixing issues and evaluating PRs entails a large fixed cost for
-which I don't have the time (setting up my CL environment again,
-understanding what I wrote years ago, thinking about code
-correctness and corner cases of the language spec that I have
-forgotten), I will ignore issues and pull requests. Sorry about this.</p></li>
+<p>Small code snippets and experiments below ~30 lines just go into files, from which I send regions of code to the REPL. Frequently, for throwaway code, I just open a file in <code>/tmp/</code>, which will get removed automatically after the next reboot.</p>
 
-<li><p>If you find anything of value in these libraries, please feel free
-to use that according to their licenses. <em>You don't have to ask me
-explicitly.</em></p></li>
+<p>Even very small projects get their own <a href="https://docs.julialang.org/en/latest/manual/packages/">package</a>. This way I get version control<sup class="footnote-ref" id="fnref:I-use-the-amazin"><a class="footnote" href="#fn:I-use-the-amazin">1</a></sup> and a sensible structure for unit tests set up automatically. I put my own packages in their own directory, <em>keeping them separate from <code>Pkg.dir()</code></em>. This allows me to use the same package across Julia versions, and makes <code>Pkg.update()</code> ignore them. I tell Julia where they are with</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="kd">const</span> <span class="n">LOCAL_PACKAGES</span> <span class="o">=</span> <span class="n">expanduser</span><span class="p">(</span><span class="s">&#34;~/src/julia-local-packages/&#34;</span><span class="p">)</span>
+<span class="n">push!</span><span class="p">(</span><span class="nb">LOAD_PATH</span><span class="p">,</span> <span class="n">LOCAL_PACKAGES</span><span class="p">)</span></code></pre></div>
+<p>I create local packages with</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">import</span> <span class="n">PkgDev</span>
+<span class="n">PkgDev</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s">&#34;MyPkg&#34;</span><span class="p">,</span> <span class="s">&#34;MIT&#34;</span><span class="p">;</span> <span class="n">path</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">LOCAL_PACKAGES</span><span class="p">,</span> <span class="s">&#34;MyPkg&#34;</span><span class="p">))</span></code></pre></div>
+<p>Then I open the file and start working on it with</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">MyPkg</span></code></pre></div>
+<p>I use <a href="https://github.com/timholy/Revise.jl"><code>Revise.jl</code></a> to automate reloading.<sup class="footnote-ref" id="fnref:You-just-need-to"><a class="footnote" href="#fn:You-just-need-to">2</a></sup> This package has changed my workflow completely; it can cope with most changes, except for type redefinitions. For these, I need to restart the REPL.</p>
 
-<li><p>If you want to take over maintaining any of these libraries, <em>you
-don't have to ask me</em>. <strong>Just fork, and start coding.</strong> If you have
-been consistently maintaining one of these libraries for a year or
-more, announce that you are resurrecting the library on the
-relevant Common Lisp forums. You can also drop me an e-mail and I
-will put a line in the README of my version that redirects users to
-your version. Eventually, you should convince <a href="https://github.com/quicklisp/">Zach
-Beane</a> to use your version in
-Quicklisp.</p></li>
+<p>To test my code, I use <code>Pkg.test</code> with <a href="https://github.com/tpapp/RoguePkg.jl"><code>RoguePkg.jl</code></a>, which makes it find packages outside <code>Pkg.dir()</code> for testing and benchmarks:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">Pkg</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">pkg_for</span><span class="s">&#34;MyPkg&#34;</span><span class="p">)</span></code></pre></div><div class="footnotes">
 
-<li><p>I cannot provide any significant help regarding the code
-due to time constraints. Some of it is documented, and most of it
-has unit tests, you have to figure out the rest yourself.</p></li>
-</ol>
-
-<h1 id="which-libraries-are-worth-the-effort">Which libraries are worth the effort?</h1>
+<hr>
 
 <ol>
-<li><p><code>let-plus</code> is an extensible destructuring library. The syntax is
-versatile and intuitive.</p></li>
-
-<li><p><code>LLA</code>, aka Lisp Linear Algebra, is a wrapper for BLAS/LAPACK using
-native Common Lisp arrays. It is somewhat incomplete (eigenvalues
-need some work) but what is available works. It is <em>fast</em> on
-implementations which provide arrays for certain float element
-types, so that it does not have to copy the data, and is a bit
-slower on implementations that don't allow this. Still, copying is
-<span  class="math">\(O(n)\)</span>, while most LAPACK operations are <span  class="math">\(O(n^2)\)</span> or worse, so
-this is not a huge concern. Nevertheless, it is possible that
-implementations that did not provide specialized arrays at the time
-I wrote LLA have caught up. You would need to extend the glue code
-to work with them.</p></li>
-
-<li><p><code>cl-slice</code>, array slices for native Common Lisp arrays.</p></li>
-
-<li><p><code>cl-random</code>, <code>cl-num-utils</code>, <code>cl-rmath</code>: random numbers, simple
-numerical algorithms, a wrapper for libRmath.</p></li>
-
-<li><p><code>cl-colors</code>, named colors and color combinations.</p></li>
+<li id="fn:I-use-the-amazin">I use the amazing <a href="https://magit.vc/"><code>magit</code></a> for interacting with <code>git</code> &mdash; having obtained <a href="https://www.kickstarter.com/projects/1681258897/its-magit-the-magical-git-client">funding on KickStarter</a> recently, it is bound to become even more convenient. <a class="footnote-return" href="#fnref:I-use-the-amazin"><sup>[return]</sup></a></li>
+<li id="fn:You-just-need-to">You just need to set it up once according to its documentation, after that it is automatic. <a class="footnote-return" href="#fnref:You-just-need-to"><sup>[return]</sup></a></li>
 </ol>
-
-<p>The rest are either early experiments, preliminary versions that
-evolved into the libraries above, or projects that did not pan out.</p>
-
-<p>PS.: Some people asked why I switched to Julia from Common Lisp. A
-post about that will follow soon.</p>
+</div>
 
 
 
 <div id="pagenav">
   
-  <span class="pagenav-label">next:</span>&nbsp;
-  <a href="https://tpapp.github.io/post/common-lisp-to-julia/">Switching from Common Lisp to Julia</a>
   
-  
-  
-  <br/>
   
   <span class="pagenav-label">previous:</span>&nbsp;
-  <a href="https://tpapp.github.io/post/branch_prediction2/">Branch prediction: yet another example</a>
+  <a href="https://tpapp.github.io/post/htmlize-screenshot/">HTML &#34;screenshots&#34; from Emacs</a>
   
 </div>
 

@@ -4,9 +4,9 @@
     <title>CPU pipelines: when more is less</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.28" />
+    <meta name="generator" content="Hugo 0.30.2" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/pastie.css">
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css">
     
     <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -191,23 +191,21 @@ f(x) = \begin{cases}
 \]</span></p>
 
 <p>with implementations</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">f1(x) <span class="sfa0">=</span> ifelse(x <span class="sfa0">≥</span> <span class="sc84">0</span>, abs2(x<span class="sfa0">+</span><span class="sc84">2</span>), <span class="sc84">1</span><span class="sfa0">-</span>x)
-f2(x) <span class="sfa0">=</span> x <span class="sfa0">≥</span> <span class="sc84">0</span> <span class="sfa0">?</span> abs2(x<span class="sfa0">+</span><span class="sc84">2</span>) <span class="sfa0">:</span> <span class="sc84">1</span><span class="sfa0">-</span>x</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">f1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">x</span> <span class="o">≥</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs2</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+<span class="n">f2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">≥</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">abs2</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="o">:</span> <span class="mi">1</span><span class="o">-</span><span class="n">x</span></code></pre></div>
 <p><code>f1</code> calculates <em>both</em> possibilities before choosing between them with
 <code>ifelse</code>, while <code>f2</code> will only calculate values on demand. So, intuitively, it should be faster.</p>
 
 <p>But it isn't...</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">julia<span class="sfa0">&gt;</span> x <span class="sfa0">=</span> randn(<span class="sc84">1_000_000</span>);
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">1_000_000</span><span class="p">);</span>
 
-julia<span class="sfa0">&gt;</span> <span class="s3e8">using</span> BenchmarkTools
+<span class="n">julia</span><span class="o">&gt;</span> <span class="k">using</span> <span class="n">BenchmarkTools</span>
 
-julia<span class="sfa0">&gt;</span> <span class="s7d6">@btime</span> f1<span class="sfa0">.</span>(<span class="sfa0">$</span>x);
-  <span class="sc82">664.228</span> μs (<span class="sc84">2</span> allocations<span class="sfa0">:</span> <span class="sc82">7.63</span> MiB)
+<span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@btime</span> <span class="n">f1</span><span class="o">.</span><span class="p">(</span><span class="o">$</span><span class="n">x</span><span class="p">);</span>
+  <span class="mf">664.228</span> <span class="n">μs</span> <span class="p">(</span><span class="mi">2</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">7.63</span> <span class="n">MiB</span><span class="p">)</span>
 
-julia<span class="sfa0">&gt;</span> <span class="s7d6">@btime</span> f2<span class="sfa0">.</span>(<span class="sfa0">$</span>x);
-  <span class="sc82">6.519</span> ms (<span class="sc84">2</span> allocations<span class="sfa0">:</span> <span class="sc82">7.63</span> MiB)</code></pre>
-</div>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@btime</span> <span class="n">f2</span><span class="o">.</span><span class="p">(</span><span class="o">$</span><span class="n">x</span><span class="p">);</span>
+  <span class="mf">6.519</span> <span class="n">ms</span> <span class="p">(</span><span class="mi">2</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">7.63</span> <span class="n">MiB</span><span class="p">)</span></code></pre></div>
 <p>...it is about 10x <em>slower</em>.</p>
 
 <p>This can be understood as an artifact of the <a href="https://en.wikipedia.org/wiki/Instruction_pipelining">instruction
@@ -216,59 +214,57 @@ x86 CPU likes to perform similar operations in staggered manner, and
 it does not like branches (jumps) because they break the flow.</p>
 
 <p>Comparing the native code reveals that while <code>f1</code> is jump-free, the <code>if</code> in <code>f2</code> results in a jump (<code>jae</code>):</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">julia<span class="sfa0">&gt;</span> <span class="s7d6">@code_native</span> f1(<span class="sc82">1.0</span>)
-        <span class="sfa0">.</span>text
-Filename<span class="sfa0">:</span> REPL[<span class="sc84">2</span>]
-        pushq   <span class="sfa0">%</span>rbp
-        movq    <span class="sfa0">%</span>rsp, <span class="sfa0">%</span>rbp
-        movabsq <span class="sfa0">$</span><span class="sc84">139862498743472</span>, <span class="sfa0">%</span>rax  <span class="s1770"># imm = 0x7F34468E14B0</span>
-        movsd   (<span class="sfa0">%</span>rax), <span class="sfa0">%</span>xmm2           <span class="s1770"># xmm2 = mem[0],zero</span>
-Source line<span class="sfa0">:</span> <span class="sc84">1</span>
-        addsd   <span class="sfa0">%</span>xmm0, <span class="sfa0">%</span>xmm2
-        mulsd   <span class="sfa0">%</span>xmm2, <span class="sfa0">%</span>xmm2
-        movabsq <span class="sfa0">$</span><span class="sc84">139862498743480</span>, <span class="sfa0">%</span>rax  <span class="s1770"># imm = 0x7F34468E14B8</span>
-        movsd   (<span class="sfa0">%</span>rax), <span class="sfa0">%</span>xmm3           <span class="s1770"># xmm3 = mem[0],zero</span>
-        subsd   <span class="sfa0">%</span>xmm0, <span class="sfa0">%</span>xmm3
-        xorps   <span class="sfa0">%</span>xmm1, <span class="sfa0">%</span>xmm1
-        cmpnlesd        <span class="sfa0">%</span>xmm0, <span class="sfa0">%</span>xmm1
-        andpd   <span class="sfa0">%</span>xmm1, <span class="sfa0">%</span>xmm3
-        andnpd  <span class="sfa0">%</span>xmm2, <span class="sfa0">%</span>xmm1
-        orpd    <span class="sfa0">%</span>xmm3, <span class="sfa0">%</span>xmm1
-        movapd  <span class="sfa0">%</span>xmm1, <span class="sfa0">%</span>xmm0
-        popq    <span class="sfa0">%</span>rbp
-        retq
-        nopw    <span class="sfa0">%</span>cs<span class="sfa0">:</span>(<span class="sfa0">%</span>rax,<span class="sfa0">%</span>rax)
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@code_native</span> <span class="n">f1</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">text</span>
+<span class="n">Filename</span><span class="o">:</span> <span class="n">REPL</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">pushq</span>   <span class="o">%</span><span class="n">rbp</span>
+        <span class="n">movq</span>    <span class="o">%</span><span class="n">rsp</span><span class="p">,</span> <span class="o">%</span><span class="n">rbp</span>
+        <span class="n">movabsq</span> <span class="o">$</span><span class="mi">139862498743472</span><span class="p">,</span> <span class="o">%</span><span class="n">rax</span>  <span class="c"># imm = 0x7F34468E14B0</span>
+        <span class="n">movsd</span>   <span class="p">(</span><span class="o">%</span><span class="n">rax</span><span class="p">),</span> <span class="o">%</span><span class="n">xmm2</span>           <span class="c"># xmm2 = mem[0],zero</span>
+<span class="n">Source</span> <span class="n">line</span><span class="o">:</span> <span class="mi">1</span>
+        <span class="n">addsd</span>   <span class="o">%</span><span class="n">xmm0</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm2</span>
+        <span class="n">mulsd</span>   <span class="o">%</span><span class="n">xmm2</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm2</span>
+        <span class="n">movabsq</span> <span class="o">$</span><span class="mi">139862498743480</span><span class="p">,</span> <span class="o">%</span><span class="n">rax</span>  <span class="c"># imm = 0x7F34468E14B8</span>
+        <span class="n">movsd</span>   <span class="p">(</span><span class="o">%</span><span class="n">rax</span><span class="p">),</span> <span class="o">%</span><span class="n">xmm3</span>           <span class="c"># xmm3 = mem[0],zero</span>
+        <span class="n">subsd</span>   <span class="o">%</span><span class="n">xmm0</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm3</span>
+        <span class="n">xorps</span>   <span class="o">%</span><span class="n">xmm1</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm1</span>
+        <span class="n">cmpnlesd</span>        <span class="o">%</span><span class="n">xmm0</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm1</span>
+        <span class="n">andpd</span>   <span class="o">%</span><span class="n">xmm1</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm3</span>
+        <span class="n">andnpd</span>  <span class="o">%</span><span class="n">xmm2</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm1</span>
+        <span class="n">orpd</span>    <span class="o">%</span><span class="n">xmm3</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm1</span>
+        <span class="n">movapd</span>  <span class="o">%</span><span class="n">xmm1</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm0</span>
+        <span class="n">popq</span>    <span class="o">%</span><span class="n">rbp</span>
+        <span class="n">retq</span>
+        <span class="n">nopw</span>    <span class="o">%</span><span class="n">cs</span><span class="o">:</span><span class="p">(</span><span class="o">%</span><span class="n">rax</span><span class="p">,</span><span class="o">%</span><span class="n">rax</span><span class="p">)</span>
 
-julia<span class="sfa0">&gt;</span> <span class="s7d6">@code_native</span> f2(<span class="sc82">1.0</span>)
-        <span class="sfa0">.</span>text
-Filename<span class="sfa0">:</span> REPL[<span class="sc84">3</span>]
-        pushq   <span class="sfa0">%</span>rbp
-        movq    <span class="sfa0">%</span>rsp, <span class="sfa0">%</span>rbp
-Source line<span class="sfa0">:</span> <span class="sc84">1</span>
-        xorps   <span class="sfa0">%</span>xmm1, <span class="sfa0">%</span>xmm1
-        ucomisd <span class="sfa0">%</span>xmm1, <span class="sfa0">%</span>xmm0
-        jae     L37
-        movabsq <span class="sfa0">$</span><span class="sc84">139862498680736</span>, <span class="sfa0">%</span>rax  <span class="s1770"># imm = 0x7F34468D1FA0</span>
-        movsd   (<span class="sfa0">%</span>rax), <span class="sfa0">%</span>xmm1           <span class="s1770"># xmm1 = mem[0],zero</span>
-        subsd   <span class="sfa0">%</span>xmm0, <span class="sfa0">%</span>xmm1
-        movapd  <span class="sfa0">%</span>xmm1, <span class="sfa0">%</span>xmm0
-        popq    <span class="sfa0">%</span>rbp
-        retq
-L37<span class="sfa0">:</span>
-        movabsq <span class="sfa0">$</span><span class="sc84">139862498680728</span>, <span class="sfa0">%</span>rax  <span class="s1770"># imm = 0x7F34468D1F98</span>
-        addsd   (<span class="sfa0">%</span>rax), <span class="sfa0">%</span>xmm0
-        mulsd   <span class="sfa0">%</span>xmm0, <span class="sfa0">%</span>xmm0
-        popq    <span class="sfa0">%</span>rbp
-        retq
-        nopl    (<span class="sfa0">%</span>rax)</code></pre>
-</div>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@code_native</span> <span class="n">f2</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">text</span>
+<span class="n">Filename</span><span class="o">:</span> <span class="n">REPL</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">pushq</span>   <span class="o">%</span><span class="n">rbp</span>
+        <span class="n">movq</span>    <span class="o">%</span><span class="n">rsp</span><span class="p">,</span> <span class="o">%</span><span class="n">rbp</span>
+<span class="n">Source</span> <span class="n">line</span><span class="o">:</span> <span class="mi">1</span>
+        <span class="n">xorps</span>   <span class="o">%</span><span class="n">xmm1</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm1</span>
+        <span class="n">ucomisd</span> <span class="o">%</span><span class="n">xmm1</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm0</span>
+        <span class="n">jae</span>     <span class="n">L37</span>
+        <span class="n">movabsq</span> <span class="o">$</span><span class="mi">139862498680736</span><span class="p">,</span> <span class="o">%</span><span class="n">rax</span>  <span class="c"># imm = 0x7F34468D1FA0</span>
+        <span class="n">movsd</span>   <span class="p">(</span><span class="o">%</span><span class="n">rax</span><span class="p">),</span> <span class="o">%</span><span class="n">xmm1</span>           <span class="c"># xmm1 = mem[0],zero</span>
+        <span class="n">subsd</span>   <span class="o">%</span><span class="n">xmm0</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm1</span>
+        <span class="n">movapd</span>  <span class="o">%</span><span class="n">xmm1</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm0</span>
+        <span class="n">popq</span>    <span class="o">%</span><span class="n">rbp</span>
+        <span class="n">retq</span>
+<span class="n">L37</span><span class="o">:</span>
+        <span class="n">movabsq</span> <span class="o">$</span><span class="mi">139862498680728</span><span class="p">,</span> <span class="o">%</span><span class="n">rax</span>  <span class="c"># imm = 0x7F34468D1F98</span>
+        <span class="n">addsd</span>   <span class="p">(</span><span class="o">%</span><span class="n">rax</span><span class="p">),</span> <span class="o">%</span><span class="n">xmm0</span>
+        <span class="n">mulsd</span>   <span class="o">%</span><span class="n">xmm0</span><span class="p">,</span> <span class="o">%</span><span class="n">xmm0</span>
+        <span class="n">popq</span>    <span class="o">%</span><span class="n">rbp</span>
+        <span class="n">retq</span>
+        <span class="n">nopl</span>    <span class="p">(</span><span class="o">%</span><span class="n">rax</span><span class="p">)</span></code></pre></div>
 <p>In my application the speed gain was more modest, but still
 sizeable. Benchmarking a non-branching version of your code is
 sometimes worth it, especially if it the change is simple <em>and</em> both
 branches of the conditional can be run error-free. If, for example, we
 had to calculate</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia">g(x) <span class="sfa0">=</span> x <span class="sfa0">≥</span> <span class="sc84">0</span> <span class="sfa0">?</span> <span class="sfa0">√</span>(x<span class="sfa0">+</span><span class="sc84">2</span>) <span class="sfa0">:</span> <span class="sc84">1</span><span class="sfa0">-</span>x</code></pre>
-</div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">≥</span> <span class="mi">0</span> <span class="o">?</span> <span class="o">√</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="o">:</span> <span class="mi">1</span><span class="o">-</span><span class="n">x</span></code></pre></div>
 <p>then we could not use <code>ifelse</code> without restricting the domain, since
 <code>√(x+2)</code> would fail whenever <code>x &lt; -2</code>.</p>
 

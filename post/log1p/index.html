@@ -4,9 +4,9 @@
     <title>log1p in Julia</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.28" />
+    <meta name="generator" content="Hugo 0.30.2" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/pastie.css">
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css">
     
     <link href="https://fonts.googleapis.com/css?family=Crimson+Text%7CFira+Mono" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -248,59 +248,58 @@
 
 
 <div class="codeheader"><p>download as <a href="https://tpapp.github.io/post/log1p/code.jl">code.jl</a></p></div>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s1770"># consistent random numbers</span>
-srand(<span class="s3ee">UInt32</span>[<span class="sc83">0xfd909253</span>, <span class="sc83">0x7859c364</span>, <span class="sc83">0x7cd42419</span>, <span class="sc83">0x4c06a3b6</span>])
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="c"># consistent random numbers</span>
+<span class="n">srand</span><span class="p">(</span><span class="kt">UInt32</span><span class="p">[</span><span class="mh">0xfd909253</span><span class="p">,</span> <span class="mh">0x7859c364</span><span class="p">,</span> <span class="mh">0x7cd42419</span><span class="p">,</span> <span class="mh">0x4c06a3b6</span><span class="p">])</span>
 
-<span class="sc1c">&#34;&#34;&#34;
-</span><span class="sc1c">    err(x, [prec])
-</span><span class="sc1c">
-</span><span class="sc1c">Return two values, which are the log2 relative errors for calculating
-</span><span class="sc1c">`log1p(x)`, using `Base.log1p` and `Base.Math.JuliaLibm.log1p`.
-</span><span class="sc1c">
-</span><span class="sc1c">The errors are calculated by compating to `BigFloat` calculations with the given
-</span><span class="sc1c">precision `prec`.
-</span><span class="sc1c">&#34;&#34;&#34;</span>
-<span class="s3e8">function</span> err(x, prec <span class="sfa0">=</span> <span class="sc84">1024</span>)
-    yb <span class="sfa0">=</span> log(<span class="sc84">1</span><span class="sfa0">+</span><span class="s3ee">BigFloat</span>(x, prec))
-    e2(y) <span class="sfa0">=</span> <span class="s3ee">Float64</span>(log2(abs(y<span class="sfa0">-</span>yb)<span class="sfa0">/</span>abs(yb)))
-    e2(log1p(x)), e2(Base<span class="sfa0">.</span>Math<span class="sfa0">.</span>JuliaLibm<span class="sfa0">.</span>log1p(x))
-<span class="s3e8">end</span>
+<span class="s">&#34;&#34;&#34;
+</span><span class="s">    err(x, [prec])
+</span><span class="s">
+</span><span class="s">Return two values, which are the log2 relative errors for calculating
+</span><span class="s">`log1p(x)`, using `Base.log1p` and `Base.Math.JuliaLibm.log1p`.
+</span><span class="s">
+</span><span class="s">The errors are calculated by compating to `BigFloat` calculations with the given
+</span><span class="s">precision `prec`.
+</span><span class="s">&#34;&#34;&#34;</span>
+<span class="k">function</span> <span class="n">err</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">prec</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">)</span>
+    <span class="n">yb</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="kt">BigFloat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">prec</span><span class="p">))</span>
+    <span class="n">e2</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="kt">Float64</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">yb</span><span class="p">)</span><span class="o">/</span><span class="n">abs</span><span class="p">(</span><span class="n">yb</span><span class="p">)))</span>
+    <span class="n">e2</span><span class="p">(</span><span class="n">log1p</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">e2</span><span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">Math</span><span class="o">.</span><span class="n">JuliaLibm</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="k">end</span>
 
-z <span class="sfa0">=</span> exp<span class="sfa0">.</span>(randn(<span class="sc84">20000</span>)<span class="sfa0">*</span><span class="sc84">10</span>)       <span class="s1770"># z &gt; 0, Lognormal(0, 10)</span>
-x <span class="sfa0">=</span> z <span class="sfa0">.-</span> <span class="sc84">1</span>                      <span class="s1770"># x &gt; -1</span>
-es <span class="sfa0">=</span> map(err, x)                <span class="s1770"># errors</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="mi">20000</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span>       <span class="c"># z &gt; 0, Lognormal(0, 10)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">z</span> <span class="o">.-</span> <span class="mi">1</span>                      <span class="c"># x &gt; -1</span>
+<span class="n">es</span> <span class="o">=</span> <span class="n">map</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>                <span class="c"># errors</span>
 
-<span class="s3e8">using</span> Plots; gr()               <span class="s1770"># plots</span>
+<span class="k">using</span> <span class="n">Plots</span><span class="p">;</span> <span class="n">gr</span><span class="p">()</span>               <span class="c"># plots</span>
 
-scatter(log2<span class="sfa0">.</span>(z), first<span class="sfa0">.</span>(es), xlab <span class="sfa0">=</span> <span class="sc1c">&#34;log2(x+1)&#34;</span>, ylab <span class="sfa0">=</span> <span class="sc1c">&#34;log2 error of Base.log1p&#34;</span>,
-        legend <span class="sfa0">=</span> <span class="s3e8">false</span>)
-hline!(log2(eps())<span class="sfa0">-</span>[<span class="sc84">0</span>,<span class="sc84">1</span>])
-Plots<span class="sfa0">.</span>svg(<span class="sc1c">&#34;Base_log1p_error.svg&#34;</span>)
-scatter(log2<span class="sfa0">.</span>(z), last<span class="sfa0">.</span>(es) <span class="sfa0">.-</span> first<span class="sfa0">.</span>(es), xlab <span class="sfa0">=</span> <span class="sc1c">&#34;log2(x+1)&#34;</span>,
-        ylab <span class="sfa0">=</span> <span class="sc1c">&#34;improvement (Base.Math.JuliaLibm.log1p)&#34;</span>, legend <span class="sfa0">=</span> <span class="s3e8">false</span>)
-Plots<span class="sfa0">.</span>svg(<span class="sc1c">&#34;JuliaLibm_improvement.svg&#34;</span>)
-scatter(log2<span class="sfa0">.</span>(z), last<span class="sfa0">.</span>(es), xlab <span class="sfa0">=</span> <span class="sc1c">&#34;log2(x+1)&#34;</span>,
-        ylab <span class="sfa0">=</span> <span class="sc1c">&#34;log2 error of Base.Math.JuliaLibm.log1p&#34;</span>, legend <span class="sfa0">=</span> <span class="s3e8">false</span>)
-hline!(log2(eps())<span class="sfa0">-</span>[<span class="sc84">0</span>,<span class="sc84">1</span>])
-Plots<span class="sfa0">.</span>svg(<span class="sc1c">&#34;JuliaLibm_log1p_error.svg&#34;</span>)
+<span class="n">scatter</span><span class="p">(</span><span class="n">log2</span><span class="o">.</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">first</span><span class="o">.</span><span class="p">(</span><span class="n">es</span><span class="p">),</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;log2(x+1)&#34;</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;log2 error of Base.log1p&#34;</span><span class="p">,</span>
+        <span class="n">legend</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+<span class="n">hline!</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="n">eps</span><span class="p">())</span><span class="o">-</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">Plots</span><span class="o">.</span><span class="n">svg</span><span class="p">(</span><span class="s">&#34;Base_log1p_error.svg&#34;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">log2</span><span class="o">.</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">last</span><span class="o">.</span><span class="p">(</span><span class="n">es</span><span class="p">)</span> <span class="o">.-</span> <span class="n">first</span><span class="o">.</span><span class="p">(</span><span class="n">es</span><span class="p">),</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;log2(x+1)&#34;</span><span class="p">,</span>
+        <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;improvement (Base.Math.JuliaLibm.log1p)&#34;</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+<span class="n">Plots</span><span class="o">.</span><span class="n">svg</span><span class="p">(</span><span class="s">&#34;JuliaLibm_improvement.svg&#34;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">log2</span><span class="o">.</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">last</span><span class="o">.</span><span class="p">(</span><span class="n">es</span><span class="p">),</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;log2(x+1)&#34;</span><span class="p">,</span>
+        <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;log2 error of Base.Math.JuliaLibm.log1p&#34;</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+<span class="n">hline!</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="n">eps</span><span class="p">())</span><span class="o">-</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">Plots</span><span class="o">.</span><span class="n">svg</span><span class="p">(</span><span class="s">&#34;JuliaLibm_log1p_error.svg&#34;</span><span class="p">)</span>
 
-<span class="s1770">######################################################################</span>
-<span class="s1770"># WARNING: these run for a very long time</span>
-<span class="s1770">######################################################################</span>
-<span class="s3e8">using</span> BenchmarkTools
+<span class="c">######################################################################</span>
+<span class="c"># WARNING: these run for a very long time</span>
+<span class="c">######################################################################</span>
+<span class="k">using</span> <span class="n">BenchmarkTools</span>
 
-z <span class="sfa0">=</span> exp<span class="sfa0">.</span>(vcat(randn(<span class="sc84">200</span>)<span class="sfa0">*</span><span class="sc84">10</span>, rand(<span class="sc84">200</span>)<span class="sfa0">*</span><span class="sc82">0.1</span>)) <span class="s1770"># z &gt; 0, more values around </span>
-x <span class="sfa0">=</span> z <span class="sfa0">.-</span> <span class="sc84">1</span>                                   <span class="s1770"># x &gt; -1</span>
-b1 <span class="sfa0">=</span> [<span class="s7d6">@belapsed</span> log1p(<span class="sfa0">$</span>x) <span class="s3e8">for</span> x <span class="s3ec">in</span> x]        <span class="s1770"># WARNING: takes forever</span>
-b2 <span class="sfa0">=</span> [<span class="s7d6">@belapsed</span> Base<span class="sfa0">.</span>Math<span class="sfa0">.</span>JuliaLibm<span class="sfa0">.</span>log1p(<span class="sfa0">$</span>x) <span class="s3e8">for</span> x <span class="s3ec">in</span> x] <span class="s1770"># ditto</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="n">vcat</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span> <span class="n">rand</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="o">*</span><span class="mf">0.1</span><span class="p">))</span> <span class="c"># z &gt; 0, more values around </span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">z</span> <span class="o">.-</span> <span class="mi">1</span>                                   <span class="c"># x &gt; -1</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="p">[</span><span class="nd">@belapsed</span> <span class="n">log1p</span><span class="p">(</span><span class="o">$</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="kp">in</span> <span class="n">x</span><span class="p">]</span>        <span class="c"># WARNING: takes forever</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="p">[</span><span class="nd">@belapsed</span> <span class="n">Base</span><span class="o">.</span><span class="n">Math</span><span class="o">.</span><span class="n">JuliaLibm</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="o">$</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="kp">in</span> <span class="n">x</span><span class="p">]</span> <span class="c"># ditto</span>
 
-scatter(log2<span class="sfa0">.</span>(z), b2 <span class="sfa0">./</span> b1, xlab <span class="sfa0">=</span> <span class="sc1c">&#34;log2(x+1)&#34;</span>,
-        ylab <span class="sfa0">=</span> <span class="sc1c">&#34;time Math.JuliaLibm.log1p / log1p&#34;</span>, legend <span class="sfa0">=</span> <span class="s3e8">false</span>, yticks <span class="sfa0">=</span> <span class="sc84">0</span><span class="sfa0">:</span><span class="sc82">0.2</span><span class="sfa0">:</span><span class="sc82">1.2</span>)
-hline!([<span class="sc84">1</span>])
-Plots<span class="sfa0">.</span>svg(<span class="sc1c">&#34;relative_time.svg&#34;</span>)
+<span class="n">scatter</span><span class="p">(</span><span class="n">log2</span><span class="o">.</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">b2</span> <span class="o">./</span> <span class="n">b1</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;log2(x+1)&#34;</span><span class="p">,</span>
+        <span class="n">ylab</span> <span class="o">=</span> <span class="s">&#34;time Math.JuliaLibm.log1p / log1p&#34;</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span> <span class="n">yticks</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="mf">0.2</span><span class="o">:</span><span class="mf">1.2</span><span class="p">)</span>
+<span class="n">hline!</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">Plots</span><span class="o">.</span><span class="n">svg</span><span class="p">(</span><span class="s">&#34;relative_time.svg&#34;</span><span class="p">)</span>
 
-</code></pre>
-</div>
+</code></pre></div>
 
 
 

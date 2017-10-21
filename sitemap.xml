@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tpapp.github.io/post/julia-workflow/</loc>
+    <lastmod>2017-10-21T12:40:04+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tpapp.github.io/post/htmlize-screenshot/</loc>
     <lastmod>2017-10-17T13:26:04+02:00</lastmod>
   </url>
@@ -119,7 +124,7 @@
   
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2017-10-17T13:26:04+02:00</lastmod>
+    <lastmod>2017-10-21T12:40:04+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -149,13 +154,13 @@
   
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2017-10-17T13:26:04+02:00</lastmod>
+    <lastmod>2017-10-21T12:40:04+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tpapp.github.io/tags/emacs/</loc>
-    <lastmod>2017-10-17T13:26:04+02:00</lastmod>
+    <lastmod>2017-10-21T12:40:04+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -197,7 +202,7 @@
   
   <url>
     <loc>https://tpapp.github.io/tags/julia/</loc>
-    <lastmod>2017-10-15T14:17:47+02:00</lastmod>
+    <lastmod>2017-10-21T12:40:04+02:00</lastmod>
     <priority>0</priority>
   </url>
   
