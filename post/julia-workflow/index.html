@@ -176,6 +176,8 @@
 
 
 
+<p>(<strong>edit</strong> 2017-10-22: fixed path for <code>PkgDev.generate</code> example)</p>
+
 <p>This is a summary of the workflow I find ideal for working with Julia. Although the manual has a <a href="https://docs.julialang.org/en/latest/manual/workflow-tips/">section on workflow</a>, it does not mention all the tools that I find useful, so perhaps this will benefit some users of Julia.</p>
 
 <p>I use Emacs, with <a href="https://github.com/JuliaEditorSupport/julia-emacs"><code>julia-mode</code></a> (for editing the source) and <a href="https://github.com/tpapp/julia-repl"><code>julia-repl</code></a> (REPL integration). The latter is my own package; you can use <a href="https://ess.r-project.org/"><code>ESS</code></a> instead, which has some advantages (eg multiple inferior processes) and disadvantages (no ANSI terminal support). The choice of an editor is highly subjective: at the end of the day, all you need is one that is capable of sending code to the REPL and can, in turn, be used by the REPL to open a file at a particular point. I use</p>
@@ -189,7 +191,7 @@
 <span class="n">push!</span><span class="p">(</span><span class="nb">LOAD_PATH</span><span class="p">,</span> <span class="n">LOCAL_PACKAGES</span><span class="p">)</span></code></pre></div>
 <p>I create local packages with</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">import</span> <span class="n">PkgDev</span>
-<span class="n">PkgDev</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s">&#34;MyPkg&#34;</span><span class="p">,</span> <span class="s">&#34;MIT&#34;</span><span class="p">;</span> <span class="n">path</span> <span class="o">=</span> <span class="n">joinpath</span><span class="p">(</span><span class="n">LOCAL_PACKAGES</span><span class="p">,</span> <span class="s">&#34;MyPkg&#34;</span><span class="p">))</span></code></pre></div>
+<span class="n">PkgDev</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s">&#34;MyPkg&#34;</span><span class="p">,</span> <span class="s">&#34;MIT&#34;</span><span class="p">;</span> <span class="n">path</span> <span class="o">=</span> <span class="n">LOCAL_PACKAGES</span><span class="p">)</span></code></pre></div>
 <p>Then I open the file and start working on it with</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">MyPkg</span></code></pre></div>
 <p>I use <a href="https://github.com/timholy/Revise.jl"><code>Revise.jl</code></a> to automate reloading.<sup class="footnote-ref" id="fnref:You-just-need-to"><a class="footnote" href="#fn:You-just-need-to">2</a></sup> This package has changed my workflow completely; it can cope with most changes, except for type redefinitions. For these, I need to restart the REPL.</p>
