@@ -3,13 +3,323 @@
   <title>Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/categories/"/>
-  <updated>2017-10-21T12:40:04+02:00</updated>
+  <updated>2017-10-26T19:14:07+02:00</updated>
   
   <id>https://tpapp.github.io/categories/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Working with a large ragged dataset in Julia</title>
+    <link href="https://tpapp.github.io/post/large-ragged-dataset-julia/"/>
+    <id>https://tpapp.github.io/post/large-ragged-dataset-julia/</id>
+    <published>2017-10-26T19:14:07+02:00</published>
+    <updated>2017-10-26T19:14:07+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/large-ragged-dataset-julia/">&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;One of the projects I am working on at the moment at the &lt;a href=&#34;http://www.ihs.ac.at/research-groups/macroeconomics-and-public-finance/&#34;&gt;Institute
+for Advanced
+Studies&lt;/a&gt;
+(in Vienna) is an analysis of the Austrian Social Security Database. We are using this extremely rich dataset to refine our understanding of the cross-sectional heterogeneity and age structure of employment and labor market participation.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:This-research-is&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:This-research-is&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;Naturally, I am using &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt;, not only
+because it is fast, convenient, and elegant, but also because it
+allows me to use a &lt;em&gt;single language&lt;/em&gt; for data processing, exploratory
+data analysis, descriptive statistics, and more sophisticated Bayesian
+indirect inference using MCMC. When analyzing real-world data, it is
+useful to do some exploratory plots, fit a simple model, refine,
+disaggregate, fit a more complex model, and repeat this until I am
+satisfied with the result. Not having to switch languages is a great
+bonus.&lt;/p&gt;
+
+&lt;p&gt;In this post I talk about my experience with the very first step of
+the above process: ingesting and collating a &lt;em&gt;large&lt;/em&gt;, &lt;em&gt;ragged&lt;/em&gt; dataset
+using Julia. I found that accomplishing this was nontrivial: while the
+&lt;a href=&#34;https://github.com/JuliaData/DataFrames.jl&#34;&gt;DataFrames.jl&lt;/a&gt; ecosystem
+is converging nicely, I found that I had to develop some custom tools
+to work with this dataset. I hope that others in a similar situation
+find them and this writeup useful.&lt;/p&gt;
+
+&lt;p&gt;I made the resulting libraries available &lt;a href=&#34;https://github.com/tpapp?tab=repositories&#34;&gt;on
+Github&lt;/a&gt;, with some
+documentation and lots of unit tests, but they are not finalized since
+I will probably rewrite some of them once &lt;a href=&#34;https://github.com/JuliaLang/julia/pull/22194&#34;&gt;named
+tuples&lt;/a&gt; are
+incorporated into the language. This is not a detailed introduction to
+any of these libraries, especially since they are subject to change,
+rather an account of work in progress and some starting points if you
+want to do something similar. However, if you want to use these
+libraries, look at the docstrings and the unit tests, and feel free to
+ask for help, preferably by opening an issue for the relevant library.&lt;/p&gt;
+
+&lt;h2 id=&#34;about-the-data&#34;&gt;About the data&lt;/h2&gt;
+
+&lt;p&gt;The whole data comprises about 2000 million observations on various
+&amp;quot;spells&amp;quot;, which either involve contributions to or benefits from
+Austria&#39;s comprehensive social security system (eg being employed, or
+being on maternity leave). Each spell has the unique ID of the
+individual it belongs to, a start and end date, and spell information
+(eg insurance event). They look something like this:&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:The-samples-show&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:The-samples-show&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1;...;19800101;19800201;...;AA;...;
+1;...;19800301;19800401;...;B;...;
+2;...;19800701;19800901;...;CCC;...;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Fields are separated by &lt;code&gt;;&lt;/code&gt;, the &lt;code&gt;...&lt;/code&gt;s are fields which we ignore for
+now (we may use them later). Dates have the &lt;code&gt;yyyymmdd&lt;/code&gt; format. There
+are about 70 spell types.&lt;/p&gt;
+
+&lt;p&gt;Gzipped data in delimited format is about 45 GB, raw data would be
+over 500 GB. Data for each year is in a separate file, so individual
+&lt;code&gt;1&lt;/code&gt; may have spells scattered in multiple files. Ideally, for our
+analysis, we would like to end up with a data structure that has the
+spells organized by individual, eg&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;individual &lt;code&gt;1&lt;/code&gt;
+
+&lt;ul&gt;
+&lt;li&gt;start date &lt;code&gt;1980-01-01&lt;/code&gt;, end date &lt;code&gt;1980-02-01&lt;/code&gt;, spell type &lt;code&gt;AA&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;start date &lt;code&gt;1980-03-01&lt;/code&gt;, end date &lt;code&gt;1980-04-01&lt;/code&gt;, spell type &lt;code&gt;B&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;... other spells from subsequent files&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;individual &lt;code&gt;2&lt;/code&gt;
+
+&lt;ul&gt;
+&lt;li&gt;...&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The number of spells varies by individual, which makes this dataset &lt;em&gt;ragged&lt;/em&gt;.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Irregular-and-no&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Irregular-and-no&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;rationale-for-custom-tools&#34;&gt;Rationale for custom tools&lt;/h2&gt;
+
+&lt;p&gt;A simple back of the envelope calculation is useful to think about the size of the dataset. If we encode each column as an &lt;code&gt;Int64&lt;/code&gt; or similar (eg &lt;code&gt;Date&lt;/code&gt;), we use&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[8 \text{ bytes} \times 2 \cdot 10^9 \approx 16 \text{ gigabytes}\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;per column&lt;/em&gt;. For 4 columns, this would use up 64 GB, plus some extra
+for keeping track of the ragged structure. While this is feasible if
+we have enough RAM, it is very nice to use smaller machines
+(especially laptops — I am typing this on the train) for exploratory
+data work.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:We-also-used-a-s&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:We-also-used-a-s&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; Also,
+economizing on RAM speeds up the calculations, as more data fits into
+the CPU cache.&lt;/p&gt;
+
+&lt;p&gt;Early experiments suggested that simply reading this data into native
+Julia structures or tools in the
+&lt;a href=&#34;https://github.com/JuliaData/DataFrames.jl&#34;&gt;&lt;code&gt;DataFrames.jl&lt;/code&gt;&lt;/a&gt; ecosystem
+is either infeasible or unnecessarily slow. I also considered
+databases, but found them to be more trouble than it is worth,
+especially since what I am doing below is straightforward and fits
+into Julia very nicely.&lt;/p&gt;
+
+&lt;p&gt;Below, I discuss the key ingredients I used to process this dataset.&lt;/p&gt;
+
+&lt;h2 id=&#34;mmapping-large-columns&#34;&gt;Mmapping large columns&lt;/h2&gt;
+
+&lt;p&gt;Julia supports &lt;a href=&#34;https://en.wikipedia.org/wiki/Memory-mapped_file&#34;&gt;memory
+mapped&lt;/a&gt; arrays, which map virtual memory to disk seamlessly, allowing lazy loading and access managed by the virtual memory manager. Using
+the syntax&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;io&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;open&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;path_to_file.bin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;w+&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# create, truncate&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;A&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Mmap&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mmap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;io&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;200&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# map to array&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;gives you a vector that is mapped to the disk (you have to call
+&lt;code&gt;Mmap.sync!&lt;/code&gt; after you are finished to make sure, and you have to use
+&lt;code&gt;growth = true&lt;/code&gt;, which is the default). The advantage is that the size
+of the array is limited by the disk space, not RAM, and the OS takes
+care of reading, writing, and caching as necessary.&lt;/p&gt;
+
+&lt;p&gt;A complication for our data analysis is that we do not know the total
+number of elements before having read the whole dataset, so we can&#39;t
+specify the dimensions above. Fortunately, simply opening a stream and
+&lt;code&gt;write&lt;/code&gt;ing values of bits types works fine.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Currently-needs&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Currently-needs&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;I packaged the code for managing columns of bits types using the
+strategies above in
+&lt;a href=&#34;https://github.com/tpapp/LargeColumns.jl&#34;&gt;&lt;code&gt;LargeColumns.jl&lt;/code&gt;&lt;/a&gt;, which
+keeps track of column types and imposing some basic sanity
+checks. This makes working with large vectors as easy as&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LargeColumns&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;cols&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MmappedColumns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;path/to/directory&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2_000_000_000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Tuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;which takes care of &lt;code&gt;mmap&lt;/code&gt;ing, and makes &lt;code&gt;cols&lt;/code&gt; behave as a vector of
+tuples of the given type. The files, including metadata, are located
+in the given directory.&lt;/p&gt;
+
+&lt;h2 id=&#34;ragged-data-and-collation&#34;&gt;Ragged data and collation&lt;/h2&gt;
+
+&lt;p&gt;I want to end up with data grouped by individuals contiguously, eg&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1 1 1 1 2 2 2 3 3 4 4 ...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;where the first 4 observations belong to individual &lt;code&gt;1&lt;/code&gt;, the second 3
+to &lt;code&gt;2&lt;/code&gt;, and so on. This can be indexed with &lt;code&gt;UnitRange&lt;/code&gt;s: for
+individual &lt;code&gt;1&lt;/code&gt; we would use &lt;code&gt;1:4&lt;/code&gt;, for &lt;code&gt;2&lt;/code&gt;, &lt;code&gt;5:8&lt;/code&gt;, etc. Note that
+storage of both endpoints is unnecessary, since they can be calculated
+from a cumulative sum, also, we can reuse the same index for multiple
+columns.&lt;/p&gt;
+
+&lt;p&gt;The package &lt;a href=&#34;https://github.com/tpapp/RaggedData.jl&#34;&gt;&lt;code&gt;RaggedData.jl&lt;/code&gt;&lt;/a&gt;
+implements simple datastructures for counting, collating, and indexing
+ragged data into vectors. When I first parse and ingest the data, I
+count the number of observations for each individual:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;id_counter&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RaggedCounter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eof&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# process by line&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;parse_id_from_line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;push!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id_counter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then in the second pass, I start with the index for the first
+observation for each (eg &lt;code&gt;1&lt;/code&gt;, &lt;code&gt;5&lt;/code&gt;, &lt;code&gt;9&lt;/code&gt; above), and increment it for
+each row of the data. So the first observation for individual &lt;code&gt;2&lt;/code&gt; goes
+to index &lt;code&gt;5&lt;/code&gt;, the second &lt;code&gt;6&lt;/code&gt;, and so on. For this, I create a collator
+object &lt;code&gt;coll&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;coll&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ix&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;collate_index_keys&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id_counter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;indices&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;first_pass&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;spell_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dates&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;first_pass&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;j&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;next_index!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;coll&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;collated&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;j&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;spell_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dates&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;where &lt;code&gt;collated&lt;/code&gt; is another set of &lt;code&gt;mmap&lt;/code&gt;ed columns. &lt;code&gt;ix&lt;/code&gt; is used
+later for indexing into the result: &lt;code&gt;ix[1]&lt;/code&gt; gives the &lt;code&gt;UnitRange&lt;/code&gt; for
+the observations about the first individual, and so on.&lt;/p&gt;
+
+&lt;h2 id=&#34;saving-space&#34;&gt;Saving space&lt;/h2&gt;
+
+&lt;p&gt;Before processing the whole dataset, I assumed that the individual ids
+fit into &lt;code&gt;Int32&lt;/code&gt;s. This is easy to verify after parsing, with the
+standard constructor, which simply throws an error if the value does
+not fit:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;typemax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;ERROR&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;InexactError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;Stacktrace&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+ &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;at&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;./&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sysimg&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;77&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;For the spell types, I simply indexed them in the order of appearance,
+saving the index as an &lt;code&gt;Int8&lt;/code&gt;. They are reconstructed using
+&lt;a href=&#34;https://github.com/JuliaArrays/IndirectArrays.jl&#34;&gt;&lt;code&gt;IndirectArrays.jl&lt;/code&gt;&lt;/a&gt;
+when working with the data.&lt;/p&gt;
+
+&lt;p&gt;Dates turned out to be the trickiest, until I realized that using
+&lt;code&gt;Int16&lt;/code&gt;, I can represent a timespan of about 179 years, which is a lot
+more than I need for this data. Of course, this requires that we count
+from some epoch other than &lt;code&gt;0001-01-01&lt;/code&gt; like &lt;code&gt;Base.Date&lt;/code&gt;. Fortunately,
+Julia allows encoding the epoch in the type, making it costless as
+long as I use it consistently for the same dataset. The package
+&lt;a href=&#34;https://github.com/tpapp/FlexDates.jl&#34;&gt;&lt;code&gt;FlexDates.jl&lt;/code&gt;&lt;/a&gt; implements this
+approach.&lt;/p&gt;
+
+&lt;h2 id=&#34;parsing&#34;&gt;Parsing&lt;/h2&gt;
+
+&lt;p&gt;Being very impressed by the amazing speed gains for date parsing in
+Julia (see &lt;a href=&#34;https://github.com/JuliaLang/julia/pull/18000&#34;&gt;#18000&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/JuliaLang/julia/issues/15888&#34;&gt;#15888&lt;/a&gt;,
+&lt;a href=&#34;https://github.com/JuliaLang/julia/pull/19545&#34;&gt;#19545&lt;/a&gt;), I used this
+project as an excuse to experiment with parsers. Existing packages
+like &lt;a href=&#34;https://github.com/JuliaComputing/TextParse.jl&#34;&gt;&lt;code&gt;TextParse.jl&lt;/code&gt;&lt;/a&gt;
+are already so fast that writing yet another parser library would not
+have made sense for a small amount of data, but since I plan to reuse
+this code for large datasets I felt the investment was justified.&lt;/p&gt;
+
+&lt;p&gt;Most of the datasets I work with are ASCII: other character sets are
+still very rare in social science data, since data is predominantly
+anonymous (so no names), categorical variables are usually encoded as
+short strings or integers, and the rest are numbers and
+punctuation. Moreover, delimited
+&lt;a href=&#34;https://en.wikipedia.org/wiki/UTF-8&#34;&gt;UTF-8&lt;/a&gt; can be parsed as ASCII
+&lt;em&gt;when the delimiters themselves are ASCII&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;For this dataset, I was also free to ignore quotes and within-field
+linebreaks, since they do not occur in the data dumps. Given these, I
+was free to parse this dataset as ASCII, ie &lt;code&gt;UInt8&lt;/code&gt; (bytes). The
+algorithms are very simple: parse a given number of characters (eg as
+numbers), or stop when hitting a delimiter.&lt;/p&gt;
+
+&lt;p&gt;Since I ignore some fields, I also needed functionality to simply
+&lt;em&gt;skip&lt;/em&gt; to the next delimiter, returning nothing (but the position for
+the next byte after the delimiter) — this takes about 25–30% of the
+time, compared to parsing it. The result is packaged as
+&lt;a href=&#34;https://github.com/tpapp/ByteParsers.jl&#34;&gt;&lt;code&gt;ByteParsers.jl&lt;/code&gt;&lt;/a&gt;. Parsing
+using ASCII turns out to be 30%–120% faster than UTF-8.&lt;/p&gt;
+
+&lt;h2 id=&#34;putting-it-all-together&#34;&gt;Putting it all together&lt;/h2&gt;
+
+&lt;p&gt;I use three passes to process the data.&lt;/p&gt;
+
+&lt;h3 id=&#34;first-pass&#34;&gt;First pass&lt;/h3&gt;
+
+&lt;p&gt;The first pass parses the data and writes it out in a binary format, also counting observations for each individual at the same time. Categorical data is indexed in the order of appearance and written out as an &lt;code&gt;Int8&lt;/code&gt;, dates are written using &lt;a href=&#34;https://github.com/tpapp/FlexDates.jl&#34;&gt;&lt;code&gt;FlexDate{Date(2000, 1, 1), Int16}&lt;/code&gt;&lt;/a&gt;, represented with 16 bits.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Open the gzipped files using &lt;a href=&#34;https://github.com/bicycle1885/CodecZlib.jl&#34;&gt;&lt;code&gt;CodecZlib.jl&lt;/code&gt;&lt;/a&gt;. Open sinks for binary data using &lt;a href=&#34;https://github.com/tpapp/LargeColumns.jl&#34;&gt;&lt;code&gt;LargeColumns.jl&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Read and parsed them line by line, using &lt;a href=&#34;https://github.com/tpapp/ByteParsers.jl&#34;&gt;&lt;code&gt;ByteParsers.jl&lt;/code&gt;&lt;/a&gt;. You can also use &lt;a href=&#34;https://github.com/JuliaComputing/TextParse.jl&#34;&gt;&lt;code&gt;TextParse.jl&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Write the parsed data into the sinks, at the same time counting with a &lt;code&gt;RaggedCounter&lt;/code&gt; from &lt;a href=&#34;https://github.com/tpapp/RaggedData.jl&#34;&gt;&lt;code&gt;RaggedData.jl&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Close the streams, write the categorical values and the &lt;code&gt;RaggedCounter&lt;/code&gt; using &lt;a href=&#34;https://github.com/simonster/JLD2.jl&#34;&gt;&lt;code&gt;JLD2.jl&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The whole process takes about 90 minutes, and generates 18 GB of binary data.&lt;/p&gt;
+
+&lt;h3 id=&#34;second-pass&#34;&gt;Second pass&lt;/h3&gt;
+
+&lt;p&gt;The second pass reads back the binary dump from the first pass using
+&lt;code&gt;mmap&lt;/code&gt;, and collates observations for the individuals it using a
+&lt;code&gt;RaggedCollate&lt;/code&gt; indexer from &lt;code&gt;RaggedData.jl&lt;/code&gt;. The latter is an object
+which keeps track of where observations should end up, if their counts
+are consistent with the first pass. The result is written using
+&lt;code&gt;LargeColumns.jl&lt;/code&gt; into &lt;code&gt;mmap&lt;/code&gt;ped columns, and it is reasonably fast,
+taking about 30–80 minutes, depending on the RAM size (the
+non-contiguous collating process has to use the disk if the resulting
+large vectors cannot fit in RAM). Finally, the &lt;code&gt;RaggedIndex&lt;/code&gt; object is
+written out using &lt;code&gt;JLD2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;third-pass&#34;&gt;Third pass&lt;/h3&gt;
+
+&lt;p&gt;The third pass is optional, it sorts spells by the start date for each individual (we found this helps the kind of analysis we perform). It uses the &lt;code&gt;mmap&lt;/code&gt;ed columns from the second pass, and takes about 2 minutes (since the data is accessed almost linearly).&lt;/p&gt;
+
+&lt;h3 id=&#34;using-the-data&#34;&gt;Using the data&lt;/h3&gt;
+
+&lt;p&gt;The columns are &lt;code&gt;mmap&lt;/code&gt;ped using &lt;a href=&#34;https://github.com/tpapp/LargeColumns.jl&#34;&gt;&lt;code&gt;LargeColumns.jl&lt;/code&gt;&lt;/a&gt;. &lt;a href=&#34;https://github.com/JuliaArrays/IndirectArrays.jl&#34;&gt;&lt;code&gt;IndirectArrays.jl&lt;/code&gt;&lt;/a&gt; is used to reconstitute categorical data with the keys previously saved, and the resulting vector is wrapped in a ragged access data structure using &lt;code&gt;RaggedColumns&lt;/code&gt; (from &lt;code&gt;RaggedData.jl&lt;/code&gt;) and the previously saved index. Iterating through the dataset takes about 2 minutes.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Ingesting and working with large amounts of data turns out to be very
+simple and convenient using &lt;code&gt;mmap&lt;/code&gt;ed arrays in Julia. I packaged the
+code into libraries because&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;I like to have unit test, especially if I keep benchmarking and optimizing,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;It simplifies code and communication for colleagues I am cooperating with,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;May be useful in future projects,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;I find packaged code with continuous integration tests closer to
+the idea of reproducible research.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I plan to register some of these libraries in the future (when the
+interface stabilizes).&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:This-research-is&#34;&gt;This research is supported by the Austrian National Bank Jubiläumsfonds grant #17378. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:This-research-is&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:The-samples-show&#34;&gt;The samples shown here are made up, the actual dataset is not public. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:The-samples-show&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:Irregular-and-no&#34;&gt;&lt;em&gt;Irregular&lt;/em&gt; and &lt;em&gt;non-rectangular&lt;/em&gt; are also used. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:Irregular-and-no&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:We-also-used-a-s&#34;&gt;We also used a subset of the data for initial work. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:We-also-used-a-s&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:Currently-needs&#34;&gt;Currently needs a workaround for which I submitted a &lt;a href=&#34;https://github.com/JuliaLang/julia/pull/24234&#34;&gt;PR&lt;/a&gt;. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:Currently-needs&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">My Julia workflow</title>
