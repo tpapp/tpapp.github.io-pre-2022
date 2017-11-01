@@ -65,8 +65,8 @@
     <title type="html">Emacs</title>
     <link href="https://tpapp.github.io/tags/emacs/"/>
     <id>https://tpapp.github.io/tags/emacs/</id>
-    <published>2017-10-21T12:40:04+02:00</published>
-    <updated>2017-10-21T12:40:04+02:00</updated>
+    <published>2017-11-01T12:27:23+01:00</published>
+    <updated>2017-11-01T12:27:23+01:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/emacs/"></content>
   </entry>
@@ -135,10 +135,20 @@
     <title type="html">Julia</title>
     <link href="https://tpapp.github.io/tags/julia/"/>
     <id>https://tpapp.github.io/tags/julia/</id>
-    <published>2017-10-26T19:14:07+02:00</published>
-    <updated>2017-10-26T19:14:07+02:00</updated>
+    <published>2017-11-01T12:27:23+01:00</published>
+    <updated>2017-11-01T12:27:23+01:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/julia/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Julia-repl</title>
+    <link href="https://tpapp.github.io/tags/julia-repl/"/>
+    <id>https://tpapp.github.io/tags/julia-repl/</id>
+    <published>2017-11-01T12:27:23+01:00</published>
+    <updated>2017-11-01T12:27:23+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/tags/julia-repl/"></content>
   </entry>
   
   <entry>

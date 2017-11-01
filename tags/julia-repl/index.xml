@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Julia-repl on Tamás K. Papp&#39;s website</title>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/julia-repl/"/>
+  <updated>2017-11-01T12:27:23+01:00</updated>
+  
+  <id>https://tpapp.github.io/tags/julia-repl/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">WIP: making error locations in julia-repl clickable</title>
+    <link href="https://tpapp.github.io/post/wip-julia-repl-clickable/"/>
+    <id>https://tpapp.github.io/post/wip-julia-repl-clickable/</id>
+    <published>2017-11-01T12:27:23+01:00</published>
+    <updated>2017-11-01T12:27:23+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/wip-julia-repl-clickable/">&lt;p&gt;I scratched a long-standing itch and made locations in error messages
+&amp;quot;clickable&amp;quot; in &lt;code&gt;julia-repl&lt;/code&gt;. Not yet merged into &lt;code&gt;master&lt;/code&gt;, the change
+is in the
+&lt;a href=&#34;https://github.com/tpapp/julia-repl/tree/clickable-locations&#34;&gt;&lt;code&gt;clickable-locations&lt;/code&gt;&lt;/a&gt;
+branch.&lt;/p&gt;
+
+&lt;p&gt;Testing is needed because of some hacks (again, I am not an Emacs
+expert), I will see if there are issues then merge it. This is what it
+looks like, those red and orange lines take you to the source:&lt;/p&gt;
+
+&lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;span style=&#34;color: #008b45; background-color: #ded6c5; font-weight: bold;&#34;&gt;julia&amp;gt; &lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;include(&#34;/tmp/Foo.jl&#34;)&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;ERROR: LoadError: UndefVarError: T not defined&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;Stacktrace:&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt; [1] &lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; font-weight: bold;&#34;&gt;include_from_node1(&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;::String&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; font-weight: bold;&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; text-decoration: underline;&#34;&gt;at &lt;/span&gt;&lt;span style=&#34;color: #f71010; font-weight: bold; text-decoration: underline;&#34;&gt;./loading.jl&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; font-weight: bold; text-decoration: underline;&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #ef8300; text-decoration: underline;&#34;&gt;576&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt; [2] &lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; font-weight: bold;&#34;&gt;include(&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;::String&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; font-weight: bold;&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; text-decoration: underline;&#34;&gt;at &lt;/span&gt;&lt;span style=&#34;color: #f71010; font-weight: bold; text-decoration: underline;&#34;&gt;./sysimg.jl&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; font-weight: bold; text-decoration: underline;&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color: #ef8300; text-decoration: underline;&#34;&gt;14&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; text-decoration: underline;&#34;&gt;while loading &lt;/span&gt;&lt;span style=&#34;color: #f71010; font-weight: bold; text-decoration: underline;&#34;&gt;/tmp/Foo.jl&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5; text-decoration: underline;&#34;&gt;, in expression starting on line &lt;/span&gt;&lt;span style=&#34;color: #ef8300; text-decoration: underline;&#34;&gt;9&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+
+&lt;/span&gt;&lt;span style=&#34;color: #008b45; background-color: #ded6c5; font-weight: bold;&#34;&gt;julia&amp;gt; &lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;/span&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  
+</feed>
