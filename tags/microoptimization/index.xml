@@ -30,8 +30,7 @@
     &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This calculation naturally has a branch in it, while the branchless
-version, using &lt;code&gt;ifelse&lt;/code&gt;, does not:&lt;/p&gt;
+&lt;p&gt;This calculation naturally has a branch in it, while the branchless version, using &lt;code&gt;ifelse&lt;/code&gt;, does not:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sumabove_ifelse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;zero&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eltype&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;
@@ -39,12 +38,7 @@ version, using &lt;code&gt;ifelse&lt;/code&gt;, does not:&lt;/p&gt;
     &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The actual example has something different: using tricky bit-twiddling
-to calculate the same value. I generally like to leave this sort of
-thing up to the compiler, because it is much, much better at it than I
-am, and I make mistakes all the time; worse, I don&#39;t know what I
-actually did when I reread the code 6 months later. But I included it
-here for comparison:&lt;/p&gt;
+&lt;p&gt;The actual example has something different: using tricky bit-twiddling to calculate the same value. I generally like to leave this sort of thing up to the compiler, because it is much, much better at it than I am, and I make mistakes all the time; worse, I don&#39;t know what I actually did when I reread the code 6 months later. But I included it here for comparison:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sumabove_tricky&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;
@@ -132,12 +126,9 @@ Benchmarks (&lt;span  class=&#34;math&#34;&gt;\(μ\)&lt;/span&gt;s)
     <published>2017-10-03T11:40:58+02:00</published>
     <updated>2017-10-03T11:40:58+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/branch_prediction/">&lt;p&gt;I have been working on micro-optimizations for some simulation
-code, and was reminded of a counter-intuitive artifact of modern CPU
-architecture, which is worth a short post.&lt;/p&gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/branch_prediction/">&lt;p&gt;I have been working on micro-optimizations for some simulation code, and was reminded of a counter-intuitive artifact of modern CPU architecture, which is worth a short post.&lt;/p&gt;
 
-&lt;p&gt;Consider (just for the sake of example) a very simple (if not
-particularly meaningful) function,&lt;/p&gt;
+&lt;p&gt;Consider (just for the sake of example) a very simple (if not particularly meaningful) function,&lt;/p&gt;
 
 &lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
 f(x) = \begin{cases}
@@ -149,8 +140,7 @@ f(x) = \begin{cases}
 &lt;p&gt;with implementations&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;f1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ifelse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;abs2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;f2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;abs2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code&gt;f1&lt;/code&gt; calculates &lt;em&gt;both&lt;/em&gt; possibilities before choosing between them with
-&lt;code&gt;ifelse&lt;/code&gt;, while &lt;code&gt;f2&lt;/code&gt; will only calculate values on demand. So, intuitively, it should be faster.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;f1&lt;/code&gt; calculates &lt;em&gt;both&lt;/em&gt; possibilities before choosing between them with &lt;code&gt;ifelse&lt;/code&gt;, while &lt;code&gt;f2&lt;/code&gt; will only calculate values on demand. So, intuitively, it should be faster.&lt;/p&gt;
 
 &lt;p&gt;But it isn&#39;t...&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;randn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1_000_000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
@@ -164,10 +154,7 @@ f(x) = \begin{cases}
   &lt;span class=&#34;mf&#34;&gt;6.519&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ms&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;allocations&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;7.63&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MiB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;...it is about 10x &lt;em&gt;slower&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;This can be understood as an artifact of the &lt;a href=&#34;https://en.wikipedia.org/wiki/Instruction_pipelining&#34;&gt;instruction
-pipeline&lt;/a&gt;: your
-x86 CPU likes to perform similar operations in staggered manner, and
-it does not like branches (jumps) because they break the flow.&lt;/p&gt;
+&lt;p&gt;This can be understood as an artifact of the &lt;a href=&#34;https://en.wikipedia.org/wiki/Instruction_pipelining&#34;&gt;instruction pipeline&lt;/a&gt;: your x86 CPU likes to perform similar operations in staggered manner, and it does not like branches (jumps) because they break the flow.&lt;/p&gt;
 
 &lt;p&gt;Comparing the native code reveals that while &lt;code&gt;f1&lt;/code&gt; is jump-free, the &lt;code&gt;if&lt;/code&gt; in &lt;code&gt;f2&lt;/code&gt; results in a jump (&lt;code&gt;jae&lt;/code&gt;):&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nd&#34;&gt;@code_native&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;1.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
@@ -215,17 +202,11 @@ it does not like branches (jumps) because they break the flow.&lt;/p&gt;
         &lt;span class=&#34;n&#34;&gt;popq&lt;/span&gt;    &lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rbp&lt;/span&gt;
         &lt;span class=&#34;n&#34;&gt;retq&lt;/span&gt;
         &lt;span class=&#34;n&#34;&gt;nopl&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;In my application the speed gain was more modest, but still
-sizeable. Benchmarking a non-branching version of your code is
-sometimes worth it, especially if it the change is simple &lt;em&gt;and&lt;/em&gt; both
-branches of the conditional can be run error-free. If, for example, we
-had to calculate&lt;/p&gt;
+&lt;p&gt;In my application the speed gain was more modest, but still sizeable. Benchmarking a non-branching version of your code is sometimes worth it, especially if it the change is simple &lt;em&gt;and&lt;/em&gt; both branches of the conditional can be run error-free. If, for example, we had to calculate&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;g&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;√&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;then we could not use &lt;code&gt;ifelse&lt;/code&gt; without restricting the domain, since
-&lt;code&gt;√(x+2)&lt;/code&gt; would fail whenever &lt;code&gt;x &amp;lt; -2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;then we could not use &lt;code&gt;ifelse&lt;/code&gt; without restricting the domain, since &lt;code&gt;√(x+2)&lt;/code&gt; would fail whenever &lt;code&gt;x &amp;lt; -2&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;Julia &lt;code&gt;Base&lt;/code&gt; contains many optimizations like this: for a particularly
-nice example see functions that use &lt;code&gt;Base.null_safe_op&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Julia &lt;code&gt;Base&lt;/code&gt; contains many optimizations like this: for a particularly nice example see functions that use &lt;code&gt;Base.null_safe_op&lt;/code&gt;.&lt;/p&gt;
 </content>
   </entry>
   

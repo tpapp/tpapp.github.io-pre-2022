@@ -196,8 +196,7 @@
     <span class="k">end</span>
     <span class="n">s</span>
 <span class="k">end</span></code></pre></div>
-<p>This calculation naturally has a branch in it, while the branchless
-version, using <code>ifelse</code>, does not:</p>
+<p>This calculation naturally has a branch in it, while the branchless version, using <code>ifelse</code>, does not:</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">sumabove_ifelse</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">eltype</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">elt</span> <span class="kp">in</span> <span class="n">x</span>
@@ -205,12 +204,7 @@ version, using <code>ifelse</code>, does not:</p>
     <span class="k">end</span>
     <span class="n">s</span>
 <span class="k">end</span></code></pre></div>
-<p>The actual example has something different: using tricky bit-twiddling
-to calculate the same value. I generally like to leave this sort of
-thing up to the compiler, because it is much, much better at it than I
-am, and I make mistakes all the time; worse, I don't know what I
-actually did when I reread the code 6 months later. But I included it
-here for comparison:</p>
+<p>The actual example has something different: using tricky bit-twiddling to calculate the same value. I generally like to leave this sort of thing up to the compiler, because it is much, much better at it than I am, and I make mistakes all the time; worse, I don't know what I actually did when I reread the code 6 months later. But I included it here for comparison:</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">sumabove_tricky</span><span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Int64</span><span class="p">})</span>
     <span class="n">s</span> <span class="o">=</span> <span class="kt">Int64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">elt</span> <span class="kp">in</span> <span class="n">x</span>

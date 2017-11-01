@@ -18,15 +18,9 @@
     <published>2017-11-01T12:27:23+01:00</published>
     <updated>2017-11-01T12:27:23+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/wip-julia-repl-clickable/">&lt;p&gt;I scratched a long-standing itch and made locations in error messages
-&amp;quot;clickable&amp;quot; in &lt;code&gt;julia-repl&lt;/code&gt;. Not yet merged into &lt;code&gt;master&lt;/code&gt;, the change
-is in the
-&lt;a href=&#34;https://github.com/tpapp/julia-repl/tree/clickable-locations&#34;&gt;&lt;code&gt;clickable-locations&lt;/code&gt;&lt;/a&gt;
-branch.&lt;/p&gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/wip-julia-repl-clickable/">&lt;p&gt;I scratched a long-standing itch and made locations in error messages &amp;quot;clickable&amp;quot; in &lt;code&gt;julia-repl&lt;/code&gt;. Not yet merged into &lt;code&gt;master&lt;/code&gt;, the change is in the &lt;a href=&#34;https://github.com/tpapp/julia-repl/tree/clickable-locations&#34;&gt;&lt;code&gt;clickable-locations&lt;/code&gt;&lt;/a&gt; branch.&lt;/p&gt;
 
-&lt;p&gt;Testing is needed because of some hacks (again, I am not an Emacs
-expert), I will see if there are issues then merge it. This is what it
-looks like, those red and orange lines take you to the source:&lt;/p&gt;
+&lt;p&gt;Testing is needed because of some hacks (again, I am not an Emacs expert), I will see if there are issues then merge it. This is what it looks like, those red and orange lines take you to the source:&lt;/p&gt;
 
 &lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
 &lt;span style=&#34;color: #008b45; background-color: #ded6c5; font-weight: bold;&#34;&gt;julia&amp;gt; &lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;include(&#34;/tmp/Foo.jl&#34;)&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;

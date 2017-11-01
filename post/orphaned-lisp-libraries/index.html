@@ -184,73 +184,37 @@
 
 
 
-<p>I have not been programming in Common Lisp for a few years, and since
-I find <a href="https://julialang.org/">Julia</a> a &quot;much better Lisp&quot;, I am
-unlikely to go back to it in the foreseeable future. This is a
-clarification regarding some
-<a href="https://github.com/tpapp?utf8=%E2%9C%93&amp;tab=repositories&amp;q=&amp;type=public&amp;language=common%20lisp">libraries</a>
-I have written in Common Lisp and made public.</p>
+<p>I have not been programming in Common Lisp for a few years, and since I find <a href="https://julialang.org/">Julia</a> a &quot;much better Lisp&quot;, I am unlikely to go back to it in the foreseeable future. This is a clarification regarding some <a href="https://github.com/tpapp?utf8=%E2%9C%93&amp;tab=repositories&amp;q=&amp;type=public&amp;language=common%20lisp">libraries</a> I have written in Common Lisp and made public.</p>
 
 <h1 id="all-of-my-common-lisp-libraries-are-orphaned">All of my Common Lisp libraries are orphaned</h1>
 
 <ol>
-<li><p>They are effectively <em>abandonware</em> as far as I am concerned. Since
-fixing issues and evaluating PRs entails a large fixed cost for
-which I don't have the time (setting up my CL environment again,
-understanding what I wrote years ago, thinking about code
-correctness and corner cases of the language spec that I have
-forgotten), I will ignore issues and pull requests. Sorry about this.</p></li>
+<li><p>They are effectively <em>abandonware</em> as far as I am concerned. Since fixing issues and evaluating PRs entails a large fixed cost for which I don't have the time (setting up my CL environment again, understanding what I wrote years ago, thinking about code correctness and corner cases of the language spec that I have forgotten), I will ignore issues and pull requests. Sorry about this.</p></li>
 
-<li><p>If you find anything of value in these libraries, please feel free
-to use that according to their licenses. <em>You don't have to ask me
-explicitly.</em></p></li>
+<li><p>If you find anything of value in these libraries, please feel free to use that according to their licenses. <em>You don't have to ask me explicitly.</em></p></li>
 
-<li><p>If you want to take over maintaining any of these libraries, <em>you
-don't have to ask me</em>. <strong>Just fork, and start coding.</strong> If you have
-been consistently maintaining one of these libraries for a year or
-more, announce that you are resurrecting the library on the
-relevant Common Lisp forums. You can also drop me an e-mail and I
-will put a line in the README of my version that redirects users to
-your version. Eventually, you should convince <a href="https://github.com/quicklisp/">Zach
-Beane</a> to use your version in
-Quicklisp.</p></li>
+<li><p>If you want to take over maintaining any of these libraries, <em>you don't have to ask me</em>. <strong>Just fork, and start coding.</strong> If you have been consistently maintaining one of these libraries for a year or more, announce that you are resurrecting the library on the relevant Common Lisp forums. You can also drop me an e-mail and I will put a line in the README of my version that redirects users to your version. Eventually, you should convince <a href="https://github.com/quicklisp/">Zach Beane</a> to use your version in Quicklisp.</p></li>
 
-<li><p>I cannot provide any significant help regarding the code
-due to time constraints. Some of it is documented, and most of it
-has unit tests, you have to figure out the rest yourself.</p></li>
+<li><p>I cannot provide any significant help regarding the code due to time constraints. Some of it is documented, and most of it has unit tests, you have to figure out the rest yourself.</p></li>
 </ol>
 
 <h1 id="which-libraries-are-worth-the-effort">Which libraries are worth the effort?</h1>
 
 <ol>
-<li><p><code>let-plus</code> is an extensible destructuring library. The syntax is
-versatile and intuitive.</p></li>
+<li><p><code>let-plus</code> is an extensible destructuring library. The syntax is versatile and intuitive.</p></li>
 
-<li><p><code>LLA</code>, aka Lisp Linear Algebra, is a wrapper for BLAS/LAPACK using
-native Common Lisp arrays. It is somewhat incomplete (eigenvalues
-need some work) but what is available works. It is <em>fast</em> on
-implementations which provide arrays for certain float element
-types, so that it does not have to copy the data, and is a bit
-slower on implementations that don't allow this. Still, copying is
-<span  class="math">\(O(n)\)</span>, while most LAPACK operations are <span  class="math">\(O(n^2)\)</span> or worse, so
-this is not a huge concern. Nevertheless, it is possible that
-implementations that did not provide specialized arrays at the time
-I wrote LLA have caught up. You would need to extend the glue code
-to work with them.</p></li>
+<li><p><code>LLA</code>, aka Lisp Linear Algebra, is a wrapper for BLAS/LAPACK using native Common Lisp arrays. It is somewhat incomplete (eigenvalues need some work) but what is available works. It is <em>fast</em> on implementations which provide arrays for certain float element types, so that it does not have to copy the data, and is a bit slower on implementations that don't allow this. Still, copying is <span  class="math">\(O(n)\)</span>, while most LAPACK operations are <span  class="math">\(O(n^2)\)</span> or worse, so this is not a huge concern. Nevertheless, it is possible that implementations that did not provide specialized arrays at the time I wrote LLA have caught up. You would need to extend the glue code to work with them.</p></li>
 
 <li><p><code>cl-slice</code>, array slices for native Common Lisp arrays.</p></li>
 
-<li><p><code>cl-random</code>, <code>cl-num-utils</code>, <code>cl-rmath</code>: random numbers, simple
-numerical algorithms, a wrapper for libRmath.</p></li>
+<li><p><code>cl-random</code>, <code>cl-num-utils</code>, <code>cl-rmath</code>: random numbers, simple numerical algorithms, a wrapper for libRmath.</p></li>
 
 <li><p><code>cl-colors</code>, named colors and color combinations.</p></li>
 </ol>
 
-<p>The rest are either early experiments, preliminary versions that
-evolved into the libraries above, or projects that did not pan out.</p>
+<p>The rest are either early experiments, preliminary versions that evolved into the libraries above, or projects that did not pan out.</p>
 
-<p>PS.: Some people asked why I switched to Julia from Common Lisp. A
-post about that will follow soon.</p>
+<p>PS.: Some people asked why I switched to Julia from Common Lisp. A post about that will follow soon.</p>
 
 
 

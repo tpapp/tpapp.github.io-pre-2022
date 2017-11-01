@@ -18,15 +18,9 @@
     <published>2017-11-01T12:27:23+01:00</published>
     <updated>2017-11-01T12:27:23+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/wip-julia-repl-clickable/">&lt;p&gt;I scratched a long-standing itch and made locations in error messages
-&amp;quot;clickable&amp;quot; in &lt;code&gt;julia-repl&lt;/code&gt;. Not yet merged into &lt;code&gt;master&lt;/code&gt;, the change
-is in the
-&lt;a href=&#34;https://github.com/tpapp/julia-repl/tree/clickable-locations&#34;&gt;&lt;code&gt;clickable-locations&lt;/code&gt;&lt;/a&gt;
-branch.&lt;/p&gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/wip-julia-repl-clickable/">&lt;p&gt;I scratched a long-standing itch and made locations in error messages &amp;quot;clickable&amp;quot; in &lt;code&gt;julia-repl&lt;/code&gt;. Not yet merged into &lt;code&gt;master&lt;/code&gt;, the change is in the &lt;a href=&#34;https://github.com/tpapp/julia-repl/tree/clickable-locations&#34;&gt;&lt;code&gt;clickable-locations&lt;/code&gt;&lt;/a&gt; branch.&lt;/p&gt;
 
-&lt;p&gt;Testing is needed because of some hacks (again, I am not an Emacs
-expert), I will see if there are issues then merge it. This is what it
-looks like, those red and orange lines take you to the source:&lt;/p&gt;
+&lt;p&gt;Testing is needed because of some hacks (again, I am not an Emacs expert), I will see if there are issues then merge it. This is what it looks like, those red and orange lines take you to the source:&lt;/p&gt;
 
 &lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
 &lt;span style=&#34;color: #008b45; background-color: #ded6c5; font-weight: bold;&#34;&gt;julia&amp;gt; &lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;include(&#34;/tmp/Foo.jl&#34;)&lt;/span&gt;&lt;span style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
@@ -50,64 +44,26 @@ looks like, those red and orange lines take you to the source:&lt;/p&gt;
     
     <content type="html" xml:base="https://tpapp.github.io/post/large-ragged-dataset-julia/">&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
-&lt;p&gt;One of the projects I am working on at the moment at the &lt;a href=&#34;http://www.ihs.ac.at/research-groups/macroeconomics-and-public-finance/&#34;&gt;Institute
-for Advanced
-Studies&lt;/a&gt;
-(in Vienna) is an analysis of the Austrian Social Security Database. We are using this extremely rich dataset to refine our understanding of the cross-sectional heterogeneity and age structure of employment and labor market participation.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:This-research-is&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:This-research-is&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;One of the projects I am working on at the moment at the &lt;a href=&#34;http://www.ihs.ac.at/research-groups/macroeconomics-and-public-finance/&#34;&gt;Institute for Advanced Studies&lt;/a&gt; (in Vienna) is an analysis of the Austrian Social Security Database. We are using this extremely rich dataset to refine our understanding of the cross-sectional heterogeneity and age structure of employment and labor market participation.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:This-research-is&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:This-research-is&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
-&lt;p&gt;Naturally, I am using &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt;, not only
-because it is fast, convenient, and elegant, but also because it
-allows me to use a &lt;em&gt;single language&lt;/em&gt; for data processing, exploratory
-data analysis, descriptive statistics, and more sophisticated Bayesian
-indirect inference using MCMC. When analyzing real-world data, it is
-useful to do some exploratory plots, fit a simple model, refine,
-disaggregate, fit a more complex model, and repeat this until I am
-satisfied with the result. Not having to switch languages is a great
-bonus.&lt;/p&gt;
+&lt;p&gt;Naturally, I am using &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt;, not only because it is fast, convenient, and elegant, but also because it allows me to use a &lt;em&gt;single language&lt;/em&gt; for data processing, exploratory data analysis, descriptive statistics, and more sophisticated Bayesian indirect inference using MCMC. When analyzing real-world data, it is useful to do some exploratory plots, fit a simple model, refine, disaggregate, fit a more complex model, and repeat this until I am satisfied with the result. Not having to switch languages is a great bonus.&lt;/p&gt;
 
-&lt;p&gt;In this post I talk about my experience with the very first step of
-the above process: ingesting and collating a &lt;em&gt;large&lt;/em&gt;, &lt;em&gt;ragged&lt;/em&gt; dataset
-using Julia. I found that accomplishing this was nontrivial: while the
-&lt;a href=&#34;https://github.com/JuliaData/DataFrames.jl&#34;&gt;DataFrames.jl&lt;/a&gt; ecosystem
-is converging nicely, I found that I had to develop some custom tools
-to work with this dataset. I hope that others in a similar situation
-find them and this writeup useful.&lt;/p&gt;
+&lt;p&gt;In this post I talk about my experience with the very first step of the above process: ingesting and collating a &lt;em&gt;large&lt;/em&gt;, &lt;em&gt;ragged&lt;/em&gt; dataset using Julia. I found that accomplishing this was nontrivial: while the &lt;a href=&#34;https://github.com/JuliaData/DataFrames.jl&#34;&gt;DataFrames.jl&lt;/a&gt; ecosystem is converging nicely, I found that I had to develop some custom tools to work with this dataset. I hope that others in a similar situation find them and this writeup useful.&lt;/p&gt;
 
-&lt;p&gt;I made the resulting libraries available &lt;a href=&#34;https://github.com/tpapp?tab=repositories&#34;&gt;on
-Github&lt;/a&gt;, with some
-documentation and lots of unit tests, but they are not finalized since
-I will probably rewrite some of them once &lt;a href=&#34;https://github.com/JuliaLang/julia/pull/22194&#34;&gt;named
-tuples&lt;/a&gt; are
-incorporated into the language. This is not a detailed introduction to
-any of these libraries, especially since they are subject to change,
-rather an account of work in progress and some starting points if you
-want to do something similar. However, if you want to use these
-libraries, look at the docstrings and the unit tests, and feel free to
-ask for help, preferably by opening an issue for the relevant library.&lt;/p&gt;
+&lt;p&gt;I made the resulting libraries available &lt;a href=&#34;https://github.com/tpapp?tab=repositories&#34;&gt;on Github&lt;/a&gt;, with some documentation and lots of unit tests, but they are not finalized since I will probably rewrite some of them once &lt;a href=&#34;https://github.com/JuliaLang/julia/pull/22194&#34;&gt;named tuples&lt;/a&gt; are incorporated into the language. This is not a detailed introduction to any of these libraries, especially since they are subject to change, rather an account of work in progress and some starting points if you want to do something similar. However, if you want to use these libraries, look at the docstrings and the unit tests, and feel free to ask for help, preferably by opening an issue for the relevant library.&lt;/p&gt;
 
 &lt;h2 id=&#34;about-the-data&#34;&gt;About the data&lt;/h2&gt;
 
-&lt;p&gt;The whole data comprises about 2000 million observations on various
-&amp;quot;spells&amp;quot;, which either involve contributions to or benefits from
-Austria&#39;s comprehensive social security system (eg being employed, or
-being on maternity leave). Each spell has the unique ID of the
-individual it belongs to, a start and end date, and spell information
-(eg insurance event). They look something like this:&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:The-samples-show&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:The-samples-show&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;The whole data comprises about 2000 million observations on various &amp;quot;spells&amp;quot;, which either involve contributions to or benefits from Austria&#39;s comprehensive social security system (eg being employed, or being on maternity leave). Each spell has the unique ID of the individual it belongs to, a start and end date, and spell information (eg insurance event). They look something like this:&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:The-samples-show&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:The-samples-show&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;1;...;19800101;19800201;...;AA;...;
 1;...;19800301;19800401;...;B;...;
 2;...;19800701;19800901;...;CCC;...;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Fields are separated by &lt;code&gt;;&lt;/code&gt;, the &lt;code&gt;...&lt;/code&gt;s are fields which we ignore for
-now (we may use them later). Dates have the &lt;code&gt;yyyymmdd&lt;/code&gt; format. There
-are about 70 spell types.&lt;/p&gt;
+&lt;p&gt;Fields are separated by &lt;code&gt;;&lt;/code&gt;, the &lt;code&gt;...&lt;/code&gt;s are fields which we ignore for now (we may use them later). Dates have the &lt;code&gt;yyyymmdd&lt;/code&gt; format. There are about 70 spell types.&lt;/p&gt;
 
-&lt;p&gt;Gzipped data in delimited format is about 45 GB, raw data would be
-over 500 GB. Data for each year is in a separate file, so individual
-&lt;code&gt;1&lt;/code&gt; may have spells scattered in multiple files. Ideally, for our
-analysis, we would like to end up with a data structure that has the
-spells organized by individual, eg&lt;/p&gt;
+&lt;p&gt;Gzipped data in delimited format is about 45 GB, raw data would be over 500 GB. Data for each year is in a separate file, so individual &lt;code&gt;1&lt;/code&gt; may have spells scattered in multiple files. Ideally, for our analysis, we would like to end up with a data structure that has the spells organized by individual, eg&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;individual &lt;code&gt;1&lt;/code&gt;
@@ -132,21 +88,9 @@ spells organized by individual, eg&lt;/p&gt;
 
 &lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[8 \text{ bytes} \times 2 \cdot 10^9 \approx 16 \text{ gigabytes}\]&lt;/span&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;per column&lt;/em&gt;. For 4 columns, this would use up 64 GB, plus some extra
-for keeping track of the ragged structure. While this is feasible if
-we have enough RAM, it is very nice to use smaller machines
-(especially laptops — I am typing this on the train) for exploratory
-data work.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:We-also-used-a-s&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:We-also-used-a-s&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; Also,
-economizing on RAM speeds up the calculations, as more data fits into
-the CPU cache.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;per column&lt;/em&gt;. For 4 columns, this would use up 64 GB, plus some extra for keeping track of the ragged structure. While this is feasible if we have enough RAM, it is very nice to use smaller machines (especially laptops — I am typing this on the train) for exploratory data work.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:We-also-used-a-s&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:We-also-used-a-s&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; Also, economizing on RAM speeds up the calculations, as more data fits into the CPU cache.&lt;/p&gt;
 
-&lt;p&gt;Early experiments suggested that simply reading this data into native
-Julia structures or tools in the
-&lt;a href=&#34;https://github.com/JuliaData/DataFrames.jl&#34;&gt;&lt;code&gt;DataFrames.jl&lt;/code&gt;&lt;/a&gt; ecosystem
-is either infeasible or unnecessarily slow. I also considered
-databases, but found them to be more trouble than it is worth,
-especially since what I am doing below is straightforward and fits
-into Julia very nicely.&lt;/p&gt;
+&lt;p&gt;Early experiments suggested that simply reading this data into native Julia structures or tools in the &lt;a href=&#34;https://github.com/JuliaData/DataFrames.jl&#34;&gt;&lt;code&gt;DataFrames.jl&lt;/code&gt;&lt;/a&gt; ecosystem is either infeasible or unnecessarily slow. I also considered databases, but found them to be more trouble than it is worth, especially since what I am doing below is straightforward and fits into Julia very nicely.&lt;/p&gt;
 
 &lt;p&gt;Below, I discuss the key ingredients I used to process this dataset.&lt;/p&gt;
 
@@ -157,27 +101,14 @@ mapped&lt;/a&gt; arrays, which map virtual memory to disk seamlessly, allowing l
 the syntax&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;io&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;open&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;path_to_file.bin&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;w+&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# create, truncate&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;A&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Mmap&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;mmap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;io&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;200&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# map to array&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;gives you a vector that is mapped to the disk (you have to call
-&lt;code&gt;Mmap.sync!&lt;/code&gt; after you are finished to make sure, and you have to use
-&lt;code&gt;growth = true&lt;/code&gt;, which is the default). The advantage is that the size
-of the array is limited by the disk space, not RAM, and the OS takes
-care of reading, writing, and caching as necessary.&lt;/p&gt;
+&lt;p&gt;gives you a vector that is mapped to the disk (you have to call &lt;code&gt;Mmap.sync!&lt;/code&gt; after you are finished to make sure, and you have to use &lt;code&gt;growth = true&lt;/code&gt;, which is the default). The advantage is that the size of the array is limited by the disk space, not RAM, and the OS takes care of reading, writing, and caching as necessary.&lt;/p&gt;
 
-&lt;p&gt;A complication for our data analysis is that we do not know the total
-number of elements before having read the whole dataset, so we can&#39;t
-specify the dimensions above. Fortunately, simply opening a stream and
-&lt;code&gt;write&lt;/code&gt;ing values of bits types works fine.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Currently-needs&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Currently-needs&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;A complication for our data analysis is that we do not know the total number of elements before having read the whole dataset, so we can&#39;t specify the dimensions above. Fortunately, simply opening a stream and &lt;code&gt;write&lt;/code&gt;ing values of bits types works fine.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Currently-needs&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Currently-needs&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
-&lt;p&gt;I packaged the code for managing columns of bits types using the
-strategies above in
-&lt;a href=&#34;https://github.com/tpapp/LargeColumns.jl&#34;&gt;&lt;code&gt;LargeColumns.jl&lt;/code&gt;&lt;/a&gt;, which
-keeps track of column types and imposing some basic sanity
-checks. This makes working with large vectors as easy as&lt;/p&gt;
+&lt;p&gt;I packaged the code for managing columns of bits types using the strategies above in &lt;a href=&#34;https://github.com/tpapp/LargeColumns.jl&#34;&gt;&lt;code&gt;LargeColumns.jl&lt;/code&gt;&lt;/a&gt;, which keeps track of column types and imposing some basic sanity checks. This makes working with large vectors as easy as&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LargeColumns&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;cols&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MmappedColumns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;path/to/directory&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2_000_000_000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Tuple&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;which takes care of &lt;code&gt;mmap&lt;/code&gt;ing, and makes &lt;code&gt;cols&lt;/code&gt; behave as a vector of
-tuples of the given type. The files, including metadata, are located
-in the given directory.&lt;/p&gt;
+&lt;p&gt;which takes care of &lt;code&gt;mmap&lt;/code&gt;ing, and makes &lt;code&gt;cols&lt;/code&gt; behave as a vector of tuples of the given type. The files, including metadata, are located in the given directory.&lt;/p&gt;
 
 &lt;h2 id=&#34;ragged-data-and-collation&#34;&gt;Ragged data and collation&lt;/h2&gt;
 
@@ -186,28 +117,16 @@ in the given directory.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;1 1 1 1 2 2 2 3 3 4 4 ...
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;where the first 4 observations belong to individual &lt;code&gt;1&lt;/code&gt;, the second 3
-to &lt;code&gt;2&lt;/code&gt;, and so on. This can be indexed with &lt;code&gt;UnitRange&lt;/code&gt;s: for
-individual &lt;code&gt;1&lt;/code&gt; we would use &lt;code&gt;1:4&lt;/code&gt;, for &lt;code&gt;2&lt;/code&gt;, &lt;code&gt;5:8&lt;/code&gt;, etc. Note that
-storage of both endpoints is unnecessary, since they can be calculated
-from a cumulative sum, also, we can reuse the same index for multiple
-columns.&lt;/p&gt;
+&lt;p&gt;where the first 4 observations belong to individual &lt;code&gt;1&lt;/code&gt;, the second 3 to &lt;code&gt;2&lt;/code&gt;, and so on. This can be indexed with &lt;code&gt;UnitRange&lt;/code&gt;s: for individual &lt;code&gt;1&lt;/code&gt; we would use &lt;code&gt;1:4&lt;/code&gt;, for &lt;code&gt;2&lt;/code&gt;, &lt;code&gt;5:8&lt;/code&gt;, etc. Note that storage of both endpoints is unnecessary, since they can be calculated from a cumulative sum, also, we can reuse the same index for multiple columns.&lt;/p&gt;
 
-&lt;p&gt;The package &lt;a href=&#34;https://github.com/tpapp/RaggedData.jl&#34;&gt;&lt;code&gt;RaggedData.jl&lt;/code&gt;&lt;/a&gt;
-implements simple datastructures for counting, collating, and indexing
-ragged data into vectors. When I first parse and ingest the data, I
-count the number of observations for each individual:&lt;/p&gt;
+&lt;p&gt;The package &lt;a href=&#34;https://github.com/tpapp/RaggedData.jl&#34;&gt;&lt;code&gt;RaggedData.jl&lt;/code&gt;&lt;/a&gt; implements simple datastructures for counting, collating, and indexing ragged data into vectors. When I first parse and ingest the data, I count the number of observations for each individual:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;id_counter&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;RaggedCounter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
 &lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eof&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# process by line&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;parse_id_from_line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;push!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id_counter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Then in the second pass, I start with the index for the first
-observation for each (eg &lt;code&gt;1&lt;/code&gt;, &lt;code&gt;5&lt;/code&gt;, &lt;code&gt;9&lt;/code&gt; above), and increment it for
-each row of the data. So the first observation for individual &lt;code&gt;2&lt;/code&gt; goes
-to index &lt;code&gt;5&lt;/code&gt;, the second &lt;code&gt;6&lt;/code&gt;, and so on. For this, I create a collator
-object &lt;code&gt;coll&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Then in the second pass, I start with the index for the first observation for each (eg &lt;code&gt;1&lt;/code&gt;, &lt;code&gt;5&lt;/code&gt;, &lt;code&gt;9&lt;/code&gt; above), and increment it for each row of the data. So the first observation for individual &lt;code&gt;2&lt;/code&gt; goes to index &lt;code&gt;5&lt;/code&gt;, the second &lt;code&gt;6&lt;/code&gt;, and so on. For this, I create a collator object &lt;code&gt;coll&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;coll&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ix&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;collate_index_keys&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id_counter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 
 &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;indices&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;first_pass&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
@@ -215,66 +134,28 @@ object &lt;code&gt;coll&lt;/code&gt;:&lt;/p&gt;
     &lt;span class=&#34;n&#34;&gt;j&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;next_index!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;coll&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;collated&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;j&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;spell_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dates&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;where &lt;code&gt;collated&lt;/code&gt; is another set of &lt;code&gt;mmap&lt;/code&gt;ed columns. &lt;code&gt;ix&lt;/code&gt; is used
-later for indexing into the result: &lt;code&gt;ix[1]&lt;/code&gt; gives the &lt;code&gt;UnitRange&lt;/code&gt; for
-the observations about the first individual, and so on.&lt;/p&gt;
+&lt;p&gt;where &lt;code&gt;collated&lt;/code&gt; is another set of &lt;code&gt;mmap&lt;/code&gt;ed columns. &lt;code&gt;ix&lt;/code&gt; is used later for indexing into the result: &lt;code&gt;ix[1]&lt;/code&gt; gives the &lt;code&gt;UnitRange&lt;/code&gt; for the observations about the first individual, and so on.&lt;/p&gt;
 
 &lt;h2 id=&#34;saving-space&#34;&gt;Saving space&lt;/h2&gt;
 
-&lt;p&gt;Before processing the whole dataset, I assumed that the individual ids
-fit into &lt;code&gt;Int32&lt;/code&gt;s. This is easy to verify after parsing, with the
-standard constructor, which simply throws an error if the value does
-not fit:&lt;/p&gt;
+&lt;p&gt;Before processing the whole dataset, I assumed that the individual ids fit into &lt;code&gt;Int32&lt;/code&gt;s. This is easy to verify after parsing, with the standard constructor, which simply throws an error if the value does not fit:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;typemax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;ERROR&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;InexactError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;Stacktrace&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
  &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;at&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;./&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sysimg&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;77&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;For the spell types, I simply indexed them in the order of appearance,
-saving the index as an &lt;code&gt;Int8&lt;/code&gt;. They are reconstructed using
-&lt;a href=&#34;https://github.com/JuliaArrays/IndirectArrays.jl&#34;&gt;&lt;code&gt;IndirectArrays.jl&lt;/code&gt;&lt;/a&gt;
-when working with the data.&lt;/p&gt;
+&lt;p&gt;For the spell types, I simply indexed them in the order of appearance, saving the index as an &lt;code&gt;Int8&lt;/code&gt;. They are reconstructed using &lt;a href=&#34;https://github.com/JuliaArrays/IndirectArrays.jl&#34;&gt;&lt;code&gt;IndirectArrays.jl&lt;/code&gt;&lt;/a&gt; when working with the data.&lt;/p&gt;
 
-&lt;p&gt;Dates turned out to be the trickiest, until I realized that using
-&lt;code&gt;Int16&lt;/code&gt;, I can represent a timespan of about 179 years, which is a lot
-more than I need for this data. Of course, this requires that we count
-from some epoch other than &lt;code&gt;0001-01-01&lt;/code&gt; like &lt;code&gt;Base.Date&lt;/code&gt;. Fortunately,
-Julia allows encoding the epoch in the type, making it costless as
-long as I use it consistently for the same dataset. The package
-&lt;a href=&#34;https://github.com/tpapp/FlexDates.jl&#34;&gt;&lt;code&gt;FlexDates.jl&lt;/code&gt;&lt;/a&gt; implements this
-approach.&lt;/p&gt;
+&lt;p&gt;Dates turned out to be the trickiest, until I realized that using &lt;code&gt;Int16&lt;/code&gt;, I can represent a timespan of about 179 years, which is a lot more than I need for this data. Of course, this requires that we count from some epoch other than &lt;code&gt;0001-01-01&lt;/code&gt; like &lt;code&gt;Base.Date&lt;/code&gt;. Fortunately, Julia allows encoding the epoch in the type, making it costless as long as I use it consistently for the same dataset. The package &lt;a href=&#34;https://github.com/tpapp/FlexDates.jl&#34;&gt;&lt;code&gt;FlexDates.jl&lt;/code&gt;&lt;/a&gt; implements this approach.&lt;/p&gt;
 
 &lt;h2 id=&#34;parsing&#34;&gt;Parsing&lt;/h2&gt;
 
-&lt;p&gt;Being very impressed by the amazing speed gains for date parsing in
-Julia (see &lt;a href=&#34;https://github.com/JuliaLang/julia/pull/18000&#34;&gt;#18000&lt;/a&gt;,
-&lt;a href=&#34;https://github.com/JuliaLang/julia/issues/15888&#34;&gt;#15888&lt;/a&gt;,
-&lt;a href=&#34;https://github.com/JuliaLang/julia/pull/19545&#34;&gt;#19545&lt;/a&gt;), I used this
-project as an excuse to experiment with parsers. Existing packages
-like &lt;a href=&#34;https://github.com/JuliaComputing/TextParse.jl&#34;&gt;&lt;code&gt;TextParse.jl&lt;/code&gt;&lt;/a&gt;
-are already so fast that writing yet another parser library would not
-have made sense for a small amount of data, but since I plan to reuse
-this code for large datasets I felt the investment was justified.&lt;/p&gt;
+&lt;p&gt;Being very impressed by the amazing speed gains for date parsing in Julia (see &lt;a href=&#34;https://github.com/JuliaLang/julia/pull/18000&#34;&gt;#18000&lt;/a&gt;, &lt;a href=&#34;https://github.com/JuliaLang/julia/issues/15888&#34;&gt;#15888&lt;/a&gt;, &lt;a href=&#34;https://github.com/JuliaLang/julia/pull/19545&#34;&gt;#19545&lt;/a&gt;), I used this project as an excuse to experiment with parsers. Existing packages like &lt;a href=&#34;https://github.com/JuliaComputing/TextParse.jl&#34;&gt;&lt;code&gt;TextParse.jl&lt;/code&gt;&lt;/a&gt; are already so fast that writing yet another parser library would not have made sense for a small amount of data, but since I plan to reuse this code for large datasets I felt the investment was justified.&lt;/p&gt;
 
-&lt;p&gt;Most of the datasets I work with are ASCII: other character sets are
-still very rare in social science data, since data is predominantly
-anonymous (so no names), categorical variables are usually encoded as
-short strings or integers, and the rest are numbers and
-punctuation. Moreover, delimited
-&lt;a href=&#34;https://en.wikipedia.org/wiki/UTF-8&#34;&gt;UTF-8&lt;/a&gt; can be parsed as ASCII
-&lt;em&gt;when the delimiters themselves are ASCII&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Most of the datasets I work with are ASCII: other character sets are still very rare in social science data, since data is predominantly anonymous (so no names), categorical variables are usually encoded as short strings or integers, and the rest are numbers and punctuation. Moreover, delimited &lt;a href=&#34;https://en.wikipedia.org/wiki/UTF-8&#34;&gt;UTF-8&lt;/a&gt; can be parsed as ASCII &lt;em&gt;when the delimiters themselves are ASCII&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;For this dataset, I was also free to ignore quotes and within-field
-linebreaks, since they do not occur in the data dumps. Given these, I
-was free to parse this dataset as ASCII, ie &lt;code&gt;UInt8&lt;/code&gt; (bytes). The
-algorithms are very simple: parse a given number of characters (eg as
-numbers), or stop when hitting a delimiter.&lt;/p&gt;
+&lt;p&gt;For this dataset, I was also free to ignore quotes and within-field linebreaks, since they do not occur in the data dumps. Given these, I was free to parse this dataset as ASCII, ie &lt;code&gt;UInt8&lt;/code&gt; (bytes). The algorithms are very simple: parse a given number of characters (eg as numbers), or stop when hitting a delimiter.&lt;/p&gt;
 
-&lt;p&gt;Since I ignore some fields, I also needed functionality to simply
-&lt;em&gt;skip&lt;/em&gt; to the next delimiter, returning nothing (but the position for
-the next byte after the delimiter) — this takes about 25–30% of the
-time, compared to parsing it. The result is packaged as
-&lt;a href=&#34;https://github.com/tpapp/ByteParsers.jl&#34;&gt;&lt;code&gt;ByteParsers.jl&lt;/code&gt;&lt;/a&gt;. Parsing
-using ASCII turns out to be 30%–120% faster than UTF-8.&lt;/p&gt;
+&lt;p&gt;Since I ignore some fields, I also needed functionality to simply &lt;em&gt;skip&lt;/em&gt; to the next delimiter, returning nothing (but the position for the next byte after the delimiter) — this takes about 25–30% of the time, compared to parsing it. The result is packaged as &lt;a href=&#34;https://github.com/tpapp/ByteParsers.jl&#34;&gt;&lt;code&gt;ByteParsers.jl&lt;/code&gt;&lt;/a&gt;. Parsing using ASCII turns out to be 30%–120% faster than UTF-8.&lt;/p&gt;
 
 &lt;h2 id=&#34;putting-it-all-together&#34;&gt;Putting it all together&lt;/h2&gt;
 
@@ -298,16 +179,7 @@ using ASCII turns out to be 30%–120% faster than UTF-8.&lt;/p&gt;
 
 &lt;h3 id=&#34;second-pass&#34;&gt;Second pass&lt;/h3&gt;
 
-&lt;p&gt;The second pass reads back the binary dump from the first pass using
-&lt;code&gt;mmap&lt;/code&gt;, and collates observations for the individuals it using a
-&lt;code&gt;RaggedCollate&lt;/code&gt; indexer from &lt;code&gt;RaggedData.jl&lt;/code&gt;. The latter is an object
-which keeps track of where observations should end up, if their counts
-are consistent with the first pass. The result is written using
-&lt;code&gt;LargeColumns.jl&lt;/code&gt; into &lt;code&gt;mmap&lt;/code&gt;ped columns, and it is reasonably fast,
-taking about 30–80 minutes, depending on the RAM size (the
-non-contiguous collating process has to use the disk if the resulting
-large vectors cannot fit in RAM). Finally, the &lt;code&gt;RaggedIndex&lt;/code&gt; object is
-written out using &lt;code&gt;JLD2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The second pass reads back the binary dump from the first pass using &lt;code&gt;mmap&lt;/code&gt;, and collates observations for the individuals it using a &lt;code&gt;RaggedCollate&lt;/code&gt; indexer from &lt;code&gt;RaggedData.jl&lt;/code&gt;. The latter is an object which keeps track of where observations should end up, if their counts are consistent with the first pass. The result is written using &lt;code&gt;LargeColumns.jl&lt;/code&gt; into &lt;code&gt;mmap&lt;/code&gt;ped columns, and it is reasonably fast, taking about 30–80 minutes, depending on the RAM size (the non-contiguous collating process has to use the disk if the resulting large vectors cannot fit in RAM). Finally, the &lt;code&gt;RaggedIndex&lt;/code&gt; object is written out using &lt;code&gt;JLD2&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h3 id=&#34;third-pass&#34;&gt;Third pass&lt;/h3&gt;
 
@@ -319,9 +191,7 @@ written out using &lt;code&gt;JLD2&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 
-&lt;p&gt;Ingesting and working with large amounts of data turns out to be very
-simple and convenient using &lt;code&gt;mmap&lt;/code&gt;ed arrays in Julia. I packaged the
-code into libraries because&lt;/p&gt;
+&lt;p&gt;Ingesting and working with large amounts of data turns out to be very simple and convenient using &lt;code&gt;mmap&lt;/code&gt;ed arrays in Julia. I packaged the code into libraries because&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;I like to have unit test, especially if I keep benchmarking and optimizing,&lt;/p&gt;&lt;/li&gt;
@@ -334,8 +204,7 @@ code into libraries because&lt;/p&gt;
 the idea of reproducible research.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;I plan to register some of these libraries in the future (when the
-interface stabilizes).&lt;/p&gt;
+&lt;p&gt;I plan to register some of these libraries in the future (when the interface stabilizes).&lt;/p&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 
 &lt;hr&gt;
@@ -398,16 +267,9 @@ interface stabilizes).&lt;/p&gt;
     <published>2017-10-17T13:26:04+02:00</published>
     <updated>2017-10-17T13:26:04+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/htmlize-screenshot/">&lt;p&gt;&lt;a href=&#34;https://github.com/hniksic/emacs-htmlize&#34;&gt;&lt;code&gt;htmlize&lt;/code&gt;&lt;/a&gt;, written by Hrvoje
-Nikšić, is a neat little Emacs package that converts face information
-from an Emacs buffer (or region) into HTML, effectively allowing the
-verbatim reproduction of what it looks like.&lt;/p&gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/htmlize-screenshot/">&lt;p&gt;&lt;a href=&#34;https://github.com/hniksic/emacs-htmlize&#34;&gt;&lt;code&gt;htmlize&lt;/code&gt;&lt;/a&gt;, written by Hrvoje Nikšić, is a neat little Emacs package that converts face information from an Emacs buffer (or region) into HTML, effectively allowing the verbatim reproduction of what it looks like.&lt;/p&gt;
 
-&lt;p&gt;I found this so useful for blogging that I submitted a PR which saves
-marked up regions as self-contained &lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt; snippets, complete with
-inline CSS. Hrvoje kindly merged the PR today, so now you can call
-&lt;code&gt;htmlize-region-save-screenshot&lt;/code&gt; and the result will be saved into the
-kill ring. You can paste this into, say, a blog post written in Markdown or &lt;a href=&#34;https://github.com/miekg/mmark&#34;&gt;Mmark&lt;/a&gt;, such as this one, and get a &amp;quot;screenshot&amp;quot; like&lt;/p&gt;
+&lt;p&gt;I found this so useful for blogging that I submitted a PR which saves marked up regions as self-contained &lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt; snippets, complete with inline CSS. Hrvoje kindly merged the PR today, so now you can call &lt;code&gt;htmlize-region-save-screenshot&lt;/code&gt; and the result will be saved into the kill ring. You can paste this into, say, a blog post written in Markdown or &lt;a href=&#34;https://github.com/miekg/mmark&#34;&gt;Mmark&lt;/a&gt;, such as this one, and get a &amp;quot;screenshot&amp;quot; like&lt;/p&gt;
 
 &lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
 &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;defun&lt;/span&gt; &lt;span style=&#34;color: #2c53ca;&#34;&gt;htmlize-region-save-screenshot&lt;/span&gt; &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;beg end&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
@@ -421,11 +283,7 @@ approximates the buffer as closely as possible.&#34;&lt;/span&gt;
   &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;deactivate-mark&lt;span style=&#34;color: #262626;&#34;&gt;))&lt;/span&gt;
 &lt;/pre&gt;
 
-&lt;p&gt;which is &lt;em&gt;almost&lt;/em&gt; exactly what it looks like on my screen when it
-comes to colors and font style/weight, but using a different font of
-course. This allows integration of Emacs &amp;quot;screenshots&amp;quot; into blog posts
-without resorting to pixel-based formats, which would result from
-taking actual screenshots.&lt;/p&gt;
+&lt;p&gt;which is &lt;em&gt;almost&lt;/em&gt; exactly what it looks like on my screen when it comes to colors and font style/weight, but using a different font of course. This allows integration of Emacs &amp;quot;screenshots&amp;quot; into blog posts without resorting to pixel-based formats, which would result from taking actual screenshots.&lt;/p&gt;
 
 &lt;p&gt;You can install &lt;code&gt;htmlize&lt;/code&gt; from &lt;a href=&#34;https://melpa.org/&#34;&gt;MELPA&lt;/a&gt;.&lt;/p&gt;
 </content>
@@ -438,66 +296,31 @@ taking actual screenshots.&lt;/p&gt;
     <published>2017-10-15T14:17:47+02:00</published>
     <updated>2017-10-15T14:17:47+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/common-lisp-to-julia/">&lt;p&gt;I have written this post for developers in the Common Lisp community
-who asked why I am switching to Julia. It may only be relevant for the
-small set of people who use Common Lisp for scientific computing.&lt;/p&gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/common-lisp-to-julia/">&lt;p&gt;I have written this post for developers in the Common Lisp community who asked why I am switching to Julia. It may only be relevant for the small set of people who use Common Lisp for scientific computing.&lt;/p&gt;
 
-&lt;p&gt;I used Common Lisp for scientific computing for a while, from 2008 to
-about 2015, in combination with R and C++. This choice may surprise
-people who don&#39;t know about projects like
-&lt;a href=&#34;https://en.wikipedia.org/wiki/Maxima_(software)&#34;&gt;Maxima&lt;/a&gt; or
-&lt;a href=&#34;http://www.femlisp.org/&#34;&gt;FEMLISP&lt;/a&gt;, but Common Lisp is not a bad
-language for &lt;a href=&#34;https://link.springer.com/chapter/10.1007/978-3-642-19014-8_11&#34;&gt;scientific
-computing&lt;/a&gt;:
-it has a great FFI, compilers like &lt;a href=&#34;http://sbcl.org/&#34;&gt;SBCL&lt;/a&gt; can
-generate very fast code with a few hints, and the language itself is
-composed of convenient features that interact nicely.&lt;/p&gt;
+&lt;p&gt;I used Common Lisp for scientific computing for a while, from 2008 to about 2015, in combination with R and C++. This choice may surprise people who don&#39;t know about projects like &lt;a href=&#34;https://en.wikipedia.org/wiki/Maxima_(software)&#34;&gt;Maxima&lt;/a&gt; or &lt;a href=&#34;http://www.femlisp.org/&#34;&gt;FEMLISP&lt;/a&gt;, but Common Lisp is not a bad language for &lt;a href=&#34;https://link.springer.com/chapter/10.1007/978-3-642-19014-8_11&#34;&gt;scientific computing&lt;/a&gt;: it has a great FFI, compilers like &lt;a href=&#34;http://sbcl.org/&#34;&gt;SBCL&lt;/a&gt; can generate very fast code with a few hints, and the language itself is composed of convenient features that interact nicely.&lt;/p&gt;
 
-&lt;p&gt;However, around 2012 I started to become very frustrated with Common
-Lisp. Despite various attempts, it became very clear that libraries
-for scientific computing were not goint to take off: there were many
-one-person efforts (including &lt;a href=&#34;https://tpapp.github.io/post/orphaned-lisp-libraries/&#34;&gt;mine&lt;/a&gt;), but very few of
-them evolved into general tools.&lt;/p&gt;
+&lt;p&gt;However, around 2012 I started to become very frustrated with Common Lisp. Despite various attempts, it became very clear that libraries for scientific computing were not goint to take off: there were many one-person efforts (including &lt;a href=&#34;https://tpapp.github.io/post/orphaned-lisp-libraries/&#34;&gt;mine&lt;/a&gt;), but very few of them evolved into general tools.&lt;/p&gt;
 
-&lt;p&gt;Initially, I was puzzled by this: Common Lisp is an extremely
-convenient and productive language. Experienced Lisp hackers can write
-very complex, fast, and elegant libraries in reasonably short
-time. Why did this not happen for numerical code?&lt;/p&gt;
+&lt;p&gt;Initially, I was puzzled by this: Common Lisp is an extremely convenient and productive language. Experienced Lisp hackers can write very complex, fast, and elegant libraries in reasonably short time. Why did this not happen for numerical code?&lt;/p&gt;
 
 &lt;h1 id=&#34;the-problem-with-common-lisp&#34;&gt;The problem with Common Lisp&lt;/h1&gt;
 
-&lt;p&gt;Now I think that one of the main reasons for this is that while you
-can write scientific code in CL that will be (1) fast, (2) portable,
-and (3) convenient, you &lt;em&gt;cannot do all of these at the same
-time&lt;/em&gt;. Arrays provide a convenient example for this.&lt;/p&gt;
+&lt;p&gt;Now I think that one of the main reasons for this is that while you can write scientific code in CL that will be (1) fast, (2) portable, and (3) convenient, you &lt;em&gt;cannot do all of these at the same time&lt;/em&gt;. Arrays provide a convenient example for this.&lt;/p&gt;
 
 &lt;p&gt;Consider&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;make-array&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;:element-type&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;double-float&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The &lt;a href=&#34;http://clhs.lisp.se/Body/f_upgr_1.htm&#34;&gt;standard&lt;/a&gt; does not
-guarantee that this gives you an array of &lt;code&gt;double-float&lt;/code&gt;: it may (if
-the implementation provides them), otherwise you get an array of
-element type &lt;code&gt;T&lt;/code&gt;. This turned out to be a major difficulty for
-implementing portable scientific code in Common Lisp.&lt;/p&gt;
+&lt;p&gt;The &lt;a href=&#34;http://clhs.lisp.se/Body/f_upgr_1.htm&#34;&gt;standard&lt;/a&gt; does not guarantee that this gives you an array of &lt;code&gt;double-float&lt;/code&gt;: it may (if the implementation provides them), otherwise you get an array of element type &lt;code&gt;T&lt;/code&gt;. This turned out to be a major difficulty for implementing portable scientific code in Common Lisp.&lt;/p&gt;
 
-&lt;p&gt;However, this gets worse: while you can tell a function that operates
-on arrays that these arrays have element type &lt;code&gt;double-float&lt;/code&gt;, you
-cannot dispatch on this, as Common Lisp does not have parametric
-types. For example, if you want to write a sum as&lt;/p&gt;
+&lt;p&gt;However, this gets worse: while you can tell a function that operates on arrays that these arrays have element type &lt;code&gt;double-float&lt;/code&gt;, you cannot dispatch on this, as Common Lisp does not have parametric types. For example, if you want to write a sum as&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;defmethod&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;mysum&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vec&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
   &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
     &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;loop&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;across&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;vec&lt;/span&gt;
        &lt;span class=&#34;nv&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;incf&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
     &lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;you can dispatch on the argument being a &lt;code&gt;vector&lt;/code&gt;, but not on the
-element type. The compiled code may be generic.&lt;/p&gt;
+&lt;p&gt;you can dispatch on the argument being a &lt;code&gt;vector&lt;/code&gt;, but not on the element type. The compiled code may be generic.&lt;/p&gt;
 
-&lt;p&gt;You can of course branch on the array element types and maybe
-even paper over the whole mess with sufficient macrology (which is
-what &lt;a href=&#34;https://github.com/tpapp/lla&#34;&gt;LLA&lt;/a&gt; ended up doing), but this
-approach is not very extensible, as eventually you end up hardcoding a
-few special types for which your functions will be &amp;quot;fast&amp;quot;, otherwise
-they have to fall back to a generic, boxed type. With multiple
-arguments, the number of combinations explodes very quickly.&lt;/p&gt;
+&lt;p&gt;You can of course branch on the array element types and maybe even paper over the whole mess with sufficient macrology (which is what &lt;a href=&#34;https://github.com/tpapp/lla&#34;&gt;LLA&lt;/a&gt; ended up doing), but this approach is not very extensible, as eventually you end up hardcoding a few special types for which your functions will be &amp;quot;fast&amp;quot;, otherwise they have to fall back to a generic, boxed type. With multiple arguments, the number of combinations explodes very quickly.&lt;/p&gt;
 
 &lt;h1 id=&#34;how-julia-solves-this-problem&#34;&gt;How Julia solves this problem&lt;/h1&gt;
 
@@ -509,9 +332,7 @@ arguments, the number of combinations explodes very quickly.&lt;/p&gt;
     &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This is still generic: it works for all subtypes of &lt;code&gt;AbstractVector&lt;/code&gt;
-(including vectors and vector-like objects), but notice how the generated code
-is conditional on the element type:&lt;/p&gt;
+&lt;p&gt;This is still generic: it works for all subtypes of &lt;code&gt;AbstractVector&lt;/code&gt; (including vectors and vector-like objects), but notice how the generated code is conditional on the element type:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nd&#34;&gt;@code_warntype&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mysum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;Variables&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
   &lt;span class=&#34;c&#34;&gt;#self#::#mysum&lt;/span&gt;
@@ -563,105 +384,43 @@ is conditional on the element type:&lt;/p&gt;
       &lt;span class=&#34;mi&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;# line 6:&lt;/span&gt;
       &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;
   &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;I mentioned &amp;quot;vector-like objects&amp;quot; above, since I can choose different
-representations for special objects. For example, to do calculations
-with a vector of &lt;code&gt;1&lt;/code&gt;s, I can define&lt;/p&gt;
+&lt;p&gt;I mentioned &amp;quot;vector-like objects&amp;quot; above, since I can choose different representations for special objects. For example, to do calculations with a vector of &lt;code&gt;1&lt;/code&gt;s, I can define&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;AbstractVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;At this point, in order to calculate the sum above, I have two choices:&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Implement the &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/interfaces/&#34;&gt;relevant
-interface&lt;/a&gt;,
-with functions like&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;len&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;and similarly for element access, etc. This would generate specialized code for the method above, reasonably efficient code, but still iterate over the &amp;quot;elements&amp;quot;.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;In addition, I can define&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;mysum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;len&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;one&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;which would provide a method for &lt;code&gt;mysum&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;Implement the &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/interfaces/&#34;&gt;relevant interface&lt;/a&gt;, with functions like&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;len&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and similarly for element access, etc. This would generate specialized code for the method above, reasonably efficient code, but still iterate over the &amp;quot;elements&amp;quot;.&lt;/p&gt;
 
-&lt;p&gt;A sufficiently rich parametric type system with multiple dispatch
-integrated into the language and supported by a JIT compiler is the
-secret weapon of Julia. Most of the time, &lt;em&gt;you don&#39;t have to do
-anything&lt;/em&gt;, as it happens automatically for concrete types. Sometimes,
-you have to help the compiler a bit, by writing code where the result
-is &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/performance-tips/#Write-%22type-stable%22-functions-1&#34;&gt;type
-stable&lt;/a&gt;,
-ie the result type just depends on the type (not the value) of the
-arguments and can be inferred by the compiler. Sometimes you have to
-nudge the compiler a bit, and sometimes you have to be careful not to
-mess up type inference: for example, the &lt;code&gt;zero(T)&lt;/code&gt; above gives a &lt;code&gt;0&lt;/code&gt;
-of type &lt;code&gt;T&lt;/code&gt;, always ensuring a correct type that does not change
-during the summation.&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;In addition, I can define&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;mysum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vec&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;len&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;one&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;which would provide a method for &lt;code&gt;mysum&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;A sufficiently rich parametric type system with multiple dispatch integrated into the language and supported by a JIT compiler is the secret weapon of Julia. Most of the time, &lt;em&gt;you don&#39;t have to do anything&lt;/em&gt;, as it happens automatically for concrete types. Sometimes, you have to help the compiler a bit, by writing code where the result is &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/performance-tips/#Write-%22type-stable%22-functions-1&#34;&gt;type stable&lt;/a&gt;, ie the result type just depends on the type (not the value) of the arguments and can be inferred by the compiler. Sometimes you have to nudge the compiler a bit, and sometimes you have to be careful not to mess up type inference: for example, the &lt;code&gt;zero(T)&lt;/code&gt; above gives a &lt;code&gt;0&lt;/code&gt; of type &lt;code&gt;T&lt;/code&gt;, always ensuring a correct type that does not change during the summation.&lt;/p&gt;
 
 &lt;h1 id=&#34;comparison-of-other-language-features&#34;&gt;Comparison of other language features&lt;/h1&gt;
 
-&lt;p&gt;While I would say that multiple dispatch with parametric types
-designed into the language from the ground up is the most important
-feature of Julia, there are other language features worth comparing to
-Common Lisp.&lt;/p&gt;
+&lt;p&gt;While I would say that multiple dispatch with parametric types designed into the language from the ground up is the most important feature of Julia, there are other language features worth comparing to Common Lisp.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://docs.julialang.org/en/latest/manual/metaprogramming/&#34;&gt;Metaprogramming&lt;/a&gt;
-is supported. Because of infix syntax, the AST is not as simple as
-S-expressions, but the tools to work with it are evolving fast. That
-said, I don&#39;t write as many macros as I did in Common Lisp. Parametric
-types are so powerful that I rarely need macros for performance
-reasons, and instead of syntax extensions, I often go for zero-cost
-abstraction via functions and wrapper types. An interesting
-metaprogramming tool in Julia is &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/metaprogramming/#Generated-functions-1&#34;&gt;generated
-functions&lt;/a&gt;,
-which allow code generation based on argument templates, I use this
-frequently. The equivalent of reader macros are called &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/metaprogramming/#Non-Standard-String-Literals-1&#34;&gt;non-standard
-string
-literals&lt;/a&gt;
-in Julia.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.julialang.org/en/latest/manual/metaprogramming/&#34;&gt;Metaprogramming&lt;/a&gt; is supported. Because of infix syntax, the AST is not as simple as S-expressions, but the tools to work with it are evolving fast. That said, I don&#39;t write as many macros as I did in Common Lisp. Parametric types are so powerful that I rarely need macros for performance reasons, and instead of syntax extensions, I often go for zero-cost abstraction via functions and wrapper types. An interesting metaprogramming tool in Julia is &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/metaprogramming/#Generated-functions-1&#34;&gt;generated functions&lt;/a&gt;, which allow code generation based on argument templates, I use this frequently. The equivalent of reader macros are called &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/metaprogramming/#Non-Standard-String-Literals-1&#34;&gt;non-standard string literals&lt;/a&gt; in Julia.&lt;/p&gt;
 
-&lt;p&gt;The foreign function interface of Julia is seamlessly integrated into
-the language and very convenient to use. Docstrings are almost the
-same as in Common Lisp, but they support Markdown. Strings are UTF8 by
-default, and very fast. The
-&lt;a href=&#34;https://discourse.julialang.org/&#34;&gt;community&lt;/a&gt; is very vibrant, open,
-and helpful. Simple questions get an answer within minutes,
-complicated ones (eg compiler internals) may take a bit longer, but
-are usually answered within a few hours or a day at most. If you are
-coming from the Common Lisp community, you will see quite a few
-familiar faces.&lt;/p&gt;
+&lt;p&gt;The foreign function interface of Julia is seamlessly integrated into the language and very convenient to use. Docstrings are almost the same as in Common Lisp, but they support Markdown. Strings are UTF8 by default, and very fast. The &lt;a href=&#34;https://discourse.julialang.org/&#34;&gt;community&lt;/a&gt; is very vibrant, open, and helpful. Simple questions get an answer within minutes, complicated ones (eg compiler internals) may take a bit longer, but are usually answered within a few hours or a day at most. If you are coming from the Common Lisp community, you will see quite a few familiar faces.&lt;/p&gt;
 
-&lt;p&gt;The library ecosystem already surpasses that of Common Lisp, at least
-for scientific programming. High-quality, well-tested code is
-available for linear algebra including sparse matrices (most of it in
-the standard library), optimization, differential equations, and
-automatic differentiation. The
-&lt;a href=&#34;http://www.juliadiff.org/ForwardDiff.jl/stable/&#34;&gt;latter&lt;/a&gt; is simply
-amazing: by providing a type for dual numbers and a few operations,
-forward-mode AD can be used without any implementation
-overhead. Plotting libraries are available (mostly using foreign
-function backends), and R-like &amp;quot;dataframes&amp;quot; are under development.&lt;/p&gt;
+&lt;p&gt;The library ecosystem already surpasses that of Common Lisp, at least for scientific programming. High-quality, well-tested code is available for linear algebra including sparse matrices (most of it in the standard library), optimization, differential equations, and automatic differentiation. The &lt;a href=&#34;http://www.juliadiff.org/ForwardDiff.jl/stable/&#34;&gt;latter&lt;/a&gt; is simply amazing: by providing a type for dual numbers and a few operations, forward-mode AD can be used without any implementation overhead. Plotting libraries are available (mostly using foreign function backends), and R-like &amp;quot;dataframes&amp;quot; are under development.&lt;/p&gt;
 
 &lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
 
-&lt;p&gt;Common Lisp has been and remains a great language, with many excellent
-features that preceded other languages by decades. It has an ANSI
-standard, which means that portable code written decades ago
-will run on a recent implementation. This is a great advantage, but at
-the same time this freezes the language development at the point the
-standard was finalized. No matter how flexible and forward-looking it
-is, it cannot predict and accommodate all possible advances for
-decades.&lt;/p&gt;
+&lt;p&gt;Common Lisp has been and remains a great language, with many excellent features that preceded other languages by decades. It has an ANSI standard, which means that portable code written decades ago will run on a recent implementation. This is a great advantage, but at the same time this freezes the language development at the point the standard was finalized. No matter how flexible and forward-looking it is, it cannot predict and accommodate all possible advances for decades.&lt;/p&gt;
 
-&lt;p&gt;In contrast, Julia is rapidly evolving. At this stage, code that was
-written half a year ago is very likely to be broken with the most
-recent release.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:An-elegant-depre&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:An-elegant-depre&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; The pace of change will most likely slow down a bit after 1.0 is released, but for now, expect a lot of churning.&lt;/p&gt;
+&lt;p&gt;In contrast, Julia is rapidly evolving. At this stage, code that was written half a year ago is very likely to be broken with the most recent release.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:An-elegant-depre&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:An-elegant-depre&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; The pace of change will most likely slow down a bit after 1.0 is released, but for now, expect a lot of churning.&lt;/p&gt;
 
-&lt;p&gt;On the other hand, programmers who used Common Lisp for scientific
-computing have always expected to get their hands dirty, since so
-little existing code was available. This is a good time to consider
-investing into Julia instead: you will get more done with less work,
-and you still get to program in a very elegant language that traces a
-lot of its roots to the Lisp family.&lt;/p&gt;
+&lt;p&gt;On the other hand, programmers who used Common Lisp for scientific computing have always expected to get their hands dirty, since so little existing code was available. This is a good time to consider investing into Julia instead: you will get more done with less work, and you still get to program in a very elegant language that traces a lot of its roots to the Lisp family.&lt;/p&gt;
 &lt;div class=&#34;footnotes&#34;&gt;
 
 &lt;hr&gt;
@@ -681,73 +440,37 @@ lot of its roots to the Lisp family.&lt;/p&gt;
     <published>2017-10-15T13:02:14+02:00</published>
     <updated>2017-10-15T13:02:14+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/orphaned-lisp-libraries/">&lt;p&gt;I have not been programming in Common Lisp for a few years, and since
-I find &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; a &amp;quot;much better Lisp&amp;quot;, I am
-unlikely to go back to it in the foreseeable future. This is a
-clarification regarding some
-&lt;a href=&#34;https://github.com/tpapp?utf8=%E2%9C%93&amp;amp;tab=repositories&amp;amp;q=&amp;amp;type=public&amp;amp;language=common%20lisp&#34;&gt;libraries&lt;/a&gt;
-I have written in Common Lisp and made public.&lt;/p&gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/orphaned-lisp-libraries/">&lt;p&gt;I have not been programming in Common Lisp for a few years, and since I find &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; a &amp;quot;much better Lisp&amp;quot;, I am unlikely to go back to it in the foreseeable future. This is a clarification regarding some &lt;a href=&#34;https://github.com/tpapp?utf8=%E2%9C%93&amp;amp;tab=repositories&amp;amp;q=&amp;amp;type=public&amp;amp;language=common%20lisp&#34;&gt;libraries&lt;/a&gt; I have written in Common Lisp and made public.&lt;/p&gt;
 
 &lt;h1 id=&#34;all-of-my-common-lisp-libraries-are-orphaned&#34;&gt;All of my Common Lisp libraries are orphaned&lt;/h1&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;They are effectively &lt;em&gt;abandonware&lt;/em&gt; as far as I am concerned. Since
-fixing issues and evaluating PRs entails a large fixed cost for
-which I don&#39;t have the time (setting up my CL environment again,
-understanding what I wrote years ago, thinking about code
-correctness and corner cases of the language spec that I have
-forgotten), I will ignore issues and pull requests. Sorry about this.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;They are effectively &lt;em&gt;abandonware&lt;/em&gt; as far as I am concerned. Since fixing issues and evaluating PRs entails a large fixed cost for which I don&#39;t have the time (setting up my CL environment again, understanding what I wrote years ago, thinking about code correctness and corner cases of the language spec that I have forgotten), I will ignore issues and pull requests. Sorry about this.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;If you find anything of value in these libraries, please feel free
-to use that according to their licenses. &lt;em&gt;You don&#39;t have to ask me
-explicitly.&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;If you find anything of value in these libraries, please feel free to use that according to their licenses. &lt;em&gt;You don&#39;t have to ask me explicitly.&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;If you want to take over maintaining any of these libraries, &lt;em&gt;you
-don&#39;t have to ask me&lt;/em&gt;. &lt;strong&gt;Just fork, and start coding.&lt;/strong&gt; If you have
-been consistently maintaining one of these libraries for a year or
-more, announce that you are resurrecting the library on the
-relevant Common Lisp forums. You can also drop me an e-mail and I
-will put a line in the README of my version that redirects users to
-your version. Eventually, you should convince &lt;a href=&#34;https://github.com/quicklisp/&#34;&gt;Zach
-Beane&lt;/a&gt; to use your version in
-Quicklisp.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;If you want to take over maintaining any of these libraries, &lt;em&gt;you don&#39;t have to ask me&lt;/em&gt;. &lt;strong&gt;Just fork, and start coding.&lt;/strong&gt; If you have been consistently maintaining one of these libraries for a year or more, announce that you are resurrecting the library on the relevant Common Lisp forums. You can also drop me an e-mail and I will put a line in the README of my version that redirects users to your version. Eventually, you should convince &lt;a href=&#34;https://github.com/quicklisp/&#34;&gt;Zach Beane&lt;/a&gt; to use your version in Quicklisp.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;I cannot provide any significant help regarding the code
-due to time constraints. Some of it is documented, and most of it
-has unit tests, you have to figure out the rest yourself.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;I cannot provide any significant help regarding the code due to time constraints. Some of it is documented, and most of it has unit tests, you have to figure out the rest yourself.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h1 id=&#34;which-libraries-are-worth-the-effort&#34;&gt;Which libraries are worth the effort?&lt;/h1&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;let-plus&lt;/code&gt; is an extensible destructuring library. The syntax is
-versatile and intuitive.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;let-plus&lt;/code&gt; is an extensible destructuring library. The syntax is versatile and intuitive.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;&lt;code&gt;LLA&lt;/code&gt;, aka Lisp Linear Algebra, is a wrapper for BLAS/LAPACK using
-native Common Lisp arrays. It is somewhat incomplete (eigenvalues
-need some work) but what is available works. It is &lt;em&gt;fast&lt;/em&gt; on
-implementations which provide arrays for certain float element
-types, so that it does not have to copy the data, and is a bit
-slower on implementations that don&#39;t allow this. Still, copying is
-&lt;span  class=&#34;math&#34;&gt;\(O(n)\)&lt;/span&gt;, while most LAPACK operations are &lt;span  class=&#34;math&#34;&gt;\(O(n^2)\)&lt;/span&gt; or worse, so
-this is not a huge concern. Nevertheless, it is possible that
-implementations that did not provide specialized arrays at the time
-I wrote LLA have caught up. You would need to extend the glue code
-to work with them.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;LLA&lt;/code&gt;, aka Lisp Linear Algebra, is a wrapper for BLAS/LAPACK using native Common Lisp arrays. It is somewhat incomplete (eigenvalues need some work) but what is available works. It is &lt;em&gt;fast&lt;/em&gt; on implementations which provide arrays for certain float element types, so that it does not have to copy the data, and is a bit slower on implementations that don&#39;t allow this. Still, copying is &lt;span  class=&#34;math&#34;&gt;\(O(n)\)&lt;/span&gt;, while most LAPACK operations are &lt;span  class=&#34;math&#34;&gt;\(O(n^2)\)&lt;/span&gt; or worse, so this is not a huge concern. Nevertheless, it is possible that implementations that did not provide specialized arrays at the time I wrote LLA have caught up. You would need to extend the glue code to work with them.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;code&gt;cl-slice&lt;/code&gt;, array slices for native Common Lisp arrays.&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-random&lt;/code&gt;, &lt;code&gt;cl-num-utils&lt;/code&gt;, &lt;code&gt;cl-rmath&lt;/code&gt;: random numbers, simple
-numerical algorithms, a wrapper for libRmath.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-random&lt;/code&gt;, &lt;code&gt;cl-num-utils&lt;/code&gt;, &lt;code&gt;cl-rmath&lt;/code&gt;: random numbers, simple numerical algorithms, a wrapper for libRmath.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;code&gt;cl-colors&lt;/code&gt;, named colors and color combinations.&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;The rest are either early experiments, preliminary versions that
-evolved into the libraries above, or projects that did not pan out.&lt;/p&gt;
+&lt;p&gt;The rest are either early experiments, preliminary versions that evolved into the libraries above, or projects that did not pan out.&lt;/p&gt;
 
-&lt;p&gt;PS.: Some people asked why I switched to Julia from Common Lisp. A
-post about that will follow soon.&lt;/p&gt;
+&lt;p&gt;PS.: Some people asked why I switched to Julia from Common Lisp. A post about that will follow soon.&lt;/p&gt;
 </content>
   </entry>
   
@@ -770,8 +493,7 @@ post about that will follow soon.&lt;/p&gt;
     &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;This calculation naturally has a branch in it, while the branchless
-version, using &lt;code&gt;ifelse&lt;/code&gt;, does not:&lt;/p&gt;
+&lt;p&gt;This calculation naturally has a branch in it, while the branchless version, using &lt;code&gt;ifelse&lt;/code&gt;, does not:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sumabove_ifelse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;zero&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eltype&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;
@@ -779,12 +501,7 @@ version, using &lt;code&gt;ifelse&lt;/code&gt;, does not:&lt;/p&gt;
     &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The actual example has something different: using tricky bit-twiddling
-to calculate the same value. I generally like to leave this sort of
-thing up to the compiler, because it is much, much better at it than I
-am, and I make mistakes all the time; worse, I don&#39;t know what I
-actually did when I reread the code 6 months later. But I included it
-here for comparison:&lt;/p&gt;
+&lt;p&gt;The actual example has something different: using tricky bit-twiddling to calculate the same value. I generally like to leave this sort of thing up to the compiler, because it is much, much better at it than I am, and I make mistakes all the time; worse, I don&#39;t know what I actually did when I reread the code 6 months later. But I included it here for comparison:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sumabove_tricky&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;
@@ -872,12 +589,9 @@ Benchmarks (&lt;span  class=&#34;math&#34;&gt;\(μ\)&lt;/span&gt;s)
     <published>2017-10-03T11:40:58+02:00</published>
     <updated>2017-10-03T11:40:58+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/branch_prediction/">&lt;p&gt;I have been working on micro-optimizations for some simulation
-code, and was reminded of a counter-intuitive artifact of modern CPU
-architecture, which is worth a short post.&lt;/p&gt;
+    <content type="html" xml:base="https://tpapp.github.io/post/branch_prediction/">&lt;p&gt;I have been working on micro-optimizations for some simulation code, and was reminded of a counter-intuitive artifact of modern CPU architecture, which is worth a short post.&lt;/p&gt;
 
-&lt;p&gt;Consider (just for the sake of example) a very simple (if not
-particularly meaningful) function,&lt;/p&gt;
+&lt;p&gt;Consider (just for the sake of example) a very simple (if not particularly meaningful) function,&lt;/p&gt;
 
 &lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
 f(x) = \begin{cases}
@@ -889,8 +603,7 @@ f(x) = \begin{cases}
 &lt;p&gt;with implementations&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;f1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ifelse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;abs2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;f2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;abs2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code&gt;f1&lt;/code&gt; calculates &lt;em&gt;both&lt;/em&gt; possibilities before choosing between them with
-&lt;code&gt;ifelse&lt;/code&gt;, while &lt;code&gt;f2&lt;/code&gt; will only calculate values on demand. So, intuitively, it should be faster.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;f1&lt;/code&gt; calculates &lt;em&gt;both&lt;/em&gt; possibilities before choosing between them with &lt;code&gt;ifelse&lt;/code&gt;, while &lt;code&gt;f2&lt;/code&gt; will only calculate values on demand. So, intuitively, it should be faster.&lt;/p&gt;
 
 &lt;p&gt;But it isn&#39;t...&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;randn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1_000_000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
@@ -904,10 +617,7 @@ f(x) = \begin{cases}
   &lt;span class=&#34;mf&#34;&gt;6.519&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ms&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;allocations&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;7.63&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MiB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;...it is about 10x &lt;em&gt;slower&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;This can be understood as an artifact of the &lt;a href=&#34;https://en.wikipedia.org/wiki/Instruction_pipelining&#34;&gt;instruction
-pipeline&lt;/a&gt;: your
-x86 CPU likes to perform similar operations in staggered manner, and
-it does not like branches (jumps) because they break the flow.&lt;/p&gt;
+&lt;p&gt;This can be understood as an artifact of the &lt;a href=&#34;https://en.wikipedia.org/wiki/Instruction_pipelining&#34;&gt;instruction pipeline&lt;/a&gt;: your x86 CPU likes to perform similar operations in staggered manner, and it does not like branches (jumps) because they break the flow.&lt;/p&gt;
 
 &lt;p&gt;Comparing the native code reveals that while &lt;code&gt;f1&lt;/code&gt; is jump-free, the &lt;code&gt;if&lt;/code&gt; in &lt;code&gt;f2&lt;/code&gt; results in a jump (&lt;code&gt;jae&lt;/code&gt;):&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;nd&#34;&gt;@code_native&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;1.0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
@@ -955,17 +665,11 @@ it does not like branches (jumps) because they break the flow.&lt;/p&gt;
         &lt;span class=&#34;n&#34;&gt;popq&lt;/span&gt;    &lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rbp&lt;/span&gt;
         &lt;span class=&#34;n&#34;&gt;retq&lt;/span&gt;
         &lt;span class=&#34;n&#34;&gt;nopl&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rax&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;In my application the speed gain was more modest, but still
-sizeable. Benchmarking a non-branching version of your code is
-sometimes worth it, especially if it the change is simple &lt;em&gt;and&lt;/em&gt; both
-branches of the conditional can be run error-free. If, for example, we
-had to calculate&lt;/p&gt;
+&lt;p&gt;In my application the speed gain was more modest, but still sizeable. Benchmarking a non-branching version of your code is sometimes worth it, especially if it the change is simple &lt;em&gt;and&lt;/em&gt; both branches of the conditional can be run error-free. If, for example, we had to calculate&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;g&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;√&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;then we could not use &lt;code&gt;ifelse&lt;/code&gt; without restricting the domain, since
-&lt;code&gt;√(x+2)&lt;/code&gt; would fail whenever &lt;code&gt;x &amp;lt; -2&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;then we could not use &lt;code&gt;ifelse&lt;/code&gt; without restricting the domain, since &lt;code&gt;√(x+2)&lt;/code&gt; would fail whenever &lt;code&gt;x &amp;lt; -2&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;Julia &lt;code&gt;Base&lt;/code&gt; contains many optimizations like this: for a particularly
-nice example see functions that use &lt;code&gt;Base.null_safe_op&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Julia &lt;code&gt;Base&lt;/code&gt; contains many optimizations like this: for a particularly nice example see functions that use &lt;code&gt;Base.null_safe_op&lt;/code&gt;.&lt;/p&gt;
 </content>
   </entry>
   

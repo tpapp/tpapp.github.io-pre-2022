@@ -184,12 +184,9 @@
 
 
 
-<p>I have been working on micro-optimizations for some simulation
-code, and was reminded of a counter-intuitive artifact of modern CPU
-architecture, which is worth a short post.</p>
+<p>I have been working on micro-optimizations for some simulation code, and was reminded of a counter-intuitive artifact of modern CPU architecture, which is worth a short post.</p>
 
-<p>Consider (just for the sake of example) a very simple (if not
-particularly meaningful) function,</p>
+<p>Consider (just for the sake of example) a very simple (if not particularly meaningful) function,</p>
 
 <p><span  class="math">\[
 f(x) = \begin{cases}
@@ -201,8 +198,7 @@ f(x) = \begin{cases}
 <p>with implementations</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">f1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">x</span> <span class="o">≥</span> <span class="mi">0</span><span class="p">,</span> <span class="n">abs2</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
 <span class="n">f2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">≥</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">abs2</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="o">:</span> <span class="mi">1</span><span class="o">-</span><span class="n">x</span></code></pre></div>
-<p><code>f1</code> calculates <em>both</em> possibilities before choosing between them with
-<code>ifelse</code>, while <code>f2</code> will only calculate values on demand. So, intuitively, it should be faster.</p>
+<p><code>f1</code> calculates <em>both</em> possibilities before choosing between them with <code>ifelse</code>, while <code>f2</code> will only calculate values on demand. So, intuitively, it should be faster.</p>
 
 <p>But it isn't...</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">1_000_000</span><span class="p">);</span>
@@ -216,10 +212,7 @@ f(x) = \begin{cases}
   <span class="mf">6.519</span> <span class="n">ms</span> <span class="p">(</span><span class="mi">2</span> <span class="n">allocations</span><span class="o">:</span> <span class="mf">7.63</span> <span class="n">MiB</span><span class="p">)</span></code></pre></div>
 <p>...it is about 10x <em>slower</em>.</p>
 
-<p>This can be understood as an artifact of the <a href="https://en.wikipedia.org/wiki/Instruction_pipelining">instruction
-pipeline</a>: your
-x86 CPU likes to perform similar operations in staggered manner, and
-it does not like branches (jumps) because they break the flow.</p>
+<p>This can be understood as an artifact of the <a href="https://en.wikipedia.org/wiki/Instruction_pipelining">instruction pipeline</a>: your x86 CPU likes to perform similar operations in staggered manner, and it does not like branches (jumps) because they break the flow.</p>
 
 <p>Comparing the native code reveals that while <code>f1</code> is jump-free, the <code>if</code> in <code>f2</code> results in a jump (<code>jae</code>):</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@code_native</span> <span class="n">f1</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
@@ -267,17 +260,11 @@ it does not like branches (jumps) because they break the flow.</p>
         <span class="n">popq</span>    <span class="o">%</span><span class="n">rbp</span>
         <span class="n">retq</span>
         <span class="n">nopl</span>    <span class="p">(</span><span class="o">%</span><span class="n">rax</span><span class="p">)</span></code></pre></div>
-<p>In my application the speed gain was more modest, but still
-sizeable. Benchmarking a non-branching version of your code is
-sometimes worth it, especially if it the change is simple <em>and</em> both
-branches of the conditional can be run error-free. If, for example, we
-had to calculate</p>
+<p>In my application the speed gain was more modest, but still sizeable. Benchmarking a non-branching version of your code is sometimes worth it, especially if it the change is simple <em>and</em> both branches of the conditional can be run error-free. If, for example, we had to calculate</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">≥</span> <span class="mi">0</span> <span class="o">?</span> <span class="o">√</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="o">:</span> <span class="mi">1</span><span class="o">-</span><span class="n">x</span></code></pre></div>
-<p>then we could not use <code>ifelse</code> without restricting the domain, since
-<code>√(x+2)</code> would fail whenever <code>x &lt; -2</code>.</p>
+<p>then we could not use <code>ifelse</code> without restricting the domain, since <code>√(x+2)</code> would fail whenever <code>x &lt; -2</code>.</p>
 
-<p>Julia <code>Base</code> contains many optimizations like this: for a particularly
-nice example see functions that use <code>Base.null_safe_op</code>.</p>
+<p>Julia <code>Base</code> contains many optimizations like this: for a particularly nice example see functions that use <code>Base.null_safe_op</code>.</p>
 
 
 

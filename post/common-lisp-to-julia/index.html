@@ -184,66 +184,31 @@
 
 
 
-<p>I have written this post for developers in the Common Lisp community
-who asked why I am switching to Julia. It may only be relevant for the
-small set of people who use Common Lisp for scientific computing.</p>
+<p>I have written this post for developers in the Common Lisp community who asked why I am switching to Julia. It may only be relevant for the small set of people who use Common Lisp for scientific computing.</p>
 
-<p>I used Common Lisp for scientific computing for a while, from 2008 to
-about 2015, in combination with R and C++. This choice may surprise
-people who don't know about projects like
-<a href="https://en.wikipedia.org/wiki/Maxima_(software)">Maxima</a> or
-<a href="http://www.femlisp.org/">FEMLISP</a>, but Common Lisp is not a bad
-language for <a href="https://link.springer.com/chapter/10.1007/978-3-642-19014-8_11">scientific
-computing</a>:
-it has a great FFI, compilers like <a href="http://sbcl.org/">SBCL</a> can
-generate very fast code with a few hints, and the language itself is
-composed of convenient features that interact nicely.</p>
+<p>I used Common Lisp for scientific computing for a while, from 2008 to about 2015, in combination with R and C++. This choice may surprise people who don't know about projects like <a href="https://en.wikipedia.org/wiki/Maxima_(software)">Maxima</a> or <a href="http://www.femlisp.org/">FEMLISP</a>, but Common Lisp is not a bad language for <a href="https://link.springer.com/chapter/10.1007/978-3-642-19014-8_11">scientific computing</a>: it has a great FFI, compilers like <a href="http://sbcl.org/">SBCL</a> can generate very fast code with a few hints, and the language itself is composed of convenient features that interact nicely.</p>
 
-<p>However, around 2012 I started to become very frustrated with Common
-Lisp. Despite various attempts, it became very clear that libraries
-for scientific computing were not goint to take off: there were many
-one-person efforts (including <a href="https://tpapp.github.io/post/orphaned-lisp-libraries/">mine</a>), but very few of
-them evolved into general tools.</p>
+<p>However, around 2012 I started to become very frustrated with Common Lisp. Despite various attempts, it became very clear that libraries for scientific computing were not goint to take off: there were many one-person efforts (including <a href="https://tpapp.github.io/post/orphaned-lisp-libraries/">mine</a>), but very few of them evolved into general tools.</p>
 
-<p>Initially, I was puzzled by this: Common Lisp is an extremely
-convenient and productive language. Experienced Lisp hackers can write
-very complex, fast, and elegant libraries in reasonably short
-time. Why did this not happen for numerical code?</p>
+<p>Initially, I was puzzled by this: Common Lisp is an extremely convenient and productive language. Experienced Lisp hackers can write very complex, fast, and elegant libraries in reasonably short time. Why did this not happen for numerical code?</p>
 
 <h1 id="the-problem-with-common-lisp">The problem with Common Lisp</h1>
 
-<p>Now I think that one of the main reasons for this is that while you
-can write scientific code in CL that will be (1) fast, (2) portable,
-and (3) convenient, you <em>cannot do all of these at the same
-time</em>. Arrays provide a convenient example for this.</p>
+<p>Now I think that one of the main reasons for this is that while you can write scientific code in CL that will be (1) fast, (2) portable, and (3) convenient, you <em>cannot do all of these at the same time</em>. Arrays provide a convenient example for this.</p>
 
 <p>Consider</p>
 <div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nv">make-array</span> <span class="mi">5</span> <span class="ss">:element-type</span> <span class="ss">&#39;double-float</span><span class="p">)</span></code></pre></div>
-<p>The <a href="http://clhs.lisp.se/Body/f_upgr_1.htm">standard</a> does not
-guarantee that this gives you an array of <code>double-float</code>: it may (if
-the implementation provides them), otherwise you get an array of
-element type <code>T</code>. This turned out to be a major difficulty for
-implementing portable scientific code in Common Lisp.</p>
+<p>The <a href="http://clhs.lisp.se/Body/f_upgr_1.htm">standard</a> does not guarantee that this gives you an array of <code>double-float</code>: it may (if the implementation provides them), otherwise you get an array of element type <code>T</code>. This turned out to be a major difficulty for implementing portable scientific code in Common Lisp.</p>
 
-<p>However, this gets worse: while you can tell a function that operates
-on arrays that these arrays have element type <code>double-float</code>, you
-cannot dispatch on this, as Common Lisp does not have parametric
-types. For example, if you want to write a sum as</p>
+<p>However, this gets worse: while you can tell a function that operates on arrays that these arrays have element type <code>double-float</code>, you cannot dispatch on this, as Common Lisp does not have parametric types. For example, if you want to write a sum as</p>
 <div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nv">defmethod</span> <span class="nv">mysum</span> <span class="p">((</span><span class="nv">vec</span> <span class="nv">vector</span><span class="p">))</span>
   <span class="p">(</span><span class="nv">let</span> <span class="p">((</span><span class="nv">s</span> <span class="mi">0</span><span class="p">))</span>
     <span class="p">(</span><span class="nv">loop</span> <span class="nv">for</span> <span class="nv">elt</span> <span class="nv">across</span> <span class="nv">vec</span>
        <span class="nv">do</span> <span class="p">(</span><span class="nv">incf</span> <span class="nv">s</span> <span class="nv">elt</span><span class="p">))</span>
     <span class="nv">s</span><span class="p">))</span></code></pre></div>
-<p>you can dispatch on the argument being a <code>vector</code>, but not on the
-element type. The compiled code may be generic.</p>
+<p>you can dispatch on the argument being a <code>vector</code>, but not on the element type. The compiled code may be generic.</p>
 
-<p>You can of course branch on the array element types and maybe
-even paper over the whole mess with sufficient macrology (which is
-what <a href="https://github.com/tpapp/lla">LLA</a> ended up doing), but this
-approach is not very extensible, as eventually you end up hardcoding a
-few special types for which your functions will be &quot;fast&quot;, otherwise
-they have to fall back to a generic, boxed type. With multiple
-arguments, the number of combinations explodes very quickly.</p>
+<p>You can of course branch on the array element types and maybe even paper over the whole mess with sufficient macrology (which is what <a href="https://github.com/tpapp/lla">LLA</a> ended up doing), but this approach is not very extensible, as eventually you end up hardcoding a few special types for which your functions will be &quot;fast&quot;, otherwise they have to fall back to a generic, boxed type. With multiple arguments, the number of combinations explodes very quickly.</p>
 
 <h1 id="how-julia-solves-this-problem">How Julia solves this problem</h1>
 
@@ -255,9 +220,7 @@ arguments, the number of combinations explodes very quickly.</p>
     <span class="k">end</span>
     <span class="n">s</span>
 <span class="k">end</span></code></pre></div>
-<p>This is still generic: it works for all subtypes of <code>AbstractVector</code>
-(including vectors and vector-like objects), but notice how the generated code
-is conditional on the element type:</p>
+<p>This is still generic: it works for all subtypes of <code>AbstractVector</code> (including vectors and vector-like objects), but notice how the generated code is conditional on the element type:</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@code_warntype</span> <span class="n">mysum</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="n">Variables</span><span class="o">:</span>
   <span class="c">#self#::#mysum</span>
@@ -309,105 +272,43 @@ is conditional on the element type:</p>
       <span class="mi">14</span><span class="o">:</span>  <span class="c"># line 6:</span>
       <span class="k">return</span> <span class="n">s</span><span class="o">::</span><span class="kt">Float64</span>
   <span class="k">end</span><span class="o">::</span><span class="kt">Float64</span></code></pre></div>
-<p>I mentioned &quot;vector-like objects&quot; above, since I can choose different
-representations for special objects. For example, to do calculations
-with a vector of <code>1</code>s, I can define</p>
+<p>I mentioned &quot;vector-like objects&quot; above, since I can choose different representations for special objects. For example, to do calculations with a vector of <code>1</code>s, I can define</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">struct</span> <span class="n">Ones</span><span class="p">{</span><span class="n">T</span> <span class="o">&lt;:</span> <span class="kt">Number</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="kt">AbstractVector</span><span class="p">{</span><span class="n">T</span><span class="p">}</span>
     <span class="n">len</span><span class="o">::</span><span class="kt">Int</span>
 <span class="k">end</span></code></pre></div>
 <p>At this point, in order to calculate the sum above, I have two choices:</p>
 
 <ol>
-<li><p>Implement the <a href="https://docs.julialang.org/en/latest/manual/interfaces/">relevant
-interface</a>,
-with functions like</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">Base</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="n">Ones</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">len</span></code></pre></div>
-<p>and similarly for element access, etc. This would generate specialized code for the method above, reasonably efficient code, but still iterate over the &quot;elements&quot;.</p></li>
-
-<li><p>In addition, I can define</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">mysum</span><span class="p">(</span><span class="n">vec</span><span class="o">::</span><span class="n">Ones</span><span class="p">{</span><span class="n">T</span><span class="p">})</span> <span class="n">where</span> <span class="n">T</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">len</span> <span class="o">*</span> <span class="n">one</span><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></pre></div>
-<p>which would provide a method for <code>mysum</code>.</p></li>
+<li>Implement the <a href="https://docs.julialang.org/en/latest/manual/interfaces/">relevant interface</a>, with functions like</li>
 </ol>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">Base</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="n">Ones</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">len</span></code></pre></div>
+<p>and similarly for element access, etc. This would generate specialized code for the method above, reasonably efficient code, but still iterate over the &quot;elements&quot;.</p>
 
-<p>A sufficiently rich parametric type system with multiple dispatch
-integrated into the language and supported by a JIT compiler is the
-secret weapon of Julia. Most of the time, <em>you don't have to do
-anything</em>, as it happens automatically for concrete types. Sometimes,
-you have to help the compiler a bit, by writing code where the result
-is <a href="https://docs.julialang.org/en/latest/manual/performance-tips/#Write-%22type-stable%22-functions-1">type
-stable</a>,
-ie the result type just depends on the type (not the value) of the
-arguments and can be inferred by the compiler. Sometimes you have to
-nudge the compiler a bit, and sometimes you have to be careful not to
-mess up type inference: for example, the <code>zero(T)</code> above gives a <code>0</code>
-of type <code>T</code>, always ensuring a correct type that does not change
-during the summation.</p>
+<ol start="2">
+<li>In addition, I can define</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">mysum</span><span class="p">(</span><span class="n">vec</span><span class="o">::</span><span class="n">Ones</span><span class="p">{</span><span class="n">T</span><span class="p">})</span> <span class="n">where</span> <span class="n">T</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">len</span> <span class="o">*</span> <span class="n">one</span><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></pre></div>
+<p>which would provide a method for <code>mysum</code>.</p>
+
+<p>A sufficiently rich parametric type system with multiple dispatch integrated into the language and supported by a JIT compiler is the secret weapon of Julia. Most of the time, <em>you don't have to do anything</em>, as it happens automatically for concrete types. Sometimes, you have to help the compiler a bit, by writing code where the result is <a href="https://docs.julialang.org/en/latest/manual/performance-tips/#Write-%22type-stable%22-functions-1">type stable</a>, ie the result type just depends on the type (not the value) of the arguments and can be inferred by the compiler. Sometimes you have to nudge the compiler a bit, and sometimes you have to be careful not to mess up type inference: for example, the <code>zero(T)</code> above gives a <code>0</code> of type <code>T</code>, always ensuring a correct type that does not change during the summation.</p>
 
 <h1 id="comparison-of-other-language-features">Comparison of other language features</h1>
 
-<p>While I would say that multiple dispatch with parametric types
-designed into the language from the ground up is the most important
-feature of Julia, there are other language features worth comparing to
-Common Lisp.</p>
+<p>While I would say that multiple dispatch with parametric types designed into the language from the ground up is the most important feature of Julia, there are other language features worth comparing to Common Lisp.</p>
 
-<p><a href="https://docs.julialang.org/en/latest/manual/metaprogramming/">Metaprogramming</a>
-is supported. Because of infix syntax, the AST is not as simple as
-S-expressions, but the tools to work with it are evolving fast. That
-said, I don't write as many macros as I did in Common Lisp. Parametric
-types are so powerful that I rarely need macros for performance
-reasons, and instead of syntax extensions, I often go for zero-cost
-abstraction via functions and wrapper types. An interesting
-metaprogramming tool in Julia is <a href="https://docs.julialang.org/en/latest/manual/metaprogramming/#Generated-functions-1">generated
-functions</a>,
-which allow code generation based on argument templates, I use this
-frequently. The equivalent of reader macros are called <a href="https://docs.julialang.org/en/latest/manual/metaprogramming/#Non-Standard-String-Literals-1">non-standard
-string
-literals</a>
-in Julia.</p>
+<p><a href="https://docs.julialang.org/en/latest/manual/metaprogramming/">Metaprogramming</a> is supported. Because of infix syntax, the AST is not as simple as S-expressions, but the tools to work with it are evolving fast. That said, I don't write as many macros as I did in Common Lisp. Parametric types are so powerful that I rarely need macros for performance reasons, and instead of syntax extensions, I often go for zero-cost abstraction via functions and wrapper types. An interesting metaprogramming tool in Julia is <a href="https://docs.julialang.org/en/latest/manual/metaprogramming/#Generated-functions-1">generated functions</a>, which allow code generation based on argument templates, I use this frequently. The equivalent of reader macros are called <a href="https://docs.julialang.org/en/latest/manual/metaprogramming/#Non-Standard-String-Literals-1">non-standard string literals</a> in Julia.</p>
 
-<p>The foreign function interface of Julia is seamlessly integrated into
-the language and very convenient to use. Docstrings are almost the
-same as in Common Lisp, but they support Markdown. Strings are UTF8 by
-default, and very fast. The
-<a href="https://discourse.julialang.org/">community</a> is very vibrant, open,
-and helpful. Simple questions get an answer within minutes,
-complicated ones (eg compiler internals) may take a bit longer, but
-are usually answered within a few hours or a day at most. If you are
-coming from the Common Lisp community, you will see quite a few
-familiar faces.</p>
+<p>The foreign function interface of Julia is seamlessly integrated into the language and very convenient to use. Docstrings are almost the same as in Common Lisp, but they support Markdown. Strings are UTF8 by default, and very fast. The <a href="https://discourse.julialang.org/">community</a> is very vibrant, open, and helpful. Simple questions get an answer within minutes, complicated ones (eg compiler internals) may take a bit longer, but are usually answered within a few hours or a day at most. If you are coming from the Common Lisp community, you will see quite a few familiar faces.</p>
 
-<p>The library ecosystem already surpasses that of Common Lisp, at least
-for scientific programming. High-quality, well-tested code is
-available for linear algebra including sparse matrices (most of it in
-the standard library), optimization, differential equations, and
-automatic differentiation. The
-<a href="http://www.juliadiff.org/ForwardDiff.jl/stable/">latter</a> is simply
-amazing: by providing a type for dual numbers and a few operations,
-forward-mode AD can be used without any implementation
-overhead. Plotting libraries are available (mostly using foreign
-function backends), and R-like &quot;dataframes&quot; are under development.</p>
+<p>The library ecosystem already surpasses that of Common Lisp, at least for scientific programming. High-quality, well-tested code is available for linear algebra including sparse matrices (most of it in the standard library), optimization, differential equations, and automatic differentiation. The <a href="http://www.juliadiff.org/ForwardDiff.jl/stable/">latter</a> is simply amazing: by providing a type for dual numbers and a few operations, forward-mode AD can be used without any implementation overhead. Plotting libraries are available (mostly using foreign function backends), and R-like &quot;dataframes&quot; are under development.</p>
 
 <h1 id="conclusion">Conclusion</h1>
 
-<p>Common Lisp has been and remains a great language, with many excellent
-features that preceded other languages by decades. It has an ANSI
-standard, which means that portable code written decades ago
-will run on a recent implementation. This is a great advantage, but at
-the same time this freezes the language development at the point the
-standard was finalized. No matter how flexible and forward-looking it
-is, it cannot predict and accommodate all possible advances for
-decades.</p>
+<p>Common Lisp has been and remains a great language, with many excellent features that preceded other languages by decades. It has an ANSI standard, which means that portable code written decades ago will run on a recent implementation. This is a great advantage, but at the same time this freezes the language development at the point the standard was finalized. No matter how flexible and forward-looking it is, it cannot predict and accommodate all possible advances for decades.</p>
 
-<p>In contrast, Julia is rapidly evolving. At this stage, code that was
-written half a year ago is very likely to be broken with the most
-recent release.<sup class="footnote-ref" id="fnref:An-elegant-depre"><a class="footnote" href="#fn:An-elegant-depre">2</a></sup> The pace of change will most likely slow down a bit after 1.0 is released, but for now, expect a lot of churning.</p>
+<p>In contrast, Julia is rapidly evolving. At this stage, code that was written half a year ago is very likely to be broken with the most recent release.<sup class="footnote-ref" id="fnref:An-elegant-depre"><a class="footnote" href="#fn:An-elegant-depre">2</a></sup> The pace of change will most likely slow down a bit after 1.0 is released, but for now, expect a lot of churning.</p>
 
-<p>On the other hand, programmers who used Common Lisp for scientific
-computing have always expected to get their hands dirty, since so
-little existing code was available. This is a good time to consider
-investing into Julia instead: you will get more done with less work,
-and you still get to program in a very elegant language that traces a
-lot of its roots to the Lisp family.</p>
+<p>On the other hand, programmers who used Common Lisp for scientific computing have always expected to get their hands dirty, since so little existing code was available. This is a good time to consider investing into Julia instead: you will get more done with less work, and you still get to program in a very elegant language that traces a lot of its roots to the Lisp family.</p>
 <div class="footnotes">
 
 <hr>
