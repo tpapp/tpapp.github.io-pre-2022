@@ -262,8 +262,9 @@ I'(\theta) = \int 1(g(x) > 0) \frac{\partial f(x,\theta)/\partial \theta}{f(x,\t
 
 
 
-<div class="codeheader"><p>download as <a href="https://tpapp.github.io/post/discontinuous_integral_ad/code.jl">code.jl</a></p></div>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">ForwardDiff</span>
+<div class="codedisplay">
+  <div class="codeheader"><p>download as <a href="https://tpapp.github.io/post/discontinuous_integral_ad/code.jl">code.jl</a></p></div>
+  <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">ForwardDiff</span>
 <span class="k">import</span> <span class="n">ForwardDiff</span><span class="o">:</span> <span class="n">Dual</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">partials</span><span class="p">,</span> <span class="n">Tag</span>
 <span class="k">using</span> <span class="n">Distributions</span>
 <span class="k">using</span> <span class="n">Plots</span>
@@ -325,6 +326,7 @@ I'(\theta) = \int 1(g(x) > 0) \frac{\partial f(x,\theta)/\partial \theta}{f(x,\t
 <span class="n">scatter!</span><span class="p">(</span><span class="n">θs</span><span class="p">,</span> <span class="n">last</span><span class="o">.</span><span class="p">(</span><span class="n">ID1s</span><span class="p">),</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&#34;approximation&#34;</span><span class="p">)</span>
 <span class="n">savefig</span><span class="p">(</span><span class="s">&#34;derivative.svg&#34;</span><span class="p">)</span>
 </code></pre></div>
+</div>
 
 
 
