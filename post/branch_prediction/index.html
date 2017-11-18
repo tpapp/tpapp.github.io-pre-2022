@@ -186,6 +186,22 @@
 
 
 
+
+<div id="pagenav">
+  
+  <span class="pagenav-label">next post:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/branch_prediction2/">Branch prediction: yet another example</a>
+  
+  
+  
+  <br/>
+  
+  <span class="pagenav-label">previous post:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/blog-redesign-201709/">Blog redesign 2.0</a>
+  
+</div>
+
+
 <p>I have been working on micro-optimizations for some simulation code, and was reminded of a counter-intuitive artifact of modern CPU architecture, which is worth a short post.</p>
 
 <p>Consider (just for the sake of example) a very simple (if not particularly meaningful) function,</p>
@@ -268,21 +284,6 @@ f(x) = \begin{cases}
 
 <p>Julia <code>Base</code> contains many optimizations like this: for a particularly nice example see functions that use <code>Base.null_safe_op</code>.</p>
 
-
-
-<div id="pagenav">
-  
-  <span class="pagenav-label">next:</span>&nbsp;
-  <a href="https://tpapp.github.io/post/branch_prediction2/">Branch prediction: yet another example</a>
-  
-  
-  
-  <br/>
-  
-  <span class="pagenav-label">previous:</span>&nbsp;
-  <a href="https://tpapp.github.io/post/blog-redesign-201709/">Blog redesign 2.0</a>
-  
-</div>
 
 <div id="disqus_thread"></div>
 <script>
