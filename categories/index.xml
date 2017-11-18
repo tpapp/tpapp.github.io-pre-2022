@@ -3,13 +3,35 @@
   <title>Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/categories/"/>
-  <updated>2017-11-01T12:27:23+01:00</updated>
+  <updated>2017-11-18T10:48:30+01:00</updated>
   
   <id>https://tpapp.github.io/categories/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Checking uncommitted changes when opening a file in Emacs</title>
+    <link href="https://tpapp.github.io/post/check-uncommitted/"/>
+    <id>https://tpapp.github.io/post/check-uncommitted/</id>
+    <published>2017-11-18T10:48:30+01:00</published>
+    <updated>2017-11-18T10:48:30+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/check-uncommitted/">&lt;p&gt;Alas, the following happens all too frequently: I am working on code, some interruption happens, and I fail to commit the changes coherently into the repository.&lt;/p&gt;
+
+&lt;p&gt;Next time I open the file, perhaps to work on some other feature, I forget that I have &lt;em&gt;uncommitted changes&lt;/em&gt; and work on something new. When staging, I realize the mistake and have to spend time disentangling the mess.&lt;/p&gt;
+
+&lt;p&gt;The following Emacs Lisp snippet takes care of this problem by checking for uncommitted changes and taking me to the &lt;code&gt;magit&lt;/code&gt; popup if there is something I should deal with:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;cl-defun&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;tkpapp/check-file-and-popup&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kp&#34;&gt;&amp;amp;optional&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;file&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;buffer-file-name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
+  &lt;span class=&#34;s&#34;&gt;&amp;#34;If the file is version controlled with git and has uncommitted
+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;changes, open the magit status popup.&amp;#34;&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;magit-core&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;when&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;file&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;magit-anything-modified-p&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;magit-status&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
+
+&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;add-hook&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;find-file-hook&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;tkpapp/check-file-and-popup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+  </entry>
   
   <entry>
     <title type="html">WIP: making error locations in julia-repl clickable</title>

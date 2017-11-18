@@ -65,8 +65,8 @@
     <title type="html">Emacs</title>
     <link href="https://tpapp.github.io/tags/emacs/"/>
     <id>https://tpapp.github.io/tags/emacs/</id>
-    <published>2017-11-01T12:27:23+01:00</published>
-    <updated>2017-11-01T12:27:23+01:00</updated>
+    <published>2017-11-18T10:48:30+01:00</published>
+    <updated>2017-11-18T10:48:30+01:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/emacs/"></content>
   </entry>
@@ -189,6 +189,16 @@
     <updated>2017-06-12T16:25:57+02:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/mcmc/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Magit</title>
+    <link href="https://tpapp.github.io/tags/magit/"/>
+    <id>https://tpapp.github.io/tags/magit/</id>
+    <published>2017-11-18T10:48:30+01:00</published>
+    <updated>2017-11-18T10:48:30+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/tags/magit/"></content>
   </entry>
   
   <entry>

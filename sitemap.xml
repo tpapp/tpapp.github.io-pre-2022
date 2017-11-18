@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tpapp.github.io/post/check-uncommitted/</loc>
+    <lastmod>2017-11-18T10:48:30+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tpapp.github.io/post/wip-julia-repl-clickable/</loc>
     <lastmod>2017-11-01T12:27:23+01:00</lastmod>
   </url>
@@ -93,11 +98,6 @@
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/software/</loc>
-    <lastmod>2017-06-11T14:48:06+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tpapp.github.io/</loc>
     <lastmod>2017-06-11T14:48:06+02:00</lastmod>
   </url>
@@ -134,7 +134,7 @@
   
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2017-11-01T12:27:23+01:00</lastmod>
+    <lastmod>2017-11-18T10:48:30+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -170,13 +170,13 @@
   
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2017-11-01T12:27:23+01:00</lastmod>
+    <lastmod>2017-11-18T10:48:30+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tpapp.github.io/tags/emacs/</loc>
-    <lastmod>2017-11-01T12:27:23+01:00</lastmod>
+    <lastmod>2017-11-18T10:48:30+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -249,6 +249,12 @@
   <url>
     <loc>https://tpapp.github.io/tags/mcmc/</loc>
     <lastmod>2017-06-12T16:25:57+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/magit/</loc>
+    <lastmod>2017-11-18T10:48:30+01:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Software</title>
+    <title>Checking uncommitted changes when opening a file in Emacs</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.30.2" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/syntax.css">
-    <link href="https://tpapp.github.io/software/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s website" />
     
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600%7CUbuntu+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -35,7 +34,6 @@
       <a href="https://tpapp.github.io/">About</a>
 <a href="https://tpapp.github.io/research">Research</a>
 <a href="https://tpapp.github.io/post">Blog</a>
-<a href="https://tpapp.github.io/software">Software</a>
 <a href="https://github.com/tpapp/">Github</a>
 <div class="dropdown">
   <a class="dropdown-button">(tags)</a>
@@ -83,6 +81,8 @@
     <a href="/tags/lisp">lisp</a>
     
     <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
     
     <a href="/tags/math">math</a>
     
@@ -105,7 +105,6 @@
       <a href="https://tpapp.github.io/">About</a>
 <a href="https://tpapp.github.io/research">Research</a>
 <a href="https://tpapp.github.io/post">Blog</a>
-<a href="https://tpapp.github.io/software">Software</a>
 <a href="https://github.com/tpapp/">Github</a>
 <div class="dropdown">
   <a class="dropdown-button">(tags)</a>
@@ -154,6 +153,8 @@
     
     <a href="/tags/log1p">log1p</a>
     
+    <a href="/tags/magit">magit</a>
+    
     <a href="/tags/math">math</a>
     
     <a href="/tags/microoptimization">microoptimization</a>
@@ -174,12 +175,61 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>Software</h1>
-<p>All of the software I made public is available on <a href="https://github.com/tpapp/">Github</a> under some open-source license, usually GPL or MIT. This includes <a href="https://github.com/tpapp?utf8=%E2%9C%93&amp;tab=repositories&amp;q=&amp;type=&amp;language=common%20lisp">some libraries in Common Lisp</a>, a language I no longer use, because I switched to <a href="https://julialang.org/">Julia</a>, used by <a href="https://github.com/tpapp?utf8=%E2%9C%93&amp;tab=repositories&amp;q=&amp;type=&amp;language=julia">most of my recent libraries</a>.</p>
+<h1>Checking uncommitted changes when opening a file in Emacs</h1>2017/11/18
+<span class="tags">
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+</span>
 
-<p>You can find the source for this site <a href="https://github.com/tpapp/tpapp.github.io-source">on Github</a>.</p>
 
 
+<p>Alas, the following happens all too frequently: I am working on code, some interruption happens, and I fail to commit the changes coherently into the repository.</p>
+
+<p>Next time I open the file, perhaps to work on some other feature, I forget that I have <em>uncommitted changes</em> and work on something new. When staging, I realize the mistake and have to spend time disentangling the mess.</p>
+
+<p>The following Emacs Lisp snippet takes care of this problem by checking for uncommitted changes and taking me to the <code>magit</code> popup if there is something I should deal with:</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">cl-defun</span> <span class="nv">tkpapp/check-file-and-popup</span> <span class="p">(</span><span class="kp">&amp;optional</span> <span class="p">(</span><span class="nv">file</span> <span class="p">(</span><span class="nf">buffer-file-name</span><span class="p">)))</span>
+  <span class="s">&#34;If the file is version controlled with git and has uncommitted
+</span><span class="s">changes, open the magit status popup.&#34;</span>
+  <span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;magit-core</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">and</span> <span class="nv">file</span> <span class="p">(</span><span class="nv">magit-anything-modified-p</span> <span class="no">t</span> <span class="nv">file</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">magit-status</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;find-file-hook</span> <span class="ss">&#39;tkpapp/check-file-and-popup</span><span class="p">)</span></code></pre></div>
+
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/wip-julia-repl-clickable/">WIP: making error locations in julia-repl clickable</a>
+  
+</div>
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
 
     </div>
