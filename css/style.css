@@ -260,7 +260,7 @@ small, .font_small {
       border: none;
       height: 1px;
       background-color: #aaa;
-      margin-top: 1.5em 0 0.2em 0;
+      margin: 1.5em 0 0.2em 0;
       width: 10em; }
     #content .footnotes a {
       /* fix links for sup */
