@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Publication quality plots in Julia</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.30.2" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600%7CUbuntu+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          
+          
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/big-data">big data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/big-data">big data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>Publication quality plots in Julia</h1>2017/12/01
+<span class="tags">
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+</span>
+
+
+
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous post:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/check-uncommitted/">Checking uncommitted changes when opening a file in Emacs</a>
+  
+</div>
+
+
+<p>In light of recent discussions on Julia's <a href="https://discourse.julialang.org/">Discourse forum</a> about getting “publication-quality” or simply “nice” plots in Julia, I thought it would be worthwhile to briefly summarize what works for me.<sup class="footnote-ref" id="fnref:Code-in-this-pos"><a class="footnote" href="#fn:Code-in-this-pos">1</a></sup> If you are a seasoned Julia user, this post may have nothing new for you, but I hope that newcomers to Julia find it useful.</p>
+
+<h2 id="generate-the-data">Generate the data</h2>
+
+<p>I try to separate <em>data generation</em> and <em>plotting</em>. The first may be time-consuming (some calculations can take hours or days to run), and I find it best to save the results independently of any plotting. Recently I was sitting at a conference where a presentation about a really interesting topic had some plots that were extremely hard to see: if I remember correctly, something like 10x2 subplots, with almost all fine detail lost due to the resolution of the projector or the human eye. When someone in the audience asked about this, the presenting author replied that he is aware of the issue, but remaking the plots would involve rerunning the calculations, which take weeks. Saving the data separately will ensure that you are never in this situation; also, you can benefit from updates to plotting libraries when tweaking your plots.</p>
+
+<p>For saving results, <a href="https://github.com/simonster/JLD2.jl">JLD2</a> is probably the most convenient tool: while it is technically work in progress, it is stable, fast, and convenient.<sup class="footnote-ref" id="fnref:In-the-worst-cas"><a class="footnote" href="#fn:In-the-worst-cas">2</a></sup> The key question is <em>where</em> to save the data: I find it best to use a consistent path that you can just include in scripts.</p>
+
+<p>You have several options:</p>
+
+<ol>
+<li><p>define a global variable in your <code>~/.juliarc</code> for your projects, and construct a path with <code>joinpath</code>,</p></li>
+
+<li><p>if you have packaged your code, <code>Pkg.dir</code> can be used to obtain a subdirectory in the package root,</p></li>
+
+<li><p>if your code is in a module, you can wrap <code>@__DIR__</code> in a function to obtain a directory.</p></li>
+</ol>
+
+<p>For this blog post I used the first option, while in practice I use the second and the third.</p>
+
+<p>To illustrate plots, I use the code below to generate random variates for <a href="https://en.wikipedia.org/wiki/Skewness#Sample_skewness">sample skewness</a>, and save it.</p>
+
+
+
+
+<div class="codedisplay">
+  <div class="codeheader"><p>download as <a href="https://tpapp.github.io/post/plot-workflow/data.jl">data.jl</a></p></div>
+  <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">StatsBase</span>                 <span class="c"># for skewness</span>
+<span class="k">using</span> <span class="n">JLD2</span>                      <span class="c"># saving data</span>
+<span class="n">cd</span><span class="p">(</span><span class="n">joinpath</span><span class="p">(</span><span class="n">BLOG_POSTS</span><span class="p">,</span> <span class="s">&#34;plot-workflow&#34;</span><span class="p">))</span> <span class="c"># default path</span>
+<span class="n">sample_skewness</span> <span class="o">=</span> <span class="p">[</span><span class="n">skewness</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">1000</span><span class="p">]</span>
+<span class="nd">@save</span> <span class="s">&#34;data.jld2&#34;</span> <span class="n">sample_skewness</span> <span class="c"># save data</span>
+</code></pre></div>
+</div>
+
+
+<h2 id="make-the-plot">Make the plot</h2>
+
+<p>No plotting so far, so let's remedy that. I use <a href="http://docs.juliaplots.org/latest/">Plots.jl</a>, which is a metapackage that unifies syntax for plotting via various <em>plotting backends</em> in Julia. I find this practical, because I can quickly switch backends for different purposes, and experiment with various options when I find the output suboptimal. The price you pay for this flexibility is <em>compilation time</em>, a known issue which means that you have to wait a bit to get your first plot. Separating plotting and data generation has the advantage that once I fire up the plotting infrastructure, I switch to “plotting mode” and clean up several plots at the same time.</p>
+
+<p>Users frequently ask what the “best” backend is. This all depends on your needs, but these days I use the <code>pgfplots()</code> backend almost exclusively.<sup class="footnote-ref" id="fnref:Note-that-you-ne"><a class="footnote" href="#fn:Note-that-you-ne">3</a></sup> The <code>gr()</code> backend is also useful, because it is very fast.</p>
+
+<p>Time to tweak the plot! I find the <a href="http://docs.juliaplots.org/latest/attributes/">attributes</a> documentation the most useful for this. For this plot I need axis labels, a title, and prefer to disable the legend since I am plotting a single series. I am also using <a href="https://github.com/stevengj/LaTeXStrings.jl">LaTeXStrings.jl</a>, which means that I can use LaTeX-compatible syntax for labels seamlessly (notice the <code>L</code> before the string).</p>
+
+
+
+
+<div class="codedisplay">
+  <div class="codeheader"><p>download as <a href="https://tpapp.github.io/post/plot-workflow/plot.jl">plot.jl</a></p></div>
+  <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">JLD2</span>                      <span class="c"># loading data</span>
+<span class="k">using</span> <span class="n">Plots</span><span class="p">;</span> <span class="n">pgfplots</span><span class="p">()</span>         <span class="c"># PGFPlots backend</span>
+<span class="k">using</span> <span class="n">LaTeXStrings</span>              <span class="c"># nice LaTeX strings</span>
+<span class="n">cd</span><span class="p">(</span><span class="n">joinpath</span><span class="p">(</span><span class="n">BLOG_POSTS</span><span class="p">,</span> <span class="s">&#34;plot-workflow&#34;</span><span class="p">))</span> <span class="c"># default path</span>
+<span class="nd">@load</span> <span class="s">&#34;data.jld2&#34;</span>                         <span class="c"># load data</span>
+<span class="c"># make plot and tweak; this is the end result</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">histogram</span><span class="p">(</span><span class="n">sample_skewness</span><span class="p">,</span> <span class="n">normalize</span> <span class="o">=</span> <span class="kc">true</span><span class="p">),</span>
+     <span class="n">xlab</span> <span class="o">=</span> <span class="n">L</span><span class="s">&#34;\gamma_1&#34;</span><span class="p">,</span> <span class="n">fillcolor</span> <span class="o">=</span> <span class="o">:</span><span class="n">lightgray</span><span class="p">,</span>
+     <span class="n">yaxis</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#34;frequency&#34;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">title</span> <span class="o">=</span> <span class="s">&#34;sample skewness&#34;</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+<span class="c"># finally save</span>
+<span class="n">savefig</span><span class="p">(</span><span class="s">&#34;sample_skewness.svg&#34;</span><span class="p">)</span>  <span class="c"># for quick viewing and web content</span>
+<span class="n">savefig</span><span class="p">(</span><span class="s">&#34;sample_skewness.tex&#34;</span><span class="p">)</span>  <span class="c"># for inclusion into papers</span>
+<span class="n">savefig</span><span class="p">(</span><span class="s">&#34;sample_skewness.pdf&#34;</span><span class="p">)</span>  <span class="c"># for quick viewing</span>
+</code></pre></div>
+</div>
+
+
+<p>Having generated the plot, I save it in various formats with <code>savefig</code>. The SVG output is shown below.</p>
+
+
+
+<img src="/post/plot-workflow/sample_skewness.svg" alt="The plot">
+
+
+<h2 id="how-to-get-help">How to get help</h2>
+
+<p>If you cannot achieve the desired output, you can</p>
+
+<ol>
+<li><p>reread the <a href="http://docs.juliaplots.org/latest/">Plots.jl manual</a>,</p></li>
+
+<li><p>study the <a href="https://github.com/JuliaPlots/ExamplePlots.jl">example plots</a>,</p></li>
+
+<li><p>ask for help in the <a href="https://discourse.julialang.org/c/domain/viz">Visualization topic</a>.</p></li>
+</ol>
+
+<p>For the third option, make sure you include a <em>self-contained minimal working example</em>,<sup class="footnote-ref" id="fnref:You-should-use-t"><a class="footnote" href="#fn:You-should-use-t">4</a></sup> which also generates or loads the data, so that others can run your code as is. Randomly generated data should be fine, or standard datasets from <a href="https://github.com/johnmyleswhite/RDatasets.jl">RDatasets.jl</a>.</p>
+
+<p>Sometimes you will find that the feature you are looking for is not (yet) supported. You should check if there is an <a href="https://github.com/JuliaPlots/Plots.jl/issues">open issue</a> for your problem (the discussion forum linked above is useful for this), and if not, open one.</p>
+
+<p>When asking for help or just discussing plotting libraries in Julia, please keep in mind that they are a community effort with volunteers devoting their time to address a very difficult problem. Plotting is not a well-defined exercise, it involves a lot of heuristics and special cases, and most languages took years to get it right (for a given value of “right”). Make it easy for people to help you by making a reproducible, clean MWE: it is very hard to explain how to improve your plot without the actual code and output.</p>
+<div class="footnotes">
+
+<hr>
+
+<ol>
+<li id="fn:Code-in-this-pos">Code in this post was written in December 2017, you may need to tweak it if the API of the packages changes. <a class="footnote-return" href="#fnref:Code-in-this-pos"><sup>[return]</sup></a></li>
+<li id="fn:In-the-worst-cas">In the worst case scenario, you can always regenerate the data ☺ <a class="footnote-return" href="#fnref:In-the-worst-cas"><sup>[return]</sup></a></li>
+<li id="fn:Note-that-you-ne">Note that you need a <a href="https://github.com/sisl/TikzPictures.jl">working TeX installation</a>, which is easy to obtain on Linux. <a class="footnote-return" href="#fnref:Note-that-you-ne"><sup>[return]</sup></a></li>
+<li id="fn:You-should-use-t">You should use triple-backticks <code>```</code> to format your code. <a class="footnote-return" href="#fnref:You-should-use-t"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+

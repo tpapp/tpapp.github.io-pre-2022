@@ -135,8 +135,8 @@
     <title type="html">Julia</title>
     <link href="https://tpapp.github.io/tags/julia/"/>
     <id>https://tpapp.github.io/tags/julia/</id>
-    <published>2017-11-01T12:27:23+01:00</published>
-    <updated>2017-11-01T12:27:23+01:00</updated>
+    <published>2017-12-01T09:56:00+01:00</published>
+    <updated>2017-12-01T09:56:00+01:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/julia/"></content>
   </entry>
@@ -242,6 +242,16 @@
   </entry>
   
   <entry>
+    <title type="html">Plots</title>
+    <link href="https://tpapp.github.io/tags/plots/"/>
+    <id>https://tpapp.github.io/tags/plots/</id>
+    <published>2017-12-01T09:56:00+01:00</published>
+    <updated>2017-12-01T09:56:00+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/tags/plots/"></content>
+  </entry>
+  
+  <entry>
     <title type="html">Stan</title>
     <link href="https://tpapp.github.io/tags/stan/"/>
     <id>https://tpapp.github.io/tags/stan/</id>
@@ -275,8 +285,8 @@
     <title type="html">Weave</title>
     <link href="https://tpapp.github.io/tags/weave/"/>
     <id>https://tpapp.github.io/tags/weave/</id>
-    <published>2017-03-30T10:02:32+02:00</published>
-    <updated>2017-03-30T10:02:32+02:00</updated>
+    <published>2017-03-03T13:11:53+01:00</published>
+    <updated>2017-03-03T13:11:53+01:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/weave/"></content>
   </entry>
@@ -285,8 +295,8 @@
     <title type="html">Weave</title>
     <link href="https://tpapp.github.io/tags/weave/"/>
     <id>https://tpapp.github.io/tags/weave/</id>
-    <published>2017-03-03T13:11:53+01:00</published>
-    <updated>2017-03-03T13:11:53+01:00</updated>
+    <published>2017-03-30T10:02:32+02:00</published>
+    <updated>2017-03-30T10:02:32+02:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/tags/weave/"></content>
   </entry>

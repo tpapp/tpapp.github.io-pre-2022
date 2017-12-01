@@ -3,13 +3,124 @@
   <title>Julia on Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/tags/julia/"/>
-  <updated>2017-11-01T12:27:23+01:00</updated>
+  <updated>2017-12-01T09:56:00+01:00</updated>
   
   <id>https://tpapp.github.io/tags/julia/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Publication quality plots in Julia</title>
+    <link href="https://tpapp.github.io/post/plot-workflow/"/>
+    <id>https://tpapp.github.io/post/plot-workflow/</id>
+    <published>2017-12-01T09:56:00+01:00</published>
+    <updated>2017-12-01T09:56:00+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/plot-workflow/">&lt;p&gt;In light of recent discussions on Julia&#39;s &lt;a href=&#34;https://discourse.julialang.org/&#34;&gt;Discourse forum&lt;/a&gt; about getting “publication-quality” or simply “nice” plots in Julia, I thought it would be worthwhile to briefly summarize what works for me.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Code-in-this-pos&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Code-in-this-pos&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; If you are a seasoned Julia user, this post may have nothing new for you, but I hope that newcomers to Julia find it useful.&lt;/p&gt;
+
+&lt;h2 id=&#34;generate-the-data&#34;&gt;Generate the data&lt;/h2&gt;
+
+&lt;p&gt;I try to separate &lt;em&gt;data generation&lt;/em&gt; and &lt;em&gt;plotting&lt;/em&gt;. The first may be time-consuming (some calculations can take hours or days to run), and I find it best to save the results independently of any plotting. Recently I was sitting at a conference where a presentation about a really interesting topic had some plots that were extremely hard to see: if I remember correctly, something like 10x2 subplots, with almost all fine detail lost due to the resolution of the projector or the human eye. When someone in the audience asked about this, the presenting author replied that he is aware of the issue, but remaking the plots would involve rerunning the calculations, which take weeks. Saving the data separately will ensure that you are never in this situation; also, you can benefit from updates to plotting libraries when tweaking your plots.&lt;/p&gt;
+
+&lt;p&gt;For saving results, &lt;a href=&#34;https://github.com/simonster/JLD2.jl&#34;&gt;JLD2&lt;/a&gt; is probably the most convenient tool: while it is technically work in progress, it is stable, fast, and convenient.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:In-the-worst-cas&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:In-the-worst-cas&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; The key question is &lt;em&gt;where&lt;/em&gt; to save the data: I find it best to use a consistent path that you can just include in scripts.&lt;/p&gt;
+
+&lt;p&gt;You have several options:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;define a global variable in your &lt;code&gt;~/.juliarc&lt;/code&gt; for your projects, and construct a path with &lt;code&gt;joinpath&lt;/code&gt;,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;if you have packaged your code, &lt;code&gt;Pkg.dir&lt;/code&gt; can be used to obtain a subdirectory in the package root,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;if your code is in a module, you can wrap &lt;code&gt;@__DIR__&lt;/code&gt; in a function to obtain a directory.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;For this blog post I used the first option, while in practice I use the second and the third.&lt;/p&gt;
+
+&lt;p&gt;To illustrate plots, I use the code below to generate random variates for &lt;a href=&#34;https://en.wikipedia.org/wiki/Skewness#Sample_skewness&#34;&gt;sample skewness&lt;/a&gt;, and save it.&lt;/p&gt;
+
+
+
+
+&lt;div class=&#34;codedisplay&#34;&gt;
+  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tpapp.github.io/post/plot-workflow/data.jl&#34;&gt;data.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+  &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;StatsBase&lt;/span&gt;                 &lt;span class=&#34;c&#34;&gt;# for skewness&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;JLD2&lt;/span&gt;                      &lt;span class=&#34;c&#34;&gt;# saving data&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;joinpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BLOG_POSTS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;plot-workflow&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# default path&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;sample_skewness&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;skewness&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;randn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;_&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;nd&#34;&gt;@save&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;data.jld2&amp;#34;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sample_skewness&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# save data&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;h2 id=&#34;make-the-plot&#34;&gt;Make the plot&lt;/h2&gt;
+
+&lt;p&gt;No plotting so far, so let&#39;s remedy that. I use &lt;a href=&#34;http://docs.juliaplots.org/latest/&#34;&gt;Plots.jl&lt;/a&gt;, which is a metapackage that unifies syntax for plotting via various &lt;em&gt;plotting backends&lt;/em&gt; in Julia. I find this practical, because I can quickly switch backends for different purposes, and experiment with various options when I find the output suboptimal. The price you pay for this flexibility is &lt;em&gt;compilation time&lt;/em&gt;, a known issue which means that you have to wait a bit to get your first plot. Separating plotting and data generation has the advantage that once I fire up the plotting infrastructure, I switch to “plotting mode” and clean up several plots at the same time.&lt;/p&gt;
+
+&lt;p&gt;Users frequently ask what the “best” backend is. This all depends on your needs, but these days I use the &lt;code&gt;pgfplots()&lt;/code&gt; backend almost exclusively.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Note-that-you-ne&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Note-that-you-ne&#34;&gt;3&lt;/a&gt;&lt;/sup&gt; The &lt;code&gt;gr()&lt;/code&gt; backend is also useful, because it is very fast.&lt;/p&gt;
+
+&lt;p&gt;Time to tweak the plot! I find the &lt;a href=&#34;http://docs.juliaplots.org/latest/attributes/&#34;&gt;attributes&lt;/a&gt; documentation the most useful for this. For this plot I need axis labels, a title, and prefer to disable the legend since I am plotting a single series. I am also using &lt;a href=&#34;https://github.com/stevengj/LaTeXStrings.jl&#34;&gt;LaTeXStrings.jl&lt;/a&gt;, which means that I can use LaTeX-compatible syntax for labels seamlessly (notice the &lt;code&gt;L&lt;/code&gt; before the string).&lt;/p&gt;
+
+
+
+
+&lt;div class=&#34;codedisplay&#34;&gt;
+  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tpapp.github.io/post/plot-workflow/plot.jl&#34;&gt;plot.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+  &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;JLD2&lt;/span&gt;                      &lt;span class=&#34;c&#34;&gt;# loading data&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Plots&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pgfplots&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;         &lt;span class=&#34;c&#34;&gt;# PGFPlots backend&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LaTeXStrings&lt;/span&gt;              &lt;span class=&#34;c&#34;&gt;# nice LaTeX strings&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;joinpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BLOG_POSTS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;plot-workflow&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# default path&lt;/span&gt;
+&lt;span class=&#34;nd&#34;&gt;@load&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;data.jld2&amp;#34;&lt;/span&gt;                         &lt;span class=&#34;c&#34;&gt;# load data&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# make plot and tweak; this is the end result&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;histogram&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sample_skewness&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;normalize&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;xlab&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;L&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;\gamma_1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fillcolor&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;lightgray&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;yaxis&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;frequency&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;title&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;sample skewness&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;legend&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# finally save&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;savefig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;sample_skewness.svg&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;# for quick viewing and web content&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;savefig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;sample_skewness.tex&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;# for inclusion into papers&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;savefig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;sample_skewness.pdf&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;# for quick viewing&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;p&gt;Having generated the plot, I save it in various formats with &lt;code&gt;savefig&lt;/code&gt;. The SVG output is shown below.&lt;/p&gt;
+
+
+
+&lt;img src=&#34;https://tpapp.github.io/post/plot-workflow/sample_skewness.svg&#34; alt=&#34;The plot&#34;&gt;
+
+
+&lt;h2 id=&#34;how-to-get-help&#34;&gt;How to get help&lt;/h2&gt;
+
+&lt;p&gt;If you cannot achieve the desired output, you can&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;reread the &lt;a href=&#34;http://docs.juliaplots.org/latest/&#34;&gt;Plots.jl manual&lt;/a&gt;,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;study the &lt;a href=&#34;https://github.com/JuliaPlots/ExamplePlots.jl&#34;&gt;example plots&lt;/a&gt;,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ask for help in the &lt;a href=&#34;https://discourse.julialang.org/c/domain/viz&#34;&gt;Visualization topic&lt;/a&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;For the third option, make sure you include a &lt;em&gt;self-contained minimal working example&lt;/em&gt;,&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:You-should-use-t&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:You-should-use-t&#34;&gt;4&lt;/a&gt;&lt;/sup&gt; which also generates or loads the data, so that others can run your code as is. Randomly generated data should be fine, or standard datasets from &lt;a href=&#34;https://github.com/johnmyleswhite/RDatasets.jl&#34;&gt;RDatasets.jl&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Sometimes you will find that the feature you are looking for is not (yet) supported. You should check if there is an &lt;a href=&#34;https://github.com/JuliaPlots/Plots.jl/issues&#34;&gt;open issue&lt;/a&gt; for your problem (the discussion forum linked above is useful for this), and if not, open one.&lt;/p&gt;
+
+&lt;p&gt;When asking for help or just discussing plotting libraries in Julia, please keep in mind that they are a community effort with volunteers devoting their time to address a very difficult problem. Plotting is not a well-defined exercise, it involves a lot of heuristics and special cases, and most languages took years to get it right (for a given value of “right”). Make it easy for people to help you by making a reproducible, clean MWE: it is very hard to explain how to improve your plot without the actual code and output.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:Code-in-this-pos&#34;&gt;Code in this post was written in December 2017, you may need to tweak it if the API of the packages changes. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:Code-in-this-pos&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:In-the-worst-cas&#34;&gt;In the worst case scenario, you can always regenerate the data ☺ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:In-the-worst-cas&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:Note-that-you-ne&#34;&gt;Note that you need a &lt;a href=&#34;https://github.com/sisl/TikzPictures.jl&#34;&gt;working TeX installation&lt;/a&gt;, which is easy to obtain on Linux. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:Note-that-you-ne&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:You-should-use-t&#34;&gt;You should use triple-backticks &lt;code&gt;```&lt;/code&gt; to format your code. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:You-should-use-t&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">WIP: making error locations in julia-repl clickable</title>
