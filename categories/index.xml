@@ -3,13 +3,77 @@
   <title>Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/categories/"/>
-  <updated>2017-12-01T09:56:00+01:00</updated>
+  <updated>2017-12-04T15:32:41+01:00</updated>
   
   <id>https://tpapp.github.io/categories/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Working with large Julia source files in Emacs</title>
+    <link href="https://tpapp.github.io/post/large-files-julia/"/>
+    <id>https://tpapp.github.io/post/large-files-julia/</id>
+    <published>2017-12-04T15:32:41+01:00</published>
+    <updated>2017-12-04T15:32:41+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/large-files-julia/">&lt;p&gt;When writing software, especially libraries, a natural question is how to organize source code into files. Some languages, eg Matlab, encourage a very fragmented style (one function per file), while for some other languages (C/C++), a separation between the interface (&lt;code&gt;.h&lt;/code&gt;) and the implementation (&lt;code&gt;.c&lt;/code&gt;/&lt;code&gt;.cpp&lt;/code&gt;) is traditional.&lt;/p&gt;
+
+&lt;p&gt;Julia has no such constraint: &lt;code&gt;include&lt;/code&gt; allows the source code for a module to be organized into small pieces, possibly scattered in multiple directories, or it can be a single monolithic piece of code. The choice on this spectrum is up to the authors, and is largely a matter of personal preference.&lt;/p&gt;
+
+&lt;p&gt;When I started working with Julia, I was following the example of some prominent packages, and organized code into small pieces (~ 500 LOC). Lately, whenever I refactored my code, I ended up putting it in a single file.&lt;/p&gt;
+
+&lt;p&gt;I found the following Emacs tools very helpful for navigation.&lt;/p&gt;
+
+&lt;h2 id=&#34;form-feeds-and-pagebreaklinesmode&#34;&gt;Form feeds and page-break-lines-mode&lt;/h2&gt;
+
+&lt;p&gt;Form feed, or &lt;code&gt;\f&lt;/code&gt;, is an ASCII control character that was used to request a new page in line printers. Your editor may display it as &lt;code&gt;^L&lt;/code&gt;. It has a long history of being used as a separator, and Emacs supports it in various ways.&lt;/p&gt;
+
+&lt;p&gt;By default, &lt;code&gt;C-x [&lt;/code&gt; and &lt;code&gt;C-x ]&lt;/code&gt; take you to the previous and next form feed separators. Combined with numerical prefixes, eg &lt;code&gt;C-3 C-x [&lt;/code&gt;, you can jump across multiple ones very quickly. Other commands with &lt;code&gt;page&lt;/code&gt; in their name allow narrowing, marking, and other functions.&lt;/p&gt;
+
+&lt;p&gt;Many Emacs packages provide extra functionality for page breaks. My favorite is &lt;a href=&#34;https://github.com/purcell/page-break-lines&#34;&gt;page-break-lines&lt;/a&gt;, which replaces &lt;code&gt;^L&lt;/code&gt; with a horizontal line, so that the output looks like this:&lt;/p&gt;
+
+&lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;export&lt;/span&gt;
+    ML_estimator
+
+&lt;hr style=&#34;background-color: #008b45; height: 1px; border: 0 none;&#34;&gt;&lt;span style=&#34;color: #008b45;&#34;&gt;# &lt;/span&gt;&lt;span style=&#34;color: #008b45;&#34;&gt;general API
+&lt;/span&gt;
+&lt;span style=&#34;color: #fa5151;&#34;&gt;&#34;&#34;&#34;
+    ML_estimator(ModelType, data...)
+
+Estimate `ModelType` using maximum likelihood
+on `data`, which  is model-specific.
+&#34;&#34;&#34;&lt;/span&gt;
+&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;function&lt;/span&gt; &lt;span style=&#34;color: #2c53ca;&#34;&gt;ML_estimator&lt;/span&gt; &lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;end&lt;/span&gt;
+&lt;/pre&gt;
+
+&lt;h2 id=&#34;finding-things-quickly&#34;&gt;Finding things quickly&lt;/h2&gt;
+
+&lt;p&gt;I am using &lt;a href=&#34;https://emacs-helm.github.io/helm/&#34;&gt;helm&lt;/a&gt; pervasively. &lt;code&gt;helm-occur&lt;/code&gt; is very handy for listing all occurrences of something, and navigating them. The following is an except from &lt;code&gt;base/operators.jl&lt;/code&gt;, looking for &lt;code&gt;isless&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
+&lt;span style=&#34;color: #00ced1; text-decoration: underline;&#34;&gt;operators.jl&lt;/span&gt;:&lt;span style=&#34;color: #ff7f00;&#34;&gt;213&lt;/span&gt;:types with a canonical total order should implement `&lt;span style=&#34;color: #b00000;&#34;&gt;isless&lt;/span&gt;`.
+&lt;span style=&#34;color: #00ced1; text-decoration: underline;&#34;&gt;operators.jl&lt;/span&gt;:&lt;span style=&#34;color: #ff7f00;&#34;&gt;227&lt;/span&gt;:&amp;lt;(x, y) = &lt;span style=&#34;color: #b00000;&#34;&gt;isless&lt;/span&gt;(x, y)
+&lt;span style=&#34;color: #00ced1; text-decoration: underline;&#34;&gt;operators.jl&lt;/span&gt;:&lt;span style=&#34;color: #ff7f00;&#34;&gt;300&lt;/span&gt;:# this definition allows Number types to implement &amp;lt; instead of &lt;span style=&#34;color: #b00000;&#34;&gt;isless&lt;/span&gt;,
+&lt;span style=&#34;color: #00ced1; text-decoration: underline;&#34;&gt;operators.jl&lt;/span&gt;:&lt;span style=&#34;color: #ff7f00;&#34;&gt;302&lt;/span&gt;:&lt;span style=&#34;color: #b00000;&#34;&gt;isless&lt;/span&gt;(x::Real, y::Real) = x&amp;lt;y
+&lt;span style=&#34;color: #00ced1; text-decoration: underline;&#34;&gt;operators.jl&lt;/span&gt;:&lt;span style=&#34;color: #ff7f00;&#34;&gt;303&lt;/span&gt;:lexcmp(x::Real, y::Real) = &lt;span style=&#34;color: #b00000;&#34;&gt;isless&lt;/span&gt;(x,y) ? -1 : ifelse(&lt;span style=&#34;color: #b00000;&#34;&gt;isless&lt;/span&gt;(y,x), 1, 0)
+&lt;/pre&gt;
+
+&lt;p&gt;You can move across these matches, jump to one in an adjacent buffer while keeping this list open, or save the list for later use. Its big brother &lt;code&gt;helm-do-grep-ag&lt;/code&gt; is even more powerful, using &lt;a href=&#34;https://geoff.greer.fm/ag/&#34;&gt;ag&lt;/a&gt; to find something in a directory tree.&lt;/p&gt;
+
+&lt;p&gt;With these two tools, I find navigating files around 5K LOC very convenient — the better I learn Emacs, the larger my threshold for a “large” file becomes.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:In-case-you-are&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:In-case-you-are&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:In-case-you-are&#34;&gt;In case you are wandering, the largest files are around 6K LOC in Julia &lt;code&gt;Base&lt;/code&gt; at the moment. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:In-case-you-are&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">Publication quality plots in Julia</title>

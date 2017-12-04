@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Disabling Privacy Badger</title>
+    <title>Working with large Julia source files in Emacs</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.31.1" />
@@ -179,12 +179,12 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>Disabling Privacy Badger</h1>2017/05/02
+<h1>Working with large Julia source files in Emacs</h1>2017/12/04
 <span class="tags">
     
-    <a href="/tags/firefox">firefox</a>
+    <a href="/tags/julia">julia</a>
     
-    <a href="/tags/browser-plugins">browser plugins</a>
+    <a href="/tags/emacs">emacs</a>
     
 </span>
 
@@ -193,26 +193,68 @@
 
 <div id="pagenav">
   
-  <span class="pagenav-label">next post:</span>&nbsp;
-  <a href="https://tpapp.github.io/post/jacobian-chain/">Two tricks for change of variables in MCMC</a>
   
-  
-  
-  <br/>
   
   <span class="pagenav-label">previous post:</span>&nbsp;
-  <a href="https://tpapp.github.io/post/blogging-weave-julia-hugo/">Blogging with Hugo, Julia, Weave.jl</a>
+  <a href="https://tpapp.github.io/post/plot-workflow/">Publication quality plots in Julia</a>
   
 </div>
 
 
-<p>Firefox has been my primary browser for the last decade. I find it very fast and convenient, and use quite a few addons, including <a href="https://addons.mozilla.org/en-gb/firefox/addon/google-scholar-button/">Google Scholar Button</a>, <a href="https://addons.mozilla.org/en-gb/firefox/addon/noscript/?src=search">NoScript</a>,  and <a href="https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/">uBlock Origin</a>.</p>
+<p>When writing software, especially libraries, a natural question is how to organize source code into files. Some languages, eg Matlab, encourage a very fragmented style (one function per file), while for some other languages (C/C++), a separation between the interface (<code>.h</code>) and the implementation (<code>.c</code>/<code>.cpp</code>) is traditional.</p>
 
-<p>I can&rsquo;t recall exactly when, but about half a year ago various sites started to break. I have not bothered to debug what&rsquo;s happening, suspecting it was was a combination of various plugins, but continued to use Firefox and installed <a href="https://github.com/darktrojan/openwith">openwith</a> to open broken pages in Chromium (yes, I know, the ultimate kludge). More sites became broken, and I found that now I am spending 99% of my time in Chromium, which I don&rsquo;t like that much, but moreover, it is a resource hog: while using the plugins above I can get the CPU load of Firefox to around 1&ndash;2% when I am not using it, Chromium drains my laptop battery in effectively half the time. To make things worse, Chromium apparently can&rsquo;t open links in the background like Firefox, and insists on raising the window every time I open a link from another process, which is distracting.</p>
+<p>Julia has no such constraint: <code>include</code> allows the source code for a module to be organized into small pieces, possibly scattered in multiple directories, or it can be a single monolithic piece of code. The choice on this spectrum is up to the authors, and is largely a matter of personal preference.</p>
 
-<p>Finally, <a href="https://discourse.julialang.org/">Julia&rsquo;s Discourse forum</a> started showing up empty, which was the last straw and I went through my plugins. It turns out hat <a href="https://www.eff.org/privacybadger">Privacy Badger</a> was responsible for everything: apparently it relies on heavy-handed heuristics and breaks a lot of webpages. One can report this, but instead of reporting around 10&ndash;20 pages which were broken, I simply removed the plugin. I have a lot of respect for what the Electronic Frontier Foundation does, but I am not sure that this plugin is very useful.</p>
+<p>When I started working with Julia, I was following the example of some prominent packages, and organized code into small pieces (~ 500 LOC). Lately, whenever I refactored my code, I ended up putting it in a single file.</p>
 
-<p>So finally I got back the web the way I like it. Moral of the story: temporary workarounds become permanent, and bite back.</p>
+<p>I found the following Emacs tools very helpful for navigation.</p>
+
+<h2 id="form-feeds-and-pagebreaklinesmode">Form feeds and page-break-lines-mode</h2>
+
+<p>Form feed, or <code>\f</code>, is an ASCII control character that was used to request a new page in line printers. Your editor may display it as <code>^L</code>. It has a long history of being used as a separator, and Emacs supports it in various ways.</p>
+
+<p>By default, <code>C-x [</code> and <code>C-x ]</code> take you to the previous and next form feed separators. Combined with numerical prefixes, eg <code>C-3 C-x [</code>, you can jump across multiple ones very quickly. Other commands with <code>page</code> in their name allow narrowing, marking, and other functions.</p>
+
+<p>Many Emacs packages provide extra functionality for page breaks. My favorite is <a href="https://github.com/purcell/page-break-lines">page-break-lines</a>, which replaces <code>^L</code> with a horizontal line, so that the output looks like this:</p>
+
+<pre style="color: #262626; background-color: #ded6c5;">
+<span style="color: #2020cc; font-weight: bold;">export</span>
+    ML_estimator
+
+<hr style="background-color: #008b45; height: 1px; border: 0 none;"><span style="color: #008b45;"># </span><span style="color: #008b45;">general API
+</span>
+<span style="color: #fa5151;">"""
+    ML_estimator(ModelType, data...)
+
+Estimate `ModelType` using maximum likelihood
+on `data`, which  is model-specific.
+"""</span>
+<span style="color: #2020cc; font-weight: bold;">function</span> <span style="color: #2c53ca;">ML_estimator</span> <span style="color: #2020cc; font-weight: bold;">end</span>
+</pre>
+
+<h2 id="finding-things-quickly">Finding things quickly</h2>
+
+<p>I am using <a href="https://emacs-helm.github.io/helm/">helm</a> pervasively. <code>helm-occur</code> is very handy for listing all occurrences of something, and navigating them. The following is an except from <code>base/operators.jl</code>, looking for <code>isless</code>:</p>
+
+<pre style="color: #262626; background-color: #ded6c5;">
+<span style="color: #00ced1; text-decoration: underline;">operators.jl</span>:<span style="color: #ff7f00;">213</span>:types with a canonical total order should implement `<span style="color: #b00000;">isless</span>`.
+<span style="color: #00ced1; text-decoration: underline;">operators.jl</span>:<span style="color: #ff7f00;">227</span>:&lt;(x, y) = <span style="color: #b00000;">isless</span>(x, y)
+<span style="color: #00ced1; text-decoration: underline;">operators.jl</span>:<span style="color: #ff7f00;">300</span>:# this definition allows Number types to implement &lt; instead of <span style="color: #b00000;">isless</span>,
+<span style="color: #00ced1; text-decoration: underline;">operators.jl</span>:<span style="color: #ff7f00;">302</span>:<span style="color: #b00000;">isless</span>(x::Real, y::Real) = x&lt;y
+<span style="color: #00ced1; text-decoration: underline;">operators.jl</span>:<span style="color: #ff7f00;">303</span>:lexcmp(x::Real, y::Real) = <span style="color: #b00000;">isless</span>(x,y) ? -1 : ifelse(<span style="color: #b00000;">isless</span>(y,x), 1, 0)
+</pre>
+
+<p>You can move across these matches, jump to one in an adjacent buffer while keeping this list open, or save the list for later use. Its big brother <code>helm-do-grep-ag</code> is even more powerful, using <a href="https://geoff.greer.fm/ag/">ag</a> to find something in a directory tree.</p>
+
+<p>With these two tools, I find navigating files around 5K LOC very convenient — the better I learn Emacs, the larger my threshold for a “large” file becomes.<sup class="footnote-ref" id="fnref:In-case-you-are"><a class="footnote" href="#fn:In-case-you-are">1</a></sup></p>
+<div class="footnotes">
+
+<hr>
+
+<ol>
+<li id="fn:In-case-you-are">In case you are wandering, the largest files are around 6K LOC in Julia <code>Base</code> at the moment. <a class="footnote-return" href="#fnref:In-case-you-are"><sup>[return]</sup></a></li>
+</ol>
+</div>
 
 
 <div id="disqus_thread"></div>
