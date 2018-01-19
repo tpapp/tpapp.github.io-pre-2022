@@ -3,13 +3,51 @@
   <title>Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/categories/"/>
-  <updated>2017-12-04T15:32:41+01:00</updated>
+  <updated>2018-01-19T08:47:06+01:00</updated>
   
   <id>https://tpapp.github.io/categories/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Continuous integration for Julia packages using Docker</title>
+    <link href="https://tpapp.github.io/post/travis-docker-julia-ci/"/>
+    <id>https://tpapp.github.io/post/travis-docker-julia-ci/</id>
+    <published>2018-01-19T08:47:06+01:00</published>
+    <updated>2018-01-19T08:47:06+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/travis-docker-julia-ci/">&lt;p&gt;This post may be useful for maintainers of Julia packages which require a large binary dependencies on CI services like Travis.&lt;/p&gt;
+
+&lt;p&gt;I have recently started using Kristoffer Carlsson&#39;s excellent &lt;a href=&#34;https://github.com/KristofferC/PGFPlotsX.jl&#34;&gt;PGFPlotsX&lt;/a&gt; for plotting. The package is a thin wrapper which emits LaTeX code for use with &lt;a href=&#34;http://pgfplots.sourceforge.net/&#34;&gt;pgfplots&lt;/a&gt;, which is extremely versatile and well-documented.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Using-this-packa&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Using-this-packa&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; However, since most of the action happens in LaTeX, unit testing requires a lot of binary dependencies, including the &lt;a href=&#34;https://tug.org/texlive/&#34;&gt;TeXLive&lt;/a&gt; suite and some related packages. This is not a problem on one&#39;s own machine where these would need to be installed just once, but when I submitted PRs, tests on Travis timed out more often than not because it had to install all of these for every run using &lt;code&gt;apt-get&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The documentation of Travis suggested that &lt;a href=&#34;http://docker.com/&#34;&gt;docker&lt;/a&gt; may be a solution for such cases, and I have been looking an opportunity to experiment with it anyway. After reading their tutorial it was relatively quick to produce an image based on plain vanilla Ubuntu 17.10, which is available as a docker image to build on, and the required TeXLive and related packages, plus some utilities.&lt;/p&gt;
+
+&lt;p&gt;During building the image, I download the binaries for the stable version Julia, while &lt;code&gt;nightly&lt;/code&gt; is downloaded on demand. This speeds up CI by 40–50 seconds for &lt;code&gt;stable&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is how it is run:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;the directory of the Julia package is mounted in the container at &lt;code&gt;/mnt&lt;/code&gt;,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;Pkg.clone()&lt;/code&gt; and testing proceed as usual,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;coverage results are copied back to &lt;code&gt;/mnt&lt;/code&gt; when done.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The resulting image runs in 3–4 minutes consistently. In case someone finds it useful for Julia packages with similarly large binary dependencies, I made it available as &lt;a href=&#34;https://github.com/tpapp/texlive-julia-minimal-docker&#34;&gt;&lt;code&gt;texlive-julia-minimal-docker&lt;/code&gt;&lt;/a&gt; on Github.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Minimal-turns-ou&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Minimal-turns-ou&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; Naturally, for projects with other large binary dependencies, one would install different Ubuntu packages or binaries.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:Using-this-packa&#34;&gt;Using this package accelerated my plotting workflow in Julia. A post on this will follow soon. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:Using-this-packa&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:Minimal-turns-ou&#34;&gt;“Minimal” turns out to be a misnomer, since some dependencies end up requiring X11 and the image is &amp;gt;700GB. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:Minimal-turns-ou&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">Working with large Julia source files in Emacs</title>
@@ -1200,7 +1238,7 @@ Pin-Priority: 600
     <updated>2017-05-24T12:59:53+02:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/post/latex-math-increment/">&lt;p&gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &lt;a href=&#34;https://tpapp.github.io/post/jacobian-chain/&#34;&gt;change of varible calculations&lt;/a&gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;\mathtt{target} += J_f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span class=&#34;k&#34;&gt;\mathtt&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;target&lt;span class=&#34;nb&#34;&gt;}&lt;/span&gt; += J&lt;span class=&#34;nb&#34;&gt;_&lt;/span&gt;f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;gives
 $$
 \mathtt{target} += J_f
@@ -1208,7 +1246,7 @@ $$
 which is to be expected, as &lt;code&gt;+&lt;/code&gt; is a binary operator and &lt;code&gt;=&lt;/code&gt; is a relation, so $\LaTeX$ is not expecting them to show up this way.&lt;/p&gt;
 
 &lt;p&gt;We can remedy this as&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;\mathtt{target} \mathrel{+}= J_f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span class=&#34;k&#34;&gt;\mathtt&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;target&lt;span class=&#34;nb&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;\mathrel&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;+&lt;span class=&#34;nb&#34;&gt;}&lt;/span&gt;= J&lt;span class=&#34;nb&#34;&gt;_&lt;/span&gt;f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;which shows up as
 $$
 \mathtt{target} \mathrel{+}= J_f
@@ -1216,13 +1254,13 @@ $$
 which is an improvement, but is still not visually appealing.&lt;/p&gt;
 
 &lt;p&gt;Making the &lt;code&gt;+&lt;/code&gt; a bit smaller with&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;\mathrel{\raisebox{0.19ex}{$\scriptstyle+$}}=}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span class=&#34;k&#34;&gt;\mathrel&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;\raisebox&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;0.19ex&lt;span class=&#34;nb&#34;&gt;}{&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;\scriptstyle&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;}}&lt;/span&gt;=&lt;span class=&#34;nb&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;yields
 $$
 \mathtt{target} \mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f
 $$
 which looks OK enough to preclude further tweaking. Note that &lt;a href=&#34;http://www.mathjax.org/&#34;&gt;MathJax&lt;/a&gt; does not support &lt;code&gt;\raisebox&lt;/code&gt;, but you can use&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;\mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span class=&#34;k&#34;&gt;\mathrel&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;\raise&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;0.19ex&lt;span class=&#34;nb&#34;&gt;}{&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;\scriptstyle&lt;/span&gt;+&lt;span class=&#34;nb&#34;&gt;}}&lt;/span&gt; = J&lt;span class=&#34;nb&#34;&gt;_&lt;/span&gt;f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;which renders the as above.&lt;/p&gt;
 </content>
   </entry>

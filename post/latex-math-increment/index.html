@@ -4,7 +4,7 @@
     <title>Getting a nice &#43;= in LaTeX math</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.31.1" />
+    <meta name="generator" content="Hugo 0.33" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/syntax.css">
     
@@ -66,6 +66,8 @@
     
     <a href="/tags/browser-plugins">browser plugins</a>
     
+    <a href="/tags/docker">docker</a>
+    
     <a href="/tags/emacs">emacs</a>
     
     <a href="/tags/emacs25">emacs25</a>
@@ -95,6 +97,8 @@
     <a href="/tags/plots">plots</a>
     
     <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/unit-testing">unit testing</a>
     
     <a href="/tags/weave">weave</a>
     
@@ -139,6 +143,8 @@
     
     <a href="/tags/browser-plugins">browser plugins</a>
     
+    <a href="/tags/docker">docker</a>
+    
     <a href="/tags/emacs">emacs</a>
     
     <a href="/tags/emacs25">emacs25</a>
@@ -168,6 +174,8 @@
     <a href="/tags/plots">plots</a>
     
     <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/unit-testing">unit testing</a>
     
     <a href="/tags/weave">weave</a>
     
@@ -209,7 +217,7 @@
 
 
 <p>I am working on an appendix for a paper that uses MCMC, and I decided to document some <a href="https://tpapp.github.io/post/jacobian-chain/">change of varible calculations</a> in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?</p>
-<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex">\mathtt{target} += J_f</code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex"><span class="k">\mathtt</span><span class="nb">{</span>target<span class="nb">}</span> += J<span class="nb">_</span>f</code></pre></div>
 <p>gives
 $$
 \mathtt{target} += J_f
@@ -217,7 +225,7 @@ $$
 which is to be expected, as <code>+</code> is a binary operator and <code>=</code> is a relation, so $\LaTeX$ is not expecting them to show up this way.</p>
 
 <p>We can remedy this as</p>
-<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex">\mathtt{target} \mathrel{+}= J_f</code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex"><span class="k">\mathtt</span><span class="nb">{</span>target<span class="nb">}</span> <span class="k">\mathrel</span><span class="nb">{</span>+<span class="nb">}</span>= J<span class="nb">_</span>f</code></pre></div>
 <p>which shows up as
 $$
 \mathtt{target} \mathrel{+}= J_f
@@ -225,13 +233,13 @@ $$
 which is an improvement, but is still not visually appealing.</p>
 
 <p>Making the <code>+</code> a bit smaller with</p>
-<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex">\mathrel{\raisebox{0.19ex}{$\scriptstyle+$}}=}</code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex"><span class="k">\mathrel</span><span class="nb">{</span><span class="k">\raisebox</span><span class="nb">{</span>0.19ex<span class="nb">}{</span><span class="s">$</span><span class="nv">\scriptstyle</span><span class="o">+</span><span class="s">$</span><span class="nb">}}</span>=<span class="nb">}</span></code></pre></div>
 <p>yields
 $$
 \mathtt{target} \mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f
 $$
 which looks OK enough to preclude further tweaking. Note that <a href="http://www.mathjax.org/">MathJax</a> does not support <code>\raisebox</code>, but you can use</p>
-<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex">\mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f</code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex"><span class="k">\mathrel</span><span class="nb">{</span><span class="k">\raise</span><span class="nb">{</span>0.19ex<span class="nb">}{</span><span class="k">\scriptstyle</span>+<span class="nb">}}</span> = J<span class="nb">_</span>f</code></pre></div>
 <p>which renders the as above.</p>
 
 

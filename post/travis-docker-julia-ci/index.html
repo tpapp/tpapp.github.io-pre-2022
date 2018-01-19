@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Lisp</title>
+    <title>Continuous integration for Julia packages using Docker</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.33" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/syntax.css">
-    <link href="https://tpapp.github.io/tags/lisp/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s website" />
     
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600%7CUbuntu+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -188,46 +187,80 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>Lisp</h1>
-
-
-<h3>2017-10</h3>
-<ul class="mainlist">
-
-<li>
-  <a href="https://tpapp.github.io/post/common-lisp-to-julia/">Switching from Common Lisp to Julia</a>
-  <p class="additionalinfo">
-    <span class="date">2017-10-15</span>&emsp;
+<h1>Continuous integration for Julia packages using Docker</h1>2018/01/19
 <span class="tags">
     
     <a href="/tags/julia">julia</a>
     
-    <a href="/tags/lisp">lisp</a>
+    <a href="/tags/unit-testing">unit testing</a>
+    
+    <a href="/tags/docker">docker</a>
     
 </span>
 
 
-  </p>
-</li>
 
-<li>
-  <a href="https://tpapp.github.io/post/orphaned-lisp-libraries/">Clarification: on orphaning my Common Lisp libraries</a>
-  <p class="additionalinfo">
-    <span class="date">2017-10-15</span>&emsp;
-<span class="tags">
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous post:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/large-files-julia/">Working with large Julia source files in Emacs</a>
+  
+</div>
+
+
+<p>This post may be useful for maintainers of Julia packages which require a large binary dependencies on CI services like Travis.</p>
+
+<p>I have recently started using Kristoffer Carlsson's excellent <a href="https://github.com/KristofferC/PGFPlotsX.jl">PGFPlotsX</a> for plotting. The package is a thin wrapper which emits LaTeX code for use with <a href="http://pgfplots.sourceforge.net/">pgfplots</a>, which is extremely versatile and well-documented.<sup class="footnote-ref" id="fnref:Using-this-packa"><a class="footnote" href="#fn:Using-this-packa">1</a></sup> However, since most of the action happens in LaTeX, unit testing requires a lot of binary dependencies, including the <a href="https://tug.org/texlive/">TeXLive</a> suite and some related packages. This is not a problem on one's own machine where these would need to be installed just once, but when I submitted PRs, tests on Travis timed out more often than not because it had to install all of these for every run using <code>apt-get</code>.</p>
+
+<p>The documentation of Travis suggested that <a href="http://docker.com/">docker</a> may be a solution for such cases, and I have been looking an opportunity to experiment with it anyway. After reading their tutorial it was relatively quick to produce an image based on plain vanilla Ubuntu 17.10, which is available as a docker image to build on, and the required TeXLive and related packages, plus some utilities.</p>
+
+<p>During building the image, I download the binaries for the stable version Julia, while <code>nightly</code> is downloaded on demand. This speeds up CI by 40–50 seconds for <code>stable</code>.</p>
+
+<p>This is how it is run:</p>
+
+<ol>
+<li><p>the directory of the Julia package is mounted in the container at <code>/mnt</code>,</p></li>
+
+<li><p><code>Pkg.clone()</code> and testing proceed as usual,</p></li>
+
+<li><p>coverage results are copied back to <code>/mnt</code> when done.</p></li>
+</ol>
+
+<p>The resulting image runs in 3–4 minutes consistently. In case someone finds it useful for Julia packages with similarly large binary dependencies, I made it available as <a href="https://github.com/tpapp/texlive-julia-minimal-docker"><code>texlive-julia-minimal-docker</code></a> on Github.<sup class="footnote-ref" id="fnref:Minimal-turns-ou"><a class="footnote" href="#fn:Minimal-turns-ou">2</a></sup> Naturally, for projects with other large binary dependencies, one would install different Ubuntu packages or binaries.</p>
+<div class="footnotes">
+
+<hr>
+
+<ol>
+<li id="fn:Using-this-packa">Using this package accelerated my plotting workflow in Julia. A post on this will follow soon. <a class="footnote-return" href="#fnref:Using-this-packa"><sup>[return]</sup></a></li>
+<li id="fn:Minimal-turns-ou">“Minimal” turns out to be a misnomer, since some dependencies end up requiring X11 and the image is &gt;700GB. <a class="footnote-return" href="#fnref:Minimal-turns-ou"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
     
-    <a href="/tags/lisp">lisp</a>
     
-    <a href="/tags/packages">packages</a>
     
-</span>
-
-
-  </p>
-</li>
-
-</ul>
-
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
 
     </div>
