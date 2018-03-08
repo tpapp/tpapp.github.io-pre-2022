@@ -3,13 +3,66 @@
   <title>Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/categories/"/>
-  <updated>2018-01-19T08:47:06+01:00</updated>
+  <updated>2018-03-08T17:06:54+01:00</updated>
   
   <id>https://tpapp.github.io/categories/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Setting up Julia with continuous integration on Gitlab</title>
+    <link href="https://tpapp.github.io/post/julia-ci-gitlab/"/>
+    <id>https://tpapp.github.io/post/julia-ci-gitlab/</id>
+    <published>2018-03-08T17:06:54+01:00</published>
+    <updated>2018-03-08T17:06:54+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/julia-ci-gitlab/">&lt;p&gt;As an academic, I picked up good practices for programming mostly by osmosis. My approach to “testing” software went through the following stages:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;See if the code runs (this got me through my undergrad years).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Check if the results “look OK”, then forget about testing.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Compare results occasionally to known results from papers or other code (eg in a different language).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Write some unit tests &lt;em&gt;ex post&lt;/em&gt;, as an afterthought after the code is finished (time pressure helps to ensure that overtesting is never a problem).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Use unit tests from the very beginning, especially before optimizing and refactoring code.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Set up automatic testing, as part of &lt;em&gt;continuous integration&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I think that 1–3 above is a pretty usual path, naturally traversed after the recognition that &lt;em&gt;some&lt;/em&gt; testing would be nice, but lacking the knowledge of &lt;em&gt;how to implement it&lt;/em&gt; in a consistent manner. This is comparable to using copies of directories as crude attempts at “version control”.&lt;/p&gt;
+
+&lt;p&gt;Later, I picked up 4–6 while being exposed to these ideas when learning about new languages. Automated unit testing is one of those things one does not miss until learning about it, then subsequently cannot imagine doing without. In a research context, the two main advantages are &lt;em&gt;scientific integrity&lt;/em&gt; — I should make a best effort to ensure that my results are correct — and &lt;em&gt;dealing with bugs early&lt;/em&gt;. While the first one is abstract and philosophical, the second is a practical concern: I found that if I skimp on testing, the bugs show up much later, usually at an inconvenient time, and I will have to spent time locating the bug (not always trivial, especially with numerical code) and switch context to something I was working on months ago. It is my experience that while tests can be tedious to write, time spent on them is a very good investment.&lt;/p&gt;
+
+&lt;p&gt;I knew about unit tests before coming to Julia, but learned about automated CI in the Julia community. This was because package template libraries “do the right thing” by making it very easy to set up an automated testing framework: for example, &lt;code&gt;PkgDev.generate&lt;/code&gt; creates the appropriate test configuration for &lt;a href=&#34;http://travis-ci.org/&#34;&gt;Travis CI&lt;/a&gt; and various coverage services.&lt;/p&gt;
+
+&lt;p&gt;I never cease to be amazed by the fact that these services are available for free for public / open source projects, which is very generous of these providers. However, occasionally one would like to keep the project private for a little while. The usual scenario for me is working on code that is related to a paper, which I plan to make public with the latter; in this case one would need the pro (non-free) version of Travis and related tools.&lt;/p&gt;
+
+&lt;p&gt;Alternatively, &lt;a href=&#34;https://gitlab.com/&#34;&gt;Gitlab&lt;/a&gt; offers CI/CD with private repositories. I am exploring this at the moment for various projects, and boiled down the necessary configuration into the repository &lt;a href=&#34;https://gitlab.com/tkpapp/GitlabJuliaDemo.jl&#34;&gt;GitlabJuliaDemo.jl&lt;/a&gt;. It has&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;a CI setup for &lt;code&gt;Pkg.test&lt;/code&gt;,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;a coverage &lt;em&gt;summary&lt;/em&gt; as a percentage.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;While coverage analysis could be &lt;a href=&#34;https://about.gitlab.com/2016/11/03/publish-code-coverage-report-with-gitlab-pages/&#34;&gt;automated&lt;/a&gt; too with a custom Docker image, I leave his for future work.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:In-the-next-post&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:In-the-next-post&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;So far, I am very satisfied with Gitlab. The interface is well-designed, clean, and intuitive; tests complete in a few minutes (just like Travis).&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:In-the-next-post&#34;&gt;In the next post I will talk about local coverage analysis in Julia. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:In-the-next-post&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">Continuous integration for Julia packages using Docker</title>

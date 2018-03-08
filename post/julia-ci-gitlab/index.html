@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Blogging</title>
+    <title>Setting up Julia with continuous integration on Gitlab</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.37.1" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/syntax.css">
-    <link href="https://tpapp.github.io/tags/blogging/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s website" />
     
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600%7CUbuntu+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -192,53 +191,95 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>Blogging</h1>
-
-
-<h3>2017-06</h3>
-<ul class="mainlist">
-
-<li>
-  <a href="https://tpapp.github.io/post/blog-redesign/">Blog redesign</a>
-  <p class="additionalinfo">
-    <span class="date">2017-06-12</span>&emsp;
-<span class="tags">
-    
-    <a href="/tags/blogging">blogging</a>
-    
-</span>
-
-
-  </p>
-</li>
-
-</ul>
-
-<h3>2017-03</h3>
-<ul class="mainlist">
-
-<li>
-  <a href="https://tpapp.github.io/post/blogging-weave-julia-hugo/">Blogging with Hugo, Julia, Weave.jl</a>
-  <p class="additionalinfo">
-    <span class="date">2017-03-30</span>&emsp;
+<h1>Setting up Julia with continuous integration on Gitlab</h1>2018/03/08
 <span class="tags">
     
     <a href="/tags/julia">julia</a>
     
-    <a href="/tags/blogging">blogging</a>
+    <a href="/tags/gitlab">gitlab</a>
     
-    <a href="/tags/weave">Weave</a>
-    
-    <a href="/tags/hugo">Hugo</a>
+    <a href="/tags/unit-testing">unit testing</a>
     
 </span>
 
 
-  </p>
-</li>
 
-</ul>
 
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous post:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/travis-docker-julia-ci/">Continuous integration for Julia packages using Docker</a>
+  
+</div>
+
+
+<p>As an academic, I picked up good practices for programming mostly by osmosis. My approach to “testing” software went through the following stages:</p>
+
+<ol>
+<li><p>See if the code runs (this got me through my undergrad years).</p></li>
+
+<li><p>Check if the results “look OK”, then forget about testing.</p></li>
+
+<li><p>Compare results occasionally to known results from papers or other code (eg in a different language).</p></li>
+
+<li><p>Write some unit tests <em>ex post</em>, as an afterthought after the code is finished (time pressure helps to ensure that overtesting is never a problem).</p></li>
+
+<li><p>Use unit tests from the very beginning, especially before optimizing and refactoring code.</p></li>
+
+<li><p>Set up automatic testing, as part of <em>continuous integration</em>.</p></li>
+</ol>
+
+<p>I think that 1–3 above is a pretty usual path, naturally traversed after the recognition that <em>some</em> testing would be nice, but lacking the knowledge of <em>how to implement it</em> in a consistent manner. This is comparable to using copies of directories as crude attempts at “version control”.</p>
+
+<p>Later, I picked up 4–6 while being exposed to these ideas when learning about new languages. Automated unit testing is one of those things one does not miss until learning about it, then subsequently cannot imagine doing without. In a research context, the two main advantages are <em>scientific integrity</em> — I should make a best effort to ensure that my results are correct — and <em>dealing with bugs early</em>. While the first one is abstract and philosophical, the second is a practical concern: I found that if I skimp on testing, the bugs show up much later, usually at an inconvenient time, and I will have to spent time locating the bug (not always trivial, especially with numerical code) and switch context to something I was working on months ago. It is my experience that while tests can be tedious to write, time spent on them is a very good investment.</p>
+
+<p>I knew about unit tests before coming to Julia, but learned about automated CI in the Julia community. This was because package template libraries “do the right thing” by making it very easy to set up an automated testing framework: for example, <code>PkgDev.generate</code> creates the appropriate test configuration for <a href="http://travis-ci.org/">Travis CI</a> and various coverage services.</p>
+
+<p>I never cease to be amazed by the fact that these services are available for free for public / open source projects, which is very generous of these providers. However, occasionally one would like to keep the project private for a little while. The usual scenario for me is working on code that is related to a paper, which I plan to make public with the latter; in this case one would need the pro (non-free) version of Travis and related tools.</p>
+
+<p>Alternatively, <a href="https://gitlab.com/">Gitlab</a> offers CI/CD with private repositories. I am exploring this at the moment for various projects, and boiled down the necessary configuration into the repository <a href="https://gitlab.com/tkpapp/GitlabJuliaDemo.jl">GitlabJuliaDemo.jl</a>. It has</p>
+
+<ol>
+<li><p>a CI setup for <code>Pkg.test</code>,</p></li>
+
+<li><p>a coverage <em>summary</em> as a percentage.</p></li>
+</ol>
+
+<p>While coverage analysis could be <a href="https://about.gitlab.com/2016/11/03/publish-code-coverage-report-with-gitlab-pages/">automated</a> too with a custom Docker image, I leave his for future work.<sup class="footnote-ref" id="fnref:In-the-next-post"><a class="footnote" href="#fn:In-the-next-post">1</a></sup></p>
+
+<p>So far, I am very satisfied with Gitlab. The interface is well-designed, clean, and intuitive; tests complete in a few minutes (just like Travis).</p>
+<div class="footnotes">
+
+<hr>
+
+<ol>
+<li id="fn:In-the-next-post">In the next post I will talk about local coverage analysis in Julia. <a class="footnote-return" href="#fnref:In-the-next-post"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 </div>
 
     </div>
