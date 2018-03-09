@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tpapp.github.io/post/julia-local-coverage/</loc>
+    <lastmod>2018-03-09T08:31:23+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tpapp.github.io/post/julia-ci-gitlab/</loc>
     <lastmod>2018-03-08T17:06:54+01:00</lastmod>
   </url>
@@ -154,7 +159,7 @@
   
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
+    <lastmod>2018-03-09T08:31:23+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -190,7 +195,13 @@
   
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
+    <lastmod>2018-03-09T08:31:23+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/coverage/</loc>
+    <lastmod>2018-03-09T08:31:23+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -232,13 +243,13 @@
   
   <url>
     <loc>https://tpapp.github.io/tags/hugo/</loc>
-    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
+    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tpapp.github.io/tags/hugo/</loc>
-    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
+    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -250,7 +261,7 @@
   
   <url>
     <loc>https://tpapp.github.io/tags/julia/</loc>
-    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
+    <lastmod>2018-03-09T08:31:23+01:00</lastmod>
     <priority>0</priority>
   </url>
   

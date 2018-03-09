@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Local test coverage in Julia</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.37.1" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600%7CUbuntu+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          
+          
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/big-data">big data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/coverage">coverage</a>
+    
+    <a href="/tags/docker">docker</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/gitlab">gitlab</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/unit-testing">unit testing</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/big-data">big data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/coverage">coverage</a>
+    
+    <a href="/tags/docker">docker</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/gitlab">gitlab</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/unit-testing">unit testing</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>Local test coverage in Julia</h1>2018/03/09
+<span class="tags">
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/coverage">coverage</a>
+    
+</span>
+
+
+
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous post:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/julia-ci-gitlab/">Setting up Julia with continuous integration on Gitlab</a>
+  
+</div>
+
+
+<p>While <a href="https://codecov.io/">codecov.io</a> and <a href="https://coveralls.io/">coveralls.io</a> are fine services and very easy to set up for Github repositories with Julia packages, they become more difficult to use under some circumstances. For example, if testing requires large binaries you don't want to build every time, you need to <a href="https://tpapp.github.io/post/travis-docker-julia-ci/">build a Docker image</a> to run testing and obtain coverage information. Also, if your test scripts take a long time and you have access to a powerful computer, you might want to just run coverage locally when working on the code.</p>
+
+<p>Naturally, Julia has all the facilities for generating and collecting coverage information locally. To make their application even easier, I packaged up a small set of scripts in <a href="https://github.com/tpapp/LocalCoverage.jl">LocalCoverage.jl</a> that I use to generate and visualize coverage information for Julia packages on my machine.</p>
+
+<p>This is how it works:</p>
+
+<ol>
+<li><p>run <code>generate_coverage(pkg)</code> to</p>
+
+<p>a. run <code>Pkg.test(pkg; coverage = true)</code>,</p>
+
+<p>b. use <code>Coverage.jl</code> for collecting information to a single file in <code>lcov</code> format,</p>
+
+<p>c. unless disabled, run the external program <code>genhtml</code> to format everything as a nice HTML file.</p></li>
+
+<li><p>if you have generated the HTML files, <code>open_coverage(pkg)</code> opens them for you in your default browser.</p></li>
+
+<li><p>if you want to tidy up, run <code>clean_coverage(pkg)</code>.</p></li>
+</ol>
+
+<p>This is what it looks like for this package:</p>
+
+<iframe src="/misc/coverage-example/src/LocalCoverage.jl.gcov.html" width="100%" height="400px"></iframe>
+
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+

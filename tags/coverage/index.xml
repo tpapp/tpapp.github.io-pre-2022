@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Coverage on Tamás K. Papp&#39;s website</title>
+  <link href="https://tpapp.github.io/index.xml" rel="self"/>
+  <link href="https://tpapp.github.io/tags/coverage/"/>
+  <updated>2018-03-09T08:31:23+01:00</updated>
+  
+  <id>https://tpapp.github.io/tags/coverage/</id>
+  <author>
+    <name>Tamás K. Papp</name>
+  </author>
+  <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Local test coverage in Julia</title>
+    <link href="https://tpapp.github.io/post/julia-local-coverage/"/>
+    <id>https://tpapp.github.io/post/julia-local-coverage/</id>
+    <published>2018-03-09T08:31:23+01:00</published>
+    <updated>2018-03-09T08:31:23+01:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/julia-local-coverage/">&lt;p&gt;While &lt;a href=&#34;https://codecov.io/&#34;&gt;codecov.io&lt;/a&gt; and &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls.io&lt;/a&gt; are fine services and very easy to set up for Github repositories with Julia packages, they become more difficult to use under some circumstances. For example, if testing requires large binaries you don&#39;t want to build every time, you need to &lt;a href=&#34;https://tpapp.github.io/post/travis-docker-julia-ci/&#34;&gt;build a Docker image&lt;/a&gt; to run testing and obtain coverage information. Also, if your test scripts take a long time and you have access to a powerful computer, you might want to just run coverage locally when working on the code.&lt;/p&gt;
+
+&lt;p&gt;Naturally, Julia has all the facilities for generating and collecting coverage information locally. To make their application even easier, I packaged up a small set of scripts in &lt;a href=&#34;https://github.com/tpapp/LocalCoverage.jl&#34;&gt;LocalCoverage.jl&lt;/a&gt; that I use to generate and visualize coverage information for Julia packages on my machine.&lt;/p&gt;
+
+&lt;p&gt;This is how it works:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;run &lt;code&gt;generate_coverage(pkg)&lt;/code&gt; to&lt;/p&gt;
+
+&lt;p&gt;a. run &lt;code&gt;Pkg.test(pkg; coverage = true)&lt;/code&gt;,&lt;/p&gt;
+
+&lt;p&gt;b. use &lt;code&gt;Coverage.jl&lt;/code&gt; for collecting information to a single file in &lt;code&gt;lcov&lt;/code&gt; format,&lt;/p&gt;
+
+&lt;p&gt;c. unless disabled, run the external program &lt;code&gt;genhtml&lt;/code&gt; to format everything as a nice HTML file.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;if you have generated the HTML files, &lt;code&gt;open_coverage(pkg)&lt;/code&gt; opens them for you in your default browser.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;if you want to tidy up, run &lt;code&gt;clean_coverage(pkg)&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This is what it looks like for this package:&lt;/p&gt;
+
+&lt;iframe src=&#34;https://tpapp.github.io/misc/coverage-example/src/LocalCoverage.jl.gcov.html&#34; width=&#34;100%&#34; height=&#34;400px&#34;&gt;&lt;/iframe&gt;
+</content>
+  </entry>
+  
+</feed>
