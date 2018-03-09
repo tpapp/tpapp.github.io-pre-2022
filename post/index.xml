@@ -40,7 +40,7 @@
 
 &lt;p&gt;This is what it looks like for this package:&lt;/p&gt;
 
-&lt;iframe src=&#34;https://tpapp.github.io/misc/coverage-example/src/LocalCoverage.jl.gcov.html&#34; width=&#34;100%&#34; height=&#34;400px&#34;&gt;&lt;/iframe&gt;
+&lt;iframe src=&#34;https://tpapp.github.io/misc/coverage-example/src/LocalCoverage.jl.gcov.html&#34;&gt;&lt;/iframe&gt;
 </content>
   </entry>
   
