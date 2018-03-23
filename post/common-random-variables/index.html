@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Common random variables: an optimization case study</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.37.1" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600%7CUbuntu+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          
+          
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/big-data">big data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/coverage">coverage</a>
+    
+    <a href="/tags/docker">docker</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/gitlab">gitlab</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/indirect-inference">indirect inference</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/unit-testing">unit testing</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/big-data">big data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/coverage">coverage</a>
+    
+    <a href="/tags/docker">docker</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/gitlab">gitlab</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/indirect-inference">indirect inference</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/unit-testing">unit testing</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>Common random variables: an optimization case study</h1>2018/03/23
+<span class="tags">
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/indirect-inference">indirect inference</a>
+    
+</span>
+
+
+
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous post:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/julia-local-coverage/">Local test coverage in Julia</a>
+  
+</div>
+
+
+
+<div class="juliaversionwarning"><p>Code used in this post was written for Julia <strong>v0.6.2</strong> and, when applicable, reflects the state of packages used on <strong>2018-03-03</strong>. You may need to modify it for different versions.</p></div>
+
+
+<h2 id="motivation">Motivation</h2>
+
+<p>When simulating models with random components, it is frequently advantageous to decompose the structure into</p>
+
+<ol>
+<li><p><em>parameters</em> <span  class="math">\(\theta\)</span> that we need to characterize structural relationships,</p></li>
+
+<li><p><em>noise</em> <span  class="math">\(\varepsilon\)</span>  that is independent of parameters,</p></li>
+
+<li><p>a function <span  class="math">\(f(\theta, \varepsilon)\)</span> that generates observed data or moments.</p></li>
+</ol>
+
+<p>Doing this allows us to use <a href="https://en.wikipedia.org/wiki/Variance_reduction#Common_Random_Numbers_(CRN)">common random variables</a> (aka common random <em>numbers</em>), which is a technique which simply keeps <span  class="math">\(\varepsilon\)</span> fixed for different <span  class="math">\(\theta\)</span>. This can help with making <span  class="math">\(f\)</span> differentiable, which allows the use of derivative-based optimization algorithms (eg for maximum likelihood or <a href="https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation">MAP</a>) or derivative-based MCMC methods. It is also used to reduce the variance of simulated moments.</p>
+
+<p>When implementing this technique in Julia, I frequently create a wrapper structure that saves the <span  class="math">\(\varepsilon\)</span>, allocating an <code>Array</code> which can be updated in place. Since a redesign of <a href="https://github.com/tpapp/DynamicHMC.jl/">DynamicHMC.jl</a> is coming up which will accommodate simulated likelihood methods in a more disciplined manner, and I wanted to explore other options, most importantly <a href="https://github.com/JuliaArrays/StaticArrays.jl">StaticArrays.jl</a>.</p>
+
+<p>Here I benchmark the alternatives for Julia <code>v0.6.2</code> using a simple toy model. <strong>TL;DR</strong> for the impatient: <code>StaticArrays.jl</code> is 150x faster, and this does not depend on using immutable or mutable <code>StaticArray</code>s, or even reallocating every time new <span  class="math">\(\varepsilon\)</span>s are generated.</p>
+
+<h2 id="problem-setup">Problem setup</h2>
+
+<p>The setup is simple: we draw <span  class="math">\(M\)</span> observations, and our noise is</p>
+
+<p><span  class="math">\[
+\varepsilon_{i,j} \sim N(0, 1)
+\qquad
+\text{for } i = 1, \dots, M; j = 1, \dots, 7.
+\]</span></p>
+
+<p>Our parameters are <span  class="math">\(\mu\)</span> and <span  class="math">\(\sigma\)</span>, and for each <span  class="math">\(i\)</span> we calculate</p>
+
+<p><span  class="math">\[
+A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
+\]</span></p>
+
+<p>which is the sample average after a nonlinear transformation. The <span  class="math">\(7\)</span> is a bit accidental, it comes from simplifying an actual problem I am working on. We are interested in the sample average for <span  class="math">\(A_i\)</span>. I deliberately refrain micro-optimizing each version, to reflect how I would approach a real-life problem.</p>
+
+<p>We code the common interface as</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">BenchmarkTools</span>
+<span class="k">using</span> <span class="n">StaticArrays</span>
+<span class="k">using</span> <span class="n">Parameters</span>
+
+<span class="c"># common interface</span>
+
+<span class="s">&#34;Dimension of noise ``ϵ`` for each observation.&#34;</span>
+<span class="kd">const</span> <span class="n">EDIM</span> <span class="o">=</span> <span class="mi">7</span>
+
+<span class="s">&#34;&#34;&#34;
+</span><span class="s">Common random variables. The user needs to define
+</span><span class="s">
+</span><span class="s">1. `observation_moments`, which should use `observation_moment`,
+</span><span class="s">2. `newcrv = update!(crv)`, which returns new common random variables,
+</span><span class="s">potentially (but not necessarily) overwriting `crv`.
+</span><span class="s">&#34;&#34;&#34;</span>
+<span class="k">abstract</span> <span class="k">type</span> <span class="n">CRVContainer</span> <span class="k">end</span>
+
+<span class="n">observation_moment</span><span class="p">(</span><span class="n">ϵ</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="err">@</span><span class="o">.</span> <span class="n">exp</span><span class="p">(</span><span class="n">μ</span> <span class="o">+</span> <span class="n">σ</span> <span class="o">*</span> <span class="n">ϵ</span><span class="p">))</span>
+
+<span class="n">average_moment</span><span class="p">(</span><span class="n">crv</span><span class="o">::</span><span class="n">CRVContainer</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">observation_moments</span><span class="p">(</span><span class="n">crv</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">))</span>
+
+<span class="s">&#34;Calculate statistics, making `N` draws, updating every `L`th time.&#34;</span>
+<span class="k">function</span> <span class="n">stats</span><span class="p">(</span><span class="n">crv</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+    <span class="n">_stat</span><span class="p">()</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span> <span class="o">%</span> <span class="n">L</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">crv</span> <span class="o">=</span> <span class="n">update!</span><span class="p">(</span><span class="n">crv</span><span class="p">));</span> <span class="n">average_moment</span><span class="p">(</span><span class="n">crv</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">))</span>
+    <span class="p">[</span><span class="n">_stat</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">]</span>
+<span class="k">end</span></code></pre></div>
+<p>The way I wrote <code>stats</code> is representative of how I use HMC/NUTS: simulated moments on the same trajectory are calculated with the same <span  class="math">\(\varepsilon\)</span>s, which are updated for each trajectory. Of course, the parameters would change along the trajectory; here they don't, but this does not affect the benchmarks.</p>
+
+<p>The semantics of <code>update!</code> allows <em>both</em> in-place modifications and a functional style.</p>
+
+<h2 id="using-a-preallocated-matrix">Using a preallocated matrix</h2>
+
+<p>This is the standard way I would write this.<sup class="footnote-ref" id="fnref:Which-will-chang"><a class="footnote" href="#fn:Which-will-chang">1</a></sup> <span  class="math">\(\varepsilon\)</span>s are in columns of a matrix, which is preferable for mapping them as slices, then they are mapped using <code>observation_moment</code>.</p>
+
+<p><code>update!</code> overwrites the contents.</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s">&#34;&#34;&#34;
+</span><span class="s">Common random variables are stored in columns of a matrix.
+</span><span class="s">&#34;&#34;&#34;</span>
+<span class="n">struct</span> <span class="n">PreallocatedMatrix</span><span class="p">{</span><span class="n">T</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="n">CRVContainer</span>
+    <span class="n">ϵ</span><span class="o">::</span><span class="kt">Matrix</span><span class="p">{</span><span class="n">T</span><span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">PreallocatedMatrix</span><span class="p">(</span><span class="n">M</span><span class="o">::</span><span class="kt">Int</span><span class="p">)</span> <span class="o">=</span> <span class="n">PreallocatedMatrix</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="n">EDIM</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span>
+
+<span class="n">update!</span><span class="p">(</span><span class="n">p</span><span class="o">::</span><span class="n">PreallocatedMatrix</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">randn!</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">ϵ</span><span class="p">);</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">observation_moments</span><span class="p">(</span><span class="n">p</span><span class="o">::</span><span class="n">PreallocatedMatrix</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span> <span class="o">=</span>
+    <span class="n">vec</span><span class="p">(</span><span class="n">mapslices</span><span class="p">(</span><span class="n">ϵ</span> <span class="o">-&gt;</span> <span class="n">observation_moment</span><span class="p">(</span><span class="n">ϵ</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">),</span> <span class="n">p</span><span class="o">.</span><span class="n">ϵ</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span></code></pre></div>
+<h2 id="using-static-vectors">Using static vectors</h2>
+
+<p>We share the following between various static vector implementations:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s">&#34;Common random variables as a vector of vectors, in the `ϵs`.&#34;</span>
+<span class="k">abstract</span> <span class="k">type</span> <span class="n">CRVVectors</span> <span class="o">&lt;:</span> <span class="n">CRVContainer</span> <span class="k">end</span>
+
+<span class="n">observation_moments</span><span class="p">(</span><span class="n">p</span><span class="o">::</span><span class="n">CRVVectors</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span> <span class="o">=</span>
+    <span class="n">map</span><span class="p">(</span><span class="n">ϵ</span> <span class="o">-&gt;</span> <span class="n">observation_moment</span><span class="p">(</span><span class="n">ϵ</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">),</span> <span class="n">p</span><span class="o">.</span><span class="n">ϵs</span><span class="p">)</span></code></pre></div>
+<p>I find the use of <code>map</code> more intuitive here than <code>mapslices</code> above.</p>
+
+<h3 id="static-vectors-container-preallocated">Static vectors, container preallocated</h3>
+
+<p>In the first version using static vectors, we keep <code>SVector</code> in a <code>Vector</code>, and update in place.</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">struct</span> <span class="n">PreallocatedStaticCRV</span><span class="p">{</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="n">CRVVectors</span>
+    <span class="n">ϵs</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="n">SVector</span><span class="p">{</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">}}</span>
+<span class="k">end</span>
+
+<span class="n">PreallocatedStaticCRV</span><span class="p">(</span><span class="n">M</span><span class="o">::</span><span class="kt">Int</span><span class="p">)</span> <span class="o">=</span>
+    <span class="n">PreallocatedStaticCRV</span><span class="p">([</span><span class="nd">@SVector</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="n">EDIM</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">M</span><span class="p">])</span>
+
+<span class="k">function</span> <span class="n">update!</span><span class="p">(</span><span class="n">p</span><span class="o">::</span><span class="n">PreallocatedStaticCRV</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">ϵs</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="n">indices</span><span class="p">(</span><span class="n">ϵs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">ϵs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nd">@SVector</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="n">EDIM</span><span class="p">))</span>
+    <span class="k">end</span>
+    <span class="n">p</span>
+<span class="k">end</span></code></pre></div>
+<h3 id="mutable-static-vectors-overwritten">Mutable static vectors, overwritten</h3>
+
+<p>We modify this to use mutable vectors — this should not make a difference.</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">struct</span> <span class="n">MutableStaticCRV</span><span class="p">{</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="n">CRVVectors</span>
+    <span class="n">ϵs</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="n">MVector</span><span class="p">{</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">}}</span>
+<span class="k">end</span>
+
+<span class="n">MutableStaticCRV</span><span class="p">(</span><span class="n">M</span><span class="o">::</span><span class="kt">Int</span><span class="p">)</span> <span class="o">=</span>
+    <span class="n">MutableStaticCRV</span><span class="p">([</span><span class="nd">@MVector</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="n">EDIM</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">M</span><span class="p">])</span>
+
+<span class="k">function</span> <span class="n">update!</span><span class="p">(</span><span class="n">p</span><span class="o">::</span><span class="n">MutableStaticCRV</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">ϵs</span> <span class="o">=</span> <span class="n">p</span>
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="n">indices</span><span class="p">(</span><span class="n">ϵs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">randn!</span><span class="p">(</span><span class="n">ϵs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">end</span>
+    <span class="n">p</span>
+<span class="k">end</span></code></pre></div>
+<h3 id="static-vectors-allocated-each-time">Static vectors, allocated each time</h3>
+
+<p>Finally, for the third solution,</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">struct</span> <span class="n">GeneratedStaticCRV</span><span class="p">{</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="n">CRVVectors</span>
+    <span class="n">ϵs</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="n">SVector</span><span class="p">{</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">}}</span>
+<span class="k">end</span>
+
+<span class="n">GeneratedStaticCRV</span><span class="p">(</span><span class="n">M</span><span class="o">::</span><span class="kt">Int</span><span class="p">)</span> <span class="o">=</span>
+    <span class="n">GeneratedStaticCRV</span><span class="p">([</span><span class="nd">@SVector</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="n">EDIM</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">M</span><span class="p">])</span>
+
+<span class="n">update!</span><span class="p">(</span><span class="n">p</span><span class="o">::</span><span class="n">GeneratedStaticCRV</span><span class="p">{</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">})</span> <span class="n">where</span> <span class="p">{</span><span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">}</span> <span class="o">=</span>
+    <span class="n">GeneratedStaticCRV</span><span class="p">([</span><span class="nd">@SVector</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">K</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="kp">in</span> <span class="n">indices</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">ϵs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span></code></pre></div>
+<h2 id="results">Results</h2>
+
+<p>Running</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="nd">@btime</span> <span class="n">mean</span><span class="p">(</span><span class="n">stats</span><span class="p">(</span><span class="n">PreallocatedMatrix</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="nd">@btime</span> <span class="n">mean</span><span class="p">(</span><span class="n">stats</span><span class="p">(</span><span class="n">PreallocatedStaticCRV</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="nd">@btime</span> <span class="n">mean</span><span class="p">(</span><span class="n">stats</span><span class="p">(</span><span class="n">MutableStaticCRV</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="nd">@btime</span> <span class="n">mean</span><span class="p">(</span><span class="n">stats</span><span class="p">(</span><span class="n">GeneratedStaticCRV</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span></code></pre></div>
+<p>we obtain</p>
+
+<table>
+<thead>
+<tr>
+<th>solution</th>
+<th align="left">time</th>
+<th align="right">allocations</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>PreallocatedMatrix</code></td>
+<td align="left"><code>230 ms</code></td>
+<td align="right"><code>22 MiB</code></td>
+</tr>
+
+<tr>
+<td><code>PreallocatedStaticCRV</code></td>
+<td align="left"><code>1.5 ms</code></td>
+<td align="right"><code>102 KiB</code></td>
+</tr>
+
+<tr>
+<td><code>MutableStaticCRV</code></td>
+<td align="left"><code>1.5 ms</code></td>
+<td align="right"><code>104 KiB</code></td>
+</tr>
+
+<tr>
+<td><code>GeneratedStaticCRV</code></td>
+<td align="left"><code>1.5 ms</code></td>
+<td align="right"><code>666 KiB</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>As a preview of future improvements, I tried <code>PreallocatedMatrix</code> on current <code>master</code> (which will become Julia <code>v0.7</code>, obtaining <code>3.5 ms</code> (<code>2.46 MiB</code>), which is really promising.<sup class="footnote-ref" id="fnref:The-other-3-opti"><a class="footnote" href="#fn:The-other-3-opti">2</a></sup></p>
+
+<p>The conclusion is that <code>StaticArrays</code> simplifies and speeds up my code <em>at the same time</em>. I especially like the last version (<code>GeneratedStaticCRV</code>), because it obviates the need to think about types in advance. While here the example is simple, in practice I would use automatic differentiation, which makes it more challenging to determine buffer types in advance. I expect I will transition to a more “buffer-free” style in the future, and design the interface for DynamicHMC.jl accordingly.</p>
+
+
+
+<div class="codedownload"><p>download code as <a href="https://tpapp.github.io/post/common-random-variables/code.jl">code.jl</a></p></div>
+
+
+<p><strong>PS:</strong> From now on, my blog posts with Julia code will have a banner about version information.</p>
+<div class="footnotes">
+
+<hr>
+
+<ol>
+<li id="fn:Which-will-chang">Which will change following this blog post 😁 <a class="footnote-return" href="#fnref:Which-will-chang"><sup>[return]</sup></a></li>
+<li id="fn:The-other-3-opti">The other 3 options are slow because of deprecation warnings. <a class="footnote-return" href="#fnref:The-other-3-opti"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+
