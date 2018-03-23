@@ -19,7 +19,7 @@
     <updated>2018-03-23T15:23:16+01:00</updated>
     
     <content type="html" xml:base="https://tpapp.github.io/post/common-random-variables/">
-&lt;div class=&#34;juliaversionwarning&#34;&gt;&lt;p&gt;Code used in this post was written for Julia &lt;strong&gt;v0.6.2&lt;/strong&gt; and, when applicable, reflects the state of packages used on &lt;strong&gt;2018-03-03&lt;/strong&gt;. You may need to modify it for different versions.&lt;/p&gt;&lt;/div&gt;
+&lt;div class=&#34;juliaversionwarning&#34;&gt;&lt;p&gt;Code used in this post was written for Julia &lt;strong&gt;v0.6.2&lt;/strong&gt; and, when applicable, reflects the state of packages used on &lt;strong&gt;2018-03-23&lt;/strong&gt;. You may need to modify it for different versions.&lt;/p&gt;&lt;/div&gt;
 
 
 &lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
