@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Making dotted graph paper in Julia with Luxor.jl</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.42.1" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600%7CUbuntu+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          
+          
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/teaching">Teaching</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/big-data">big data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/coverage">coverage</a>
+    
+    <a href="/tags/docker">docker</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/gitlab">gitlab</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/indirect-inference">indirect inference</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/unit-testing">unit testing</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tpapp.github.io/">About</a>
+<a href="https://tpapp.github.io/research">Research</a>
+<a href="https://tpapp.github.io/teaching">Teaching</a>
+<a href="https://tpapp.github.io/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/forwarddiff">ForwardDiff</a>
+    
+    <a href="/tags/hugo">Hugo</a>
+    
+    <a href="/tags/jacobian">Jacobian</a>
+    
+    <a href="/tags/latex">LaTeX</a>
+    
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/stan">Stan</a>
+    
+    <a href="/tags/ubuntu">Ubuntu</a>
+    
+    <a href="/tags/weave">Weave</a>
+    
+    <a href="/tags/automatic-differentiation">automatic differentiation</a>
+    
+    <a href="/tags/big-data">big data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser plugins</a>
+    
+    <a href="/tags/coverage">coverage</a>
+    
+    <a href="/tags/docker">docker</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/gitlab">gitlab</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/indirect-inference">indirect inference</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/unit-testing">unit testing</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>Making dotted graph paper in Julia with Luxor.jl</h1>2018/06/18
+<span class="tags">
+    
+    <a href="/tags/julia">julia</a>
+    
+</span>
+
+
+
+
+<div id="pagenav">
+  
+  
+  
+  <span class="pagenav-label">previous post:</span>&nbsp;
+  <a href="https://tpapp.github.io/post/common-random-variables/">Common random variables: an optimization case study</a>
+  
+</div>
+
+
+<p>I needed some graph paper with subdivisions at centimeters and millimetres. There are some generators online, but I found their output too heavy, visually cluttered, or simply not ideal (yes, I am very picky about these things).</p>
+
+<p>The obvious solution was to generate a PDF or SVG using a program. Before learning Julia, I would have just started in <a href="https://sourceforge.net/projects/pgf/"><code>pgf/tikz</code></a>, and spent hours searching online to do the thing I want. <code>pgf/tikz</code> are fine tools, but I generally try to avoid programming anything nontrivial in LaTeX, so I always have to spend a lot of time debugging my code.</p>
+
+<p>However, being a Julia user, this was a great opportunity to try <a href="https://github.com/JuliaGraphics/Luxor.jl"><code>Luxor.jl</code></a>, the “Cairo for tourists!”. This means that I don't have to immerse myself in the intricacies of its syntax and concepts; I can just dip my toes and get the results.</p>
+
+<p>I was not disappointed: within 15 minutes of <code>Pkg.add(&quot;Luxor&quot;)</code>, I had arrived at a solution I like. I am very satisfied with <code>Luxor.jl</code> and will probably use it in the future when I need graphics built up from primitives.</p>
+
+
+
+
+<div class="codedisplay">
+  <div class="codeheader"><p>download as <a href="https://tpapp.github.io/post/dotted-paper-luxor/dotted_paper.jl">dotted_paper.jl</a></p></div>
+  <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">Luxor</span>
+
+<span class="c">#######################</span>
+<span class="c"># customize script here</span>
+<span class="c">#######################</span>
+<span class="n">paper</span> <span class="o">=</span> <span class="s">&#34;A4&#34;</span>                       <span class="c"># paper size</span>
+<span class="n">major_unit</span> <span class="o">=</span> <span class="mi">1</span><span class="n">cm</span>                   <span class="c"># gridlines at each</span>
+<span class="n">subdivisions</span> <span class="o">=</span> <span class="mi">10</span>                  <span class="c"># dots on gridlines in between</span>
+<span class="n">radius</span> <span class="o">=</span> <span class="mf">0.1</span><span class="n">mm</span>                     <span class="c"># radius for the tiny dots</span>
+<span class="n">margins</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="n">mm</span><span class="p">,</span> <span class="mi">5</span><span class="n">mm</span><span class="p">)</span>               <span class="c"># minimum margins (may be more, centered)</span>
+<span class="n">color</span> <span class="o">=</span> <span class="s">&#34;black&#34;</span>                    <span class="c"># color for the tiny dots</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s">&#34;dotted_paper.pdf&#34;</span>      <span class="c"># output goes here, OVERWRITTEN</span>
+
+<span class="c">#######################################################</span>
+<span class="c"># runtime code - you probably don&#39;t need to change this</span>
+<span class="c">#######################################################</span>
+<span class="n">pagesize</span> <span class="o">=</span> <span class="n">paper_sizes</span><span class="p">[</span><span class="n">paper</span><span class="p">]</span>
+<span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="err">@</span><span class="o">.</span> <span class="n">floor</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="p">(</span><span class="n">pagesize</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">margins</span><span class="p">))</span> <span class="o">/</span> <span class="n">major_unit</span><span class="p">)</span>
+<span class="n">offsetx</span><span class="p">,</span> <span class="n">offsety</span> <span class="o">=</span> <span class="err">@</span><span class="o">.</span> <span class="n">margins</span> <span class="o">+</span> <span class="p">(</span><span class="n">pagesize</span> <span class="o">%</span> <span class="n">major_unit</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="n">major_grid_x</span> <span class="o">=</span> <span class="n">offsetx</span> <span class="o">.+</span> <span class="n">major_unit</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="n">nx</span><span class="p">)</span>
+<span class="n">major_grid_y</span> <span class="o">=</span> <span class="n">offsety</span> <span class="o">.+</span> <span class="n">major_unit</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="n">ny</span><span class="p">)</span>
+<span class="n">minor_grid_x</span> <span class="o">=</span> <span class="n">offsetx</span> <span class="o">.+</span> <span class="p">(</span><span class="n">major_unit</span> <span class="o">/</span> <span class="n">subdivisions</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="p">(</span><span class="n">nx</span><span class="o">*</span><span class="n">subdivisions</span><span class="p">))</span>
+<span class="n">minor_grid_y</span> <span class="o">=</span> <span class="n">offsety</span> <span class="o">.+</span> <span class="p">(</span><span class="n">major_unit</span> <span class="o">/</span> <span class="n">subdivisions</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="p">(</span><span class="n">ny</span><span class="o">*</span><span class="n">subdivisions</span><span class="p">))</span>
+
+<span class="n">Drawing</span><span class="p">(</span><span class="n">paper</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+<span class="n">background</span><span class="p">(</span><span class="s">&#34;white&#34;</span><span class="p">)</span>
+<span class="n">sethue</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+<span class="err">@</span><span class="o">.</span> <span class="n">circle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="n">major_grid_x</span><span class="p">,</span> <span class="n">minor_grid_y</span><span class="err">&#39;</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="o">:</span><span class="n">fill</span><span class="p">);</span>
+<span class="err">@</span><span class="o">.</span> <span class="n">circle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="n">minor_grid_x</span><span class="p">,</span> <span class="n">major_grid_y</span><span class="err">&#39;</span><span class="p">),</span> <span class="n">radius</span><span class="p">,</span> <span class="o">:</span><span class="n">fill</span><span class="p">);</span>
+<span class="n">finish</span><span class="p">()</span>
+<span class="n">preview</span><span class="p">()</span>
+</code></pre></div>
+</div>
+
+
+<p>The final PDF is <a href="dotted_paper.pdf">here</a>.</p>
+
+
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "tpappgithubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+
