@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tpapp.github.io/post/dynamichmc-reorganization/</loc>
+    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tpapp.github.io/post/dotted-paper-luxor/</loc>
     <lastmod>2018-06-18T11:30:24+02:00</lastmod>
   </url>
@@ -174,19 +179,79 @@
   
   <url>
     <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2018-06-18T11:30:24+02:00</lastmod>
+    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/bayesian/</loc>
+    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/categories/</loc>
+    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/forwarddiff/</loc>
+    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/hugo/</loc>
+    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/jacobian/</loc>
+    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/latex/</loc>
+    <lastmod>2017-05-24T12:59:53+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/mcmc/</loc>
+    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/stan/</loc>
+    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/</loc>
+    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/ubuntu/</loc>
+    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tpapp.github.io/tags/weave/</loc>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tpapp.github.io/tags/automatic-differentiation/</loc>
     <lastmod>2017-09-15T16:03:10+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/bayesian/</loc>
-    <lastmod>2018-03-23T15:23:16+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -205,12 +270,6 @@
   <url>
     <loc>https://tpapp.github.io/tags/browser-plugins/</loc>
     <lastmod>2017-05-02T16:35:37+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2018-06-18T11:30:24+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -245,12 +304,6 @@
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/forwarddiff/</loc>
-    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://tpapp.github.io/tags/gitlab/</loc>
     <lastmod>2018-03-08T17:06:54+01:00</lastmod>
     <priority>0</priority>
@@ -263,38 +316,20 @@
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/hugo/</loc>
-    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://tpapp.github.io/tags/indirect-inference/</loc>
     <lastmod>2018-03-23T15:23:16+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/jacobian/</loc>
-    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://tpapp.github.io/tags/julia/</loc>
-    <lastmod>2018-06-18T11:30:24+02:00</lastmod>
+    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tpapp.github.io/tags/julia-repl/</loc>
     <lastmod>2017-11-01T12:27:23+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/latex/</loc>
-    <lastmod>2017-05-24T12:59:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -307,12 +342,6 @@
   <url>
     <loc>https://tpapp.github.io/tags/log1p/</loc>
     <lastmod>2017-09-13T11:18:59+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/mcmc/</loc>
-    <lastmod>2018-03-23T15:23:16+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -359,38 +388,14 @@
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/stan/</loc>
-    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/</loc>
-    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://tpapp.github.io/tags/teaching/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/ubuntu/</loc>
-    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://tpapp.github.io/tags/unit-testing/</loc>
     <lastmod>2018-03-08T17:06:54+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/weave/</loc>
-    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
     <priority>0</priority>
   </url>
   

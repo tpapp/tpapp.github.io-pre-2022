@@ -3,13 +3,57 @@
   <title>MCMC on Tamás K. Papp&#39;s website</title>
   <link href="https://tpapp.github.io/index.xml" rel="self"/>
   <link href="https://tpapp.github.io/tags/mcmc/"/>
-  <updated>2018-03-23T15:23:16+01:00</updated>
+  <updated>2018-10-04T13:30:24+02:00</updated>
   
   <id>https://tpapp.github.io/tags/mcmc/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Changes for DynamicHMC.jl and related packages</title>
+    <link href="https://tpapp.github.io/post/dynamichmc-reorganization/"/>
+    <id>https://tpapp.github.io/post/dynamichmc-reorganization/</id>
+    <published>2018-10-04T13:30:24+02:00</published>
+    <updated>2018-10-04T13:30:24+02:00</updated>
+    
+    <content type="html" xml:base="https://tpapp.github.io/post/dynamichmc-reorganization/">&lt;p&gt;&lt;strong&gt;TL;DR&lt;/strong&gt;: new wrapper types for AD (with support for &lt;a href=&#34;https://github.com/FluxML/Flux.jl&#34;&gt;Flux.jl&lt;/a&gt;), new transformation interface, &lt;a href=&#34;https://github.com/tpapp/DynamicHMCExamples.jl&#34;&gt;see the examples&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl&#34;&gt;DynamicHMC.jl&lt;/a&gt; is Julia package for Hamiltonian MCMC using the NUTS algorithm. Its interface and the related packages underwent some reorganization which involves API changes. This post is a brief summary, as I prefer to maintain the actual &lt;a href=&#34;https://github.com/tpapp/DynamicHMCExamples.jl&#34;&gt;examples in a repository&lt;/a&gt; I can test. You are encouraged to read these, and the documentation for each package (some of which is WIP).&lt;/p&gt;
+
+&lt;p&gt;A summary of the changes:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/TransformVariables.jl&#34;&gt;TransformVariables.jl&lt;/a&gt; replaces the previous DSL for transforming parameters (which was &lt;a href=&#34;https://github.com/tpapp/ContinuousTransformations.jl&#34;&gt;ContinuousTransformations.jl&lt;/a&gt;). It has a different syntax, and should make it easier to specify custom transformations in the future (this is work in progress).&lt;/p&gt;
+
+&lt;p&gt;For example,&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;as&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;μ&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asℝ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;σ&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;asℝ₊&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;will specify a transformation of 2 real numbers to a &lt;code&gt;NamedTuple&lt;/code&gt; with fields &lt;code&gt;μ&lt;/code&gt; (unconstrained) and &lt;code&gt;σ&lt;/code&gt; (constrained to be positive, eg a standard deviation).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/LogDensityProblems.jl&#34;&gt;LogDensityProblems.jl&lt;/a&gt; contains the wrapper types for log density functions &lt;span  class=&#34;math&#34;&gt;\(\mathbb{R}^n \to \mathbb{R}\)&lt;/span&gt;. The most common workflow is making your function map a tuple of parameters to a &lt;code&gt;::Real&lt;/code&gt; (which may be &lt;code&gt;-Inf&lt;/code&gt;), define a transformation, and then obtain the gradient via automatic differentiation. Currently &lt;a href=&#34;https://github.com/JuliaDiff/ForwardDiff.jl&#34;&gt;ForwardDiff.jl&lt;/a&gt; (suboptimal for gradients, but very robust) and &lt;a href=&#34;https://github.com/FluxML/Flux.jl&#34;&gt;Flux.jl&lt;/a&gt; (faster) are supported. Support for &lt;a href=&#34;https://github.com/FluxML/Zygote.jl&#34;&gt;Zygote.jl&lt;/a&gt; and &lt;a href=&#34;https://github.com/JuliaDiff/ReverseDiff.jl&#34;&gt;ReverseDiff.jl&lt;/a&gt; should be easy to add, just open an issue.&lt;/p&gt;
+
+&lt;p&gt;For example, once you have specified a callable &lt;code&gt;p&lt;/code&gt; that takes the transformed parameters which result from transformation &lt;code&gt;t&lt;/code&gt;,&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;P&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;TransformedLogDensity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;∇P&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FluxGradientLogDensity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;P&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;will wrap them so that &lt;a href=&#34;https://github.com/FluxML/Flux.jl&#34;&gt;Flux.jl&lt;/a&gt; is used for obtaining the gradient via AD.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl&#34;&gt;DynamicHMC.jl&lt;/a&gt; expects a callable that supports the &lt;code&gt;dimension&lt;/code&gt; query function, takes a vector of reals, and returns a &lt;code&gt;LogDensityProblems.ValueGradient&lt;/code&gt; type. The recommended way of obtaining this is using the wrapper libraries above, but you are of course free to code your own.&lt;/p&gt;
+
+&lt;p&gt;To continue the example, obtaining samples is now as simple as&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;chain&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NUTS_tuned&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NUTS_init_tune_mcmc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;∇P&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;because &lt;code&gt;∇P&lt;/code&gt; now contains the dimension information.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;All of the above packages are registered. The new version for DynamicHMC.jl is &lt;code&gt;v1.0.0&lt;/code&gt;, as the API change is breaking. All of the packages require at least Julia &lt;code&gt;v0.7&lt;/code&gt;, but &lt;code&gt;v1.0&lt;/code&gt; or later is recommended.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/DynamicHMCExamples.jl&#34;&gt;DynamicHMCExamples.jl&lt;/a&gt; has some examples on suggested usage. I am happy to provide &lt;em&gt;support with coding specific models&lt;/em&gt;, just please open an issue there. As usual, bug reports, feature requests and PRs are welcome.&lt;/p&gt;
+
+&lt;p&gt;Finally, I would like to thank users for their patience and feedback. I hope that you will find new interface more convenient, and the improved speed useful.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;PS.: I have removed the Disqus comments from the blog; they broke the style and hardly anyone was using them anyway.&lt;/em&gt;&lt;/p&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">Common random variables: an optimization case study</title>
