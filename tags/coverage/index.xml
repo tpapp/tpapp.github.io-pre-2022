@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>coverage on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/coverage/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/coverage/"/>
   <updated>2018-03-09T08:31:23+01:00</updated>
   
-  <id>https://tpapp.github.io/tags/coverage/</id>
+  <id>https://tamaspapp.eu/tags/coverage/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Local test coverage in Julia</title>
-    <link href="https://tpapp.github.io/post/julia-local-coverage/"/>
-    <id>https://tpapp.github.io/post/julia-local-coverage/</id>
+    <link href="https://tamaspapp.eu/post/julia-local-coverage/"/>
+    <id>https://tamaspapp.eu/post/julia-local-coverage/</id>
     <published>2018-03-09T08:31:23+01:00</published>
     <updated>2018-03-09T08:31:23+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/julia-local-coverage/">&lt;p&gt;While &lt;a href=&#34;https://codecov.io/&#34;&gt;codecov.io&lt;/a&gt; and &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls.io&lt;/a&gt; are fine services and very easy to set up for Github repositories with Julia packages, they become more difficult to use under some circumstances. For example, if testing requires large binaries you don&#39;t want to build every time, you need to &lt;a href=&#34;https://tpapp.github.io/post/travis-docker-julia-ci/&#34;&gt;build a Docker image&lt;/a&gt; to run testing and obtain coverage information. Also, if your test scripts take a long time and you have access to a powerful computer, you might want to just run coverage locally when working on the code.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/julia-local-coverage/">&lt;p&gt;While &lt;a href=&#34;https://codecov.io/&#34;&gt;codecov.io&lt;/a&gt; and &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls.io&lt;/a&gt; are fine services and very easy to set up for Github repositories with Julia packages, they become more difficult to use under some circumstances. For example, if testing requires large binaries you don&#39;t want to build every time, you need to &lt;a href=&#34;https://tamaspapp.eu/post/travis-docker-julia-ci/&#34;&gt;build a Docker image&lt;/a&gt; to run testing and obtain coverage information. Also, if your test scripts take a long time and you have access to a powerful computer, you might want to just run coverage locally when working on the code.&lt;/p&gt;
 
 &lt;p&gt;Naturally, Julia has all the facilities for generating and collecting coverage information locally. To make their application even easier, I packaged up a small set of scripts in &lt;a href=&#34;https://github.com/tpapp/LocalCoverage.jl&#34;&gt;LocalCoverage.jl&lt;/a&gt; that I use to generate and visualize coverage information for Julia packages on my machine.&lt;/p&gt;
 
@@ -40,7 +39,7 @@
 
 &lt;p&gt;This is what it looks like for this package:&lt;/p&gt;
 
-&lt;iframe src=&#34;https://tpapp.github.io/misc/coverage-example/src/LocalCoverage.jl.gcov.html&#34;&gt;&lt;/iframe&gt;
+&lt;iframe src=&#34;https://tamaspapp.eu/misc/coverage-example/src/LocalCoverage.jl.gcov.html&#34;&gt;&lt;/iframe&gt;
 </content>
   </entry>
   

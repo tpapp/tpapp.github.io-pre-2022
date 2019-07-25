@@ -4,7 +4,7 @@
     <title>Switching from Common Lisp to Julia</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.49" />
+    <meta name="generator" content="Hugo 0.55.6" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/syntax.css">
     
@@ -31,41 +31,25 @@
   </head>
   <body>
     <nav id="navbar">
-      <a href="https://tpapp.github.io/">About</a>
-<a href="https://tpapp.github.io/research">Research</a>
-<a href="https://tpapp.github.io/teaching">Teaching</a>
-<a href="https://tpapp.github.io/post">Blog</a>
+      <a href="https://tamaspapp.eu/">About</a>
+<a href="https://tamaspapp.eu/research">Research</a>
+<a href="https://tamaspapp.eu/teaching">Teaching</a>
+<a href="https://tamaspapp.eu/post">Blog</a>
 <a href="https://github.com/tpapp/">Github</a>
 <div class="dropdown">
   <a class="dropdown-button">(tags)</a>
   <div class="dropdown-content">
     <p class="dropdown-header">site tags</p>
     
-    <a href="/tags/bayesian">Bayesian</a>
+    <a href="/tags/automatic-differentiation">automatic-differentiation</a>
     
-    <a href="/tags/forwarddiff">ForwardDiff</a>
+    <a href="/tags/bayesian">bayesian</a>
     
-    <a href="/tags/hugo">Hugo</a>
-    
-    <a href="/tags/jacobian">Jacobian</a>
-    
-    <a href="/tags/latex">LaTeX</a>
-    
-    <a href="/tags/mcmc">MCMC</a>
-    
-    <a href="/tags/stan">Stan</a>
-    
-    <a href="/tags/ubuntu">Ubuntu</a>
-    
-    <a href="/tags/weave">Weave</a>
-    
-    <a href="/tags/automatic-differentiation">automatic differentiation</a>
-    
-    <a href="/tags/big-data">big data</a>
+    <a href="/tags/big-data">big-data</a>
     
     <a href="/tags/blogging">blogging</a>
     
-    <a href="/tags/browser-plugins">browser plugins</a>
+    <a href="/tags/browser-plugins">browser-plugins</a>
     
     <a href="/tags/coverage">coverage</a>
     
@@ -77,15 +61,21 @@
     
     <a href="/tags/firefox">firefox</a>
     
+    <a href="/tags/forwarddiff">forwarddiff</a>
+    
     <a href="/tags/gitlab">gitlab</a>
     
     <a href="/tags/hugo">hugo</a>
     
-    <a href="/tags/indirect-inference">indirect inference</a>
+    <a href="/tags/indirect-inference">indirect-inference</a>
+    
+    <a href="/tags/jacobian">jacobian</a>
     
     <a href="/tags/julia">julia</a>
     
     <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/latex">latex</a>
     
     <a href="/tags/lisp">lisp</a>
     
@@ -95,61 +85,51 @@
     
     <a href="/tags/math">math</a>
     
+    <a href="/tags/mcmc">mcmc</a>
+    
     <a href="/tags/microoptimization">microoptimization</a>
     
-    <a href="/tags/numerical-error">numerical error</a>
+    <a href="/tags/numerical-error">numerical-error</a>
     
     <a href="/tags/packages">packages</a>
     
     <a href="/tags/plots">plots</a>
     
+    <a href="/tags/stan">stan</a>
+    
     <a href="/tags/teaching">teaching</a>
     
-    <a href="/tags/unit-testing">unit testing</a>
+    <a href="/tags/ubuntu">ubuntu</a>
+    
+    <a href="/tags/unit-testing">unit-testing</a>
     
     <a href="/tags/weave">weave</a>
     
   </div>
 </div>
-<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+<a href="https://tamaspapp.eu/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tamaspapp.eu/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
 
     </nav>
     <div id="navbarplaceholder">
-      <a href="https://tpapp.github.io/">About</a>
-<a href="https://tpapp.github.io/research">Research</a>
-<a href="https://tpapp.github.io/teaching">Teaching</a>
-<a href="https://tpapp.github.io/post">Blog</a>
+      <a href="https://tamaspapp.eu/">About</a>
+<a href="https://tamaspapp.eu/research">Research</a>
+<a href="https://tamaspapp.eu/teaching">Teaching</a>
+<a href="https://tamaspapp.eu/post">Blog</a>
 <a href="https://github.com/tpapp/">Github</a>
 <div class="dropdown">
   <a class="dropdown-button">(tags)</a>
   <div class="dropdown-content">
     <p class="dropdown-header">site tags</p>
     
-    <a href="/tags/bayesian">Bayesian</a>
+    <a href="/tags/automatic-differentiation">automatic-differentiation</a>
     
-    <a href="/tags/forwarddiff">ForwardDiff</a>
+    <a href="/tags/bayesian">bayesian</a>
     
-    <a href="/tags/hugo">Hugo</a>
-    
-    <a href="/tags/jacobian">Jacobian</a>
-    
-    <a href="/tags/latex">LaTeX</a>
-    
-    <a href="/tags/mcmc">MCMC</a>
-    
-    <a href="/tags/stan">Stan</a>
-    
-    <a href="/tags/ubuntu">Ubuntu</a>
-    
-    <a href="/tags/weave">Weave</a>
-    
-    <a href="/tags/automatic-differentiation">automatic differentiation</a>
-    
-    <a href="/tags/big-data">big data</a>
+    <a href="/tags/big-data">big-data</a>
     
     <a href="/tags/blogging">blogging</a>
     
-    <a href="/tags/browser-plugins">browser plugins</a>
+    <a href="/tags/browser-plugins">browser-plugins</a>
     
     <a href="/tags/coverage">coverage</a>
     
@@ -161,15 +141,21 @@
     
     <a href="/tags/firefox">firefox</a>
     
+    <a href="/tags/forwarddiff">forwarddiff</a>
+    
     <a href="/tags/gitlab">gitlab</a>
     
     <a href="/tags/hugo">hugo</a>
     
-    <a href="/tags/indirect-inference">indirect inference</a>
+    <a href="/tags/indirect-inference">indirect-inference</a>
+    
+    <a href="/tags/jacobian">jacobian</a>
     
     <a href="/tags/julia">julia</a>
     
     <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/latex">latex</a>
     
     <a href="/tags/lisp">lisp</a>
     
@@ -179,23 +165,29 @@
     
     <a href="/tags/math">math</a>
     
+    <a href="/tags/mcmc">mcmc</a>
+    
     <a href="/tags/microoptimization">microoptimization</a>
     
-    <a href="/tags/numerical-error">numerical error</a>
+    <a href="/tags/numerical-error">numerical-error</a>
     
     <a href="/tags/packages">packages</a>
     
     <a href="/tags/plots">plots</a>
     
+    <a href="/tags/stan">stan</a>
+    
     <a href="/tags/teaching">teaching</a>
     
-    <a href="/tags/unit-testing">unit testing</a>
+    <a href="/tags/ubuntu">ubuntu</a>
+    
+    <a href="/tags/unit-testing">unit-testing</a>
     
     <a href="/tags/weave">weave</a>
     
   </div>
 </div>
-<a href="https://tpapp.github.io/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tpapp.github.io/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+<a href="https://tamaspapp.eu/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tamaspapp.eu/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
 
     </div>
     <div id="mainbody">
@@ -216,14 +208,14 @@
 <div id="pagenav">
   
   <span class="pagenav-label">next post:</span>&nbsp;
-  <a href="https://tpapp.github.io/post/htmlize-screenshot/">HTML &#34;screenshots&#34; from Emacs</a>
+  <a href="https://tamaspapp.eu/post/orphaned-lisp-libraries/">Clarification: on orphaning my Common Lisp libraries</a>
   
   
   
   <br/>
   
   <span class="pagenav-label">previous post:</span>&nbsp;
-  <a href="https://tpapp.github.io/post/orphaned-lisp-libraries/">Clarification: on orphaning my Common Lisp libraries</a>
+  <a href="https://tamaspapp.eu/post/htmlize-screenshot/">HTML &#34;screenshots&#34; from Emacs</a>
   
 </div>
 
@@ -232,7 +224,7 @@
 
 <p>I used Common Lisp for scientific computing for a while, from 2008 to about 2015, in combination with R and C++. This choice may surprise people who don't know about projects like <a href="https://en.wikipedia.org/wiki/Maxima_(software)">Maxima</a> or <a href="http://www.femlisp.org/">FEMLISP</a>, but Common Lisp is not a bad language for <a href="https://link.springer.com/chapter/10.1007/978-3-642-19014-8_11">scientific computing</a>: it has a great FFI, compilers like <a href="http://sbcl.org/">SBCL</a> can generate very fast code with a few hints, and the language itself is composed of convenient features that interact nicely.</p>
 
-<p>However, around 2012 I started to become very frustrated with Common Lisp. Despite various attempts, it became very clear that libraries for scientific computing were not goint to take off: there were many one-person efforts (including <a href="https://tpapp.github.io/post/orphaned-lisp-libraries/">mine</a>), but very few of them evolved into general tools.</p>
+<p>However, around 2012 I started to become very frustrated with Common Lisp. Despite various attempts, it became very clear that libraries for scientific computing were not goint to take off: there were many one-person efforts (including <a href="https://tamaspapp.eu/post/orphaned-lisp-libraries/">mine</a>), but very few of them evolved into general tools.</p>
 
 <p>Initially, I was puzzled by this: Common Lisp is an extremely convenient and productive language. Experienced Lisp hackers can write very complex, fast, and elegant libraries in reasonably short time. Why did this not happen for numerical code?</p>
 
@@ -317,7 +309,7 @@
       <span class="k">return</span> <span class="n">s</span><span class="o">::</span><span class="kt">Float64</span>
   <span class="k">end</span><span class="o">::</span><span class="kt">Float64</span></code></pre></div>
 <p>I mentioned &quot;vector-like objects&quot; above, since I can choose different representations for special objects. For example, to do calculations with a vector of <code>1</code>s, I can define</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">struct</span> <span class="n">Ones</span><span class="p">{</span><span class="n">T</span> <span class="o">&lt;:</span> <span class="kt">Number</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="kt">AbstractVector</span><span class="p">{</span><span class="n">T</span><span class="p">}</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">struct</span> <span class="n">Ones</span><span class="p">{</span><span class="n">T</span> <span class="o">&lt;:</span> <span class="kt">Number</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="kt">AbstractVector</span><span class="p">{</span><span class="n">T</span><span class="p">}</span>
     <span class="n">len</span><span class="o">::</span><span class="kt">Int</span>
 <span class="k">end</span></code></pre></div>
 <p>At this point, in order to calculate the sum above, I have two choices:</p>

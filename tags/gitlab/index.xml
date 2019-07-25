@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>gitlab on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/gitlab/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/gitlab/"/>
   <updated>2018-03-08T17:06:54+01:00</updated>
   
-  <id>https://tpapp.github.io/tags/gitlab/</id>
+  <id>https://tamaspapp.eu/tags/gitlab/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Setting up Julia with continuous integration on Gitlab</title>
-    <link href="https://tpapp.github.io/post/julia-ci-gitlab/"/>
-    <id>https://tpapp.github.io/post/julia-ci-gitlab/</id>
+    <link href="https://tamaspapp.eu/post/julia-ci-gitlab/"/>
+    <id>https://tamaspapp.eu/post/julia-ci-gitlab/</id>
     <published>2018-03-08T17:06:54+01:00</published>
     <updated>2018-03-08T17:06:54+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/julia-ci-gitlab/">&lt;p&gt;As an academic, I picked up good practices for programming mostly by osmosis. My approach to “testing” software went through the following stages:&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/julia-ci-gitlab/">&lt;p&gt;As an academic, I picked up good practices for programming mostly by osmosis. My approach to “testing” software went through the following stages:&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;See if the code runs (this got me through my undergrad years).&lt;/p&gt;&lt;/li&gt;

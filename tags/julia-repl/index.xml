@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>julia-repl on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/julia-repl/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/julia-repl/"/>
   <updated>2017-11-01T12:27:23+01:00</updated>
   
-  <id>https://tpapp.github.io/tags/julia-repl/</id>
+  <id>https://tamaspapp.eu/tags/julia-repl/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">WIP: making error locations in julia-repl clickable</title>
-    <link href="https://tpapp.github.io/post/wip-julia-repl-clickable/"/>
-    <id>https://tpapp.github.io/post/wip-julia-repl-clickable/</id>
+    <link href="https://tamaspapp.eu/post/wip-julia-repl-clickable/"/>
+    <id>https://tamaspapp.eu/post/wip-julia-repl-clickable/</id>
     <published>2017-11-01T12:27:23+01:00</published>
     <updated>2017-11-01T12:27:23+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/wip-julia-repl-clickable/">&lt;p&gt;I scratched a long-standing itch and made locations in error messages &amp;quot;clickable&amp;quot; in &lt;code&gt;julia-repl&lt;/code&gt;. Not yet merged into &lt;code&gt;master&lt;/code&gt;, the change is in the &lt;a href=&#34;https://github.com/tpapp/julia-repl/tree/clickable-locations&#34;&gt;&lt;code&gt;clickable-locations&lt;/code&gt;&lt;/a&gt; branch.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/wip-julia-repl-clickable/">&lt;p&gt;I scratched a long-standing itch and made locations in error messages &amp;quot;clickable&amp;quot; in &lt;code&gt;julia-repl&lt;/code&gt;. Not yet merged into &lt;code&gt;master&lt;/code&gt;, the change is in the &lt;a href=&#34;https://github.com/tpapp/julia-repl/tree/clickable-locations&#34;&gt;&lt;code&gt;clickable-locations&lt;/code&gt;&lt;/a&gt; branch.&lt;/p&gt;
 
 &lt;p&gt;Testing is needed because of some hacks (again, I am not an Emacs expert), I will see if there are issues then merge it. This is what it looks like, those red and orange lines take you to the source:&lt;/p&gt;
 

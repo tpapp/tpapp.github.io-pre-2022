@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>emacs on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/emacs/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/emacs/"/>
   <updated>2017-12-04T15:32:41+01:00</updated>
   
-  <id>https://tpapp.github.io/tags/emacs/</id>
+  <id>https://tamaspapp.eu/tags/emacs/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Working with large Julia source files in Emacs</title>
-    <link href="https://tpapp.github.io/post/large-files-julia/"/>
-    <id>https://tpapp.github.io/post/large-files-julia/</id>
+    <link href="https://tamaspapp.eu/post/large-files-julia/"/>
+    <id>https://tamaspapp.eu/post/large-files-julia/</id>
     <published>2017-12-04T15:32:41+01:00</published>
     <updated>2017-12-04T15:32:41+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/large-files-julia/">&lt;p&gt;When writing software, especially libraries, a natural question is how to organize source code into files. Some languages, eg Matlab, encourage a very fragmented style (one function per file), while for some other languages (C/C++), a separation between the interface (&lt;code&gt;.h&lt;/code&gt;) and the implementation (&lt;code&gt;.c&lt;/code&gt;/&lt;code&gt;.cpp&lt;/code&gt;) is traditional.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/large-files-julia/">&lt;p&gt;When writing software, especially libraries, a natural question is how to organize source code into files. Some languages, eg Matlab, encourage a very fragmented style (one function per file), while for some other languages (C/C++), a separation between the interface (&lt;code&gt;.h&lt;/code&gt;) and the implementation (&lt;code&gt;.c&lt;/code&gt;/&lt;code&gt;.cpp&lt;/code&gt;) is traditional.&lt;/p&gt;
 
 &lt;p&gt;Julia has no such constraint: &lt;code&gt;include&lt;/code&gt; allows the source code for a module to be organized into small pieces, possibly scattered in multiple directories, or it can be a single monolithic piece of code. The choice on this spectrum is up to the authors, and is largely a matter of personal preference.&lt;/p&gt;
 
@@ -77,12 +76,12 @@ on `data`, which  is model-specific.
   
   <entry>
     <title type="html">Checking uncommitted changes when opening a file in Emacs</title>
-    <link href="https://tpapp.github.io/post/check-uncommitted/"/>
-    <id>https://tpapp.github.io/post/check-uncommitted/</id>
+    <link href="https://tamaspapp.eu/post/check-uncommitted/"/>
+    <id>https://tamaspapp.eu/post/check-uncommitted/</id>
     <published>2017-11-18T10:48:30+01:00</published>
     <updated>2017-11-18T10:48:30+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/check-uncommitted/">&lt;p&gt;Alas, the following happens all too frequently: I am working on code, some interruption happens, and I fail to commit the changes coherently into the repository.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/check-uncommitted/">&lt;p&gt;Alas, the following happens all too frequently: I am working on code, some interruption happens, and I fail to commit the changes coherently into the repository.&lt;/p&gt;
 
 &lt;p&gt;Next time I open the file, perhaps to work on some other feature, I forget that I have &lt;em&gt;uncommitted changes&lt;/em&gt; and work on something new. When staging, I realize the mistake and have to spend time disentangling the mess.&lt;/p&gt;
 
@@ -99,12 +98,12 @@ on `data`, which  is model-specific.
   
   <entry>
     <title type="html">WIP: making error locations in julia-repl clickable</title>
-    <link href="https://tpapp.github.io/post/wip-julia-repl-clickable/"/>
-    <id>https://tpapp.github.io/post/wip-julia-repl-clickable/</id>
+    <link href="https://tamaspapp.eu/post/wip-julia-repl-clickable/"/>
+    <id>https://tamaspapp.eu/post/wip-julia-repl-clickable/</id>
     <published>2017-11-01T12:27:23+01:00</published>
     <updated>2017-11-01T12:27:23+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/wip-julia-repl-clickable/">&lt;p&gt;I scratched a long-standing itch and made locations in error messages &amp;quot;clickable&amp;quot; in &lt;code&gt;julia-repl&lt;/code&gt;. Not yet merged into &lt;code&gt;master&lt;/code&gt;, the change is in the &lt;a href=&#34;https://github.com/tpapp/julia-repl/tree/clickable-locations&#34;&gt;&lt;code&gt;clickable-locations&lt;/code&gt;&lt;/a&gt; branch.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/wip-julia-repl-clickable/">&lt;p&gt;I scratched a long-standing itch and made locations in error messages &amp;quot;clickable&amp;quot; in &lt;code&gt;julia-repl&lt;/code&gt;. Not yet merged into &lt;code&gt;master&lt;/code&gt;, the change is in the &lt;a href=&#34;https://github.com/tpapp/julia-repl/tree/clickable-locations&#34;&gt;&lt;code&gt;clickable-locations&lt;/code&gt;&lt;/a&gt; branch.&lt;/p&gt;
 
 &lt;p&gt;Testing is needed because of some hacks (again, I am not an Emacs expert), I will see if there are issues then merge it. This is what it looks like, those red and orange lines take you to the source:&lt;/p&gt;
 
@@ -123,12 +122,12 @@ on `data`, which  is model-specific.
   
   <entry>
     <title type="html">My Julia workflow</title>
-    <link href="https://tpapp.github.io/post/julia-workflow/"/>
-    <id>https://tpapp.github.io/post/julia-workflow/</id>
+    <link href="https://tamaspapp.eu/post/julia-workflow/"/>
+    <id>https://tamaspapp.eu/post/julia-workflow/</id>
     <published>2017-10-21T12:40:04+02:00</published>
     <updated>2017-10-21T12:40:04+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/julia-workflow/">&lt;p&gt;(&lt;strong&gt;edit&lt;/strong&gt; 2017-10-22: fixed path for &lt;code&gt;PkgDev.generate&lt;/code&gt; example)&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/julia-workflow/">&lt;p&gt;(&lt;strong&gt;edit&lt;/strong&gt; 2017-10-22: fixed path for &lt;code&gt;PkgDev.generate&lt;/code&gt; example)&lt;/p&gt;
 
 &lt;p&gt;This is a summary of the workflow I find ideal for working with Julia. Although the manual has a &lt;a href=&#34;https://docs.julialang.org/en/latest/manual/workflow-tips/&#34;&gt;section on workflow&lt;/a&gt;, it does not mention all the tools that I find useful, so perhaps this will benefit some users of Julia.&lt;/p&gt;
 
@@ -163,12 +162,12 @@ on `data`, which  is model-specific.
   
   <entry>
     <title type="html">HTML &amp;#34;screenshots&amp;#34; from Emacs</title>
-    <link href="https://tpapp.github.io/post/htmlize-screenshot/"/>
-    <id>https://tpapp.github.io/post/htmlize-screenshot/</id>
+    <link href="https://tamaspapp.eu/post/htmlize-screenshot/"/>
+    <id>https://tamaspapp.eu/post/htmlize-screenshot/</id>
     <published>2017-10-17T13:26:04+02:00</published>
     <updated>2017-10-17T13:26:04+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/htmlize-screenshot/">&lt;p&gt;&lt;a href=&#34;https://github.com/hniksic/emacs-htmlize&#34;&gt;&lt;code&gt;htmlize&lt;/code&gt;&lt;/a&gt;, written by Hrvoje Nikšić, is a neat little Emacs package that converts face information from an Emacs buffer (or region) into HTML, effectively allowing the verbatim reproduction of what it looks like.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/htmlize-screenshot/">&lt;p&gt;&lt;a href=&#34;https://github.com/hniksic/emacs-htmlize&#34;&gt;&lt;code&gt;htmlize&lt;/code&gt;&lt;/a&gt;, written by Hrvoje Nikšić, is a neat little Emacs package that converts face information from an Emacs buffer (or region) into HTML, effectively allowing the verbatim reproduction of what it looks like.&lt;/p&gt;
 
 &lt;p&gt;I found this so useful for blogging that I submitted a PR which saves marked up regions as self-contained &lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt; snippets, complete with inline CSS. Hrvoje kindly merged the PR today, so now you can call &lt;code&gt;htmlize-region-save-screenshot&lt;/code&gt; and the result will be saved into the kill ring. You can paste this into, say, a blog post written in Markdown or &lt;a href=&#34;https://github.com/miekg/mmark&#34;&gt;Mmark&lt;/a&gt;, such as this one, and get a &amp;quot;screenshot&amp;quot; like&lt;/p&gt;
 
@@ -192,12 +191,12 @@ approximates the buffer as closely as possible.&#34;&lt;/span&gt;
   
   <entry>
     <title type="html">Blog redesign 2.0</title>
-    <link href="https://tpapp.github.io/post/blog-redesign-201709/"/>
-    <id>https://tpapp.github.io/post/blog-redesign-201709/</id>
+    <link href="https://tamaspapp.eu/post/blog-redesign-201709/"/>
+    <id>https://tamaspapp.eu/post/blog-redesign-201709/</id>
     <published>2017-09-29T19:55:44+02:00</published>
     <updated>2017-09-29T19:55:44+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/blog-redesign-201709/">&lt;p&gt;I have redesigned my blog (again), mainly tweaking the CSS and
+    <content type="html" xml:base="https://tamaspapp.eu/post/blog-redesign-201709/">&lt;p&gt;I have redesigned my blog (again), mainly tweaking the CSS and
 hopefully achieving better support on small screens (which are still
 not ideal for math, but now you should get a red warning float at the
 bottom).&lt;/p&gt;
@@ -233,12 +232,12 @@ bogus updates (BTW, this post should not show up in the Julia feed).&lt;/p&gt;
   
   <entry>
     <title type="html">Emacs customizations for julia-mode</title>
-    <link href="https://tpapp.github.io/post/emacs-julia-customizations/"/>
-    <id>https://tpapp.github.io/post/emacs-julia-customizations/</id>
+    <link href="https://tamaspapp.eu/post/emacs-julia-customizations/"/>
+    <id>https://tamaspapp.eu/post/emacs-julia-customizations/</id>
     <published>2017-08-28T14:41:58+02:00</published>
     <updated>2017-08-28T14:41:58+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/emacs-julia-customizations/">
+    <content type="html" xml:base="https://tamaspapp.eu/post/emacs-julia-customizations/">
 
 &lt;p&gt;I find the following customizations very useful for &lt;em&gt;editing&lt;/em&gt; Julia
 code in Emacs. Add them to &lt;code&gt;julia-mode-hook&lt;/code&gt;, eg&lt;/p&gt;
@@ -351,12 +350,12 @@ QR&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;factors&lt;span styl
   
   <entry>
     <title type="html">Emacs 25.2 on Ubuntu</title>
-    <link href="https://tpapp.github.io/post/emacs25-ubuntu/"/>
-    <id>https://tpapp.github.io/post/emacs25-ubuntu/</id>
+    <link href="https://tamaspapp.eu/post/emacs25-ubuntu/"/>
+    <id>https://tamaspapp.eu/post/emacs25-ubuntu/</id>
     <published>2017-07-03T10:49:56+02:00</published>
     <updated>2017-07-03T10:49:56+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/emacs25-ubuntu/">&lt;p&gt;Emacs is undoubtedly the most important program on my computers. On my
+    <content type="html" xml:base="https://tamaspapp.eu/post/emacs25-ubuntu/">&lt;p&gt;Emacs is undoubtedly the most important program on my computers. On my
 laptop, I use it to keep track of stuff with &lt;a href=&#34;http://orgmode.org/&#34;&gt;org-mode&lt;/a&gt;, read mail with &lt;a href=&#34;https://www.djcbsoftware.nl/code/mu/mu4e.html&#34;&gt;mu4e&lt;/a&gt;, edit LaTeX with &lt;a href=&#34;https://www.gnu.org/software/auctex/&#34;&gt;AUCTeX&lt;/a&gt;, and of course program. On servers, the first alias I define is usually &lt;code&gt;qe=&#39;emacs -Q -nw&#39;&lt;/code&gt;, which give me a fast and responsive editor. With &lt;a href=&#34;https://github.com/emacs-helm/helm&#34;&gt;helm&lt;/a&gt;, doing just about anything (eg locating files, &lt;code&gt;rgrep&lt;/code&gt;ing for something) is orders of magnitude faster and more convenient than any alternative I have tried.&lt;/p&gt;
 
 &lt;p&gt;I also try to keep up with the latest versions for software in general. Usually, whatever Ubuntu stable/Debian testing has is good enough not to justify the extra effort, but when I really need it, I grab the source and compile. That is usually only a minor hassle, but I try to restrict it to a few critical programs, otherwise it adds up. The major issue is not compiling, but having cruft in the filesystem (despite &lt;a href=&#34;https://www.gnu.org/software/stow/manual/stow.html&#34;&gt;stow&lt;/a&gt; and &lt;a href=&#34;https://wiki.debian.org/CheckInstall&#34;&gt;checkinstall&lt;/a&gt;, it piles up). So I try to avoid it if I can.&lt;/p&gt;

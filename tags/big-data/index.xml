@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>big data on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/big-data/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/big-data/"/>
   <updated>2017-10-26T19:14:07+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/big-data/</id>
+  <id>https://tamaspapp.eu/tags/big-data/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Working with a large ragged dataset in Julia</title>
-    <link href="https://tpapp.github.io/post/large-ragged-dataset-julia/"/>
-    <id>https://tpapp.github.io/post/large-ragged-dataset-julia/</id>
+    <link href="https://tamaspapp.eu/post/large-ragged-dataset-julia/"/>
+    <id>https://tamaspapp.eu/post/large-ragged-dataset-julia/</id>
     <published>2017-10-26T19:14:07+02:00</published>
     <updated>2017-10-26T19:14:07+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/large-ragged-dataset-julia/">&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/large-ragged-dataset-julia/">&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
 &lt;p&gt;One of the projects I am working on at the moment at the &lt;a href=&#34;http://www.ihs.ac.at/research-groups/macroeconomics-and-public-finance/&#34;&gt;Institute for Advanced Studies&lt;/a&gt; (in Vienna) is an analysis of the Austrian Social Security Database. We are using this extremely rich dataset to refine our understanding of the cross-sectional heterogeneity and age structure of employment and labor market participation.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:This-research-is&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:This-research-is&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 

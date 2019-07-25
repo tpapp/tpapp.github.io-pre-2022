@@ -3,406 +3,399 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://tpapp.github.io/post/dynamichmc-reorganization/</loc>
+    <loc>https://tamaspapp.eu/categories/</loc>
+    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/bayesian/</loc>
+    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/categories/</loc>
+    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/mcmc/</loc>
+    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/</loc>
+    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/</loc>
+    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/julia/</loc>
+    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/packages/</loc>
+    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/dynamichmc-reorganization/</loc>
     <lastmod>2018-10-04T13:30:24+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/dotted-paper-luxor/</loc>
+    <loc>https://tamaspapp.eu/post/dotted-paper-luxor/</loc>
     <lastmod>2018-06-18T11:30:24+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/teaching/</loc>
+    <loc>https://tamaspapp.eu/teaching/</loc>
     <lastmod>2018-04-27T14:48:06+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/common-random-variables/</loc>
+    <loc>https://tamaspapp.eu/post/common-random-variables/</loc>
     <lastmod>2018-03-23T15:23:16+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/julia-local-coverage/</loc>
+    <loc>https://tamaspapp.eu/tags/indirect-inference/</loc>
+    <lastmod>2018-03-23T15:23:16+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/julia-local-coverage/</loc>
     <lastmod>2018-03-09T08:31:23+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/julia-ci-gitlab/</loc>
+    <loc>https://tamaspapp.eu/tags/coverage/</loc>
+    <lastmod>2018-03-09T08:31:23+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/julia-ci-gitlab/</loc>
     <lastmod>2018-03-08T17:06:54+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/travis-docker-julia-ci/</loc>
+    <loc>https://tamaspapp.eu/tags/gitlab/</loc>
+    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/unit-testing/</loc>
+    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/travis-docker-julia-ci/</loc>
     <lastmod>2018-01-19T08:47:06+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/large-files-julia/</loc>
+    <loc>https://tamaspapp.eu/tags/docker/</loc>
+    <lastmod>2018-01-19T08:47:06+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/large-files-julia/</loc>
     <lastmod>2017-12-04T15:32:41+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/plot-workflow/</loc>
+    <loc>https://tamaspapp.eu/tags/emacs/</loc>
+    <lastmod>2017-12-04T15:32:41+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/plot-workflow/</loc>
     <lastmod>2017-12-01T09:56:00+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/check-uncommitted/</loc>
+    <loc>https://tamaspapp.eu/tags/plots/</loc>
+    <lastmod>2017-12-01T09:56:00+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/check-uncommitted/</loc>
     <lastmod>2017-11-18T10:48:30+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/wip-julia-repl-clickable/</loc>
+    <loc>https://tamaspapp.eu/tags/magit/</loc>
+    <lastmod>2017-11-18T10:48:30+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/wip-julia-repl-clickable/</loc>
     <lastmod>2017-11-01T12:27:23+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/large-ragged-dataset-julia/</loc>
+    <loc>https://tamaspapp.eu/tags/julia-repl/</loc>
+    <lastmod>2017-11-01T12:27:23+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/large-ragged-dataset-julia/</loc>
     <lastmod>2017-10-26T19:14:07+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/julia-workflow/</loc>
+    <loc>https://tamaspapp.eu/tags/big-data/</loc>
+    <lastmod>2017-10-26T19:14:07+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/julia-workflow/</loc>
     <lastmod>2017-10-21T12:40:04+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/htmlize-screenshot/</loc>
+    <loc>https://tamaspapp.eu/post/htmlize-screenshot/</loc>
     <lastmod>2017-10-17T13:26:04+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/common-lisp-to-julia/</loc>
+    <loc>https://tamaspapp.eu/post/common-lisp-to-julia/</loc>
     <lastmod>2017-10-15T14:17:47+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/orphaned-lisp-libraries/</loc>
+    <loc>https://tamaspapp.eu/tags/lisp/</loc>
+    <lastmod>2017-10-15T14:17:47+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/orphaned-lisp-libraries/</loc>
     <lastmod>2017-10-15T13:02:14+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/branch_prediction2/</loc>
+    <loc>https://tamaspapp.eu/post/branch_prediction2/</loc>
     <lastmod>2017-10-04T10:12:02+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/branch_prediction/</loc>
+    <loc>https://tamaspapp.eu/tags/microoptimization/</loc>
+    <lastmod>2017-10-04T10:12:02+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/branch_prediction/</loc>
     <lastmod>2017-10-03T11:40:58+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/blog-redesign-201709/</loc>
+    <loc>https://tamaspapp.eu/post/blog-redesign-201709/</loc>
     <lastmod>2017-09-29T19:55:44+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/discontinuous_integral_ad/</loc>
+    <loc>https://tamaspapp.eu/tags/hugo/</loc>
+    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/discontinuous_integral_ad/</loc>
     <lastmod>2017-09-15T16:03:10+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/log1p/</loc>
+    <loc>https://tamaspapp.eu/tags/forwarddiff/</loc>
+    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/automatic-differentiation/</loc>
+    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/log1p/</loc>
+    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/log1p/</loc>
     <lastmod>2017-09-13T11:18:59+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/emacs-julia-customizations/</loc>
+    <loc>https://tamaspapp.eu/tags/numerical-error/</loc>
+    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/emacs-julia-customizations/</loc>
     <lastmod>2017-08-28T14:41:58+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/julia-local-test/</loc>
+    <loc>https://tamaspapp.eu/post/julia-local-test/</loc>
     <lastmod>2017-08-23T10:10:48+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/emacs25-ubuntu/</loc>
+    <loc>https://tamaspapp.eu/categories/software/</loc>
+    <lastmod>2017-08-23T10:10:48+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/emacs25-ubuntu/</loc>
     <lastmod>2017-07-03T10:49:56+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/ess-sampling/</loc>
+    <loc>https://tamaspapp.eu/tags/ubuntu/</loc>
+    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/emacs25/</loc>
+    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/ess-sampling/</loc>
     <lastmod>2017-06-12T16:25:57+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/blog-redesign/</loc>
+    <loc>https://tamaspapp.eu/post/blog-redesign/</loc>
     <lastmod>2017-06-12T14:12:43+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/post/</loc>
-    <lastmod>2017-06-11T14:48:06+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/research/</loc>
-    <lastmod>2017-06-11T14:48:06+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/</loc>
-    <lastmod>2017-06-11T14:48:06+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/post/latex-math-increment/</loc>
-    <lastmod>2017-05-24T12:59:53+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/post/jacobian-chain/</loc>
-    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/post/privacy-badger/</loc>
-    <lastmod>2017-05-02T16:35:37+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/post/blogging-weave-julia-hugo/</loc>
-    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/post/teaching-a-course/</loc>
-    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/post/hugo-julia-weave/</loc>
-    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/bayesian/</loc>
-    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/categories/</loc>
-    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/forwarddiff/</loc>
-    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/hugo/</loc>
-    <lastmod>2017-09-29T19:55:44+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/jacobian/</loc>
-    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/latex/</loc>
-    <lastmod>2017-05-24T12:59:53+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/mcmc/</loc>
-    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/stan/</loc>
-    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/</loc>
-    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/ubuntu/</loc>
-    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/weave/</loc>
-    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/automatic-differentiation/</loc>
-    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/big-data/</loc>
-    <lastmod>2017-10-26T19:14:07+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/blogging/</loc>
+    <loc>https://tamaspapp.eu/tags/blogging/</loc>
     <lastmod>2017-06-12T14:12:43+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/browser-plugins/</loc>
-    <lastmod>2017-05-02T16:35:37+02:00</lastmod>
-    <priority>0</priority>
+    <loc>https://tamaspapp.eu/post/</loc>
+    <lastmod>2017-06-11T14:48:06+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/coverage/</loc>
-    <lastmod>2018-03-09T08:31:23+01:00</lastmod>
-    <priority>0</priority>
+    <loc>https://tamaspapp.eu/research/</loc>
+    <lastmod>2017-06-11T14:48:06+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/docker/</loc>
-    <lastmod>2018-01-19T08:47:06+01:00</lastmod>
-    <priority>0</priority>
+    <loc>https://tamaspapp.eu/</loc>
+    <lastmod>2017-06-11T14:48:06+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/emacs/</loc>
-    <lastmod>2017-12-04T15:32:41+01:00</lastmod>
-    <priority>0</priority>
+    <loc>https://tamaspapp.eu/post/latex-math-increment/</loc>
+    <lastmod>2017-05-24T12:59:53+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/emacs25/</loc>
-    <lastmod>2017-07-03T10:49:56+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/firefox/</loc>
-    <lastmod>2017-05-02T16:35:37+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/gitlab/</loc>
-    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/hugo/</loc>
-    <lastmod>2017-03-03T13:11:53+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/indirect-inference/</loc>
-    <lastmod>2018-03-23T15:23:16+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/julia/</loc>
-    <lastmod>2018-10-04T13:30:24+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/julia-repl/</loc>
-    <lastmod>2017-11-01T12:27:23+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/lisp/</loc>
-    <lastmod>2017-10-15T14:17:47+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/log1p/</loc>
-    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/magit/</loc>
-    <lastmod>2017-11-18T10:48:30+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/math/</loc>
+    <loc>https://tamaspapp.eu/tags/latex/</loc>
     <lastmod>2017-05-24T12:59:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/microoptimization/</loc>
-    <lastmod>2017-10-04T10:12:02+02:00</lastmod>
+    <loc>https://tamaspapp.eu/tags/math/</loc>
+    <lastmod>2017-05-24T12:59:53+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/numerical-error/</loc>
-    <lastmod>2017-09-13T11:18:59+02:00</lastmod>
+    <loc>https://tamaspapp.eu/tags/jacobian/</loc>
+    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/packages/</loc>
-    <lastmod>2017-10-15T13:02:14+02:00</lastmod>
+    <loc>https://tamaspapp.eu/tags/stan/</loc>
+    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/plots/</loc>
-    <lastmod>2017-12-01T09:56:00+01:00</lastmod>
+    <loc>https://tamaspapp.eu/post/jacobian-chain/</loc>
+    <lastmod>2017-05-23T16:39:26+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/privacy-badger/</loc>
+    <lastmod>2017-05-02T16:35:37+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/browser-plugins/</loc>
+    <lastmod>2017-05-02T16:35:37+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/categories/software/</loc>
-    <lastmod>2017-08-23T10:10:48+02:00</lastmod>
+    <loc>https://tamaspapp.eu/tags/firefox/</loc>
+    <lastmod>2017-05-02T16:35:37+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/teaching/</loc>
+    <loc>https://tamaspapp.eu/post/blogging-weave-julia-hugo/</loc>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/weave/</loc>
+    <lastmod>2017-03-30T10:02:32+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/teaching-a-course/</loc>
+    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/teaching/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tpapp.github.io/tags/unit-testing/</loc>
-    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tpapp.github.io/tags/weave/</loc>
+    <loc>https://tamaspapp.eu/post/hugo-julia-weave/</loc>
     <lastmod>2017-03-03T13:11:53+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>

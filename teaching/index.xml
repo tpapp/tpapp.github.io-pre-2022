@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Teaching on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/teaching/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/teaching/"/>
   <updated>2018-04-27T14:48:06+02:00</updated>
   
-  <id>https://tpapp.github.io/teaching/</id>
+  <id>https://tamaspapp.eu/teaching/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>

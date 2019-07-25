@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>plots on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/plots/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/plots/"/>
   <updated>2017-12-01T09:56:00+01:00</updated>
   
-  <id>https://tpapp.github.io/tags/plots/</id>
+  <id>https://tamaspapp.eu/tags/plots/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Publication quality plots in Julia</title>
-    <link href="https://tpapp.github.io/post/plot-workflow/"/>
-    <id>https://tpapp.github.io/post/plot-workflow/</id>
+    <link href="https://tamaspapp.eu/post/plot-workflow/"/>
+    <id>https://tamaspapp.eu/post/plot-workflow/</id>
     <published>2017-12-01T09:56:00+01:00</published>
     <updated>2017-12-01T09:56:00+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/plot-workflow/">&lt;p&gt;In light of recent discussions on Julia&#39;s &lt;a href=&#34;https://discourse.julialang.org/&#34;&gt;Discourse forum&lt;/a&gt; about getting “publication-quality” or simply “nice” plots in Julia, I thought it would be worthwhile to briefly summarize what works for me.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Code-in-this-pos&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Code-in-this-pos&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; If you are a seasoned Julia user, this post may have nothing new for you, but I hope that newcomers to Julia find it useful.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/plot-workflow/">&lt;p&gt;In light of recent discussions on Julia&#39;s &lt;a href=&#34;https://discourse.julialang.org/&#34;&gt;Discourse forum&lt;/a&gt; about getting “publication-quality” or simply “nice” plots in Julia, I thought it would be worthwhile to briefly summarize what works for me.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Code-in-this-pos&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Code-in-this-pos&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; If you are a seasoned Julia user, this post may have nothing new for you, but I hope that newcomers to Julia find it useful.&lt;/p&gt;
 
 &lt;h2 id=&#34;generate-the-data&#34;&gt;Generate the data&lt;/h2&gt;
 
@@ -44,7 +43,7 @@
 
 
 &lt;div class=&#34;codedisplay&#34;&gt;
-  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tpapp.github.io/post/plot-workflow/data.jl&#34;&gt;data.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tamaspapp.eu/post/plot-workflow/data.jl&#34;&gt;data.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
   &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;StatsBase&lt;/span&gt;                 &lt;span class=&#34;c&#34;&gt;# for skewness&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;JLD2&lt;/span&gt;                      &lt;span class=&#34;c&#34;&gt;# saving data&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;joinpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;BLOG_POSTS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;plot-workflow&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# default path&lt;/span&gt;
@@ -66,7 +65,7 @@
 
 
 &lt;div class=&#34;codedisplay&#34;&gt;
-  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tpapp.github.io/post/plot-workflow/plot.jl&#34;&gt;plot.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tamaspapp.eu/post/plot-workflow/plot.jl&#34;&gt;plot.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
   &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;JLD2&lt;/span&gt;                      &lt;span class=&#34;c&#34;&gt;# loading data&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Plots&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pgfplots&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;         &lt;span class=&#34;c&#34;&gt;# PGFPlots backend&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;LaTeXStrings&lt;/span&gt;              &lt;span class=&#34;c&#34;&gt;# nice LaTeX strings&lt;/span&gt;
@@ -88,7 +87,7 @@
 
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/plot-workflow/sample_skewness.svg&#34; alt=&#34;The plot&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/plot-workflow/sample_skewness.svg&#34; alt=&#34;The plot&#34;&gt;
 
 
 &lt;h2 id=&#34;how-to-get-help&#34;&gt;How to get help&lt;/h2&gt;

@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Jacobian on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/jacobian/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/jacobian/"/>
   <updated>2017-05-23T16:39:26+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/jacobian/</id>
+  <id>https://tamaspapp.eu/tags/jacobian/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Two tricks for change of variables in MCMC</title>
-    <link href="https://tpapp.github.io/post/jacobian-chain/"/>
-    <id>https://tpapp.github.io/post/jacobian-chain/</id>
+    <link href="https://tamaspapp.eu/post/jacobian-chain/"/>
+    <id>https://tamaspapp.eu/post/jacobian-chain/</id>
     <published>2017-05-23T16:39:26+02:00</published>
     <updated>2017-05-23T16:39:26+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/jacobian-chain/">&lt;p&gt;Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the &lt;em&gt;lognormal distribution&lt;/em&gt;: when&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/jacobian-chain/">&lt;p&gt;Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the &lt;em&gt;lognormal distribution&lt;/em&gt;: when&lt;/p&gt;
 
 &lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[\log(y) \sim N(\mu, \sigma^2)\]&lt;/span&gt;&lt;/p&gt;
 

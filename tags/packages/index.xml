@@ -1,24 +1,40 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>packages on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/packages/"/>
-  <updated>2017-10-15T13:02:14+02:00</updated>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/packages/"/>
+  <updated>2019-07-25T10:32:13+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/packages/</id>
+  <id>https://tamaspapp.eu/tags/packages/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
+    <title type="html">PSA: breaking API changes LogDensityProblems and DynamicHMC</title>
+    <link href="https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/"/>
+    <id>https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/</id>
+    <published>2019-07-25T10:32:13+02:00</published>
+    <updated>2019-07-25T10:32:13+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/">&lt;p&gt;The API of LogDensityProblems and DynamicHMC is being redesigned (issues: &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl/issues/30&#34;&gt;DynamicHMC#30&lt;/a&gt;, &lt;a href=&#34;https://github.com/tpapp/LogDensityProblems.jl/issues/45&#34;&gt;LogDensityProblems#45&lt;/a&gt;). This is necessary to address some issues related to ease of use, debugging, robustness, adaptation, and better integration with some advanced AD packages like Zygote.&lt;/p&gt;
+
+&lt;p&gt;Once the changes are complete, I will post a detailed writeup for the transition. But in the meantime, if you are using my MCMC libraries, you may want to pin versions, or put the following in your &lt;code&gt;Project.toml&lt;/code&gt;&#39;s &lt;code&gt;[compat]&lt;/code&gt; section (you only need the &lt;code&gt;[compat]&lt;/code&gt; if there isn&#39;t one):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;compat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;DynamicHMC&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;^1.0.5&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;LogDensityProblems&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;^0.8.3&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;For more information, please refer to the &lt;a href=&#34;https://julialang.github.io/Pkg.jl/dev/compatibility/&#34;&gt;Pkg docs&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
     <title type="html">Clarification: on orphaning my Common Lisp libraries</title>
-    <link href="https://tpapp.github.io/post/orphaned-lisp-libraries/"/>
-    <id>https://tpapp.github.io/post/orphaned-lisp-libraries/</id>
+    <link href="https://tamaspapp.eu/post/orphaned-lisp-libraries/"/>
+    <id>https://tamaspapp.eu/post/orphaned-lisp-libraries/</id>
     <published>2017-10-15T13:02:14+02:00</published>
     <updated>2017-10-15T13:02:14+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/orphaned-lisp-libraries/">&lt;p&gt;I have not been programming in Common Lisp for a few years, and since I find &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; a &amp;quot;much better Lisp&amp;quot;, I am unlikely to go back to it in the foreseeable future. This is a clarification regarding some &lt;a href=&#34;https://github.com/tpapp?utf8=%E2%9C%93&amp;amp;tab=repositories&amp;amp;q=&amp;amp;type=public&amp;amp;language=common%20lisp&#34;&gt;libraries&lt;/a&gt; I have written in Common Lisp and made public.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/orphaned-lisp-libraries/">&lt;p&gt;I have not been programming in Common Lisp for a few years, and since I find &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; a &amp;quot;much better Lisp&amp;quot;, I am unlikely to go back to it in the foreseeable future. This is a clarification regarding some &lt;a href=&#34;https://github.com/tpapp?utf8=%E2%9C%93&amp;amp;tab=repositories&amp;amp;q=&amp;amp;type=public&amp;amp;language=common%20lisp&#34;&gt;libraries&lt;/a&gt; I have written in Common Lisp and made public.&lt;/p&gt;
 
 &lt;h1 id=&#34;all-of-my-common-lisp-libraries-are-orphaned&#34;&gt;All of my Common Lisp libraries are orphaned&lt;/h1&gt;
 
@@ -54,12 +70,12 @@
   
   <entry>
     <title type="html">Local packages in a separate directory in Julia</title>
-    <link href="https://tpapp.github.io/post/julia-local-test/"/>
-    <id>https://tpapp.github.io/post/julia-local-test/</id>
+    <link href="https://tamaspapp.eu/post/julia-local-test/"/>
+    <id>https://tamaspapp.eu/post/julia-local-test/</id>
     <published>2017-08-23T10:10:48+02:00</published>
     <updated>2017-08-23T10:10:48+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/julia-local-test/">&lt;p&gt;I run &lt;code&gt;Pkg.update()&lt;/code&gt; fairly often to stay up to date and benefit from
+    <content type="html" xml:base="https://tamaspapp.eu/post/julia-local-test/">&lt;p&gt;I run &lt;code&gt;Pkg.update()&lt;/code&gt; fairly often to stay up to date and benefit from
 the latest improvements of various packages. I rarely ever &lt;code&gt;pin&lt;/code&gt; to a
 specific package version, but I occasionally checkout &lt;code&gt;master&lt;/code&gt; for
 some packages, especially if I am contributing.&lt;/p&gt;

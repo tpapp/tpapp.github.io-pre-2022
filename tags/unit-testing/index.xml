@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>unit testing on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/unit-testing/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/unit-testing/"/>
   <updated>2018-03-08T17:06:54+01:00</updated>
   
-  <id>https://tpapp.github.io/tags/unit-testing/</id>
+  <id>https://tamaspapp.eu/tags/unit-testing/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Setting up Julia with continuous integration on Gitlab</title>
-    <link href="https://tpapp.github.io/post/julia-ci-gitlab/"/>
-    <id>https://tpapp.github.io/post/julia-ci-gitlab/</id>
+    <link href="https://tamaspapp.eu/post/julia-ci-gitlab/"/>
+    <id>https://tamaspapp.eu/post/julia-ci-gitlab/</id>
     <published>2018-03-08T17:06:54+01:00</published>
     <updated>2018-03-08T17:06:54+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/julia-ci-gitlab/">&lt;p&gt;As an academic, I picked up good practices for programming mostly by osmosis. My approach to “testing” software went through the following stages:&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/julia-ci-gitlab/">&lt;p&gt;As an academic, I picked up good practices for programming mostly by osmosis. My approach to “testing” software went through the following stages:&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;See if the code runs (this got me through my undergrad years).&lt;/p&gt;&lt;/li&gt;
@@ -66,12 +65,12 @@
   
   <entry>
     <title type="html">Continuous integration for Julia packages using Docker</title>
-    <link href="https://tpapp.github.io/post/travis-docker-julia-ci/"/>
-    <id>https://tpapp.github.io/post/travis-docker-julia-ci/</id>
+    <link href="https://tamaspapp.eu/post/travis-docker-julia-ci/"/>
+    <id>https://tamaspapp.eu/post/travis-docker-julia-ci/</id>
     <published>2018-01-19T08:47:06+01:00</published>
     <updated>2018-01-19T08:47:06+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/travis-docker-julia-ci/">&lt;p&gt;This post may be useful for maintainers of Julia packages which require a large binary dependencies on CI services like Travis.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/travis-docker-julia-ci/">&lt;p&gt;This post may be useful for maintainers of Julia packages which require a large binary dependencies on CI services like Travis.&lt;/p&gt;
 
 &lt;p&gt;I have recently started using Kristoffer Carlsson&#39;s excellent &lt;a href=&#34;https://github.com/KristofferC/PGFPlotsX.jl&#34;&gt;PGFPlotsX&lt;/a&gt; for plotting. The package is a thin wrapper which emits LaTeX code for use with &lt;a href=&#34;http://pgfplots.sourceforge.net/&#34;&gt;pgfplots&lt;/a&gt;, which is extremely versatile and well-documented.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:Using-this-packa&#34;&gt;&lt;a class=&#34;footnote&#34; href=&#34;#fn:Using-this-packa&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; However, since most of the action happens in LaTeX, unit testing requires a lot of binary dependencies, including the &lt;a href=&#34;https://tug.org/texlive/&#34;&gt;TeXLive&lt;/a&gt; suite and some related packages. This is not a problem on one&#39;s own machine where these would need to be installed just once, but when I submitted PRs, tests on Travis timed out more often than not because it had to install all of these for every run using &lt;code&gt;apt-get&lt;/code&gt;.&lt;/p&gt;
 

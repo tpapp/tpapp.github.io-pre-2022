@@ -1,24 +1,40 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>MCMC on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/mcmc/"/>
-  <updated>2018-10-04T13:30:24+02:00</updated>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/mcmc/"/>
+  <updated>2019-07-25T10:32:13+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/mcmc/</id>
+  <id>https://tamaspapp.eu/tags/mcmc/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
+    <title type="html">PSA: breaking API changes LogDensityProblems and DynamicHMC</title>
+    <link href="https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/"/>
+    <id>https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/</id>
+    <published>2019-07-25T10:32:13+02:00</published>
+    <updated>2019-07-25T10:32:13+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/">&lt;p&gt;The API of LogDensityProblems and DynamicHMC is being redesigned (issues: &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl/issues/30&#34;&gt;DynamicHMC#30&lt;/a&gt;, &lt;a href=&#34;https://github.com/tpapp/LogDensityProblems.jl/issues/45&#34;&gt;LogDensityProblems#45&lt;/a&gt;). This is necessary to address some issues related to ease of use, debugging, robustness, adaptation, and better integration with some advanced AD packages like Zygote.&lt;/p&gt;
+
+&lt;p&gt;Once the changes are complete, I will post a detailed writeup for the transition. But in the meantime, if you are using my MCMC libraries, you may want to pin versions, or put the following in your &lt;code&gt;Project.toml&lt;/code&gt;&#39;s &lt;code&gt;[compat]&lt;/code&gt; section (you only need the &lt;code&gt;[compat]&lt;/code&gt; if there isn&#39;t one):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;compat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;DynamicHMC&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;^1.0.5&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;LogDensityProblems&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;^0.8.3&amp;#34;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;For more information, please refer to the &lt;a href=&#34;https://julialang.github.io/Pkg.jl/dev/compatibility/&#34;&gt;Pkg docs&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
     <title type="html">Changes for DynamicHMC.jl and related packages</title>
-    <link href="https://tpapp.github.io/post/dynamichmc-reorganization/"/>
-    <id>https://tpapp.github.io/post/dynamichmc-reorganization/</id>
+    <link href="https://tamaspapp.eu/post/dynamichmc-reorganization/"/>
+    <id>https://tamaspapp.eu/post/dynamichmc-reorganization/</id>
     <published>2018-10-04T13:30:24+02:00</published>
     <updated>2018-10-04T13:30:24+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/dynamichmc-reorganization/">&lt;p&gt;&lt;strong&gt;TL;DR&lt;/strong&gt;: new wrapper types for AD (with support for &lt;a href=&#34;https://github.com/FluxML/Flux.jl&#34;&gt;Flux.jl&lt;/a&gt;), new transformation interface, &lt;a href=&#34;https://github.com/tpapp/DynamicHMCExamples.jl&#34;&gt;see the examples&lt;/a&gt;.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/dynamichmc-reorganization/">&lt;p&gt;&lt;strong&gt;TL;DR&lt;/strong&gt;: new wrapper types for AD (with support for &lt;a href=&#34;https://github.com/FluxML/Flux.jl&#34;&gt;Flux.jl&lt;/a&gt;), new transformation interface, &lt;a href=&#34;https://github.com/tpapp/DynamicHMCExamples.jl&#34;&gt;see the examples&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl&#34;&gt;DynamicHMC.jl&lt;/a&gt; is Julia package for Hamiltonian MCMC using the NUTS algorithm. Its interface and the related packages underwent some reorganization which involves API changes. This post is a brief summary, as I prefer to maintain the actual &lt;a href=&#34;https://github.com/tpapp/DynamicHMCExamples.jl&#34;&gt;examples in a repository&lt;/a&gt; I can test. You are encouraged to read these, and the documentation for each package (some of which is WIP).&lt;/p&gt;
 
@@ -57,12 +73,12 @@
   
   <entry>
     <title type="html">Common random variables: an optimization case study</title>
-    <link href="https://tpapp.github.io/post/common-random-variables/"/>
-    <id>https://tpapp.github.io/post/common-random-variables/</id>
+    <link href="https://tamaspapp.eu/post/common-random-variables/"/>
+    <id>https://tamaspapp.eu/post/common-random-variables/</id>
     <published>2018-03-23T15:23:16+01:00</published>
     <updated>2018-03-23T15:23:16+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/common-random-variables/">
+    <content type="html" xml:base="https://tamaspapp.eu/post/common-random-variables/">
 &lt;div class=&#34;juliaversionwarning&#34;&gt;&lt;p&gt;Code used in this post was written for Julia &lt;strong&gt;v0.6.2&lt;/strong&gt; and, when applicable, reflects the state of packages used on &lt;strong&gt;2018-03-23&lt;/strong&gt;. You may need to modify it for different versions.&lt;/p&gt;&lt;/div&gt;
 
 
@@ -142,7 +158,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
 &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Common random variables are stored in columns of a matrix.
 &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreallocatedMatrix&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVContainer&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreallocatedMatrix&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVContainer&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;ϵ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Matrix&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
@@ -165,7 +181,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 &lt;h3 id=&#34;static-vectors-container-preallocated&#34;&gt;Static vectors, container preallocated&lt;/h3&gt;
 
 &lt;p&gt;In the first version using static vectors, we keep &lt;code&gt;SVector&lt;/code&gt; in a &lt;code&gt;Vector&lt;/code&gt;, and update in place.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreallocatedStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreallocatedStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;ϵs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
@@ -182,7 +198,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 &lt;h3 id=&#34;mutable-static-vectors-overwritten&#34;&gt;Mutable static vectors, overwritten&lt;/h3&gt;
 
 &lt;p&gt;We modify this to use mutable vectors — this should not make a difference.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MutableStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MutableStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;ϵs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
@@ -199,7 +215,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 &lt;h3 id=&#34;static-vectors-allocated-each-time&#34;&gt;Static vectors, allocated each time&lt;/h3&gt;
 
 &lt;p&gt;Finally, for the third solution,&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GeneratedStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GeneratedStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;ϵs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
@@ -259,7 +275,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 
 
 
-&lt;div class=&#34;codedownload&#34;&gt;&lt;p&gt;download code as &lt;a href=&#34;https://tpapp.github.io/post/common-random-variables/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;div class=&#34;codedownload&#34;&gt;&lt;p&gt;download code as &lt;a href=&#34;https://tamaspapp.eu/post/common-random-variables/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;strong&gt;PS:&lt;/strong&gt; From now on, my blog posts with Julia code will have a banner about version information.&lt;/p&gt;
@@ -277,12 +293,12 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
   
   <entry>
     <title type="html">Sampling variation in effective sample size estimates (MCMC)</title>
-    <link href="https://tpapp.github.io/post/ess-sampling/"/>
-    <id>https://tpapp.github.io/post/ess-sampling/</id>
+    <link href="https://tamaspapp.eu/post/ess-sampling/"/>
+    <id>https://tamaspapp.eu/post/ess-sampling/</id>
     <published>2017-06-12T16:25:57+02:00</published>
     <updated>2017-06-12T16:25:57+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/ess-sampling/">&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/ess-sampling/">&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
 &lt;p&gt;MCMC samples, used in Bayesian statistics, are not independent --- in fact, unless one uses specialized methods or &lt;a href=&#34;https://arxiv.org/abs/1701.02434&#34;&gt;modern HMC&lt;/a&gt;, posterior draws are usually at highly autocorrelated. For independent draws,&lt;/p&gt;
 
@@ -342,13 +358,13 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt; (IID), &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi0N1000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi0N1000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt; (IID), &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi0N10000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi0N10000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;With &lt;span  class=&#34;math&#34;&gt;\(1000\)&lt;/span&gt; samples, there is a lot of variation in ESS: 800 could show up very easily in practice. &lt;span  class=&#34;math&#34;&gt;\(600\)&lt;/span&gt; is not improbable either. Using up to &lt;span  class=&#34;math&#34;&gt;\(10\)&lt;/span&gt; lags is not uncommon. For &lt;span  class=&#34;math&#34;&gt;\(10000\)&lt;/span&gt; samples, the precision is improved considerably, we commonly use &lt;span  class=&#34;math&#34;&gt;\(2\)&lt;/span&gt; or &lt;span  class=&#34;math&#34;&gt;\(4\)&lt;/span&gt; lags. For both sample sizes, notice the high correlation between the last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, and &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;: given the method above, using more lags increases &lt;span  class=&#34;math&#34;&gt;\(\tau^{-1}\)&lt;/span&gt;, so this is to be expected.&lt;/p&gt;
@@ -360,13 +376,13 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.5\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi05N1000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi05N1000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.5\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi05N10000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi05N10000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Notice that &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt; is now more dispersed, compared to the IID case. Even with 10000 samples, the coefficient of variation is 6%, with 1000 it is around 1/6. In practice, expect effective sample sizes all over the place.&lt;/p&gt;
@@ -378,13 +394,13 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.8\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi08N1000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi08N1000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.8\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/ess-sampling/ess-phi08N10000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi08N10000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;There is now so much variation that in order to get an estimate for ESS that we can use for comparing various MCMC implementations, we need to run much more than &lt;span  class=&#34;math&#34;&gt;\(1000\)&lt;/span&gt; samples.&lt;/p&gt;
@@ -408,12 +424,12 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
   
   <entry>
     <title type="html">Getting a nice &#43;= in LaTeX math</title>
-    <link href="https://tpapp.github.io/post/latex-math-increment/"/>
-    <id>https://tpapp.github.io/post/latex-math-increment/</id>
+    <link href="https://tamaspapp.eu/post/latex-math-increment/"/>
+    <id>https://tamaspapp.eu/post/latex-math-increment/</id>
     <published>2017-05-24T12:59:53+02:00</published>
     <updated>2017-05-24T12:59:53+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/latex-math-increment/">&lt;p&gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &lt;a href=&#34;https://tpapp.github.io/post/jacobian-chain/&#34;&gt;change of varible calculations&lt;/a&gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/latex-math-increment/">&lt;p&gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &lt;a href=&#34;https://tamaspapp.eu/post/jacobian-chain/&#34;&gt;change of varible calculations&lt;/a&gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span class=&#34;k&#34;&gt;\mathtt&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;target&lt;span class=&#34;nb&#34;&gt;}&lt;/span&gt; += J&lt;span class=&#34;nb&#34;&gt;_&lt;/span&gt;f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;gives
 $$
@@ -443,12 +459,12 @@ which looks OK enough to preclude further tweaking. Note that &lt;a href=&#34;ht
   
   <entry>
     <title type="html">Two tricks for change of variables in MCMC</title>
-    <link href="https://tpapp.github.io/post/jacobian-chain/"/>
-    <id>https://tpapp.github.io/post/jacobian-chain/</id>
+    <link href="https://tamaspapp.eu/post/jacobian-chain/"/>
+    <id>https://tamaspapp.eu/post/jacobian-chain/</id>
     <published>2017-05-23T16:39:26+02:00</published>
     <updated>2017-05-23T16:39:26+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/jacobian-chain/">&lt;p&gt;Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the &lt;em&gt;lognormal distribution&lt;/em&gt;: when&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/jacobian-chain/">&lt;p&gt;Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the &lt;em&gt;lognormal distribution&lt;/em&gt;: when&lt;/p&gt;
 
 &lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[\log(y) \sim N(\mu, \sigma^2)\]&lt;/span&gt;&lt;/p&gt;
 

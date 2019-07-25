@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Tags on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/"/>
-  <updated>2018-10-04T13:30:24+02:00</updated>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/"/>
+  <updated>2019-07-25T10:32:13+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/</id>
+  <id>https://tamaspapp.eu/tags/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,342 +12,322 @@
   
   <entry>
     <title type="html">Bayesian</title>
-    <link href="https://tpapp.github.io/tags/bayesian/"/>
-    <id>https://tpapp.github.io/tags/bayesian/</id>
-    <published>2018-10-04T13:30:24+02:00</published>
-    <updated>2018-10-04T13:30:24+02:00</updated>
+    <link href="https://tamaspapp.eu/tags/bayesian/"/>
+    <id>https://tamaspapp.eu/tags/bayesian/</id>
+    <published>2019-07-25T10:32:13+02:00</published>
+    <updated>2019-07-25T10:32:13+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/tags/bayesian/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">ForwardDiff</title>
-    <link href="https://tpapp.github.io/tags/forwarddiff/"/>
-    <id>https://tpapp.github.io/tags/forwarddiff/</id>
-    <published>2017-09-15T16:03:10+02:00</published>
-    <updated>2017-09-15T16:03:10+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/forwarddiff/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">Hugo</title>
-    <link href="https://tpapp.github.io/tags/hugo/"/>
-    <id>https://tpapp.github.io/tags/hugo/</id>
-    <published>2017-09-29T19:55:44+02:00</published>
-    <updated>2017-09-29T19:55:44+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/hugo/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">Jacobian</title>
-    <link href="https://tpapp.github.io/tags/jacobian/"/>
-    <id>https://tpapp.github.io/tags/jacobian/</id>
-    <published>2017-05-23T16:39:26+02:00</published>
-    <updated>2017-05-23T16:39:26+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/jacobian/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">LaTeX</title>
-    <link href="https://tpapp.github.io/tags/latex/"/>
-    <id>https://tpapp.github.io/tags/latex/</id>
-    <published>2017-05-24T12:59:53+02:00</published>
-    <updated>2017-05-24T12:59:53+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/latex/"></content>
+    <content type="html" xml:base="https://tamaspapp.eu/tags/bayesian/"></content>
   </entry>
   
   <entry>
     <title type="html">MCMC</title>
-    <link href="https://tpapp.github.io/tags/mcmc/"/>
-    <id>https://tpapp.github.io/tags/mcmc/</id>
-    <published>2018-10-04T13:30:24+02:00</published>
-    <updated>2018-10-04T13:30:24+02:00</updated>
+    <link href="https://tamaspapp.eu/tags/mcmc/"/>
+    <id>https://tamaspapp.eu/tags/mcmc/</id>
+    <published>2019-07-25T10:32:13+02:00</published>
+    <updated>2019-07-25T10:32:13+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/tags/mcmc/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">Stan</title>
-    <link href="https://tpapp.github.io/tags/stan/"/>
-    <id>https://tpapp.github.io/tags/stan/</id>
-    <published>2017-05-23T16:39:26+02:00</published>
-    <updated>2017-05-23T16:39:26+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/stan/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">Ubuntu</title>
-    <link href="https://tpapp.github.io/tags/ubuntu/"/>
-    <id>https://tpapp.github.io/tags/ubuntu/</id>
-    <published>2017-07-03T10:49:56+02:00</published>
-    <updated>2017-07-03T10:49:56+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/ubuntu/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">Weave</title>
-    <link href="https://tpapp.github.io/tags/weave/"/>
-    <id>https://tpapp.github.io/tags/weave/</id>
-    <published>2017-03-30T10:02:32+02:00</published>
-    <updated>2017-03-30T10:02:32+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/weave/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">automatic differentiation</title>
-    <link href="https://tpapp.github.io/tags/automatic-differentiation/"/>
-    <id>https://tpapp.github.io/tags/automatic-differentiation/</id>
-    <published>2017-09-15T16:03:10+02:00</published>
-    <updated>2017-09-15T16:03:10+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/automatic-differentiation/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">big data</title>
-    <link href="https://tpapp.github.io/tags/big-data/"/>
-    <id>https://tpapp.github.io/tags/big-data/</id>
-    <published>2017-10-26T19:14:07+02:00</published>
-    <updated>2017-10-26T19:14:07+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/big-data/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">blogging</title>
-    <link href="https://tpapp.github.io/tags/blogging/"/>
-    <id>https://tpapp.github.io/tags/blogging/</id>
-    <published>2017-06-12T14:12:43+02:00</published>
-    <updated>2017-06-12T14:12:43+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/blogging/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">browser plugins</title>
-    <link href="https://tpapp.github.io/tags/browser-plugins/"/>
-    <id>https://tpapp.github.io/tags/browser-plugins/</id>
-    <published>2017-05-02T16:35:37+02:00</published>
-    <updated>2017-05-02T16:35:37+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/browser-plugins/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">coverage</title>
-    <link href="https://tpapp.github.io/tags/coverage/"/>
-    <id>https://tpapp.github.io/tags/coverage/</id>
-    <published>2018-03-09T08:31:23+01:00</published>
-    <updated>2018-03-09T08:31:23+01:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/coverage/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">docker</title>
-    <link href="https://tpapp.github.io/tags/docker/"/>
-    <id>https://tpapp.github.io/tags/docker/</id>
-    <published>2018-01-19T08:47:06+01:00</published>
-    <updated>2018-01-19T08:47:06+01:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/docker/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">emacs</title>
-    <link href="https://tpapp.github.io/tags/emacs/"/>
-    <id>https://tpapp.github.io/tags/emacs/</id>
-    <published>2017-12-04T15:32:41+01:00</published>
-    <updated>2017-12-04T15:32:41+01:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/emacs/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">emacs25</title>
-    <link href="https://tpapp.github.io/tags/emacs25/"/>
-    <id>https://tpapp.github.io/tags/emacs25/</id>
-    <published>2017-07-03T10:49:56+02:00</published>
-    <updated>2017-07-03T10:49:56+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/emacs25/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">firefox</title>
-    <link href="https://tpapp.github.io/tags/firefox/"/>
-    <id>https://tpapp.github.io/tags/firefox/</id>
-    <published>2017-05-02T16:35:37+02:00</published>
-    <updated>2017-05-02T16:35:37+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/firefox/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">gitlab</title>
-    <link href="https://tpapp.github.io/tags/gitlab/"/>
-    <id>https://tpapp.github.io/tags/gitlab/</id>
-    <published>2018-03-08T17:06:54+01:00</published>
-    <updated>2018-03-08T17:06:54+01:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/gitlab/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">hugo</title>
-    <link href="https://tpapp.github.io/tags/hugo/"/>
-    <id>https://tpapp.github.io/tags/hugo/</id>
-    <published>2017-03-03T13:11:53+01:00</published>
-    <updated>2017-03-03T13:11:53+01:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/hugo/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">indirect inference</title>
-    <link href="https://tpapp.github.io/tags/indirect-inference/"/>
-    <id>https://tpapp.github.io/tags/indirect-inference/</id>
-    <published>2018-03-23T15:23:16+01:00</published>
-    <updated>2018-03-23T15:23:16+01:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/indirect-inference/"></content>
+    <content type="html" xml:base="https://tamaspapp.eu/tags/mcmc/"></content>
   </entry>
   
   <entry>
     <title type="html">julia</title>
-    <link href="https://tpapp.github.io/tags/julia/"/>
-    <id>https://tpapp.github.io/tags/julia/</id>
-    <published>2018-10-04T13:30:24+02:00</published>
-    <updated>2018-10-04T13:30:24+02:00</updated>
+    <link href="https://tamaspapp.eu/tags/julia/"/>
+    <id>https://tamaspapp.eu/tags/julia/</id>
+    <published>2019-07-25T10:32:13+02:00</published>
+    <updated>2019-07-25T10:32:13+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/tags/julia/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">julia-repl</title>
-    <link href="https://tpapp.github.io/tags/julia-repl/"/>
-    <id>https://tpapp.github.io/tags/julia-repl/</id>
-    <published>2017-11-01T12:27:23+01:00</published>
-    <updated>2017-11-01T12:27:23+01:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/julia-repl/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">lisp</title>
-    <link href="https://tpapp.github.io/tags/lisp/"/>
-    <id>https://tpapp.github.io/tags/lisp/</id>
-    <published>2017-10-15T14:17:47+02:00</published>
-    <updated>2017-10-15T14:17:47+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/lisp/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">log1p</title>
-    <link href="https://tpapp.github.io/tags/log1p/"/>
-    <id>https://tpapp.github.io/tags/log1p/</id>
-    <published>2017-09-13T11:18:59+02:00</published>
-    <updated>2017-09-13T11:18:59+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/log1p/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">magit</title>
-    <link href="https://tpapp.github.io/tags/magit/"/>
-    <id>https://tpapp.github.io/tags/magit/</id>
-    <published>2017-11-18T10:48:30+01:00</published>
-    <updated>2017-11-18T10:48:30+01:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/magit/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">math</title>
-    <link href="https://tpapp.github.io/tags/math/"/>
-    <id>https://tpapp.github.io/tags/math/</id>
-    <published>2017-05-24T12:59:53+02:00</published>
-    <updated>2017-05-24T12:59:53+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/math/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">microoptimization</title>
-    <link href="https://tpapp.github.io/tags/microoptimization/"/>
-    <id>https://tpapp.github.io/tags/microoptimization/</id>
-    <published>2017-10-04T10:12:02+02:00</published>
-    <updated>2017-10-04T10:12:02+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/microoptimization/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">numerical error</title>
-    <link href="https://tpapp.github.io/tags/numerical-error/"/>
-    <id>https://tpapp.github.io/tags/numerical-error/</id>
-    <published>2017-09-13T11:18:59+02:00</published>
-    <updated>2017-09-13T11:18:59+02:00</updated>
-    
-    <content type="html" xml:base="https://tpapp.github.io/tags/numerical-error/"></content>
+    <content type="html" xml:base="https://tamaspapp.eu/tags/julia/"></content>
   </entry>
   
   <entry>
     <title type="html">packages</title>
-    <link href="https://tpapp.github.io/tags/packages/"/>
-    <id>https://tpapp.github.io/tags/packages/</id>
-    <published>2017-10-15T13:02:14+02:00</published>
-    <updated>2017-10-15T13:02:14+02:00</updated>
+    <link href="https://tamaspapp.eu/tags/packages/"/>
+    <id>https://tamaspapp.eu/tags/packages/</id>
+    <published>2019-07-25T10:32:13+02:00</published>
+    <updated>2019-07-25T10:32:13+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/tags/packages/"></content>
+    <content type="html" xml:base="https://tamaspapp.eu/tags/packages/"></content>
   </entry>
   
   <entry>
-    <title type="html">plots</title>
-    <link href="https://tpapp.github.io/tags/plots/"/>
-    <id>https://tpapp.github.io/tags/plots/</id>
-    <published>2017-12-01T09:56:00+01:00</published>
-    <updated>2017-12-01T09:56:00+01:00</updated>
+    <title type="html">indirect inference</title>
+    <link href="https://tamaspapp.eu/tags/indirect-inference/"/>
+    <id>https://tamaspapp.eu/tags/indirect-inference/</id>
+    <published>2018-03-23T15:23:16+01:00</published>
+    <updated>2018-03-23T15:23:16+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/tags/plots/"></content>
+    <content type="html" xml:base="https://tamaspapp.eu/tags/indirect-inference/"></content>
   </entry>
   
   <entry>
-    <title type="html">teaching</title>
-    <link href="https://tpapp.github.io/tags/teaching/"/>
-    <id>https://tpapp.github.io/tags/teaching/</id>
-    <published>2017-03-24T14:34:22+01:00</published>
-    <updated>2017-03-24T14:34:22+01:00</updated>
+    <title type="html">coverage</title>
+    <link href="https://tamaspapp.eu/tags/coverage/"/>
+    <id>https://tamaspapp.eu/tags/coverage/</id>
+    <published>2018-03-09T08:31:23+01:00</published>
+    <updated>2018-03-09T08:31:23+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/tags/teaching/"></content>
+    <content type="html" xml:base="https://tamaspapp.eu/tags/coverage/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">gitlab</title>
+    <link href="https://tamaspapp.eu/tags/gitlab/"/>
+    <id>https://tamaspapp.eu/tags/gitlab/</id>
+    <published>2018-03-08T17:06:54+01:00</published>
+    <updated>2018-03-08T17:06:54+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/gitlab/"></content>
   </entry>
   
   <entry>
     <title type="html">unit testing</title>
-    <link href="https://tpapp.github.io/tags/unit-testing/"/>
-    <id>https://tpapp.github.io/tags/unit-testing/</id>
+    <link href="https://tamaspapp.eu/tags/unit-testing/"/>
+    <id>https://tamaspapp.eu/tags/unit-testing/</id>
     <published>2018-03-08T17:06:54+01:00</published>
     <updated>2018-03-08T17:06:54+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/tags/unit-testing/"></content>
+    <content type="html" xml:base="https://tamaspapp.eu/tags/unit-testing/"></content>
   </entry>
   
   <entry>
-    <title type="html">weave</title>
-    <link href="https://tpapp.github.io/tags/weave/"/>
-    <id>https://tpapp.github.io/tags/weave/</id>
-    <published>2017-03-03T13:11:53+01:00</published>
-    <updated>2017-03-03T13:11:53+01:00</updated>
+    <title type="html">docker</title>
+    <link href="https://tamaspapp.eu/tags/docker/"/>
+    <id>https://tamaspapp.eu/tags/docker/</id>
+    <published>2018-01-19T08:47:06+01:00</published>
+    <updated>2018-01-19T08:47:06+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/tags/weave/"></content>
+    <content type="html" xml:base="https://tamaspapp.eu/tags/docker/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">emacs</title>
+    <link href="https://tamaspapp.eu/tags/emacs/"/>
+    <id>https://tamaspapp.eu/tags/emacs/</id>
+    <published>2017-12-04T15:32:41+01:00</published>
+    <updated>2017-12-04T15:32:41+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/emacs/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">plots</title>
+    <link href="https://tamaspapp.eu/tags/plots/"/>
+    <id>https://tamaspapp.eu/tags/plots/</id>
+    <published>2017-12-01T09:56:00+01:00</published>
+    <updated>2017-12-01T09:56:00+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/plots/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">magit</title>
+    <link href="https://tamaspapp.eu/tags/magit/"/>
+    <id>https://tamaspapp.eu/tags/magit/</id>
+    <published>2017-11-18T10:48:30+01:00</published>
+    <updated>2017-11-18T10:48:30+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/magit/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">julia-repl</title>
+    <link href="https://tamaspapp.eu/tags/julia-repl/"/>
+    <id>https://tamaspapp.eu/tags/julia-repl/</id>
+    <published>2017-11-01T12:27:23+01:00</published>
+    <updated>2017-11-01T12:27:23+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/julia-repl/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">big data</title>
+    <link href="https://tamaspapp.eu/tags/big-data/"/>
+    <id>https://tamaspapp.eu/tags/big-data/</id>
+    <published>2017-10-26T19:14:07+02:00</published>
+    <updated>2017-10-26T19:14:07+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/big-data/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">lisp</title>
+    <link href="https://tamaspapp.eu/tags/lisp/"/>
+    <id>https://tamaspapp.eu/tags/lisp/</id>
+    <published>2017-10-15T14:17:47+02:00</published>
+    <updated>2017-10-15T14:17:47+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/lisp/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">microoptimization</title>
+    <link href="https://tamaspapp.eu/tags/microoptimization/"/>
+    <id>https://tamaspapp.eu/tags/microoptimization/</id>
+    <published>2017-10-04T10:12:02+02:00</published>
+    <updated>2017-10-04T10:12:02+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/microoptimization/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Hugo</title>
+    <link href="https://tamaspapp.eu/tags/hugo/"/>
+    <id>https://tamaspapp.eu/tags/hugo/</id>
+    <published>2017-09-29T19:55:44+02:00</published>
+    <updated>2017-09-29T19:55:44+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/hugo/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">ForwardDiff</title>
+    <link href="https://tamaspapp.eu/tags/forwarddiff/"/>
+    <id>https://tamaspapp.eu/tags/forwarddiff/</id>
+    <published>2017-09-15T16:03:10+02:00</published>
+    <updated>2017-09-15T16:03:10+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/forwarddiff/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">automatic differentiation</title>
+    <link href="https://tamaspapp.eu/tags/automatic-differentiation/"/>
+    <id>https://tamaspapp.eu/tags/automatic-differentiation/</id>
+    <published>2017-09-15T16:03:10+02:00</published>
+    <updated>2017-09-15T16:03:10+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/automatic-differentiation/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">log1p</title>
+    <link href="https://tamaspapp.eu/tags/log1p/"/>
+    <id>https://tamaspapp.eu/tags/log1p/</id>
+    <published>2017-09-13T11:18:59+02:00</published>
+    <updated>2017-09-13T11:18:59+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/log1p/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">numerical error</title>
+    <link href="https://tamaspapp.eu/tags/numerical-error/"/>
+    <id>https://tamaspapp.eu/tags/numerical-error/</id>
+    <published>2017-09-13T11:18:59+02:00</published>
+    <updated>2017-09-13T11:18:59+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/numerical-error/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Ubuntu</title>
+    <link href="https://tamaspapp.eu/tags/ubuntu/"/>
+    <id>https://tamaspapp.eu/tags/ubuntu/</id>
+    <published>2017-07-03T10:49:56+02:00</published>
+    <updated>2017-07-03T10:49:56+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/ubuntu/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">emacs25</title>
+    <link href="https://tamaspapp.eu/tags/emacs25/"/>
+    <id>https://tamaspapp.eu/tags/emacs25/</id>
+    <published>2017-07-03T10:49:56+02:00</published>
+    <updated>2017-07-03T10:49:56+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/emacs25/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">blogging</title>
+    <link href="https://tamaspapp.eu/tags/blogging/"/>
+    <id>https://tamaspapp.eu/tags/blogging/</id>
+    <published>2017-06-12T14:12:43+02:00</published>
+    <updated>2017-06-12T14:12:43+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/blogging/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">LaTeX</title>
+    <link href="https://tamaspapp.eu/tags/latex/"/>
+    <id>https://tamaspapp.eu/tags/latex/</id>
+    <published>2017-05-24T12:59:53+02:00</published>
+    <updated>2017-05-24T12:59:53+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/latex/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">math</title>
+    <link href="https://tamaspapp.eu/tags/math/"/>
+    <id>https://tamaspapp.eu/tags/math/</id>
+    <published>2017-05-24T12:59:53+02:00</published>
+    <updated>2017-05-24T12:59:53+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/math/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Jacobian</title>
+    <link href="https://tamaspapp.eu/tags/jacobian/"/>
+    <id>https://tamaspapp.eu/tags/jacobian/</id>
+    <published>2017-05-23T16:39:26+02:00</published>
+    <updated>2017-05-23T16:39:26+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/jacobian/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Stan</title>
+    <link href="https://tamaspapp.eu/tags/stan/"/>
+    <id>https://tamaspapp.eu/tags/stan/</id>
+    <published>2017-05-23T16:39:26+02:00</published>
+    <updated>2017-05-23T16:39:26+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/stan/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">browser plugins</title>
+    <link href="https://tamaspapp.eu/tags/browser-plugins/"/>
+    <id>https://tamaspapp.eu/tags/browser-plugins/</id>
+    <published>2017-05-02T16:35:37+02:00</published>
+    <updated>2017-05-02T16:35:37+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/browser-plugins/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">firefox</title>
+    <link href="https://tamaspapp.eu/tags/firefox/"/>
+    <id>https://tamaspapp.eu/tags/firefox/</id>
+    <published>2017-05-02T16:35:37+02:00</published>
+    <updated>2017-05-02T16:35:37+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/firefox/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">Weave</title>
+    <link href="https://tamaspapp.eu/tags/weave/"/>
+    <id>https://tamaspapp.eu/tags/weave/</id>
+    <published>2017-03-30T10:02:32+02:00</published>
+    <updated>2017-03-30T10:02:32+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/weave/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">teaching</title>
+    <link href="https://tamaspapp.eu/tags/teaching/"/>
+    <id>https://tamaspapp.eu/tags/teaching/</id>
+    <published>2017-03-24T14:34:22+01:00</published>
+    <updated>2017-03-24T14:34:22+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/teaching/"></content>
   </entry>
   
 </feed>

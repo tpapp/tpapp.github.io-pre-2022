@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>numerical error on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/numerical-error/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/numerical-error/"/>
   <updated>2017-09-13T11:18:59+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/numerical-error/</id>
+  <id>https://tamaspapp.eu/tags/numerical-error/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">log1p in Julia</title>
-    <link href="https://tpapp.github.io/post/log1p/"/>
-    <id>https://tpapp.github.io/post/log1p/</id>
+    <link href="https://tamaspapp.eu/post/log1p/"/>
+    <id>https://tamaspapp.eu/post/log1p/</id>
     <published>2017-09-13T11:18:59+02:00</published>
     <updated>2017-09-13T11:18:59+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/log1p/">&lt;p&gt;&lt;em&gt;edit&lt;/em&gt;: fixed bogus interaction of MathJax and code highlighting.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/log1p/">&lt;p&gt;&lt;em&gt;edit&lt;/em&gt;: fixed bogus interaction of MathJax and code highlighting.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;edit2&lt;/em&gt;: added benchmarks.&lt;/p&gt;
 
@@ -46,21 +45,21 @@
 
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/log1p/Base_log1p_error.svg&#34; alt=&#34;Base.log1p error&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/log1p/Base_log1p_error.svg&#34; alt=&#34;Base.log1p error&#34;&gt;
 
 
 &lt;p&gt;The next plot shows the relative accuracy of the relative error above, comparing &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; to &lt;code&gt;Base.log1p&lt;/code&gt; (lower values better). In these simulations, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is never worse, but sometimes significantly better (resulting in an extra binary digit of accuracy). This matters especially when &lt;span  class=&#34;math&#34;&gt;\(x \approx 0\)&lt;/span&gt;.&lt;/p&gt;
 
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/log1p/JuliaLibm_improvement.svg&#34; alt=&#34;relative log2 acccuracy improvement over Base.log1p&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/log1p/JuliaLibm_improvement.svg&#34; alt=&#34;relative log2 acccuracy improvement over Base.log1p&#34;&gt;
 
 
 &lt;p&gt;The next plot confirms this.&lt;/p&gt;
 
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/log1p/JuliaLibm_log1p_error.svg&#34; alt=&#34;JuliaLibm log1p error&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/log1p/JuliaLibm_log1p_error.svg&#34; alt=&#34;JuliaLibm log1p error&#34;&gt;
 
 
 &lt;h2 id=&#34;speed&#34;&gt;Speed&lt;/h2&gt;
@@ -69,7 +68,7 @@
 
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/log1p/relative_time.svg&#34; alt=&#34;relative time&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/log1p/relative_time.svg&#34; alt=&#34;relative time&#34;&gt;
 
 
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
@@ -88,7 +87,7 @@
 
 
 &lt;div class=&#34;codedisplay&#34;&gt;
-  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tpapp.github.io/post/log1p/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tamaspapp.eu/post/log1p/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
   &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;c&#34;&gt;# consistent random numbers&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;srand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;UInt32&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0xfd909253&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mh&#34;&gt;0x7859c364&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mh&#34;&gt;0x7cd42419&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mh&#34;&gt;0x4c06a3b6&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
 

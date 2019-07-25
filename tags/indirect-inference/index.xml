@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>indirect inference on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/indirect-inference/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/indirect-inference/"/>
   <updated>2018-03-23T15:23:16+01:00</updated>
   
-  <id>https://tpapp.github.io/tags/indirect-inference/</id>
+  <id>https://tamaspapp.eu/tags/indirect-inference/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Common random variables: an optimization case study</title>
-    <link href="https://tpapp.github.io/post/common-random-variables/"/>
-    <id>https://tpapp.github.io/post/common-random-variables/</id>
+    <link href="https://tamaspapp.eu/post/common-random-variables/"/>
+    <id>https://tamaspapp.eu/post/common-random-variables/</id>
     <published>2018-03-23T15:23:16+01:00</published>
     <updated>2018-03-23T15:23:16+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/common-random-variables/">
+    <content type="html" xml:base="https://tamaspapp.eu/post/common-random-variables/">
 &lt;div class=&#34;juliaversionwarning&#34;&gt;&lt;p&gt;Code used in this post was written for Julia &lt;strong&gt;v0.6.2&lt;/strong&gt; and, when applicable, reflects the state of packages used on &lt;strong&gt;2018-03-23&lt;/strong&gt;. You may need to modify it for different versions.&lt;/p&gt;&lt;/div&gt;
 
 
@@ -98,7 +97,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
 &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Common random variables are stored in columns of a matrix.
 &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreallocatedMatrix&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVContainer&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreallocatedMatrix&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVContainer&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;ϵ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Matrix&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
@@ -121,7 +120,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 &lt;h3 id=&#34;static-vectors-container-preallocated&#34;&gt;Static vectors, container preallocated&lt;/h3&gt;
 
 &lt;p&gt;In the first version using static vectors, we keep &lt;code&gt;SVector&lt;/code&gt; in a &lt;code&gt;Vector&lt;/code&gt;, and update in place.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreallocatedStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreallocatedStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;ϵs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
@@ -138,7 +137,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 &lt;h3 id=&#34;mutable-static-vectors-overwritten&#34;&gt;Mutable static vectors, overwritten&lt;/h3&gt;
 
 &lt;p&gt;We modify this to use mutable vectors — this should not make a difference.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MutableStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MutableStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;ϵs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
@@ -155,7 +154,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 &lt;h3 id=&#34;static-vectors-allocated-each-time&#34;&gt;Static vectors, allocated each time&lt;/h3&gt;
 
 &lt;p&gt;Finally, for the third solution,&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GeneratedStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GeneratedStaticCRV&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;ϵs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;K&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
@@ -215,7 +214,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 
 
 
-&lt;div class=&#34;codedownload&#34;&gt;&lt;p&gt;download code as &lt;a href=&#34;https://tpapp.github.io/post/common-random-variables/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;div class=&#34;codedownload&#34;&gt;&lt;p&gt;download code as &lt;a href=&#34;https://tamaspapp.eu/post/common-random-variables/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
 
 
 &lt;p&gt;&lt;strong&gt;PS:&lt;/strong&gt; From now on, my blog posts with Julia code will have a banner about version information.&lt;/p&gt;

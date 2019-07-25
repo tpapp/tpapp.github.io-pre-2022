@@ -1,24 +1,44 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>weave on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/weave/"/>
-  <updated>2017-03-03T13:11:53+01:00</updated>
+  <title>Weave on Tamás K. Papp&#39;s website</title>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/weave/"/>
+  <updated>2017-03-30T10:02:32+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/weave/</id>
+  <id>https://tamaspapp.eu/tags/weave/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
+    <title type="html">Blogging with Hugo, Julia, Weave.jl</title>
+    <link href="https://tamaspapp.eu/post/blogging-weave-julia-hugo/"/>
+    <id>https://tamaspapp.eu/post/blogging-weave-julia-hugo/</id>
+    <published>2017-03-30T10:02:32+02:00</published>
+    <updated>2017-03-30T10:02:32+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/blogging-weave-julia-hugo/">&lt;p&gt;I have made a PR to &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt; so that others can use it for their own blogging about Julia. An example is &lt;a href=&#34;https://tamaspapp.eu/post/hugo-julia-weave/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The gist of the workflow is as follows:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;for posts which do not need &lt;code&gt;Weave&lt;/code&gt;, just use &lt;code&gt;Hugo&lt;/code&gt;. Make sure you read their &lt;a href=&#34;https://gohugo.io/overview/introduction/&#34;&gt;excellent tutorial&lt;/a&gt;. &lt;strong&gt;This very fast&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the &lt;code&gt;.md&lt;/code&gt; file using &lt;code&gt;Weave.jl&lt;/code&gt;. &lt;strong&gt;This is the slow part&lt;/strong&gt;, so it is not automated.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;README&lt;/a&gt; gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
     <title type="html">Julia &#43; Weave.jl &#43; hugo test</title>
-    <link href="https://tpapp.github.io/post/hugo-julia-weave/"/>
-    <id>https://tpapp.github.io/post/hugo-julia-weave/</id>
+    <link href="https://tamaspapp.eu/post/hugo-julia-weave/"/>
+    <id>https://tamaspapp.eu/post/hugo-julia-weave/</id>
     <published>2017-03-03T13:11:53+01:00</published>
     <updated>2017-03-03T13:11:53+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/hugo-julia-weave/">&lt;p&gt;Testing the &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; formatter for &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt;.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/hugo-julia-weave/">&lt;p&gt;Testing the &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; formatter for &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Testing inline code: &lt;code&gt;1+1=2&lt;/code&gt;.&lt;/p&gt;
 
@@ -38,17 +58,10 @@ $$x^2+y^2 = \int_0^1 f(z) dz$$&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.^&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;scatter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;legend&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
 &lt;figure&gt;
-    
-        &lt;img src=&#34;../figures/hugo-julia-weave_4_1.svg&#34; /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;h4&gt;Caption for this plot&lt;/h4&gt;
-        
-    &lt;/figcaption&gt;
-    
+    &lt;img src=&#34;../figures/hugo-julia-weave_4_1.svg&#34;/&gt; &lt;figcaption&gt;
+            &lt;h4&gt;Caption for this plot&lt;/h4&gt;
+        &lt;/figcaption&gt;
 &lt;/figure&gt;
 
 </content>

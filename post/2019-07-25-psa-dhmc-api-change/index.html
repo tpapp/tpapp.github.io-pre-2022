@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>emacs25</title>
+    <title>PSA: breaking API changes LogDensityProblems and DynamicHMC</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.55.6" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/syntax.css">
-    <link href="https://tamaspapp.eu/tags/emacs25/index.xml" rel="alternate" type="application/rss+xml" title="Tamás K. Papp&#39;s website" />
     
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600%7CUbuntu+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
     <script type="text/x-mathjax-config">
@@ -194,31 +193,39 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>emacs25</h1>
-
-
-<h3>2017-07</h3>
-<ul class="mainlist">
-
-<li>
-  <a href="https://tamaspapp.eu/post/emacs25-ubuntu/">Emacs 25.2 on Ubuntu</a>
-  <p class="additionalinfo">
-    <span class="date">2017-07-03</span>&emsp;
+<h1>PSA: breaking API changes LogDensityProblems and DynamicHMC</h1>2019/07/25
 <span class="tags">
     
-    <a href="/tags/emacs">emacs</a>
+    <a href="/tags/julia">julia</a>
     
-    <a href="/tags/emacs25">emacs25</a>
+    <a href="/tags/bayesian">Bayesian</a>
     
-    <a href="/tags/ubuntu">Ubuntu</a>
+    <a href="/tags/mcmc">MCMC</a>
+    
+    <a href="/tags/packages">packages</a>
     
 </span>
 
 
-  </p>
-</li>
 
-</ul>
+
+<div id="pagenav">
+  
+  <span class="pagenav-label">next post:</span>&nbsp;
+  <a href="https://tamaspapp.eu/post/dynamichmc-reorganization/">Changes for DynamicHMC.jl and related packages</a>
+  
+  
+</div>
+
+
+<p>The API of LogDensityProblems and DynamicHMC is being redesigned (issues: <a href="https://github.com/tpapp/DynamicHMC.jl/issues/30">DynamicHMC#30</a>, <a href="https://github.com/tpapp/LogDensityProblems.jl/issues/45">LogDensityProblems#45</a>). This is necessary to address some issues related to ease of use, debugging, robustness, adaptation, and better integration with some advanced AD packages like Zygote.</p>
+
+<p>Once the changes are complete, I will post a detailed writeup for the transition. But in the meantime, if you are using my MCMC libraries, you may want to pin versions, or put the following in your <code>Project.toml</code>'s <code>[compat]</code> section (you only need the <code>[compat]</code> if there isn't one):</p>
+<div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[</span><span class="nx">compat</span><span class="p">]</span>
+<span class="nx">DynamicHMC</span> <span class="p">=</span> <span class="s2">&#34;^1.0.5&#34;</span>
+<span class="nx">LogDensityProblems</span> <span class="p">=</span> <span class="s2">&#34;^0.8.3&#34;</span></code></pre></div>
+<p>For more information, please refer to the <a href="https://julialang.github.io/Pkg.jl/dev/compatibility/">Pkg docs</a>.</p>
+
 
 </div>
 

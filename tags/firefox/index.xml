@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>firefox on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/firefox/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/firefox/"/>
   <updated>2017-05-02T16:35:37+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/firefox/</id>
+  <id>https://tamaspapp.eu/tags/firefox/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Disabling Privacy Badger</title>
-    <link href="https://tpapp.github.io/post/privacy-badger/"/>
-    <id>https://tpapp.github.io/post/privacy-badger/</id>
+    <link href="https://tamaspapp.eu/post/privacy-badger/"/>
+    <id>https://tamaspapp.eu/post/privacy-badger/</id>
     <published>2017-05-02T16:35:37+02:00</published>
     <updated>2017-05-02T16:35:37+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/privacy-badger/">&lt;p&gt;Firefox has been my primary browser for the last decade. I find it very fast and convenient, and use quite a few addons, including &lt;a href=&#34;https://addons.mozilla.org/en-gb/firefox/addon/google-scholar-button/&#34;&gt;Google Scholar Button&lt;/a&gt;, &lt;a href=&#34;https://addons.mozilla.org/en-gb/firefox/addon/noscript/?src=search&#34;&gt;NoScript&lt;/a&gt;,  and &lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/&#34;&gt;uBlock Origin&lt;/a&gt;.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/privacy-badger/">&lt;p&gt;Firefox has been my primary browser for the last decade. I find it very fast and convenient, and use quite a few addons, including &lt;a href=&#34;https://addons.mozilla.org/en-gb/firefox/addon/google-scholar-button/&#34;&gt;Google Scholar Button&lt;/a&gt;, &lt;a href=&#34;https://addons.mozilla.org/en-gb/firefox/addon/noscript/?src=search&#34;&gt;NoScript&lt;/a&gt;,  and &lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/&#34;&gt;uBlock Origin&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;I can&amp;rsquo;t recall exactly when, but about half a year ago various sites started to break. I have not bothered to debug what&amp;rsquo;s happening, suspecting it was was a combination of various plugins, but continued to use Firefox and installed &lt;a href=&#34;https://github.com/darktrojan/openwith&#34;&gt;openwith&lt;/a&gt; to open broken pages in Chromium (yes, I know, the ultimate kludge). More sites became broken, and I found that now I am spending 99% of my time in Chromium, which I don&amp;rsquo;t like that much, but moreover, it is a resource hog: while using the plugins above I can get the CPU load of Firefox to around 1&amp;ndash;2% when I am not using it, Chromium drains my laptop battery in effectively half the time. To make things worse, Chromium apparently can&amp;rsquo;t open links in the background like Firefox, and insists on raising the window every time I open a link from another process, which is distracting.&lt;/p&gt;
 

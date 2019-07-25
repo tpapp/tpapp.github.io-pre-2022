@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>lisp on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/lisp/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/lisp/"/>
   <updated>2017-10-15T14:17:47+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/lisp/</id>
+  <id>https://tamaspapp.eu/tags/lisp/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,16 +12,16 @@
   
   <entry>
     <title type="html">Switching from Common Lisp to Julia</title>
-    <link href="https://tpapp.github.io/post/common-lisp-to-julia/"/>
-    <id>https://tpapp.github.io/post/common-lisp-to-julia/</id>
+    <link href="https://tamaspapp.eu/post/common-lisp-to-julia/"/>
+    <id>https://tamaspapp.eu/post/common-lisp-to-julia/</id>
     <published>2017-10-15T14:17:47+02:00</published>
     <updated>2017-10-15T14:17:47+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/common-lisp-to-julia/">&lt;p&gt;I have written this post for developers in the Common Lisp community who asked why I am switching to Julia. It may only be relevant for the small set of people who use Common Lisp for scientific computing.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/common-lisp-to-julia/">&lt;p&gt;I have written this post for developers in the Common Lisp community who asked why I am switching to Julia. It may only be relevant for the small set of people who use Common Lisp for scientific computing.&lt;/p&gt;
 
 &lt;p&gt;I used Common Lisp for scientific computing for a while, from 2008 to about 2015, in combination with R and C++. This choice may surprise people who don&#39;t know about projects like &lt;a href=&#34;https://en.wikipedia.org/wiki/Maxima_(software)&#34;&gt;Maxima&lt;/a&gt; or &lt;a href=&#34;http://www.femlisp.org/&#34;&gt;FEMLISP&lt;/a&gt;, but Common Lisp is not a bad language for &lt;a href=&#34;https://link.springer.com/chapter/10.1007/978-3-642-19014-8_11&#34;&gt;scientific computing&lt;/a&gt;: it has a great FFI, compilers like &lt;a href=&#34;http://sbcl.org/&#34;&gt;SBCL&lt;/a&gt; can generate very fast code with a few hints, and the language itself is composed of convenient features that interact nicely.&lt;/p&gt;
 
-&lt;p&gt;However, around 2012 I started to become very frustrated with Common Lisp. Despite various attempts, it became very clear that libraries for scientific computing were not goint to take off: there were many one-person efforts (including &lt;a href=&#34;https://tpapp.github.io/post/orphaned-lisp-libraries/&#34;&gt;mine&lt;/a&gt;), but very few of them evolved into general tools.&lt;/p&gt;
+&lt;p&gt;However, around 2012 I started to become very frustrated with Common Lisp. Despite various attempts, it became very clear that libraries for scientific computing were not goint to take off: there were many one-person efforts (including &lt;a href=&#34;https://tamaspapp.eu/post/orphaned-lisp-libraries/&#34;&gt;mine&lt;/a&gt;), but very few of them evolved into general tools.&lt;/p&gt;
 
 &lt;p&gt;Initially, I was puzzled by this: Common Lisp is an extremely convenient and productive language. Experienced Lisp hackers can write very complex, fast, and elegant libraries in reasonably short time. Why did this not happen for numerical code?&lt;/p&gt;
 
@@ -107,7 +106,7 @@
       &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;
   &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Float64&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;I mentioned &amp;quot;vector-like objects&amp;quot; above, since I can choose different representations for special objects. For example, to do calculations with a vector of &lt;code&gt;1&lt;/code&gt;s, I can define&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;AbstractVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Ones&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Number&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;AbstractVector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;At this point, in order to calculate the sum above, I have two choices:&lt;/p&gt;
@@ -157,12 +156,12 @@
   
   <entry>
     <title type="html">Clarification: on orphaning my Common Lisp libraries</title>
-    <link href="https://tpapp.github.io/post/orphaned-lisp-libraries/"/>
-    <id>https://tpapp.github.io/post/orphaned-lisp-libraries/</id>
+    <link href="https://tamaspapp.eu/post/orphaned-lisp-libraries/"/>
+    <id>https://tamaspapp.eu/post/orphaned-lisp-libraries/</id>
     <published>2017-10-15T13:02:14+02:00</published>
     <updated>2017-10-15T13:02:14+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/orphaned-lisp-libraries/">&lt;p&gt;I have not been programming in Common Lisp for a few years, and since I find &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; a &amp;quot;much better Lisp&amp;quot;, I am unlikely to go back to it in the foreseeable future. This is a clarification regarding some &lt;a href=&#34;https://github.com/tpapp?utf8=%E2%9C%93&amp;amp;tab=repositories&amp;amp;q=&amp;amp;type=public&amp;amp;language=common%20lisp&#34;&gt;libraries&lt;/a&gt; I have written in Common Lisp and made public.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/orphaned-lisp-libraries/">&lt;p&gt;I have not been programming in Common Lisp for a few years, and since I find &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; a &amp;quot;much better Lisp&amp;quot;, I am unlikely to go back to it in the foreseeable future. This is a clarification regarding some &lt;a href=&#34;https://github.com/tpapp?utf8=%E2%9C%93&amp;amp;tab=repositories&amp;amp;q=&amp;amp;type=public&amp;amp;language=common%20lisp&#34;&gt;libraries&lt;/a&gt; I have written in Common Lisp and made public.&lt;/p&gt;
 
 &lt;h1 id=&#34;all-of-my-common-lisp-libraries-are-orphaned&#34;&gt;All of my Common Lisp libraries are orphaned&lt;/h1&gt;
 

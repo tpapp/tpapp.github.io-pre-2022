@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Ubuntu on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/ubuntu/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/ubuntu/"/>
   <updated>2017-07-03T10:49:56+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/ubuntu/</id>
+  <id>https://tamaspapp.eu/tags/ubuntu/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Emacs 25.2 on Ubuntu</title>
-    <link href="https://tpapp.github.io/post/emacs25-ubuntu/"/>
-    <id>https://tpapp.github.io/post/emacs25-ubuntu/</id>
+    <link href="https://tamaspapp.eu/post/emacs25-ubuntu/"/>
+    <id>https://tamaspapp.eu/post/emacs25-ubuntu/</id>
     <published>2017-07-03T10:49:56+02:00</published>
     <updated>2017-07-03T10:49:56+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/emacs25-ubuntu/">&lt;p&gt;Emacs is undoubtedly the most important program on my computers. On my
+    <content type="html" xml:base="https://tamaspapp.eu/post/emacs25-ubuntu/">&lt;p&gt;Emacs is undoubtedly the most important program on my computers. On my
 laptop, I use it to keep track of stuff with &lt;a href=&#34;http://orgmode.org/&#34;&gt;org-mode&lt;/a&gt;, read mail with &lt;a href=&#34;https://www.djcbsoftware.nl/code/mu/mu4e.html&#34;&gt;mu4e&lt;/a&gt;, edit LaTeX with &lt;a href=&#34;https://www.gnu.org/software/auctex/&#34;&gt;AUCTeX&lt;/a&gt;, and of course program. On servers, the first alias I define is usually &lt;code&gt;qe=&#39;emacs -Q -nw&#39;&lt;/code&gt;, which give me a fast and responsive editor. With &lt;a href=&#34;https://github.com/emacs-helm/helm&#34;&gt;helm&lt;/a&gt;, doing just about anything (eg locating files, &lt;code&gt;rgrep&lt;/code&gt;ing for something) is orders of magnitude faster and more convenient than any alternative I have tried.&lt;/p&gt;
 
 &lt;p&gt;I also try to keep up with the latest versions for software in general. Usually, whatever Ubuntu stable/Debian testing has is good enough not to justify the extra effort, but when I really need it, I grab the source and compile. That is usually only a minor hassle, but I try to restrict it to a few critical programs, otherwise it adds up. The major issue is not compiling, but having cruft in the filesystem (despite &lt;a href=&#34;https://www.gnu.org/software/stow/manual/stow.html&#34;&gt;stow&lt;/a&gt; and &lt;a href=&#34;https://wiki.debian.org/CheckInstall&#34;&gt;checkinstall&lt;/a&gt;, it piles up). So I try to avoid it if I can.&lt;/p&gt;

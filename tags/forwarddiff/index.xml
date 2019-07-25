@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>ForwardDiff on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/forwarddiff/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/forwarddiff/"/>
   <updated>2017-09-15T16:03:10+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/forwarddiff/</id>
+  <id>https://tamaspapp.eu/tags/forwarddiff/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Automatic differentiation of discontinuous integrals</title>
-    <link href="https://tpapp.github.io/post/discontinuous_integral_ad/"/>
-    <id>https://tpapp.github.io/post/discontinuous_integral_ad/</id>
+    <link href="https://tamaspapp.eu/post/discontinuous_integral_ad/"/>
+    <id>https://tamaspapp.eu/post/discontinuous_integral_ad/</id>
     <published>2017-09-15T16:03:10+02:00</published>
     <updated>2017-09-15T16:03:10+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/discontinuous_integral_ad/">&lt;p&gt;This is a &lt;em&gt;much simplified&lt;/em&gt; writeup of a problem I encountered, in a self-contained blog post.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/discontinuous_integral_ad/">&lt;p&gt;This is a &lt;em&gt;much simplified&lt;/em&gt; writeup of a problem I encountered, in a self-contained blog post.&lt;/p&gt;
 
 &lt;p&gt;You want to approximate the integral&lt;/p&gt;
 
@@ -79,12 +78,12 @@ I&#39;(\theta) = \int 1(g(x) &gt; 0) \frac{\partial f(x,\theta)/\partial \theta}
 
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/discontinuous_integral_ad/integral.svg&#34; alt=&#34;integral&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/discontinuous_integral_ad/integral.svg&#34; alt=&#34;integral&#34;&gt;
 
 
 
 
-&lt;img src=&#34;https://tpapp.github.io/post/discontinuous_integral_ad/derivative.svg&#34; alt=&#34;derivative&#34;&gt;
+&lt;img src=&#34;https://tamaspapp.eu/post/discontinuous_integral_ad/derivative.svg&#34; alt=&#34;derivative&#34;&gt;
 
 
 &lt;p&gt;It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which &lt;span  class=&#34;math&#34;&gt;\(\{ x: g(x) &gt; 0 \}\)&lt;/span&gt;, but I used &lt;code&gt;elasticity&lt;/code&gt; as above.&lt;/p&gt;
@@ -95,7 +94,7 @@ I&#39;(\theta) = \int 1(g(x) &gt; 0) \frac{\partial f(x,\theta)/\partial \theta}
 
 
 &lt;div class=&#34;codedisplay&#34;&gt;
-  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tpapp.github.io/post/discontinuous_integral_ad/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+  &lt;div class=&#34;codeheader&#34;&gt;&lt;p&gt;download as &lt;a href=&#34;https://tamaspapp.eu/post/discontinuous_integral_ad/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
   &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ForwardDiff&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ForwardDiff&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Dual&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;partials&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Tag&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Distributions&lt;/span&gt;

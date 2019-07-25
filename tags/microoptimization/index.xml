@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>microoptimization on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/microoptimization/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/microoptimization/"/>
   <updated>2017-10-04T10:12:02+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/microoptimization/</id>
+  <id>https://tamaspapp.eu/tags/microoptimization/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Branch prediction: yet another example</title>
-    <link href="https://tpapp.github.io/post/branch_prediction2/"/>
-    <id>https://tpapp.github.io/post/branch_prediction2/</id>
+    <link href="https://tamaspapp.eu/post/branch_prediction2/"/>
+    <id>https://tamaspapp.eu/post/branch_prediction2/</id>
     <published>2017-10-04T10:12:02+02:00</published>
     <updated>2017-10-04T10:12:02+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/branch_prediction2/">&lt;p&gt;Tomas Lycken linked a &lt;a href=&#34;https://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array/11227902#11227902&#34;&gt;very nice discussion on StackOverflow&lt;/a&gt; about branch prediction as a comment on the &lt;a href=&#34;https://tpapp.github.io/post/branch_prediction/&#34;&gt;previous post&lt;/a&gt;. It has an intuitive explanation (read it if you like good metaphors) and some Java benchmarks. I was curious about how it looks in Julia.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/branch_prediction2/">&lt;p&gt;Tomas Lycken linked a &lt;a href=&#34;https://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array/11227902#11227902&#34;&gt;very nice discussion on StackOverflow&lt;/a&gt; about branch prediction as a comment on the &lt;a href=&#34;https://tamaspapp.eu/post/branch_prediction/&#34;&gt;previous post&lt;/a&gt;. It has an intuitive explanation (read it if you like good metaphors) and some Java benchmarks. I was curious about how it looks in Julia.&lt;/p&gt;
 
 &lt;p&gt;The exercise is to sum elements in a vector &lt;em&gt;only if&lt;/em&gt; they are greater than or equal to 128.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sumabove_if&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
@@ -114,19 +113,19 @@ Benchmarks (&lt;span  class=&#34;math&#34;&gt;\(μ\)&lt;/span&gt;s)
 
 
 
-&lt;div class=&#34;codedownload&#34;&gt;&lt;p&gt;download code as &lt;a href=&#34;https://tpapp.github.io/post/branch_prediction2/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+&lt;div class=&#34;codedownload&#34;&gt;&lt;p&gt;download code as &lt;a href=&#34;https://tamaspapp.eu/post/branch_prediction2/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
 
 </content>
   </entry>
   
   <entry>
     <title type="html">CPU pipelines: when more is less</title>
-    <link href="https://tpapp.github.io/post/branch_prediction/"/>
-    <id>https://tpapp.github.io/post/branch_prediction/</id>
+    <link href="https://tamaspapp.eu/post/branch_prediction/"/>
+    <id>https://tamaspapp.eu/post/branch_prediction/</id>
     <published>2017-10-03T11:40:58+02:00</published>
     <updated>2017-10-03T11:40:58+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/branch_prediction/">&lt;p&gt;I have been working on micro-optimizations for some simulation code, and was reminded of a counter-intuitive artifact of modern CPU architecture, which is worth a short post.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/branch_prediction/">&lt;p&gt;I have been working on micro-optimizations for some simulation code, and was reminded of a counter-intuitive artifact of modern CPU architecture, which is worth a short post.&lt;/p&gt;
 
 &lt;p&gt;Consider (just for the sake of example) a very simple (if not particularly meaningful) function,&lt;/p&gt;
 

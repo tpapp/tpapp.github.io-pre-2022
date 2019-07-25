@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>blogging on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/blogging/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/blogging/"/>
   <updated>2017-06-12T14:12:43+02:00</updated>
   
-  <id>https://tpapp.github.io/tags/blogging/</id>
+  <id>https://tamaspapp.eu/tags/blogging/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Blog redesign</title>
-    <link href="https://tpapp.github.io/post/blog-redesign/"/>
-    <id>https://tpapp.github.io/post/blog-redesign/</id>
+    <link href="https://tamaspapp.eu/post/blog-redesign/"/>
+    <id>https://tamaspapp.eu/post/blog-redesign/</id>
     <published>2017-06-12T14:12:43+02:00</published>
     <updated>2017-06-12T14:12:43+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/blog-redesign/">&lt;p&gt;I am in the process of rebuilding my personal website using &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;. I tried various themes, including &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic&lt;/a&gt;, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/blog-redesign/">&lt;p&gt;I am in the process of rebuilding my personal website using &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;. I tried various themes, including &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic&lt;/a&gt;, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.&lt;/p&gt;
 
 &lt;p&gt;The result is now 80% ready (blog works, automatic listing of research papers will take some more work), and the &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;source is on Github&lt;/a&gt;. It is available under the CC-BY-SA license, feel free to adapt parts from it, not that there is anything special in there.&lt;/p&gt;
 
@@ -30,12 +29,12 @@
   
   <entry>
     <title type="html">Blogging with Hugo, Julia, Weave.jl</title>
-    <link href="https://tpapp.github.io/post/blogging-weave-julia-hugo/"/>
-    <id>https://tpapp.github.io/post/blogging-weave-julia-hugo/</id>
+    <link href="https://tamaspapp.eu/post/blogging-weave-julia-hugo/"/>
+    <id>https://tamaspapp.eu/post/blogging-weave-julia-hugo/</id>
     <published>2017-03-30T10:02:32+02:00</published>
     <updated>2017-03-30T10:02:32+02:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/blogging-weave-julia-hugo/">&lt;p&gt;I have made a PR to &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt; so that others can use it for their own blogging about Julia. An example is &lt;a href=&#34;https://tpapp.github.io/post/hugo-julia-weave/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/blogging-weave-julia-hugo/">&lt;p&gt;I have made a PR to &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt; so that others can use it for their own blogging about Julia. An example is &lt;a href=&#34;https://tamaspapp.eu/post/hugo-julia-weave/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The gist of the workflow is as follows:&lt;/p&gt;
 

@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>magit on Tamás K. Papp&#39;s website</title>
-  <link href="https://tpapp.github.io/index.xml" rel="self"/>
-  <link href="https://tpapp.github.io/tags/magit/"/>
+  <link href="https://tamaspapp.eu/index.xml" rel="self"/>
+  <link href="https://tamaspapp.eu/tags/magit/"/>
   <updated>2017-11-18T10:48:30+01:00</updated>
   
-  <id>https://tpapp.github.io/tags/magit/</id>
+  <id>https://tamaspapp.eu/tags/magit/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
@@ -13,12 +12,12 @@
   
   <entry>
     <title type="html">Checking uncommitted changes when opening a file in Emacs</title>
-    <link href="https://tpapp.github.io/post/check-uncommitted/"/>
-    <id>https://tpapp.github.io/post/check-uncommitted/</id>
+    <link href="https://tamaspapp.eu/post/check-uncommitted/"/>
+    <id>https://tamaspapp.eu/post/check-uncommitted/</id>
     <published>2017-11-18T10:48:30+01:00</published>
     <updated>2017-11-18T10:48:30+01:00</updated>
     
-    <content type="html" xml:base="https://tpapp.github.io/post/check-uncommitted/">&lt;p&gt;Alas, the following happens all too frequently: I am working on code, some interruption happens, and I fail to commit the changes coherently into the repository.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/check-uncommitted/">&lt;p&gt;Alas, the following happens all too frequently: I am working on code, some interruption happens, and I fail to commit the changes coherently into the repository.&lt;/p&gt;
 
 &lt;p&gt;Next time I open the file, perhaps to work on some other feature, I forget that I have &lt;em&gt;uncommitted changes&lt;/em&gt; and work on something new. When staging, I realize the mistake and have to spend time disentangling the mess.&lt;/p&gt;
 
