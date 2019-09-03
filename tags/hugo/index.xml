@@ -1,5 +1,5 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>hugo on Tamás K. Papp&#39;s website</title>
+  <title>Hugo on Tamás K. Papp&#39;s website</title>
   <link href="https://tamaspapp.eu/index.xml" rel="self"/>
   <link href="https://tamaspapp.eu/tags/hugo/"/>
   <updated>2017-09-29T19:55:44+02:00</updated>
@@ -293,6 +293,21 @@
 
 
 &lt;p&gt;The final PDF is &lt;a href=&#34;dotted_paper.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Teaching</title>
+    <link href="https://tamaspapp.eu/teaching/"/>
+    <id>https://tamaspapp.eu/teaching/</id>
+    <published>2018-04-27T14:48:06+02:00</published>
+    <updated>2018-04-27T14:48:06+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/teaching/">
+
+&lt;h2 id=&#34;introduction-to-bayesian-estimation-of-dsge-models&#34;&gt;Introduction to Bayesian estimation of DSGE models&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://tamaspapp.eu/pdf/DSGE_Bayesian_slides.pdf&#34;&gt;PDF&lt;/a&gt; Slides (with references and further reading) for an introductory course on Bayesian estimation of DSGE models. Mostly Bayesian concepts and practical issues (diagnostics, posterior predictive checks, convergence problems).&lt;/p&gt;
 </content>
   </entry>
   
@@ -2174,6 +2189,33 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 &lt;p&gt;Hugo is really an excellent framework, it is clean, logical, and allows a lot of code reuse. I &lt;del&gt;wasted&lt;/del&gt; spent most of the time on fiddling with CSS, and I am still not 100% satisfied with the result, but at some point I decided to stop. &lt;a href=&#34;http://sass-lang.com/&#34;&gt;SCSS&lt;/a&gt; was extremely useful for writing organized CSS.&lt;/p&gt;
 
 &lt;p&gt;I am especially satisfied with moving the code highlighting to the generator side. The only non-static parts are now &lt;a href=&#34;https://disqus.com/&#34;&gt;Disqus&lt;/a&gt; and &lt;a href=&#34;http://www.mathjax.org/&#34;&gt;MathJax&lt;/a&gt;.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Research</title>
+    <link href="https://tamaspapp.eu/research/"/>
+    <id>https://tamaspapp.eu/research/</id>
+    <published>2017-06-11T14:48:06+02:00</published>
+    <updated>2017-06-11T14:48:06+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/research/">
+
+&lt;h2 id=&#34;working-papers&#34;&gt;Working papers&lt;/h2&gt;
+
+&lt;p&gt;Couples&amp;rsquo; times use and aggregate outcomes: evidence from a structural model. &lt;em&gt;Joint with Almut Balleer and Monika Merz.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The structure of labor market flows. &lt;a href=&#34;https://tamaspapp.eu/pdf/structure-of-labor-market-flows.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Accounting for Idiosyncratic Wage Risk Over the Business Cycle. &lt;em&gt;Joint with Alisdair McKay&lt;/em&gt;. &lt;a href=&#34;https://tamaspapp.eu/pdf/wage_vol.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;short-notes&#34;&gt;Short notes&lt;/h2&gt;
+
+&lt;p&gt;Consistent local approximation in continuous time. &lt;a href=&#34;https://tamaspapp.eu/pdf/consistent-local-continuous.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;published-papers&#34;&gt;Published papers&lt;/h2&gt;
+
+&lt;p&gt;Frictional wage dispersion with Bertrand competition: an assessment. &lt;a href=&#34;https://www.sciencedirect.com/science/article/pii/S1094202513000094&#34;&gt;&lt;em&gt;Review of Economic Dynamics, 2013&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
 </content>
   </entry>
   
