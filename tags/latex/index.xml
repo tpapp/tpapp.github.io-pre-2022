@@ -23,7 +23,7 @@
 &lt;div class=&#34;juliaversionwarning&#34;&gt;&lt;p&gt;Code used in this post was written for Julia &lt;strong&gt;v1.*&lt;/strong&gt; and, when applicable, reflects the state of packages used on &lt;strong&gt;2019-09-03&lt;/strong&gt;. You may need to modify it for different versions.&lt;/p&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Note&lt;/em&gt;&lt;/strong&gt;: &lt;em&gt;my blog no longer has a comment section. Feel free to ask questions about this post &lt;a href=&#34;URL&#34;&gt;on the Julia Discourse forum&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Note&lt;/em&gt;&lt;/strong&gt;: &lt;em&gt;my blog no longer has a comment section. Feel free to ask questions about this post &lt;a href=&#34;https://discourse.julialang.org/t/ann-dynamichmc-2-0/28314&#34;&gt;on the Julia Discourse forum&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;some-context&#34;&gt;Some context&lt;/h1&gt;
 
