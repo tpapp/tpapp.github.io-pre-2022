@@ -4,7 +4,7 @@
     <title>Switching from Common Lisp to Julia</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.55.6" />
+    <meta name="generator" content="Hugo 0.57.2" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/syntax.css">
     
@@ -233,14 +233,14 @@
 <p>Now I think that one of the main reasons for this is that while you can write scientific code in CL that will be (1) fast, (2) portable, and (3) convenient, you <em>cannot do all of these at the same time</em>. Arrays provide a convenient example for this.</p>
 
 <p>Consider</p>
-<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nv">make-array</span> <span class="mi">5</span> <span class="ss">:element-type</span> <span class="ss">&#39;double-float</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nf">make-array</span> <span class="mi">5</span> <span class="ss">:element-type</span> <span class="ss">&#39;double-float</span><span class="p">)</span></code></pre></div>
 <p>The <a href="http://clhs.lisp.se/Body/f_upgr_1.htm">standard</a> does not guarantee that this gives you an array of <code>double-float</code>: it may (if the implementation provides them), otherwise you get an array of element type <code>T</code>. This turned out to be a major difficulty for implementing portable scientific code in Common Lisp.</p>
 
 <p>However, this gets worse: while you can tell a function that operates on arrays that these arrays have element type <code>double-float</code>, you cannot dispatch on this, as Common Lisp does not have parametric types. For example, if you want to write a sum as</p>
-<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nv">defmethod</span> <span class="nv">mysum</span> <span class="p">((</span><span class="nv">vec</span> <span class="nv">vector</span><span class="p">))</span>
-  <span class="p">(</span><span class="nv">let</span> <span class="p">((</span><span class="nv">s</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="p">(</span><span class="nv">loop</span> <span class="nv">for</span> <span class="nv">elt</span> <span class="nv">across</span> <span class="nv">vec</span>
-       <span class="nv">do</span> <span class="p">(</span><span class="nv">incf</span> <span class="nv">s</span> <span class="nv">elt</span><span class="p">))</span>
+<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nb">defmethod</span> <span class="nv">mysum</span> <span class="p">((</span><span class="nv">vec</span> <span class="nc">vector</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">s</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nf">elt</span> <span class="nv">across</span> <span class="nv">vec</span>
+       <span class="nb">do</span> <span class="p">(</span><span class="nb">incf</span> <span class="nv">s</span> <span class="nf">elt</span><span class="p">))</span>
     <span class="nv">s</span><span class="p">))</span></code></pre></div>
 <p>you can dispatch on the argument being a <code>vector</code>, but not on the element type. The compiled code may be generic.</p>
 

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>ANN: DynamicHMC 2.0</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.57.2" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/syntax.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600%7CUbuntu+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          
+          
+          processEscapes: true,
+          processEnvironments: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+          TeX: { equationNumbers: { autoNumber: "AMS" },
+          extensions: ["AMSmath.js", "AMSsymbols.js"] }
+          },
+        CommonHTML: { linebreaks: { automatic: true } },
+        "HTML-CSS": { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+      });
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <nav id="navbar">
+      <a href="https://tamaspapp.eu/">About</a>
+<a href="https://tamaspapp.eu/research">Research</a>
+<a href="https://tamaspapp.eu/teaching">Teaching</a>
+<a href="https://tamaspapp.eu/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/automatic-differentiation">automatic-differentiation</a>
+    
+    <a href="/tags/bayesian">bayesian</a>
+    
+    <a href="/tags/big-data">big-data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser-plugins</a>
+    
+    <a href="/tags/coverage">coverage</a>
+    
+    <a href="/tags/docker">docker</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/forwarddiff">forwarddiff</a>
+    
+    <a href="/tags/gitlab">gitlab</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/indirect-inference">indirect-inference</a>
+    
+    <a href="/tags/jacobian">jacobian</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/latex">latex</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/mcmc">mcmc</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical-error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/stan">stan</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/ubuntu">ubuntu</a>
+    
+    <a href="/tags/unit-testing">unit-testing</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tamaspapp.eu/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tamaspapp.eu/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </nav>
+    <div id="navbarplaceholder">
+      <a href="https://tamaspapp.eu/">About</a>
+<a href="https://tamaspapp.eu/research">Research</a>
+<a href="https://tamaspapp.eu/teaching">Teaching</a>
+<a href="https://tamaspapp.eu/post">Blog</a>
+<a href="https://github.com/tpapp/">Github</a>
+<div class="dropdown">
+  <a class="dropdown-button">(tags)</a>
+  <div class="dropdown-content">
+    <p class="dropdown-header">site tags</p>
+    
+    <a href="/tags/automatic-differentiation">automatic-differentiation</a>
+    
+    <a href="/tags/bayesian">bayesian</a>
+    
+    <a href="/tags/big-data">big-data</a>
+    
+    <a href="/tags/blogging">blogging</a>
+    
+    <a href="/tags/browser-plugins">browser-plugins</a>
+    
+    <a href="/tags/coverage">coverage</a>
+    
+    <a href="/tags/docker">docker</a>
+    
+    <a href="/tags/emacs">emacs</a>
+    
+    <a href="/tags/emacs25">emacs25</a>
+    
+    <a href="/tags/firefox">firefox</a>
+    
+    <a href="/tags/forwarddiff">forwarddiff</a>
+    
+    <a href="/tags/gitlab">gitlab</a>
+    
+    <a href="/tags/hugo">hugo</a>
+    
+    <a href="/tags/indirect-inference">indirect-inference</a>
+    
+    <a href="/tags/jacobian">jacobian</a>
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/julia-repl">julia-repl</a>
+    
+    <a href="/tags/latex">latex</a>
+    
+    <a href="/tags/lisp">lisp</a>
+    
+    <a href="/tags/log1p">log1p</a>
+    
+    <a href="/tags/magit">magit</a>
+    
+    <a href="/tags/math">math</a>
+    
+    <a href="/tags/mcmc">mcmc</a>
+    
+    <a href="/tags/microoptimization">microoptimization</a>
+    
+    <a href="/tags/numerical-error">numerical-error</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+    <a href="/tags/plots">plots</a>
+    
+    <a href="/tags/stan">stan</a>
+    
+    <a href="/tags/teaching">teaching</a>
+    
+    <a href="/tags/ubuntu">ubuntu</a>
+    
+    <a href="/tags/unit-testing">unit-testing</a>
+    
+    <a href="/tags/weave">weave</a>
+    
+  </div>
+</div>
+<a href="https://tamaspapp.eu/post/index.xml" type="application/rss+xml" target="_blank"><img class="feedicon" src="https://tamaspapp.eu/img/feed-icon.svg" alt="Atom feed (blog)" title="Atom feed (blog)"></a>
+
+    </div>
+    <div id="mainbody">
+
+<div id="content">
+<h1>ANN: DynamicHMC 2.0</h1>2019/09/03
+<span class="tags">
+    
+    <a href="/tags/julia">julia</a>
+    
+    <a href="/tags/bayesian">Bayesian</a>
+    
+    <a href="/tags/mcmc">mcmc</a>
+    
+    <a href="/tags/packages">packages</a>
+    
+</span>
+
+
+
+
+<div id="pagenav">
+  
+  <span class="pagenav-label">previous post:</span>&nbsp;
+  <a href="https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/">PSA: breaking API changes LogDensityProblems and DynamicHMC</a>
+  
+  
+</div>
+
+
+<p>I am very pleased to announce version 2.0 of <a href="https://github.com/tpapp/DynamicHMC.jl">DynamicHMC.jl</a>. I briefly summarize the new the developments in this blog post.</p>
+
+
+<div class="juliaversionwarning"><p>Code used in this post was written for Julia <strong>v1.*</strong> and, when applicable, reflects the state of packages used on <strong>2019-09-03</strong>. You may need to modify it for different versions.</p></div>
+
+
+<p><strong><em>Note</em></strong>: <em>my blog no longer has a comment section. Feel free to ask questions about this post <a href="URL">on the Julia Discourse forum</a>.</em></p>
+
+<h1 id="some-context">Some context</h1>
+
+<p><a href="https://github.com/tpapp/DynamicHMC.jl">DynamicHMC.jl</a> is part of a collection of packages for implementing Bayesian inference using a <em>modular</em> approach:</p>
+
+<ol>
+<li><p><a href="https://github.com/tpapp/TransformVariables.jl">TransformVariables.jl</a> just maps <span  class="math">\(\mathbb{R}^n\)</span> vectors into collections of constrained parameters, like positive real numbers or valid correlation matrices,</p></li>
+
+<li><p><a href="https://github.com/tpapp/LogDensityProblems.jl">LogDensityProblems.jl</a> provides an interface for <em>log density functions</em> <span  class="math">\(\mathbb{R}^n \to \mathbb{R}\)</span> and their derivative, also calculating the latter using automatic differentiation via one of the supported native Julia AD frameworks (see below),</p></li>
+
+<li><p><a href="https://github.com/tpapp/DynamicHMC.jl">DynamicHMC.jl</a>, which just takes a log density and its gradient on <span  class="math">\(\mathbb{R}^n\)</span>, and performs MCMC using NUTS,</p></li>
+
+<li><p><a href="https://github.com/tpapp/MCMCDiagnostics.jl">MCMCDiagnostics.jl</a> for <em>generic</em> convergence diagnostics (ie not specific to a particular MCMC method).</p></li>
+</ol>
+
+<p>In contrast to a single interface and a DSL for describing models, these packages provide a <em>suite</em> of tools for modern MCMC, with easily interchangable and modular building blocks. For example, the gradients of a log density can be obtained with</p>
+
+<ol>
+<li><a href="https://github.com/JuliaDiff/ForwardDiff.jl">ForwardDiff.jl</a>, which is very robust,</li>
+<li><a href="https://github.com/JuliaDiff/ReverseDiff.jl">ReverseDiff.jl</a>, which works better for medium-sized problems using a classic taped approach,</li>
+<li><a href="https://github.com/FluxML/Flux.jl">Flux.jl</a> which is more modern and can be faster on larger problems, and of course</li>
+<li><a href="https://github.com/FluxML/Zygote.jl">Zygote.jl</a> which is very promising, but work in progress;</li>
+</ol>
+
+<p>and switching between these usually just requires changing a single line. I find this especially important since as Zygote keeps maturing, it will play a more and more important role for fast AD. Moreover, the user is free to code all gradients manually, or just parts of them to help out AD, for example with the <a href="https://math.mit.edu/~stevenj/18.336/adjoint.pdf">adjoint method</a>.</p>
+
+<p>In addition to this, some packages use DynamicHMC.jl as a <em>backend</em>. This is encouraged and remains to be supported. Finally, the third common use case for this package is as a <em>research platform</em> for experimenting with modern HMC algorithms: this is supported by a detailed documentation of internals.</p>
+
+<h1 id="why-a-new-api-was-needed">Why a new API was needed</h1>
+
+<p>As bug reports and test cases kept accumulating, it was very clear that <em>better adaptation heuristics</em>, and a more sophisticated <em>diagnosic and warmup interface</em> was needed. When NUTS/HMC goes wrong with models it should be able to handle otherwise, the problem is usually with <em>adaptation</em>. The user should be able to learn what went wrong, and either manually tune stepsize and the kinetic energy metric, or choose an adaptation better suited to the model.</p>
+
+<p>The old API of DynamicHMC was lacking in several ways. The main entry point was something like</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">chain</span><span class="p">,</span> <span class="n">tuning</span> <span class="o">=</span> <span class="n">NUTS_init_tune_mcmc</span><span class="p">(</span><span class="n">∇P</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span></code></pre></div>
+<p>with <code>tuning</code> containing the adapted stepsize and kinetic energy metric.</p>
+
+<p>In practice, it turns out that</p>
+
+<ol>
+<li><em>either the model works fine</em>, and then the user cares little about warmup,</li>
+<li>or it doesn't, then <em>information about the warmup would be necessary</em> to debug the model.</li>
+</ol>
+
+<p>Fine-tuning the adaptation sequence was possible, but rather unintuitive in the old API. I doubt that many people used this feature, or were even aware that it was available. Statistics on <em>why</em> adaptation failed or sampling didn't mix were also difficult to obtain.</p>
+
+<p>After collecting the various problems, I spent some time on redesigning the internals, then the API to address all major issues.</p>
+
+<p>Here I would like to <strong>thank all users of this library who provided a lot of valuable feedback</strong>, especially in the form of bug reports which I could study and use to tweak the sampler. Robert J Goedman coded <em>all</em> the models of the excellent “<a href="https://xcelab.net/rm/statistical-rethinking/">Statistical Rethinking</a>” book in  <a href="https://github.com/StatisticalRethinkingJulia/DynamicHMCModels.jl">DynamicHMCModels.jl</a>, which is the most comprehensive collection of examples for this package, and also provides and extremely useful test suite for it. <a href="https://github.com/JuliaDiffEq/DiffEqBayes.jl/">DiffEqBayes.jl</a> included DynamicHMC as a backend, while <a href="https://github.com/cscherrer/Soss.jl">Soss.jl</a> provides a higher-level DSL for building models. Users (who are, mostly, also the authors) of these packages provided a lot of example models and test cases.</p>
+
+<h1 id="changes-in-20">Changes in 2.0</h1>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>The <a href="https://tamaspapp.eu/DynamicHMC.jl/latest/worked_example/">documentation</a> was rewritten from scratch, now including a worked example. All functions of the API have extensive docstrings, usually with examples where relevant. This documentation should be the starting point for using this package.</p>
+
+<p><em>Of course, if you have questions, feature requests, or bug reports, don't hesitate to <a href="https://github.com/tpapp/DynamicHMC.jl/issues/new">open an issue</a>; I would like to emphasize that it is still perfectly fine to open issues just to ask questions. You can also address questions to <a href="https://discourse.julialang.org/u/Tamas_Papp"><code>@Tamas_Papp</code></a> on the Julia discourse forum.</em></p>
+
+<h2 id="main-interface">Main interface</h2>
+
+<p>Most people would now call the sampler with</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">results</span> <span class="o">=</span> <span class="n">mcmc_with_warmup</span><span class="p">(</span><span class="n">Random</span><span class="o">.</span><span class="n">GLOBAL_RNG</span><span class="p">,</span> <span class="n">∇P</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span></code></pre></div>
+<p>where <code>∇P</code> is an object that supports the <a href="https://github.com/tpapp/LogDensityProblems.jl">LogDensityProblems.jl</a> API (basically “give me a log density and its gradient at this position”, withs some bells and whistles). <code>results</code> is a <code>NamedTuple</code> with fields like <code>chain</code> (a vector of positions in <span  class="math">\(\mathbb{R}^n\)</span>, which most users probably need to transform into a collection of constrained parameters), information on tree statistics and the adapted parameters. A detailed <a href="https://tamaspapp.eu/DynamicHMC.jl/latest/worked_example/">worked example</a> is available.</p>
+
+<p>In contrast to the previous API, the random number generator needs to be explicitly provided. This is in preparation for <a href="https://julialang.org/blog/2019/07/multithreading">multithreading</a>, encouraging the user to be conscious of RNGs as mutable states; the internals now also follow this approach with no default RNG in the sampling part.</p>
+
+<h2 id="exposed-warmup-building-blocks">Exposed warmup building blocks</h2>
+
+<p>The new API allows fine-grained control over the warmup stages. For example, this is how one would skip local optimization, ask for a dense (<code>Symmetric</code>) metric instead of the default <code>Diagonal</code>, and provide an initial position while at the same time allowing the stepsize to be found and adapted using the default heuristic:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">q</span> <span class="o">=</span> <span class="o">...</span> <span class="c"># some initial position</span>
+<span class="n">warmup_stages</span> <span class="o">=</span> <span class="n">default_warmup_stages</span><span class="p">(;</span> <span class="n">local_optimization</span> <span class="o">=</span> <span class="nb">nothing</span><span class="p">,</span>
+                                      <span class="n">M</span> <span class="o">=</span> <span class="kt">Symmetric</span><span class="p">)</span>
+<span class="n">κ</span> <span class="o">=</span> <span class="n">GaussianKineticEnergy</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">mcmc_with_warmup</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span> <span class="n">ℓ</span><span class="p">,</span> <span class="n">N</span><span class="p">;</span>
+                 <span class="n">initialization</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="p">,</span> <span class="n">κ</span> <span class="o">=</span> <span class="n">κ</span><span class="p">),</span>
+                 <span class="n">warmup_stages</span> <span class="o">=</span> <span class="n">warmup_stages</span><span class="p">)</span></code></pre></div>
+<p>The <code>warmup_stages</code> above is just a <code>Tuple</code>, with no secret sauce, you are provided the tools to make up your own if necessary.</p>
+
+<h2 id="changed-heuristics-and-warmup-defaults">Changed heuristics and warmup defaults</h2>
+
+<p>In contrast to Stan, the old API did not look for a local optimum before starting the stepsize adaptation. This is fine in most cases, but occasionally adapting to an otherwise atypical region of the parameter space can cause problems with the algorithm later on. On the other hand, adapting too eagerly to models with singularities in the log posterior can also backfire very easily.</p>
+
+<p>The new default heuristics make a half-hearted effort to go near some local optimum, but don't overdo it, which I think is the right compromise. Also, there is some protection against singularities on the “edges” of <span  class="math">\(\mathbb{R}^n\)</span> (which can happen with the “funnels” of hierarchical models).</p>
+
+<p>Stepsize adaptation became a bit more robust with some tweaks. I still think that the initial bracketing algorithm in this package is better than Stan's in some cases and worth the extra couple of evaluations, as it plays nicer with the dual averaging for posteriors where the optimal stepsize can change rapidly.</p>
+
+<p>The default kinetic energy metric is now <code>Diagonal</code>. This should be nearly optimal except for very heavily correlated posteriors which also happen to be devoid of any other pathologies (this is rare in practice).</p>
+
+<h2 id="diagnostics">Diagnostics</h2>
+
+<p>Diagnostics were reorganized into a <code>DynamicHMC.Diagnostics</code> submodule of their own. They are intended for <em>interactive use</em>, and the exposed API can change with just a minor version increment. You can import them into your current module with</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">DynamicHMC</span><span class="o">.</span><span class="n">Diagnostics</span></code></pre></div>
+<p><strong>Note that this package has no plotting functionality.</strong> Use your favorite plotting package to visualize information, I made the plots below with <a href="https://github.com/KristofferC/PGFPlotsX.jl">PGFPlotsX.jl</a> (and relevant code may eventually end up in a mini-package, for now see the link below).</p>
+
+
+
+<div class="codedownload"><p>download code as <a href="https://tamaspapp.eu/post/2019-08-29-dynamichmc2/plots.jl">plots.jl</a></p></div>
+
+
+<h3 id="detailed-tree-statistics">Detailed tree statistics</h3>
+
+<p>Each result that contains a <code>chain</code> also comes with corresponding <code>tree_statistics</code>, which is a <em>vector</em> of statistics for each NUTS step. It contains information about acceptance ratios, number of leapfrog steps and tree depth, and the doubling directions. In 2.0, it also contains a field which informs the user about the location (in steps relative to the starting point).</p>
+
+<p>There is a <code>summarize_tree_statistics</code> function that produces a useful summary about acceptance rations:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="n">mcmc_with_warmup</span><span class="p">(</span><span class="n">Random</span><span class="o">.</span><span class="n">GLOBAL_RNG</span><span class="p">,</span> <span class="n">ℓ</span><span class="p">,</span> <span class="mi">1000</span><span class="p">;</span>
+                                  <span class="n">reporter</span> <span class="o">=</span> <span class="n">NoProgressReport</span><span class="p">());</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">results</span><span class="o">.</span><span class="n">tree_statistics</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">DynamicHMC</span><span class="o">.</span><span class="n">TreeStatisticsNUTS</span><span class="p">(</span><span class="o">-</span><span class="mf">1.7246438302263802</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
+                              <span class="n">turning</span> <span class="n">at</span> <span class="n">positions</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span><span class="p">,</span> <span class="mf">0.963443025058039</span><span class="p">,</span>
+                              <span class="mi">7</span><span class="p">,</span> <span class="n">DynamicHMC</span><span class="o">.</span><span class="n">Directions</span><span class="p">(</span><span class="mh">0x595b1b9c</span><span class="p">))</span>
+
+<span class="n">julia</span><span class="o">&gt;</span> <span class="n">summarize_tree_statistics</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">tree_statistics</span><span class="p">)</span>
+<span class="n">Hamiltonian</span> <span class="n">Monte</span> <span class="n">Carlo</span> <span class="n">sample</span> <span class="n">of</span> <span class="n">length</span> <span class="mi">1000</span>
+  <span class="n">acceptance</span> <span class="n">rate</span> <span class="n">mean</span><span class="o">:</span> <span class="mf">0.94</span><span class="p">,</span> <span class="mi">5</span><span class="o">/</span><span class="mi">25</span><span class="o">/</span><span class="mi">50</span><span class="o">/</span><span class="mi">75</span><span class="o">/</span><span class="mi">95</span><span class="o">%:</span> <span class="mf">0.75</span> <span class="mf">0.92</span> <span class="mf">0.97</span> <span class="mf">1.0</span> <span class="mf">1.0</span>
+  <span class="n">termination</span><span class="o">:</span> <span class="n">divergence</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="o">%</span><span class="p">,</span> <span class="n">max_depth</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="o">%</span><span class="p">,</span> <span class="n">turning</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="o">%</span>
+  <span class="n">depth</span><span class="o">:</span> <span class="mi">0</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="o">%</span><span class="p">,</span> <span class="mi">1</span> <span class="o">=&gt;</span> <span class="mi">14</span><span class="o">%</span><span class="p">,</span> <span class="mi">2</span> <span class="o">=&gt;</span> <span class="mi">55</span><span class="o">%</span><span class="p">,</span> <span class="mi">3</span> <span class="o">=&gt;</span> <span class="mi">21</span><span class="o">%</span><span class="p">,</span> <span class="mi">4</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="o">%</span><span class="p">,</span> <span class="mi">5</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="o">%</span></code></pre></div>
+<h3 id="calculating-leapfrog-trajectories">Calculating leapfrog trajectories</h3>
+
+<p>A call not unlike</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">traj</span> <span class="o">=</span> <span class="n">leapfrog_trajectory</span><span class="p">(</span><span class="n">ℓ</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="o">:</span><span class="mi">10</span><span class="p">;</span>
+                           <span class="n">κ</span> <span class="o">=</span> <span class="n">GaussianKineticEnergy</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+                           <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span></code></pre></div>
+<p>was used to produce the information that was used for the plot below. The resulting vector (here, <code>traj</code>) contains a <code>NamedTuple</code> of positions, momenta, and relative energy. Here the stepsize <span  class="math">\(\epsilon = 0.2\)</span> was selected to on purpose as near-but-not-quite-unstable, starting from position <code>[0, -2]</code>, taking 6 leapfrog steps backward and 10 forward.</p>
+
+
+
+<img src="/post/2019-08-29-dynamichmc2/trajectory.svg" alt="Hamiltonian trajectory">
+
+
+<p>The plot below visualizes the energy relative to the starting point.</p>
+
+
+
+<img src="/post/2019-08-29-dynamichmc2/relative_energy.svg" alt="Relative energy">
+
+
+<h3 id="exploring-log-acceptance-ratios">Exploring log acceptance ratios</h3>
+
+<p>It can be very useful to explore log acceptance ratios. <code>explore_log_acceptance_ratios</code> returns a matrix of them with random momenta. In the plot below, we can see things become iffy for <span  class="math">\(\epsilon > 0.5\)</span>, approximately.</p>
+
+
+
+<img src="/post/2019-08-29-dynamichmc2/log_accept.svg" alt="">
+
+
+<h2 id="internal-changes">Internal changes</h2>
+
+<p>Although there is a new API, the bulk of the changes were internal: resulting in (hopefully) much cleaner and more generic code, better unit tests, and improved documentation documentation for the internals, which are especially relevant for users using this package for research. If this affects you, please read the code and the docstrings and feel free to ask questions.</p>
+
+
+</div>
+
+    </div>
+    <div id="smallscreenwarning">
+      site not optimized for small screens, math may break
+    </div>
+  </body>
+</html>
+

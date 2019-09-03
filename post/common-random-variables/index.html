@@ -4,7 +4,7 @@
     <title>Common random variables: an optimization case study</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.55.6" />
+    <meta name="generator" content="Hugo 0.57.2" />
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/syntax.css">
     
@@ -281,7 +281,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 </span><span class="s">2. `newcrv = update!(crv)`, which returns new common random variables,
 </span><span class="s">potentially (but not necessarily) overwriting `crv`.
 </span><span class="s">&#34;&#34;&#34;</span>
-<span class="k">abstract</span> <span class="k">type</span> <span class="n">CRVContainer</span> <span class="k">end</span>
+<span class="k">abstract</span> <span class="n">type</span> <span class="n">CRVContainer</span> <span class="k">end</span>
 
 <span class="n">observation_moment</span><span class="p">(</span><span class="n">ϵ</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="err">@</span><span class="o">.</span> <span class="n">exp</span><span class="p">(</span><span class="n">μ</span> <span class="o">+</span> <span class="n">σ</span> <span class="o">*</span> <span class="n">ϵ</span><span class="p">))</span>
 
@@ -318,7 +318,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 
 <p>We share the following between various static vector implementations:</p>
 <div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="s">&#34;Common random variables as a vector of vectors, in the `ϵs`.&#34;</span>
-<span class="k">abstract</span> <span class="k">type</span> <span class="n">CRVVectors</span> <span class="o">&lt;:</span> <span class="n">CRVContainer</span> <span class="k">end</span>
+<span class="k">abstract</span> <span class="n">type</span> <span class="n">CRVVectors</span> <span class="o">&lt;:</span> <span class="n">CRVContainer</span> <span class="k">end</span>
 
 <span class="n">observation_moments</span><span class="p">(</span><span class="n">p</span><span class="o">::</span><span class="n">CRVVectors</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span> <span class="o">=</span>
     <span class="n">map</span><span class="p">(</span><span class="n">ϵ</span> <span class="o">-&gt;</span> <span class="n">observation_moment</span><span class="p">(</span><span class="n">ϵ</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">),</span> <span class="n">p</span><span class="o">.</span><span class="n">ϵs</span><span class="p">)</span></code></pre></div>

@@ -3,50 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://tamaspapp.eu/categories/</loc>
-    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
-    <priority>0</priority>
+    <loc>https://tamaspapp.eu/post/2019-08-29-dynamichmc2/</loc>
+    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/tags/bayesian/</loc>
-    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
-    <priority>0</priority>
+    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/categories/</loc>
-    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
-    <priority>0</priority>
+    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/julia/</loc>
+    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/tags/mcmc/</loc>
-    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
-    <priority>0</priority>
+    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/packages/</loc>
+    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/</loc>
+    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/</loc>
     <lastmod>2019-07-25T10:32:13+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/</loc>
-    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/julia/</loc>
-    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/packages/</loc>
-    <lastmod>2019-07-25T10:32:13+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -72,7 +65,11 @@
   <url>
     <loc>https://tamaspapp.eu/tags/indirect-inference/</loc>
     <lastmod>2018-03-23T15:23:16+01:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/coverage/</loc>
+    <lastmod>2018-03-09T08:31:23+01:00</lastmod>
   </url>
   
   <url>
@@ -81,9 +78,8 @@
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/tags/coverage/</loc>
-    <lastmod>2018-03-09T08:31:23+01:00</lastmod>
-    <priority>0</priority>
+    <loc>https://tamaspapp.eu/tags/gitlab/</loc>
+    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
   </url>
   
   <url>
@@ -92,15 +88,8 @@
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/tags/gitlab/</loc>
-    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://tamaspapp.eu/tags/unit-testing/</loc>
     <lastmod>2018-03-08T17:06:54+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -111,7 +100,11 @@
   <url>
     <loc>https://tamaspapp.eu/tags/docker/</loc>
     <lastmod>2018-01-19T08:47:06+01:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/emacs/</loc>
+    <lastmod>2017-12-04T15:32:41+01:00</lastmod>
   </url>
   
   <url>
@@ -120,20 +113,13 @@
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/tags/emacs/</loc>
-    <lastmod>2017-12-04T15:32:41+01:00</lastmod>
-    <priority>0</priority>
+    <loc>https://tamaspapp.eu/tags/plots/</loc>
+    <lastmod>2017-12-01T09:56:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/post/plot-workflow/</loc>
     <lastmod>2017-12-01T09:56:00+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/plots/</loc>
-    <lastmod>2017-12-01T09:56:00+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -144,7 +130,11 @@
   <url>
     <loc>https://tamaspapp.eu/tags/magit/</loc>
     <lastmod>2017-11-18T10:48:30+01:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/julia-repl/</loc>
+    <lastmod>2017-11-01T12:27:23+01:00</lastmod>
   </url>
   
   <url>
@@ -153,20 +143,13 @@
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/tags/julia-repl/</loc>
-    <lastmod>2017-11-01T12:27:23+01:00</lastmod>
-    <priority>0</priority>
+    <loc>https://tamaspapp.eu/tags/big-data/</loc>
+    <lastmod>2017-10-26T19:14:07+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/post/large-ragged-dataset-julia/</loc>
     <lastmod>2017-10-26T19:14:07+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/big-data/</loc>
-    <lastmod>2017-10-26T19:14:07+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -180,14 +163,13 @@
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/post/common-lisp-to-julia/</loc>
+    <loc>https://tamaspapp.eu/tags/lisp/</loc>
     <lastmod>2017-10-15T14:17:47+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/tags/lisp/</loc>
+    <loc>https://tamaspapp.eu/post/common-lisp-to-julia/</loc>
     <lastmod>2017-10-15T14:17:47+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -203,7 +185,6 @@
   <url>
     <loc>https://tamaspapp.eu/tags/microoptimization/</loc>
     <lastmod>2017-10-04T10:12:02+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -219,7 +200,11 @@
   <url>
     <loc>https://tamaspapp.eu/tags/hugo/</loc>
     <lastmod>2017-09-29T19:55:44+02:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/automatic-differentiation/</loc>
+    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
   </url>
   
   <url>
@@ -230,19 +215,11 @@
   <url>
     <loc>https://tamaspapp.eu/tags/forwarddiff/</loc>
     <lastmod>2017-09-15T16:03:10+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/automatic-differentiation/</loc>
-    <lastmod>2017-09-15T16:03:10+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/tags/log1p/</loc>
     <lastmod>2017-09-13T11:18:59+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -253,7 +230,6 @@
   <url>
     <loc>https://tamaspapp.eu/tags/numerical-error/</loc>
     <lastmod>2017-09-13T11:18:59+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -269,7 +245,6 @@
   <url>
     <loc>https://tamaspapp.eu/categories/software/</loc>
     <lastmod>2017-08-23T10:10:48+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -278,15 +253,13 @@
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/tags/ubuntu/</loc>
+    <loc>https://tamaspapp.eu/tags/emacs25/</loc>
     <lastmod>2017-07-03T10:49:56+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/tags/emacs25/</loc>
+    <loc>https://tamaspapp.eu/tags/ubuntu/</loc>
     <lastmod>2017-07-03T10:49:56+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -302,7 +275,6 @@
   <url>
     <loc>https://tamaspapp.eu/tags/blogging/</loc>
     <lastmod>2017-06-12T14:12:43+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -328,25 +300,21 @@
   <url>
     <loc>https://tamaspapp.eu/tags/latex/</loc>
     <lastmod>2017-05-24T12:59:53+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/tags/math/</loc>
     <lastmod>2017-05-24T12:59:53+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/tags/jacobian/</loc>
     <lastmod>2017-05-23T16:39:26+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/tags/stan/</loc>
     <lastmod>2017-05-23T16:39:26+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -355,20 +323,18 @@
   </url>
   
   <url>
+    <loc>https://tamaspapp.eu/tags/browser-plugins/</loc>
+    <lastmod>2017-05-02T16:35:37+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tamaspapp.eu/post/privacy-badger/</loc>
     <lastmod>2017-05-02T16:35:37+02:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/tags/browser-plugins/</loc>
-    <lastmod>2017-05-02T16:35:37+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://tamaspapp.eu/tags/firefox/</loc>
     <lastmod>2017-05-02T16:35:37+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -379,18 +345,16 @@
   <url>
     <loc>https://tamaspapp.eu/tags/weave/</loc>
     <lastmod>2017-03-30T10:02:32+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/post/teaching-a-course/</loc>
-    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/tags/teaching/</loc>
     <lastmod>2017-03-24T14:34:22+01:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/teaching-a-course/</loc>
+    <lastmod>2017-03-24T14:34:22+01:00</lastmod>
   </url>
   
   <url>

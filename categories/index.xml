@@ -1,14 +1,179 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Tamás K. Papp&#39;s website</title>
+  <title>Categories on Tamás K. Papp&#39;s website</title>
   <link href="https://tamaspapp.eu/index.xml" rel="self"/>
   <link href="https://tamaspapp.eu/categories/"/>
-  <updated>2019-07-25T10:32:13+02:00</updated>
+  <updated>2019-09-03T09:03:50+02:00</updated>
   
   <id>https://tamaspapp.eu/categories/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">ANN: DynamicHMC 2.0</title>
+    <link href="https://tamaspapp.eu/post/2019-08-29-dynamichmc2/"/>
+    <id>https://tamaspapp.eu/post/2019-08-29-dynamichmc2/</id>
+    <published>2019-09-03T09:03:50+02:00</published>
+    <updated>2019-09-03T09:03:50+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/2019-08-29-dynamichmc2/">&lt;p&gt;I am very pleased to announce version 2.0 of &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl&#34;&gt;DynamicHMC.jl&lt;/a&gt;. I briefly summarize the new the developments in this blog post.&lt;/p&gt;
+
+
+&lt;div class=&#34;juliaversionwarning&#34;&gt;&lt;p&gt;Code used in this post was written for Julia &lt;strong&gt;v1.*&lt;/strong&gt; and, when applicable, reflects the state of packages used on &lt;strong&gt;2019-09-03&lt;/strong&gt;. You may need to modify it for different versions.&lt;/p&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Note&lt;/em&gt;&lt;/strong&gt;: &lt;em&gt;my blog no longer has a comment section. Feel free to ask questions about this post &lt;a href=&#34;URL&#34;&gt;on the Julia Discourse forum&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;some-context&#34;&gt;Some context&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl&#34;&gt;DynamicHMC.jl&lt;/a&gt; is part of a collection of packages for implementing Bayesian inference using a &lt;em&gt;modular&lt;/em&gt; approach:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/TransformVariables.jl&#34;&gt;TransformVariables.jl&lt;/a&gt; just maps &lt;span  class=&#34;math&#34;&gt;\(\mathbb{R}^n\)&lt;/span&gt; vectors into collections of constrained parameters, like positive real numbers or valid correlation matrices,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/LogDensityProblems.jl&#34;&gt;LogDensityProblems.jl&lt;/a&gt; provides an interface for &lt;em&gt;log density functions&lt;/em&gt; &lt;span  class=&#34;math&#34;&gt;\(\mathbb{R}^n \to \mathbb{R}\)&lt;/span&gt; and their derivative, also calculating the latter using automatic differentiation via one of the supported native Julia AD frameworks (see below),&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl&#34;&gt;DynamicHMC.jl&lt;/a&gt;, which just takes a log density and its gradient on &lt;span  class=&#34;math&#34;&gt;\(\mathbb{R}^n\)&lt;/span&gt;, and performs MCMC using NUTS,&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://github.com/tpapp/MCMCDiagnostics.jl&#34;&gt;MCMCDiagnostics.jl&lt;/a&gt; for &lt;em&gt;generic&lt;/em&gt; convergence diagnostics (ie not specific to a particular MCMC method).&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In contrast to a single interface and a DSL for describing models, these packages provide a &lt;em&gt;suite&lt;/em&gt; of tools for modern MCMC, with easily interchangable and modular building blocks. For example, the gradients of a log density can be obtained with&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaDiff/ForwardDiff.jl&#34;&gt;ForwardDiff.jl&lt;/a&gt;, which is very robust,&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/JuliaDiff/ReverseDiff.jl&#34;&gt;ReverseDiff.jl&lt;/a&gt;, which works better for medium-sized problems using a classic taped approach,&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/FluxML/Flux.jl&#34;&gt;Flux.jl&lt;/a&gt; which is more modern and can be faster on larger problems, and of course&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/FluxML/Zygote.jl&#34;&gt;Zygote.jl&lt;/a&gt; which is very promising, but work in progress;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;and switching between these usually just requires changing a single line. I find this especially important since as Zygote keeps maturing, it will play a more and more important role for fast AD. Moreover, the user is free to code all gradients manually, or just parts of them to help out AD, for example with the &lt;a href=&#34;https://math.mit.edu/~stevenj/18.336/adjoint.pdf&#34;&gt;adjoint method&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In addition to this, some packages use DynamicHMC.jl as a &lt;em&gt;backend&lt;/em&gt;. This is encouraged and remains to be supported. Finally, the third common use case for this package is as a &lt;em&gt;research platform&lt;/em&gt; for experimenting with modern HMC algorithms: this is supported by a detailed documentation of internals.&lt;/p&gt;
+
+&lt;h1 id=&#34;why-a-new-api-was-needed&#34;&gt;Why a new API was needed&lt;/h1&gt;
+
+&lt;p&gt;As bug reports and test cases kept accumulating, it was very clear that &lt;em&gt;better adaptation heuristics&lt;/em&gt;, and a more sophisticated &lt;em&gt;diagnosic and warmup interface&lt;/em&gt; was needed. When NUTS/HMC goes wrong with models it should be able to handle otherwise, the problem is usually with &lt;em&gt;adaptation&lt;/em&gt;. The user should be able to learn what went wrong, and either manually tune stepsize and the kinetic energy metric, or choose an adaptation better suited to the model.&lt;/p&gt;
+
+&lt;p&gt;The old API of DynamicHMC was lacking in several ways. The main entry point was something like&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;chain&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tuning&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NUTS_init_tune_mcmc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;∇P&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;with &lt;code&gt;tuning&lt;/code&gt; containing the adapted stepsize and kinetic energy metric.&lt;/p&gt;
+
+&lt;p&gt;In practice, it turns out that&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;either the model works fine&lt;/em&gt;, and then the user cares little about warmup,&lt;/li&gt;
+&lt;li&gt;or it doesn&#39;t, then &lt;em&gt;information about the warmup would be necessary&lt;/em&gt; to debug the model.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Fine-tuning the adaptation sequence was possible, but rather unintuitive in the old API. I doubt that many people used this feature, or were even aware that it was available. Statistics on &lt;em&gt;why&lt;/em&gt; adaptation failed or sampling didn&#39;t mix were also difficult to obtain.&lt;/p&gt;
+
+&lt;p&gt;After collecting the various problems, I spent some time on redesigning the internals, then the API to address all major issues.&lt;/p&gt;
+
+&lt;p&gt;Here I would like to &lt;strong&gt;thank all users of this library who provided a lot of valuable feedback&lt;/strong&gt;, especially in the form of bug reports which I could study and use to tweak the sampler. Robert J Goedman coded &lt;em&gt;all&lt;/em&gt; the models of the excellent “&lt;a href=&#34;https://xcelab.net/rm/statistical-rethinking/&#34;&gt;Statistical Rethinking&lt;/a&gt;” book in  &lt;a href=&#34;https://github.com/StatisticalRethinkingJulia/DynamicHMCModels.jl&#34;&gt;DynamicHMCModels.jl&lt;/a&gt;, which is the most comprehensive collection of examples for this package, and also provides and extremely useful test suite for it. &lt;a href=&#34;https://github.com/JuliaDiffEq/DiffEqBayes.jl/&#34;&gt;DiffEqBayes.jl&lt;/a&gt; included DynamicHMC as a backend, while &lt;a href=&#34;https://github.com/cscherrer/Soss.jl&#34;&gt;Soss.jl&lt;/a&gt; provides a higher-level DSL for building models. Users (who are, mostly, also the authors) of these packages provided a lot of example models and test cases.&lt;/p&gt;
+
+&lt;h1 id=&#34;changes-in-20&#34;&gt;Changes in 2.0&lt;/h1&gt;
+
+&lt;h2 id=&#34;documentation&#34;&gt;Documentation&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://tamaspapp.eu/DynamicHMC.jl/latest/worked_example/&#34;&gt;documentation&lt;/a&gt; was rewritten from scratch, now including a worked example. All functions of the API have extensive docstrings, usually with examples where relevant. This documentation should be the starting point for using this package.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Of course, if you have questions, feature requests, or bug reports, don&#39;t hesitate to &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl/issues/new&#34;&gt;open an issue&lt;/a&gt;; I would like to emphasize that it is still perfectly fine to open issues just to ask questions. You can also address questions to &lt;a href=&#34;https://discourse.julialang.org/u/Tamas_Papp&#34;&gt;&lt;code&gt;@Tamas_Papp&lt;/code&gt;&lt;/a&gt; on the Julia discourse forum.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;main-interface&#34;&gt;Main interface&lt;/h2&gt;
+
+&lt;p&gt;Most people would now call the sampler with&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcmc_with_warmup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Random&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GLOBAL_RNG&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;∇P&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;where &lt;code&gt;∇P&lt;/code&gt; is an object that supports the &lt;a href=&#34;https://github.com/tpapp/LogDensityProblems.jl&#34;&gt;LogDensityProblems.jl&lt;/a&gt; API (basically “give me a log density and its gradient at this position”, withs some bells and whistles). &lt;code&gt;results&lt;/code&gt; is a &lt;code&gt;NamedTuple&lt;/code&gt; with fields like &lt;code&gt;chain&lt;/code&gt; (a vector of positions in &lt;span  class=&#34;math&#34;&gt;\(\mathbb{R}^n\)&lt;/span&gt;, which most users probably need to transform into a collection of constrained parameters), information on tree statistics and the adapted parameters. A detailed &lt;a href=&#34;https://tamaspapp.eu/DynamicHMC.jl/latest/worked_example/&#34;&gt;worked example&lt;/a&gt; is available.&lt;/p&gt;
+
+&lt;p&gt;In contrast to the previous API, the random number generator needs to be explicitly provided. This is in preparation for &lt;a href=&#34;https://julialang.org/blog/2019/07/multithreading&#34;&gt;multithreading&lt;/a&gt;, encouraging the user to be conscious of RNGs as mutable states; the internals now also follow this approach with no default RNG in the sampling part.&lt;/p&gt;
+
+&lt;h2 id=&#34;exposed-warmup-building-blocks&#34;&gt;Exposed warmup building blocks&lt;/h2&gt;
+
+&lt;p&gt;The new API allows fine-grained control over the warmup stages. For example, this is how one would skip local optimization, ask for a dense (&lt;code&gt;Symmetric&lt;/code&gt;) metric instead of the default &lt;code&gt;Diagonal&lt;/code&gt;, and provide an initial position while at the same time allowing the stepsize to be found and adapted using the default heuristic:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;...&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# some initial position&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;warmup_stages&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;default_warmup_stages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;local_optimization&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;nothing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+                                      &lt;span class=&#34;n&#34;&gt;M&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Symmetric&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;κ&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GaussianKineticEnergy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;mcmc_with_warmup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rng&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ℓ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;N&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+                 &lt;span class=&#34;n&#34;&gt;initialization&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;q&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;q&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;κ&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;κ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+                 &lt;span class=&#34;n&#34;&gt;warmup_stages&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;warmup_stages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The &lt;code&gt;warmup_stages&lt;/code&gt; above is just a &lt;code&gt;Tuple&lt;/code&gt;, with no secret sauce, you are provided the tools to make up your own if necessary.&lt;/p&gt;
+
+&lt;h2 id=&#34;changed-heuristics-and-warmup-defaults&#34;&gt;Changed heuristics and warmup defaults&lt;/h2&gt;
+
+&lt;p&gt;In contrast to Stan, the old API did not look for a local optimum before starting the stepsize adaptation. This is fine in most cases, but occasionally adapting to an otherwise atypical region of the parameter space can cause problems with the algorithm later on. On the other hand, adapting too eagerly to models with singularities in the log posterior can also backfire very easily.&lt;/p&gt;
+
+&lt;p&gt;The new default heuristics make a half-hearted effort to go near some local optimum, but don&#39;t overdo it, which I think is the right compromise. Also, there is some protection against singularities on the “edges” of &lt;span  class=&#34;math&#34;&gt;\(\mathbb{R}^n\)&lt;/span&gt; (which can happen with the “funnels” of hierarchical models).&lt;/p&gt;
+
+&lt;p&gt;Stepsize adaptation became a bit more robust with some tweaks. I still think that the initial bracketing algorithm in this package is better than Stan&#39;s in some cases and worth the extra couple of evaluations, as it plays nicer with the dual averaging for posteriors where the optimal stepsize can change rapidly.&lt;/p&gt;
+
+&lt;p&gt;The default kinetic energy metric is now &lt;code&gt;Diagonal&lt;/code&gt;. This should be nearly optimal except for very heavily correlated posteriors which also happen to be devoid of any other pathologies (this is rare in practice).&lt;/p&gt;
+
+&lt;h2 id=&#34;diagnostics&#34;&gt;Diagnostics&lt;/h2&gt;
+
+&lt;p&gt;Diagnostics were reorganized into a &lt;code&gt;DynamicHMC.Diagnostics&lt;/code&gt; submodule of their own. They are intended for &lt;em&gt;interactive use&lt;/em&gt;, and the exposed API can change with just a minor version increment. You can import them into your current module with&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DynamicHMC&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Diagnostics&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Note that this package has no plotting functionality.&lt;/strong&gt; Use your favorite plotting package to visualize information, I made the plots below with &lt;a href=&#34;https://github.com/KristofferC/PGFPlotsX.jl&#34;&gt;PGFPlotsX.jl&lt;/a&gt; (and relevant code may eventually end up in a mini-package, for now see the link below).&lt;/p&gt;
+
+
+
+&lt;div class=&#34;codedownload&#34;&gt;&lt;p&gt;download code as &lt;a href=&#34;https://tamaspapp.eu/post/2019-08-29-dynamichmc2/plots.jl&#34;&gt;plots.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+
+
+&lt;h3 id=&#34;detailed-tree-statistics&#34;&gt;Detailed tree statistics&lt;/h3&gt;
+
+&lt;p&gt;Each result that contains a &lt;code&gt;chain&lt;/code&gt; also comes with corresponding &lt;code&gt;tree_statistics&lt;/code&gt;, which is a &lt;em&gt;vector&lt;/em&gt; of statistics for each NUTS step. It contains information about acceptance ratios, number of leapfrog steps and tree depth, and the doubling directions. In 2.0, it also contains a field which informs the user about the location (in steps relative to the starting point).&lt;/p&gt;
+
+&lt;p&gt;There is a &lt;code&gt;summarize_tree_statistics&lt;/code&gt; function that produces a useful summary about acceptance rations:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mcmc_with_warmup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Random&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;GLOBAL_RNG&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ℓ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+                                  &lt;span class=&#34;n&#34;&gt;reporter&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;NoProgressReport&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;results&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tree_statistics&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;DynamicHMC&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;TreeStatisticsNUTS&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;1.7246438302263802&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+                              &lt;span class=&#34;n&#34;&gt;turning&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;at&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;positions&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.963443025058039&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+                              &lt;span class=&#34;mi&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DynamicHMC&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Directions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mh&#34;&gt;0x595b1b9c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;julia&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;summarize_tree_statistics&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;results&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tree_statistics&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;Hamiltonian&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Monte&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Carlo&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sample&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;of&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;length&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1000&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;acceptance&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;rate&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mean&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.94&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;25&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;75&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;95&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%:&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.75&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.92&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.97&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1.0&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1.0&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;termination&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;divergence&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;max_depth&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;turning&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;depth&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;55&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;21&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;%&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;calculating-leapfrog-trajectories&#34;&gt;Calculating leapfrog trajectories&lt;/h3&gt;
+
+&lt;p&gt;A call not unlike&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;traj&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;leapfrog_trajectory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ℓ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;6&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+                           &lt;span class=&#34;n&#34;&gt;κ&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;GaussianKineticEnergy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+                           &lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;was used to produce the information that was used for the plot below. The resulting vector (here, &lt;code&gt;traj&lt;/code&gt;) contains a &lt;code&gt;NamedTuple&lt;/code&gt; of positions, momenta, and relative energy. Here the stepsize &lt;span  class=&#34;math&#34;&gt;\(\epsilon = 0.2\)&lt;/span&gt; was selected to on purpose as near-but-not-quite-unstable, starting from position &lt;code&gt;[0, -2]&lt;/code&gt;, taking 6 leapfrog steps backward and 10 forward.&lt;/p&gt;
+
+
+
+&lt;img src=&#34;https://tamaspapp.eu/post/2019-08-29-dynamichmc2/trajectory.svg&#34; alt=&#34;Hamiltonian trajectory&#34;&gt;
+
+
+&lt;p&gt;The plot below visualizes the energy relative to the starting point.&lt;/p&gt;
+
+
+
+&lt;img src=&#34;https://tamaspapp.eu/post/2019-08-29-dynamichmc2/relative_energy.svg&#34; alt=&#34;Relative energy&#34;&gt;
+
+
+&lt;h3 id=&#34;exploring-log-acceptance-ratios&#34;&gt;Exploring log acceptance ratios&lt;/h3&gt;
+
+&lt;p&gt;It can be very useful to explore log acceptance ratios. &lt;code&gt;explore_log_acceptance_ratios&lt;/code&gt; returns a matrix of them with random momenta. In the plot below, we can see things become iffy for &lt;span  class=&#34;math&#34;&gt;\(\epsilon &gt; 0.5\)&lt;/span&gt;, approximately.&lt;/p&gt;
+
+
+
+&lt;img src=&#34;https://tamaspapp.eu/post/2019-08-29-dynamichmc2/log_accept.svg&#34; alt=&#34;&#34;&gt;
+
+
+&lt;h2 id=&#34;internal-changes&#34;&gt;Internal changes&lt;/h2&gt;
+
+&lt;p&gt;Although there is a new API, the bulk of the changes were internal: resulting in (hopefully) much cleaner and more generic code, better unit tests, and improved documentation documentation for the internals, which are especially relevant for users using this package for research. If this affects you, please read the code and the docstrings and feel free to ask questions.&lt;/p&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">PSA: breaking API changes LogDensityProblems and DynamicHMC</title>
@@ -119,8 +284,8 @@
 &lt;span class=&#34;n&#34;&gt;Drawing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;paper&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;background&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;white&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;sethue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;err&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;circle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Point&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;major_grid_x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;minor_grid_y&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;radius&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fill&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-&lt;span class=&#34;err&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;circle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Point&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;minor_grid_x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;major_grid_y&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;radius&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fill&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;circle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Point&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;major_grid_x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;minor_grid_y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;radius&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fill&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;err&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;circle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Point&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;minor_grid_x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;major_grid_y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;radius&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fill&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;finish&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;preview&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -195,7 +360,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;2. `newcrv = update!(crv)`, which returns new common random variables,
 &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;potentially (but not necessarily) overwriting `crv`.
 &lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;abstract&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVContainer&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;abstract&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVContainer&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;n&#34;&gt;observation_moment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ϵ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;μ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;σ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mean&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;@&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;exp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;μ&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;σ&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ϵ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
 
@@ -232,7 +397,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 
 &lt;p&gt;We share the following between various static vector implementations:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Common random variables as a vector of vectors, in the `ϵs`.&amp;#34;&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;abstract&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVContainer&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;abstract&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;CRVContainer&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
 
 &lt;span class=&#34;n&#34;&gt;observation_moments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;CRVVectors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;μ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;σ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ϵ&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;observation_moment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ϵ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;μ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;σ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ϵs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -970,14 +1135,14 @@ approximates the buffer as closely as possible.&#34;&lt;/span&gt;
 &lt;p&gt;Now I think that one of the main reasons for this is that while you can write scientific code in CL that will be (1) fast, (2) portable, and (3) convenient, you &lt;em&gt;cannot do all of these at the same time&lt;/em&gt;. Arrays provide a convenient example for this.&lt;/p&gt;
 
 &lt;p&gt;Consider&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;make-array&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;:element-type&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;double-float&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;make-array&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;:element-type&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;double-float&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The &lt;a href=&#34;http://clhs.lisp.se/Body/f_upgr_1.htm&#34;&gt;standard&lt;/a&gt; does not guarantee that this gives you an array of &lt;code&gt;double-float&lt;/code&gt;: it may (if the implementation provides them), otherwise you get an array of element type &lt;code&gt;T&lt;/code&gt;. This turned out to be a major difficulty for implementing portable scientific code in Common Lisp.&lt;/p&gt;
 
 &lt;p&gt;However, this gets worse: while you can tell a function that operates on arrays that these arrays have element type &lt;code&gt;double-float&lt;/code&gt;, you cannot dispatch on this, as Common Lisp does not have parametric types. For example, if you want to write a sum as&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;defmethod&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;mysum&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vec&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;loop&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;across&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;vec&lt;/span&gt;
-       &lt;span class=&#34;nv&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;incf&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-lisp&#34; data-lang=&#34;lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;defmethod&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;mysum&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vec&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;loop&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;across&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;vec&lt;/span&gt;
+       &lt;span class=&#34;nb&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;incf&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
     &lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;you can dispatch on the argument being a &lt;code&gt;vector&lt;/code&gt;, but not on the element type. The compiled code may be generic.&lt;/p&gt;
 
@@ -1091,6 +1256,155 @@ approximates the buffer as closely as possible.&#34;&lt;/span&gt;
 &lt;li id=&#34;fn:An-elegant-depre&#34;&gt;An elegant &lt;a href=&#34;https://github.com/JuliaLang/Compat.jl&#34;&gt;deprecation mechanism&lt;/a&gt; is available, but that can&#39;t deal with some fundamental language changes. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:An-elegant-depre&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Clarification: on orphaning my Common Lisp libraries</title>
+    <link href="https://tamaspapp.eu/post/orphaned-lisp-libraries/"/>
+    <id>https://tamaspapp.eu/post/orphaned-lisp-libraries/</id>
+    <published>2017-10-15T13:02:14+02:00</published>
+    <updated>2017-10-15T13:02:14+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/orphaned-lisp-libraries/">&lt;p&gt;I have not been programming in Common Lisp for a few years, and since I find &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; a &amp;quot;much better Lisp&amp;quot;, I am unlikely to go back to it in the foreseeable future. This is a clarification regarding some &lt;a href=&#34;https://github.com/tpapp?utf8=%E2%9C%93&amp;amp;tab=repositories&amp;amp;q=&amp;amp;type=public&amp;amp;language=common%20lisp&#34;&gt;libraries&lt;/a&gt; I have written in Common Lisp and made public.&lt;/p&gt;
+
+&lt;h1 id=&#34;all-of-my-common-lisp-libraries-are-orphaned&#34;&gt;All of my Common Lisp libraries are orphaned&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;They are effectively &lt;em&gt;abandonware&lt;/em&gt; as far as I am concerned. Since fixing issues and evaluating PRs entails a large fixed cost for which I don&#39;t have the time (setting up my CL environment again, understanding what I wrote years ago, thinking about code correctness and corner cases of the language spec that I have forgotten), I will ignore issues and pull requests. Sorry about this.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If you find anything of value in these libraries, please feel free to use that according to their licenses. &lt;em&gt;You don&#39;t have to ask me explicitly.&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;If you want to take over maintaining any of these libraries, &lt;em&gt;you don&#39;t have to ask me&lt;/em&gt;. &lt;strong&gt;Just fork, and start coding.&lt;/strong&gt; If you have been consistently maintaining one of these libraries for a year or more, announce that you are resurrecting the library on the relevant Common Lisp forums. You can also drop me an e-mail and I will put a line in the README of my version that redirects users to your version. Eventually, you should convince &lt;a href=&#34;https://github.com/quicklisp/&#34;&gt;Zach Beane&lt;/a&gt; to use your version in Quicklisp.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;I cannot provide any significant help regarding the code due to time constraints. Some of it is documented, and most of it has unit tests, you have to figure out the rest yourself.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&#34;which-libraries-are-worth-the-effort&#34;&gt;Which libraries are worth the effort?&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;let-plus&lt;/code&gt; is an extensible destructuring library. The syntax is versatile and intuitive.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;LLA&lt;/code&gt;, aka Lisp Linear Algebra, is a wrapper for BLAS/LAPACK using native Common Lisp arrays. It is somewhat incomplete (eigenvalues need some work) but what is available works. It is &lt;em&gt;fast&lt;/em&gt; on implementations which provide arrays for certain float element types, so that it does not have to copy the data, and is a bit slower on implementations that don&#39;t allow this. Still, copying is &lt;span  class=&#34;math&#34;&gt;\(O(n)\)&lt;/span&gt;, while most LAPACK operations are &lt;span  class=&#34;math&#34;&gt;\(O(n^2)\)&lt;/span&gt; or worse, so this is not a huge concern. Nevertheless, it is possible that implementations that did not provide specialized arrays at the time I wrote LLA have caught up. You would need to extend the glue code to work with them.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-slice&lt;/code&gt;, array slices for native Common Lisp arrays.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-random&lt;/code&gt;, &lt;code&gt;cl-num-utils&lt;/code&gt;, &lt;code&gt;cl-rmath&lt;/code&gt;: random numbers, simple numerical algorithms, a wrapper for libRmath.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-colors&lt;/code&gt;, named colors and color combinations.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The rest are either early experiments, preliminary versions that evolved into the libraries above, or projects that did not pan out.&lt;/p&gt;
+
+&lt;p&gt;PS.: Some people asked why I switched to Julia from Common Lisp. A post about that will follow soon.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Branch prediction: yet another example</title>
+    <link href="https://tamaspapp.eu/post/branch_prediction2/"/>
+    <id>https://tamaspapp.eu/post/branch_prediction2/</id>
+    <published>2017-10-04T10:12:02+02:00</published>
+    <updated>2017-10-04T10:12:02+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/branch_prediction2/">&lt;p&gt;Tomas Lycken linked a &lt;a href=&#34;https://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array/11227902#11227902&#34;&gt;very nice discussion on StackOverflow&lt;/a&gt; about branch prediction as a comment on the &lt;a href=&#34;https://tamaspapp.eu/post/branch_prediction/&#34;&gt;previous post&lt;/a&gt;. It has an intuitive explanation (read it if you like good metaphors) and some Java benchmarks. I was curious about how it looks in Julia.&lt;/p&gt;
+
+&lt;p&gt;The exercise is to sum elements in a vector &lt;em&gt;only if&lt;/em&gt; they are greater than or equal to 128.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sumabove_if&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;zero&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eltype&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;128&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This calculation naturally has a branch in it, while the branchless version, using &lt;code&gt;ifelse&lt;/code&gt;, does not:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sumabove_ifelse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;zero&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eltype&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ifelse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;128&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;zero&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;eltype&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The actual example has something different: using tricky bit-twiddling to calculate the same value. I generally like to leave this sort of thing up to the compiler, because it is much, much better at it than I am, and I make mistakes all the time; worse, I don&#39;t know what I actually did when I reread the code 6 months later. But I included it here for comparison:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sumabove_tricky&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Vector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Int64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;~&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;((&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;128&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;63&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;elt&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Following the original example on StackOverflow, we sum &lt;code&gt;2^15&lt;/code&gt; random integers in &lt;code&gt;1:256&lt;/code&gt;. For this, we don&#39;t need to worry about overflow. We also sum the &lt;em&gt;sorted&lt;/em&gt; vector: this will facilitate branch predicion, since the various branches will be contiguous.&lt;/p&gt;
+
+&lt;p&gt;I also benchmark a simple version using generators:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;sumabove_generator&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;kp&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;≥&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;128&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;table&gt;
+&lt;caption&gt;
+Benchmarks (&lt;span  class=&#34;math&#34;&gt;\(μ\)&lt;/span&gt;s)
+
+&lt;/caption&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;random&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;sorted&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;if&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;139&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;28&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;ifelse&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;21&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;21&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;if&lt;/code&gt; &amp;amp; &lt;code&gt;sort&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;96&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;n/a&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;tricky&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;27&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;27&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;generator&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;219&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;168&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Benchmarks are in the table above. Note that&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;for the version with &lt;code&gt;if&lt;/code&gt;, working on sorted vectors is dramatically faster (about 5x).&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;the non-branching &lt;code&gt;ifelse&lt;/code&gt; version beats them hands down, and naturally it does not care about sorting.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;if you have to use &lt;code&gt;if&lt;/code&gt;, then you are better off sorting, &lt;em&gt;even if you take the time of that into account&lt;/em&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;generators are susprisingly bad.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;the tricky bit-twiddling version is actually worse than &lt;code&gt;ifelse&lt;/code&gt; (which reinforces my aversion to it).&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Self-contained code for everything is available below.&lt;/p&gt;
+
+
+
+&lt;div class=&#34;codedownload&#34;&gt;&lt;p&gt;download code as &lt;a href=&#34;https://tamaspapp.eu/post/branch_prediction2/code.jl&#34;&gt;code.jl&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+
 </content>
   </entry>
   
@@ -1632,6 +1946,65 @@ QR&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;factors&lt;span styl
   </entry>
   
   <entry>
+    <title type="html">Local packages in a separate directory in Julia</title>
+    <link href="https://tamaspapp.eu/post/julia-local-test/"/>
+    <id>https://tamaspapp.eu/post/julia-local-test/</id>
+    <published>2017-08-23T10:10:48+02:00</published>
+    <updated>2017-08-23T10:10:48+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/julia-local-test/">&lt;p&gt;I run &lt;code&gt;Pkg.update()&lt;/code&gt; fairly often to stay up to date and benefit from
+the latest improvements of various packages. I rarely ever &lt;code&gt;pin&lt;/code&gt; to a
+specific package version, but I occasionally checkout &lt;code&gt;master&lt;/code&gt; for
+some packages, especially if I am contributing.&lt;/p&gt;
+
+&lt;p&gt;Despite updating regularly, I found that the documentation subtly diverged from what I was experiencing for some packages. After looking into the issue, I learned that I was 2&amp;ndash;3 minor versions behind despite updating regularly. For example, when I would&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;Pkg&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;update&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;ForwardDiff&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I would be told that there is a new version, and to get it I should update &lt;code&gt;ReverseDiff&lt;/code&gt; and &lt;code&gt;Optim&lt;/code&gt;. But&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;Pkg&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;update&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;ForwardDiff&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;ReverseDiff&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Optim&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;would just run quietly without updating.&lt;/p&gt;
+
+&lt;p&gt;I could not figure out the cause for this and did not want to get sidetracked debugging it, so I decided to wipe the package directory and start over. However, in order to do this, I had to make sure that no code is lost, especially for local packages. First, I moved my local packages into a separate directory, and added that to &lt;code&gt;LOAD_PATH&lt;/code&gt; in &lt;code&gt;.juliarc.jl&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;push!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;LOAD_PATH&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;expanduser&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;~/src/julia-local-packages/&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then I ran &lt;a href=&#34;https://github.com/fboender/multi-git-status&#34;&gt;multi-git-status&lt;/a&gt; to make sure that there were no unpushed changes. Finally, I deleted the package directory and reinstalled everything. Surprisingly, &lt;code&gt;Pkg.add&lt;/code&gt; ran much faster than before.&lt;/p&gt;
+
+&lt;p&gt;In case I have to do this again, I decided to keep my local packages separate &amp;mdash; the only drawback is that &lt;code&gt;Pkg.test&lt;/code&gt; now can&amp;rsquo;t find them. A workaround is below, using some code from &lt;code&gt;Base.Pkg&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;    local_test(pkgname, [coverage])
+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Find and test a package in `LOAD_PATH`. Useful when the package is outside
+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;`Pkg.dir()`.
+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Assumes the usual directory structure: package has the same name as the module,
+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;the main file is in `src/Pkgname.jl`, while tests are in `test/runtests.jl`.
+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;local_test&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pkgname&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;coverage&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Bool&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;module_path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;find_in_path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pkgname&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;nothing&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;src_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;module_file&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;splitdir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;module_path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;dir&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;normpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;src_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;..&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;test_path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;joinpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;runtests.jl&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;nd&#34;&gt;@assert&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;isfile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;test_path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Could not find &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;test_path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;try&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;color&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;have_color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;--color=yes&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;--color=no&amp;#34;&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;codecov&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;coverage&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;--code-coverage=user&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;--code-coverage=none&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;compilecache&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;--compilecache=&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Bool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;JLOptions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;use_compilecache&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;yes&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;no&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;julia_exe&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;julia_cmd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;$julia_exe&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt; --check-bounds=yes &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;$codecov&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt; &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;$color&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt; &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;$compilecache&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt; &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;$test_path&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;$module_file&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; tests passed&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;catch&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;err&lt;/span&gt;
+            &lt;span class=&#34;n&#34;&gt;Base&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Pkg&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Entry&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;warnbanner&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;label&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;[ ERROR: &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;$module_file&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; ]&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Compared to simply &lt;code&gt;include(&amp;quot;wherever-it-is/runtests.jl&amp;quot;)&lt;/code&gt;, this has the advantage of running a separate Julia process, so your workspace does not contaminate the test environment and in case of segfaults, the parent process won&amp;rsquo;t be affected.&lt;/p&gt;
+
+&lt;p&gt;Hopefully, the code above will be obsolete once &lt;a href=&#34;https://github.com/StefanKarpinski/Pkg3.jl&#34;&gt;Pkg3&lt;/a&gt; is released, but until then it is a useful workaround.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;edit&lt;/strong&gt;: function above was corrupted during copy-paste, corrected.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
     <title type="html">Emacs 25.2 on Ubuntu</title>
     <link href="https://tamaspapp.eu/post/emacs25-ubuntu/"/>
     <id>https://tamaspapp.eu/post/emacs25-ubuntu/</id>
@@ -1653,6 +2026,154 @@ Pin-Priority: 600
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;to make sure the right packages are installed.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Sampling variation in effective sample size estimates (MCMC)</title>
+    <link href="https://tamaspapp.eu/post/ess-sampling/"/>
+    <id>https://tamaspapp.eu/post/ess-sampling/</id>
+    <published>2017-06-12T16:25:57+02:00</published>
+    <updated>2017-06-12T16:25:57+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/ess-sampling/">&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;MCMC samples, used in Bayesian statistics, are not independent --- in fact, unless one uses specialized methods or &lt;a href=&#34;https://arxiv.org/abs/1701.02434&#34;&gt;modern HMC&lt;/a&gt;, posterior draws are usually at highly autocorrelated. For independent draws,&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+\text{variance of simulation mean} \propto \frac1N
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;where &lt;span  class=&#34;math&#34;&gt;\(N\)&lt;/span&gt; is the sample size, but for correlated draws, one has to scale the sample size with a factor&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+\tau = \frac{1}{1+2\sum_{k=1}^\infty \rho_k}
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;where &lt;span  class=&#34;math&#34;&gt;\(\rho_k\)&lt;/span&gt; is the lag-&lt;span  class=&#34;math&#34;&gt;\(k\)&lt;/span&gt; autocorrelation. &lt;span  class=&#34;math&#34;&gt;\(\tau N\)&lt;/span&gt; is the &lt;em&gt;effective sample size&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Usually, &lt;span  class=&#34;math&#34;&gt;\(\rho_k\)&lt;/span&gt; is estimated from the data using the variogram&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+V_k = \frac{1}{N-k} \sum_{i=1}^{N-k} x_i x_{i+k}
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;from which we obtain&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+\rho_k = 1-\frac{V_k}{2\text{var}(x)}
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;where an estimator for the variance is also used. Then, to avoid using noisy estimates, we only add up to the last &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt; where&lt;/p&gt;
+
+&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
+\rho_{K} + \rho_{K+1} \ge 0
+\]&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;I will call &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt; the &lt;em&gt;last lag&lt;/em&gt;. &lt;a href=&#34;http://mc-stan.org/&#34;&gt;Stan&lt;/a&gt; does something slightly different, using FFT for autocorrelations, and cutting off at the first negative &lt;span  class=&#34;math&#34;&gt;\(\rho_K\)&lt;/span&gt;, but for HMC this does not make a whole lot of difference.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-sampling-variation&#34;&gt;The sampling variation&lt;/h2&gt;
+
+&lt;p&gt;I was coding up the above calculation, and needed some unit tests. Surprisignly, I could not find anything on the sampling variation of &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, so I wrote some simulations in Julia (&lt;a href=&#34;../ess-sampling.jl&#34;&gt;source code for everything&lt;/a&gt;). I did the following simulation exercise:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;for a given autocorrelation coefficient &lt;span  class=&#34;math&#34;&gt;\(\phi\)&lt;/span&gt;, simulate &lt;span  class=&#34;math&#34;&gt;\(N\)&lt;/span&gt; draws from the AR(1) process
+&lt;span  class=&#34;math&#34;&gt;\(
+x_t = \phi x_{t-1} + \sigma \epsilon_t
+\qquad
+\epsilon_t \sim \text{Normal}(0,1), \text{IID}
+\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;calculate &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt; and &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;,&lt;/li&gt;
+&lt;li&gt;repeat 1000 times and plot the results.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I use &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt; and &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;, as these would be typical sample sizes, first for a fairly efficient algorithm, then for a more stubborn but still manageable posterior.&lt;/p&gt;
+
+&lt;h2 id=&#34;iid-samples&#34;&gt;IID samples&lt;/h2&gt;
+
+&lt;p&gt;Let &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt;, then we expect &lt;span  class=&#34;math&#34;&gt;\(\tau=1\)&lt;/span&gt; (red line in histogram, coefficient of variation on top).&lt;/p&gt;
+
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt; (IID), &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
+
+
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi0N1000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt; (IID), &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
+
+
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi0N10000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;/p&gt;
+
+&lt;p&gt;With &lt;span  class=&#34;math&#34;&gt;\(1000\)&lt;/span&gt; samples, there is a lot of variation in ESS: 800 could show up very easily in practice. &lt;span  class=&#34;math&#34;&gt;\(600\)&lt;/span&gt; is not improbable either. Using up to &lt;span  class=&#34;math&#34;&gt;\(10\)&lt;/span&gt; lags is not uncommon. For &lt;span  class=&#34;math&#34;&gt;\(10000\)&lt;/span&gt; samples, the precision is improved considerably, we commonly use &lt;span  class=&#34;math&#34;&gt;\(2\)&lt;/span&gt; or &lt;span  class=&#34;math&#34;&gt;\(4\)&lt;/span&gt; lags. For both sample sizes, notice the high correlation between the last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, and &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;: given the method above, using more lags increases &lt;span  class=&#34;math&#34;&gt;\(\tau^{-1}\)&lt;/span&gt;, so this is to be expected.&lt;/p&gt;
+
+&lt;h2 id=&#34;ar1-samples-with-rho05&#34;&gt;AR(1) samples with &lt;span  class=&#34;math&#34;&gt;\(\rho=0.5\)&lt;/span&gt;&lt;/h2&gt;
+
+&lt;p&gt;This is a more autocorrelated process, here theory tells us that &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;=1/3.&lt;/p&gt;
+
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.5\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
+
+
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi05N1000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.5\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
+
+
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi05N10000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Notice that &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt; is now more dispersed, compared to the IID case. Even with 10000 samples, the coefficient of variation is 6%, with 1000 it is around 1/6. In practice, expect effective sample sizes all over the place.&lt;/p&gt;
+
+&lt;h2 id=&#34;ar1-samples-with-rho08&#34;&gt;AR(1) samples with &lt;span  class=&#34;math&#34;&gt;\(\rho=0.8\)&lt;/span&gt;&lt;/h2&gt;
+
+&lt;p&gt;This is an even more autocorrelated process, here theory tells us that &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;=1/9.&lt;/p&gt;
+
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.8\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
+
+
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi08N1000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.8\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
+
+
+&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi08N10000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;/p&gt;
+
+&lt;p&gt;There is now so much variation that in order to get an estimate for ESS that we can use for comparing various MCMC implementations, we need to run much more than &lt;span  class=&#34;math&#34;&gt;\(1000\)&lt;/span&gt; samples.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;For unit testing ESS calculations, I will need to use 10000 samples, with &lt;span  class=&#34;math&#34;&gt;\(\pm10\)&lt;/span&gt; or similar error bands.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;As a rule of thumb, I would ignore less than 1.5x variation in ESS for 1000 samples, or run longer chains: it may be just random noise.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;bibliography&#34;&gt;Bibliography&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Gelman, Andrew, et al. 2013. Bayesian data analysis. 3rd edition. Chapman &amp;amp; Hall/CRC.&lt;/li&gt;
+&lt;li&gt;Stan Development Team. 2016. Stan Modeling Language Users Guide and Reference Manual, Version 2.15.0. &lt;a href=&#34;http://mc-stan.org&#34;&gt;http://mc-stan.org&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Blog redesign</title>
+    <link href="https://tamaspapp.eu/post/blog-redesign/"/>
+    <id>https://tamaspapp.eu/post/blog-redesign/</id>
+    <published>2017-06-12T14:12:43+02:00</published>
+    <updated>2017-06-12T14:12:43+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/blog-redesign/">&lt;p&gt;I am in the process of rebuilding my personal website using &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;. I tried various themes, including &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic&lt;/a&gt;, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.&lt;/p&gt;
+
+&lt;p&gt;The result is now 80% ready (blog works, automatic listing of research papers will take some more work), and the &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;source is on Github&lt;/a&gt;. It is available under the CC-BY-SA license, feel free to adapt parts from it, not that there is anything special in there.&lt;/p&gt;
+
+&lt;p&gt;Hugo is really an excellent framework, it is clean, logical, and allows a lot of code reuse. I &lt;del&gt;wasted&lt;/del&gt; spent most of the time on fiddling with CSS, and I am still not 100% satisfied with the result, but at some point I decided to stop. &lt;a href=&#34;http://sass-lang.com/&#34;&gt;SCSS&lt;/a&gt; was extremely useful for writing organized CSS.&lt;/p&gt;
+
+&lt;p&gt;I am especially satisfied with moving the code highlighting to the generator side. The only non-static parts are now &lt;a href=&#34;https://disqus.com/&#34;&gt;Disqus&lt;/a&gt; and &lt;a href=&#34;http://www.mathjax.org/&#34;&gt;MathJax&lt;/a&gt;.&lt;/p&gt;
 </content>
   </entry>
   
@@ -1882,6 +2403,42 @@ J_{f,x} = \frac{\partial f(x,y)}{\partial x}
 &lt;h2 id=&#34;takeaway&#34;&gt;Takeaway&lt;/h2&gt;
 
 &lt;p&gt;Would definitely do it again. Even with the issues, Julia was the most comfortable language to teach in.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
+    <title type="html">Julia &#43; Weave.jl &#43; hugo test</title>
+    <link href="https://tamaspapp.eu/post/hugo-julia-weave/"/>
+    <id>https://tamaspapp.eu/post/hugo-julia-weave/</id>
+    <published>2017-03-03T13:11:53+01:00</published>
+    <updated>2017-03-03T13:11:53+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/hugo-julia-weave/">&lt;p&gt;Testing the &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; formatter for &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Testing inline code: &lt;code&gt;1+1=2&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Testing math:
+$$x^2+y^2 = \int_0^1 f(z) dz$$&lt;/p&gt;
+
+&lt;p&gt;Testing code:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Testing proper highlighting:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;A plot:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.^&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;scatter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;legend&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure&gt;
+    &lt;img src=&#34;../figures/hugo-julia-weave_4_1.svg&#34;/&gt; &lt;figcaption&gt;
+            &lt;h4&gt;Caption for this plot&lt;/h4&gt;
+        &lt;/figcaption&gt;
+&lt;/figure&gt;
+
 </content>
   </entry>
   
