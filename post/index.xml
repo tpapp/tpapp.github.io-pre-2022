@@ -11,6 +11,118 @@
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
+    <title type="html">How my Julia coding style changed</title>
+    <link href="https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/"/>
+    <id>https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/</id>
+    <published>2019-09-07T08:01:57+02:00</published>
+    <updated>2019-09-07T08:01:57+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/">&lt;p&gt;The &lt;a href=&#34;https://tamaspapp.eu/post/2019-08-29-dynamichmc2/&#34;&gt;recent redesign&lt;/a&gt; of &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl&#34;&gt;DynamicHMC.jl&lt;/a&gt; provides an opportunity to reflect on how my Julia coding style changed. I started this package two years ago, and did not do any major refactoring after it became usable, mostly because I did not have a good comprehensive test suite or a solid conceptual understanding of &lt;em&gt;all&lt;/em&gt; the ramifications of the algorithm, especially the adaptation, and I was afraid of breaking something that I just got working. Consequently, the code before the redesign largely reflected the coding style I developed for Julia 0.5 and then partly 0.6.&lt;/p&gt;
+
+&lt;p&gt;I am one of those people who recognize the benefits of reflecting on the past from time to time, but are too &lt;del&gt;busy&lt;/del&gt; lazy to keep a diary. But code under version control is effectively a diary about the life of software, and I find it interesting to think about how my Julia coding style has changed in the past to years.&lt;/p&gt;
+
+&lt;p&gt;It is important to emphasize that this writeup reflects how &lt;em&gt;I&lt;/em&gt; code &lt;em&gt;at the moment&lt;/em&gt;. I recognize that other coding styles in Julia can be perfectly legitimate, and when I contribute to packages, I do my best to follow existing style. Also, it is very likely that my own coding style will change as the language evolves. In this blog post, I won&#39;t address details of coding style about which there is a more or less general agreement --- see &lt;a href=&#34;https://docs.julialang.org/en/v1.4-dev/manual/style-guide/&#34;&gt;the Style Guide in the manual&lt;/a&gt; and &lt;a href=&#34;https://github.com/jrevels/YASGuide&#34;&gt;YASGuide&lt;/a&gt; for useful summaries. Finally, some examples are stylized adaptations of real code for simpler exposition.&lt;/p&gt;
+
+&lt;h1 id=&#34;randomness&#34;&gt;Randomness&lt;/h1&gt;
+
+&lt;p&gt;Random numbers are very important for scientific computing, but at the same time present an important challenge for writing bug-free parallel code and unit testing. A lot of code in &lt;code&gt;Random&lt;/code&gt; and &lt;code&gt;Base&lt;/code&gt; follows the interface conventions&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;rand&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rng&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;making the random number generator an &lt;em&gt;optional&lt;/em&gt; first argument, and defaulting to the global one.&lt;/p&gt;
+
+&lt;p&gt;While this can be convenient for &lt;em&gt;user code&lt;/em&gt;, in &lt;em&gt;packages&lt;/em&gt; I find that it is better to keep the random number generator as an &lt;em&gt;explicit&lt;/em&gt; argument to almost all methods. This paves the way for making the code work nicely with &lt;a href=&#34;https://julialang.org/blog/2019/07/multithreading&#34;&gt;composable multi-threading&lt;/a&gt; too.&lt;/p&gt;
+
+&lt;p&gt;If random and deterministic parts of the algorithm can be separated, it should be done, as it usually makes the code cleaner, and unit testing much easier. An example of this is factoring out the &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl/blob/20665c2010f76f8b048477491018d02a51b3b35d/src/trees.jl#L19&#34;&gt;random directions for tree doubling&lt;/a&gt; in NUTS: drawing a single set of bit flags &lt;em&gt;once&lt;/em&gt; and providing this to the tree building algorithm, the latter can treat the doubling directions as predetermined. This also made it much easier to verify detailed balance in the unit tests.&lt;/p&gt;
+
+&lt;h1 id=&#34;named-tuples&#34;&gt;Named tuples&lt;/h1&gt;
+
+&lt;p&gt;Named tuples are extremely useful for organizing multiple values as inputs and outputs when a composite type (&lt;code&gt;struct&lt;/code&gt;) is not warranted or needed. If a function returns multiple values, especially more than two, I now always default to using named tuples, ie&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;c&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;then use &lt;code&gt;@unpack&lt;/code&gt; from &lt;a href=&#34;https://github.com/mauro3/Parameters.jl&#34;&gt;Parameters.jl&lt;/a&gt; for destructuring:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@unpack&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# I don&amp;#39;t need c here&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This is costless and makes the interfaces more flexible: for example, I can add extra fields, or eventually make the returned value a composite type later, without changing anything in the callers.&lt;/p&gt;
+
+&lt;h1 id=&#34;multiliners-as-opposed-to-oneliners&#34;&gt;Multi-liners as opposed to one-liners&lt;/h1&gt;
+
+&lt;p&gt;Almost all the “clever” one liners are now expunged from the code. Compare&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;EBFMI&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;πs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;π&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mean&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;abs2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;diff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;πs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;var&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;πs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;with&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;EBFMI&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tree_statistics&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;πs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;map&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;π&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tree_statistics&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;mean&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;abs2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;diff&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;πs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;var&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;πs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The first one is kind of crammed, and difficult to read, while the second one makes it clear that an interim value is obtained for the calculation.&lt;/p&gt;
+
+&lt;p&gt;When a function returns multiple values, I find it nice to assign each to a variable first, ie&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;g&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;h&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;as opposed to&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;g&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;h&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This makes the returned structure much more readable when I need to look at some code later.&lt;/p&gt;
+
+&lt;p&gt;That said, I still have a strong preference for writing small functions that “do one thing”. This again is frequently an optimal strategy for Julia, as the compiler is very good about inlining decisions (and when not, can be nudged with &lt;code&gt;@inline&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h1 id=&#34;abstract-types-can-be-an-implementation-detail&#34;&gt;Abstract types can be an implementation detail&lt;/h1&gt;
+
+&lt;p&gt;Abstract types can be very useful for organizing method dispatch: code like&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;k&#34;&gt;abstract&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SomeAbstractType&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SomeAbstractType&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;do_something&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ThatSubType&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SomeAbstractType&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;g&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ThatSubType&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;do_something_else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;can help avoid repetition.&lt;/p&gt;
+
+&lt;p&gt;But abstract types are just &lt;em&gt;one&lt;/em&gt; convenient tool for this, and building a type tree is a tool, not an end in itself. When they are no longer adequate, other solutions such as &lt;a href=&#34;https://docs.julialang.org/en/v1.4-dev/manual/methods/#Trait-based-dispatch-1&#34;&gt;traits&lt;/a&gt; should be used instead.&lt;/p&gt;
+
+&lt;p&gt;Consequently, these days I mostly consider type hierarchies an implementation detail and I am wary of exposing them in the API of a package. This is especially important if some functionality requires that the &lt;em&gt;user&lt;/em&gt; of a package implements their own custom types, e.g. for a model. Requiring that&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;UserDefinedModel&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;SomePackage&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ModelType&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;to work with some API is usually &lt;em&gt;unnecessary&lt;/em&gt;, and can cause unnecessary complications when the user would want &lt;code&gt;UserDefinedModel&lt;/code&gt; to implement some &lt;em&gt;other&lt;/em&gt; API. Either &lt;a href=&#34;https://en.wikipedia.org/wiki/Duck_typing&#34;&gt;duck typing&lt;/a&gt;, or an explicit interface check like&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-julia&#34; data-lang=&#34;julia&#34;&gt;&lt;span class=&#34;n&#34;&gt;implements_model&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Any&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;implements_model&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;UserDefinedModel&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;can work better (returning types when that is necessary, eg for further dispatch — see &lt;code&gt;Base.IteratorSize&lt;/code&gt; for an example).&lt;/p&gt;
+
+&lt;h1 id=&#34;small-type-unions&#34;&gt;Small type unions&lt;/h1&gt;
+
+&lt;p&gt;The ability of the compiler create efficient code for &lt;a href=&#34;https://julialang.org/blog/2018/08/union-splitting&#34;&gt;small type unions&lt;/a&gt; made code organization much easier for me. For example, &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl/blob/20665c2010f76f8b048477491018d02a51b3b35d/src/trees.jl#L197&#34;&gt;&lt;code&gt;DynamicHMC.adjacent_tree&lt;/code&gt;&lt;/a&gt; attempts to build a tree next to some position, but this can fail because of divergence or turning in the leapfrog integrator, in which case it is useful to bail out early and return information about the reason. Consequently, this function either returns a tree, or an &lt;code&gt;InvalidTree&lt;/code&gt;, which is a container with the aforementioned diagnostic information. The compiler recognizes this and generates fast code.&lt;/p&gt;
+
+&lt;p&gt;Some attention should be paid to avoid combinatoric type explosions, but when used well, small type unions can make code much simpler at little or no extra cost.&lt;/p&gt;
+
+&lt;h1 id=&#34;functional-is-often-the-best-solution&#34;&gt;Functional is often the best solution&lt;/h1&gt;
+
+&lt;p&gt;Preallocating containers for outputs &lt;a href=&#34;https://docs.julialang.org/en/v1.4-dev/manual/performance-tips/#Pre-allocating-outputs-1&#34;&gt;can make code faster&lt;/a&gt;, but at the cost of extra complexity, especially that of having to figure out type parameters for said containers.&lt;/p&gt;
+
+&lt;p&gt;My general strategy is to write code in a &lt;a href=&#34;https://en.wikipedia.org/wiki/Functional_programming&#34;&gt;functional&lt;/a&gt;, side-effect-free style until I am really convinced that preallocation would help, and then confine it to carefully compartmentalized parts of the code. This is of course ideal only for &lt;em&gt;some&lt;/em&gt; kinds of code — when &lt;a href=&#34;http://www.stochasticlifestyle.com/when-do-micro-optimizations-matter-in-scientific-computing/&#34;&gt;allocations dominate&lt;/a&gt;, a functional style is not optimal.&lt;/p&gt;
+
+&lt;p&gt;That said, Julia&#39;s compiler is getting more and more clever about optimizing allocations, so I frequently find that I never rewrite code with preallocated containers, and occasionally even revert from preallocated code to a functional style without a relevant performance cost.&lt;/p&gt;
+
+&lt;h1 id=&#34;when-in-doubt-document&#34;&gt;When in doubt, document&lt;/h1&gt;
+
+&lt;p&gt;Some readers of the code of &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl&#34;&gt;DynamicHMC.jl&lt;/a&gt; will have the impression that it is &lt;em&gt;overdocumented&lt;/em&gt;. Probably 20–25% of the lines in the source are docstrings, and most internal interfaces and convenience functions have one.&lt;/p&gt;
+
+&lt;p&gt;Primarily, this is driven by instances of the embarassing realization of having written some code two years ago which kind of works, but no longer being sure of all the details that would be nice to know before refactoring. But another consideration is encouraging contributions, or uses of the packages for research — besides being an implementation of the NUTS sampler, &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl&#34;&gt;DynamicHMC.jl&lt;/a&gt; is also a platform for experimenting, which is easier to do when the internals are documented.&lt;/p&gt;
+
+&lt;p&gt;Julia&#39;s documentation ecosystem is now very mature and robust. Besides the excellent &lt;a href=&#34;https://github.com/JuliaDocs/Documenter.jl&#34;&gt;Documenter.jl&lt;/a&gt;, I also find &lt;a href=&#34;https://github.com/JuliaDocs/DocStringExtensions.jl&#34;&gt;DocStringExtensions.jl&lt;/a&gt; very useful.&lt;/p&gt;
+
+&lt;h1 id=&#34;internal-interfaces-have-high-return-on-investment&#34;&gt;Internal interfaces have high return on investment&lt;/h1&gt;
+
+&lt;p&gt;Many packages, especially those that are work in progress or experimental, do not document their &lt;em&gt;user&lt;/em&gt; interfaces very carefully. This is of course understandable, but I have developed a preference for abstracting out and documenting interfaces in &lt;em&gt;internally used code&lt;/em&gt;, too, as the package matures.&lt;/p&gt;
+
+&lt;p&gt;This makes refactoring and compartmentalization much easier, and makes sense even if a particular interface has only a &lt;em&gt;single implementation in the package&lt;/em&gt;, because unit tests can just provide a “dummy” implementation and test related code that way. An example of this is the code for &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl/blob/4c0d616ebaa4cec900d5f023376f08f204feb020/src/trees.jl&#34;&gt;“trees”&lt;/a&gt; and the &lt;a href=&#34;https://github.com/tpapp/DynamicHMC.jl/blob/4c0d616ebaa4cec900d5f023376f08f204feb020/test/test-trees.jl&#34;&gt;related tests&lt;/a&gt;: trees here are an abstraction for walking &lt;em&gt;integer positions&lt;/em&gt; in two directions. This is key for the NUTS algorithm, but can be handled as an abstraction separate from the details of leapfrog integrators.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
     <title type="html">ANN: DynamicHMC 2.0</title>
     <link href="https://tamaspapp.eu/post/2019-08-29-dynamichmc2/"/>
     <id>https://tamaspapp.eu/post/2019-08-29-dynamichmc2/</id>
@@ -150,14 +262,14 @@
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/2019-08-29-dynamichmc2/trajectory.svg&#34; alt=&#34;Hamiltonian trajectory&#34;&gt;
+&lt;img src=&#34;../post/2019-08-29-dynamichmc2/trajectory.svg&#34; alt=&#34;Hamiltonian trajectory&#34;&gt;
 
 
 &lt;p&gt;The plot below visualizes the energy relative to the starting point.&lt;/p&gt;
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/2019-08-29-dynamichmc2/relative_energy.svg&#34; alt=&#34;Relative energy&#34;&gt;
+&lt;img src=&#34;../post/2019-08-29-dynamichmc2/relative_energy.svg&#34; alt=&#34;Relative energy&#34;&gt;
 
 
 &lt;h3 id=&#34;exploring-log-acceptance-ratios&#34;&gt;Exploring log acceptance ratios&lt;/h3&gt;
@@ -166,7 +278,7 @@
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/2019-08-29-dynamichmc2/log_accept.svg&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;../post/2019-08-29-dynamichmc2/log_accept.svg&#34; alt=&#34;&#34;&gt;
 
 
 &lt;h2 id=&#34;internal-changes&#34;&gt;Internal changes&lt;/h2&gt;
@@ -307,7 +419,7 @@
 
 &lt;h2 id=&#34;introduction-to-bayesian-estimation-of-dsge-models&#34;&gt;Introduction to Bayesian estimation of DSGE models&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://tamaspapp.eu/pdf/DSGE_Bayesian_slides.pdf&#34;&gt;PDF&lt;/a&gt; Slides (with references and further reading) for an introductory course on Bayesian estimation of DSGE models. Mostly Bayesian concepts and practical issues (diagnostics, posterior predictive checks, convergence problems).&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../pdf/DSGE_Bayesian_slides.pdf&#34;&gt;PDF&lt;/a&gt; Slides (with references and further reading) for an introductory course on Bayesian estimation of DSGE models. Mostly Bayesian concepts and practical issues (diagnostics, posterior predictive checks, convergence problems).&lt;/p&gt;
 </content>
   </entry>
   
@@ -560,7 +672,7 @@ A_i = \frac17 \sum_{j=1}^7 \exp(\mu + \sigma \varepsilon_{i,j})
 
 &lt;p&gt;This is what it looks like for this package:&lt;/p&gt;
 
-&lt;iframe src=&#34;https://tamaspapp.eu/misc/coverage-example/src/LocalCoverage.jl.gcov.html&#34;&gt;&lt;/iframe&gt;
+&lt;iframe src=&#34;../misc/coverage-example/src/LocalCoverage.jl.gcov.html&#34;&gt;&lt;/iframe&gt;
 </content>
   </entry>
   
@@ -796,7 +908,7 @@ on `data`, which  is model-specific.
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/plot-workflow/sample_skewness.svg&#34; alt=&#34;The plot&#34;&gt;
+&lt;img src=&#34;../post/plot-workflow/sample_skewness.svg&#34; alt=&#34;The plot&#34;&gt;
 
 
 &lt;h2 id=&#34;how-to-get-help&#34;&gt;How to get help&lt;/h2&gt;
@@ -1623,12 +1735,12 @@ I&#39;(\theta) = \int 1(g(x) &gt; 0) \frac{\partial f(x,\theta)/\partial \theta}
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/discontinuous_integral_ad/integral.svg&#34; alt=&#34;integral&#34;&gt;
+&lt;img src=&#34;../post/discontinuous_integral_ad/integral.svg&#34; alt=&#34;integral&#34;&gt;
 
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/discontinuous_integral_ad/derivative.svg&#34; alt=&#34;derivative&#34;&gt;
+&lt;img src=&#34;../post/discontinuous_integral_ad/derivative.svg&#34; alt=&#34;derivative&#34;&gt;
 
 
 &lt;p&gt;It is amazing how much you can accomplish with two lines of code in Julia! The problem that motivated this blog post is multivariate with irregular regions over which &lt;span  class=&#34;math&#34;&gt;\(\{ x: g(x) &gt; 0 \}\)&lt;/span&gt;, but I used &lt;code&gt;elasticity&lt;/code&gt; as above.&lt;/p&gt;
@@ -1742,21 +1854,21 @@ I&#39;(\theta) = \int 1(g(x) &gt; 0) \frac{\partial f(x,\theta)/\partial \theta}
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/log1p/Base_log1p_error.svg&#34; alt=&#34;Base.log1p error&#34;&gt;
+&lt;img src=&#34;../post/log1p/Base_log1p_error.svg&#34; alt=&#34;Base.log1p error&#34;&gt;
 
 
 &lt;p&gt;The next plot shows the relative accuracy of the relative error above, comparing &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; to &lt;code&gt;Base.log1p&lt;/code&gt; (lower values better). In these simulations, &lt;code&gt;Base.Math.JuliaLibm.log1p&lt;/code&gt; is never worse, but sometimes significantly better (resulting in an extra binary digit of accuracy). This matters especially when &lt;span  class=&#34;math&#34;&gt;\(x \approx 0\)&lt;/span&gt;.&lt;/p&gt;
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/log1p/JuliaLibm_improvement.svg&#34; alt=&#34;relative log2 acccuracy improvement over Base.log1p&#34;&gt;
+&lt;img src=&#34;../post/log1p/JuliaLibm_improvement.svg&#34; alt=&#34;relative log2 acccuracy improvement over Base.log1p&#34;&gt;
 
 
 &lt;p&gt;The next plot confirms this.&lt;/p&gt;
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/log1p/JuliaLibm_log1p_error.svg&#34; alt=&#34;JuliaLibm log1p error&#34;&gt;
+&lt;img src=&#34;../post/log1p/JuliaLibm_log1p_error.svg&#34; alt=&#34;JuliaLibm log1p error&#34;&gt;
 
 
 &lt;h2 id=&#34;speed&#34;&gt;Speed&lt;/h2&gt;
@@ -1765,7 +1877,7 @@ I&#39;(\theta) = \int 1(g(x) &gt; 0) \frac{\partial f(x,\theta)/\partial \theta}
 
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/log1p/relative_time.svg&#34; alt=&#34;relative time&#34;&gt;
+&lt;img src=&#34;../post/log1p/relative_time.svg&#34; alt=&#34;relative time&#34;&gt;
 
 
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
@@ -2111,13 +2223,13 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt; (IID), &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi0N1000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;../post/ess-sampling/ess-phi0N1000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0\)&lt;/span&gt; (IID), &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi0N10000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;../post/ess-sampling/ess-phi0N10000.svg&#34; alt=&#34;Results with $$\phi=0$$ (IID), $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;With &lt;span  class=&#34;math&#34;&gt;\(1000\)&lt;/span&gt; samples, there is a lot of variation in ESS: 800 could show up very easily in practice. &lt;span  class=&#34;math&#34;&gt;\(600\)&lt;/span&gt; is not improbable either. Using up to &lt;span  class=&#34;math&#34;&gt;\(10\)&lt;/span&gt; lags is not uncommon. For &lt;span  class=&#34;math&#34;&gt;\(10000\)&lt;/span&gt; samples, the precision is improved considerably, we commonly use &lt;span  class=&#34;math&#34;&gt;\(2\)&lt;/span&gt; or &lt;span  class=&#34;math&#34;&gt;\(4\)&lt;/span&gt; lags. For both sample sizes, notice the high correlation between the last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, and &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;: given the method above, using more lags increases &lt;span  class=&#34;math&#34;&gt;\(\tau^{-1}\)&lt;/span&gt;, so this is to be expected.&lt;/p&gt;
@@ -2129,13 +2241,13 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.5\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi05N1000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;../post/ess-sampling/ess-phi05N1000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.5\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi05N10000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;../post/ess-sampling/ess-phi05N10000.svg&#34; alt=&#34;Results with $$\phi=0.5$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Notice that &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt; is now more dispersed, compared to the IID case. Even with 10000 samples, the coefficient of variation is 6%, with 1000 it is around 1/6. In practice, expect effective sample sizes all over the place.&lt;/p&gt;
@@ -2147,13 +2259,13 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.8\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=1000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi08N1000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;../post/ess-sampling/ess-phi08N1000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=1000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;Results with &lt;span  class=&#34;math&#34;&gt;\(\phi=0.8\)&lt;/span&gt;, &lt;span  class=&#34;math&#34;&gt;\(N=10000\)&lt;/span&gt;. (a) &lt;span  class=&#34;math&#34;&gt;\(\tau\)&lt;/span&gt;, (b) last lag &lt;span  class=&#34;math&#34;&gt;\(K\)&lt;/span&gt;, (c) scatterplot.
 
 
-&lt;img src=&#34;https://tamaspapp.eu/post/ess-sampling/ess-phi08N10000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
+&lt;img src=&#34;../post/ess-sampling/ess-phi08N10000.svg&#34; alt=&#34;Results with $$\phi=0.8$$, $$N=10000$$. (a) $$\tau$$, (b) last lag $$K$$, (c) scatterplot.&#34;&gt;
 &lt;/p&gt;
 
 &lt;p&gt;There is now so much variation that in order to get an estimate for ESS that we can use for comparing various MCMC implementations, we need to run much more than &lt;span  class=&#34;math&#34;&gt;\(1000\)&lt;/span&gt; samples.&lt;/p&gt;
@@ -2205,13 +2317,13 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 
 &lt;p&gt;Couples&amp;rsquo; times use and aggregate outcomes: evidence from a structural model. &lt;em&gt;Joint with Almut Balleer and Monika Merz.&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;The structure of labor market flows. &lt;a href=&#34;https://tamaspapp.eu/pdf/structure-of-labor-market-flows.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The structure of labor market flows. &lt;a href=&#34;../pdf/structure-of-labor-market-flows.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Accounting for Idiosyncratic Wage Risk Over the Business Cycle. &lt;em&gt;Joint with Alisdair McKay&lt;/em&gt;. &lt;a href=&#34;https://tamaspapp.eu/pdf/wage_vol.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Accounting for Idiosyncratic Wage Risk Over the Business Cycle. &lt;em&gt;Joint with Alisdair McKay&lt;/em&gt;. &lt;a href=&#34;../pdf/wage_vol.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;short-notes&#34;&gt;Short notes&lt;/h2&gt;
 
-&lt;p&gt;Consistent local approximation in continuous time. &lt;a href=&#34;https://tamaspapp.eu/pdf/consistent-local-continuous.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Consistent local approximation in continuous time. &lt;a href=&#34;../pdf/consistent-local-continuous.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;published-papers&#34;&gt;Published papers&lt;/h2&gt;
 
@@ -2371,7 +2483,7 @@ J_{f,x} = \frac{\partial f(x,y)}{\partial x}
     <published>2017-03-30T10:02:32+02:00</published>
     <updated>2017-03-30T10:02:32+02:00</updated>
     
-    <content type="html" xml:base="https://tamaspapp.eu/post/blogging-weave-julia-hugo/">&lt;p&gt;I have made a PR to &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt; so that others can use it for their own blogging about Julia. An example is &lt;a href=&#34;https://tamaspapp.eu/post/hugo-julia-weave/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+    <content type="html" xml:base="https://tamaspapp.eu/post/blogging-weave-julia-hugo/">&lt;p&gt;I have made a PR to &lt;a href=&#34;https://github.com/mpastell/Weave.jl&#34;&gt;Weave.jl&lt;/a&gt; which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;, and generating some pages with plots and evaluated Julia results. I made the source for my blog &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt; so that others can use it for their own blogging about Julia. An example is &lt;a href=&#34;../post/hugo-julia-weave/&#34;&gt;this post&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The gist of the workflow is as follows:&lt;/p&gt;
 

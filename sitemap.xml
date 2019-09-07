@@ -3,6 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tamaspapp.eu/categories/</loc>
+    <lastmod>2019-09-07T08:01:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/</loc>
+    <lastmod>2019-09-07T08:01:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/julia/</loc>
+    <lastmod>2019-09-07T08:01:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/</loc>
+    <lastmod>2019-09-07T08:01:57+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/unit-testing/</loc>
+    <lastmod>2019-09-07T08:01:57+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tamaspapp.eu/post/2019-08-29-dynamichmc2/</loc>
     <lastmod>2019-09-03T09:03:50+02:00</lastmod>
   </url>
@@ -13,27 +38,12 @@
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/categories/</loc>
-    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/julia/</loc>
-    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tamaspapp.eu/tags/mcmc/</loc>
     <lastmod>2019-09-03T09:03:50+02:00</lastmod>
   </url>
   
   <url>
     <loc>https://tamaspapp.eu/tags/packages/</loc>
-    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/</loc>
     <lastmod>2019-09-03T09:03:50+02:00</lastmod>
   </url>
   
@@ -84,11 +94,6 @@
   
   <url>
     <loc>https://tamaspapp.eu/post/julia-ci-gitlab/</loc>
-    <lastmod>2018-03-08T17:06:54+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/unit-testing/</loc>
     <lastmod>2018-03-08T17:06:54+01:00</lastmod>
   </url>
   
