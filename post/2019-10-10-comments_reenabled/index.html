@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Changes for DynamicHMC.jl and related packages</title>
+    <title>Comments reenabled</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.58.3" />
@@ -193,14 +193,10 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>Changes for DynamicHMC.jl and related packages</h1>2018/10/04
+<h1>Comments reenabled</h1>2019/10/10
 <span class="tags">
     
-    <a href="../../tags/julia">julia</a>
-    
-    <a href="../../tags/bayesian">Bayesian</a>
-    
-    <a href="../../tags/mcmc">MCMC</a>
+    <a href="../../tags/blogging">blogging</a>
     
 </span>
 
@@ -210,52 +206,13 @@
 <div id="pagenav">
   
   <span class="pagenav-label">previous post:</span>&nbsp;
-  <a href="https://tamaspapp.eu/post/dotted-paper-luxor/">Making dotted graph paper in Julia with Luxor.jl</a>
+  <a href="https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/">How my Julia coding style changed</a>
   
-  
-  
-  <br/>
-  
-  <span class="pagenav-label">next post:</span>&nbsp;
-  <a href="https://tamaspapp.eu/post/2019-07-25-psa-dhmc-api-change/">PSA: breaking API changes LogDensityProblems and DynamicHMC</a>
   
 </div>
 
 
-<p><strong>TL;DR</strong>: new wrapper types for AD (with support for <a href="https://github.com/FluxML/Flux.jl">Flux.jl</a>), new transformation interface, <a href="https://github.com/tpapp/DynamicHMCExamples.jl">see the examples</a>.</p>
-
-<p><a href="https://github.com/tpapp/DynamicHMC.jl">DynamicHMC.jl</a> is Julia package for Hamiltonian MCMC using the NUTS algorithm. Its interface and the related packages underwent some reorganization which involves API changes. This post is a brief summary, as I prefer to maintain the actual <a href="https://github.com/tpapp/DynamicHMCExamples.jl">examples in a repository</a> I can test. You are encouraged to read these, and the documentation for each package (some of which is WIP).</p>
-
-<p>A summary of the changes:</p>
-
-<ol>
-<li><p><a href="https://github.com/tpapp/TransformVariables.jl">TransformVariables.jl</a> replaces the previous DSL for transforming parameters (which was <a href="https://github.com/tpapp/ContinuousTransformations.jl">ContinuousTransformations.jl</a>). It has a different syntax, and should make it easier to specify custom transformations in the future (this is work in progress).</p>
-
-<p>For example,</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">as</span><span class="p">((</span><span class="n">μ</span> <span class="o">=</span> <span class="n">asℝ</span><span class="p">,</span> <span class="n">σ</span> <span class="o">=</span> <span class="n">asℝ₊</span><span class="p">))</span></code></pre></div>
-<p>will specify a transformation of 2 real numbers to a <code>NamedTuple</code> with fields <code>μ</code> (unconstrained) and <code>σ</code> (constrained to be positive, eg a standard deviation).</p></li>
-
-<li><p><a href="https://github.com/tpapp/LogDensityProblems.jl">LogDensityProblems.jl</a> contains the wrapper types for log density functions <span  class="math">\(\mathbb{R}^n \to \mathbb{R}\)</span>. The most common workflow is making your function map a tuple of parameters to a <code>::Real</code> (which may be <code>-Inf</code>), define a transformation, and then obtain the gradient via automatic differentiation. Currently <a href="https://github.com/JuliaDiff/ForwardDiff.jl">ForwardDiff.jl</a> (suboptimal for gradients, but very robust) and <a href="https://github.com/FluxML/Flux.jl">Flux.jl</a> (faster) are supported. Support for <a href="https://github.com/FluxML/Zygote.jl">Zygote.jl</a> and <a href="https://github.com/JuliaDiff/ReverseDiff.jl">ReverseDiff.jl</a> should be easy to add, just open an issue.</p>
-
-<p>For example, once you have specified a callable <code>p</code> that takes the transformed parameters which result from transformation <code>t</code>,</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">P</span> <span class="o">=</span> <span class="n">TransformedLogDensity</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-<span class="n">∇P</span> <span class="o">=</span> <span class="n">FluxGradientLogDensity</span><span class="p">(</span><span class="n">P</span><span class="p">)</span></code></pre></div>
-<p>will wrap them so that <a href="https://github.com/FluxML/Flux.jl">Flux.jl</a> is used for obtaining the gradient via AD.</p></li>
-
-<li><p><a href="https://github.com/tpapp/DynamicHMC.jl">DynamicHMC.jl</a> expects a callable that supports the <code>dimension</code> query function, takes a vector of reals, and returns a <code>LogDensityProblems.ValueGradient</code> type. The recommended way of obtaining this is using the wrapper libraries above, but you are of course free to code your own.</p>
-
-<p>To continue the example, obtaining samples is now as simple as</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">chain</span><span class="p">,</span> <span class="n">NUTS_tuned</span> <span class="o">=</span> <span class="n">NUTS_init_tune_mcmc</span><span class="p">(</span><span class="n">∇P</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span></code></pre></div>
-<p>because <code>∇P</code> now contains the dimension information.</p></li>
-</ol>
-
-<p>All of the above packages are registered. The new version for DynamicHMC.jl is <code>v1.0.0</code>, as the API change is breaking. All of the packages require at least Julia <code>v0.7</code>, but <code>v1.0</code> or later is recommended.</p>
-
-<p><a href="https://github.com/tpapp/DynamicHMCExamples.jl">DynamicHMCExamples.jl</a> has some examples on suggested usage. I am happy to provide <em>support with coding specific models</em>, just please open an issue there. As usual, bug reports, feature requests and PRs are welcome.</p>
-
-<p>Finally, I would like to thank users for their patience and feedback. I hope that you will find new interface more convenient, and the improved speed useful.</p>
-
-<p><em>PS.: I have removed the Disqus comments from the blog; they broke the style and hardly anyone was using them anyway.</em></p>
+<p>I have re-enabled comments using <a href="https://utteranc.es/">utterances</a>, which uses Github issues to record and render comments. You need to login via Github to comment.</p>
 
 
 </div>

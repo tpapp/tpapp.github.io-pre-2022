@@ -11,6 +11,17 @@
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
+    <title type="html">Comments reenabled</title>
+    <link href="https://tamaspapp.eu/post/2019-10-10-comments_reenabled/"/>
+    <id>https://tamaspapp.eu/post/2019-10-10-comments_reenabled/</id>
+    <published>2019-10-10T17:40:39+02:00</published>
+    <updated>2019-10-10T17:40:39+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/2019-10-10-comments_reenabled/">&lt;p&gt;I have re-enabled comments using &lt;a href=&#34;https://utteranc.es/&#34;&gt;utterances&lt;/a&gt;, which uses Github issues to record and render comments. You need to login via Github to comment.&lt;/p&gt;
+</content>
+  </entry>
+  
+  <entry>
     <title type="html">How my Julia coding style changed</title>
     <link href="https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/"/>
     <id>https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/</id>

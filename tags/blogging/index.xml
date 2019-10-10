@@ -2,13 +2,24 @@
   <title>blogging on Tamás K. Papp&#39;s website</title>
   <link href="https://tamaspapp.eu/index.xml" rel="self"/>
   <link href="https://tamaspapp.eu/tags/blogging/"/>
-  <updated>2017-06-12T14:12:43+02:00</updated>
+  <updated>2019-10-10T17:40:39+02:00</updated>
   
   <id>https://tamaspapp.eu/tags/blogging/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">Comments reenabled</title>
+    <link href="https://tamaspapp.eu/post/2019-10-10-comments_reenabled/"/>
+    <id>https://tamaspapp.eu/post/2019-10-10-comments_reenabled/</id>
+    <published>2019-10-10T17:40:39+02:00</published>
+    <updated>2019-10-10T17:40:39+02:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/post/2019-10-10-comments_reenabled/">&lt;p&gt;I have re-enabled comments using &lt;a href=&#34;https://utteranc.es/&#34;&gt;utterances&lt;/a&gt;, which uses Github issues to record and render comments. You need to login via Github to comment.&lt;/p&gt;
+</content>
+  </entry>
   
   <entry>
     <title type="html">How my Julia coding style changed</title>
