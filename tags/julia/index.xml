@@ -11,17 +11,6 @@
   <generator>Hugo -- gohugo.io</generator>
   
   <entry>
-    <title type="html">Comments reenabled</title>
-    <link href="https://tamaspapp.eu/post/2019-10-10-comments_reenabled/"/>
-    <id>https://tamaspapp.eu/post/2019-10-10-comments_reenabled/</id>
-    <published>2019-10-10T17:40:39+02:00</published>
-    <updated>2019-10-10T17:40:39+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/2019-10-10-comments_reenabled/">&lt;p&gt;I have re-enabled comments using &lt;a href=&#34;https://utteranc.es/&#34;&gt;utterances&lt;/a&gt;, which uses Github issues to record and render comments. You need to login via Github to comment.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
     <title type="html">How my Julia coding style changed</title>
     <link href="https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/"/>
     <id>https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/</id>
@@ -416,21 +405,6 @@
 
 
 &lt;p&gt;The final PDF is &lt;a href=&#34;dotted_paper.pdf&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title type="html">Teaching</title>
-    <link href="https://tamaspapp.eu/teaching/"/>
-    <id>https://tamaspapp.eu/teaching/</id>
-    <published>2018-04-27T14:48:06+02:00</published>
-    <updated>2018-04-27T14:48:06+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/teaching/">
-
-&lt;h2 id=&#34;introduction-to-bayesian-estimation-of-dsge-models&#34;&gt;Introduction to Bayesian estimation of DSGE models&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&#34;../../pdf/DSGE_Bayesian_slides.pdf&#34;&gt;PDF&lt;/a&gt; Slides (with references and further reading) for an introductory course on Bayesian estimation of DSGE models. Mostly Bayesian concepts and practical issues (diagnostics, posterior predictive checks, convergence problems).&lt;/p&gt;
 </content>
   </entry>
   
@@ -954,28 +928,6 @@ on `data`, which  is model-specific.
   </entry>
   
   <entry>
-    <title type="html">Checking uncommitted changes when opening a file in Emacs</title>
-    <link href="https://tamaspapp.eu/post/check-uncommitted/"/>
-    <id>https://tamaspapp.eu/post/check-uncommitted/</id>
-    <published>2017-11-18T10:48:30+01:00</published>
-    <updated>2017-11-18T10:48:30+01:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/check-uncommitted/">&lt;p&gt;Alas, the following happens all too frequently: I am working on code, some interruption happens, and I fail to commit the changes coherently into the repository.&lt;/p&gt;
-
-&lt;p&gt;Next time I open the file, perhaps to work on some other feature, I forget that I have &lt;em&gt;uncommitted changes&lt;/em&gt; and work on something new. When staging, I realize the mistake and have to spend time disentangling the mess.&lt;/p&gt;
-
-&lt;p&gt;The following Emacs Lisp snippet takes care of this problem by checking for uncommitted changes and taking me to the &lt;code&gt;magit&lt;/code&gt; popup if there is something I should deal with:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;cl-defun&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;tkpapp/check-file-and-popup&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kp&#34;&gt;&amp;amp;optional&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;file&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;buffer-file-name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
-  &lt;span class=&#34;s&#34;&gt;&amp;#34;If the file is version controlled with git and has uncommitted
-&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;changes, open the magit status popup.&amp;#34;&lt;/span&gt;
-  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;require&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;magit-core&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-  &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;when&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;file&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;magit-anything-modified-p&lt;/span&gt; &lt;span class=&#34;no&#34;&gt;t&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-    &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;magit-status&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
-
-&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;add-hook&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;find-file-hook&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;&amp;#39;tkpapp/check-file-and-popup&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
-  </entry>
-  
-  <entry>
     <title type="html">WIP: making error locations in julia-repl clickable</title>
     <link href="https://tamaspapp.eu/post/wip-julia-repl-clickable/"/>
     <id>https://tamaspapp.eu/post/wip-julia-repl-clickable/</id>
@@ -1225,35 +1177,6 @@ the idea of reproducible research.&lt;/p&gt;&lt;/li&gt;
   </entry>
   
   <entry>
-    <title type="html">HTML &amp;#34;screenshots&amp;#34; from Emacs</title>
-    <link href="https://tamaspapp.eu/post/htmlize-screenshot/"/>
-    <id>https://tamaspapp.eu/post/htmlize-screenshot/</id>
-    <published>2017-10-17T13:26:04+02:00</published>
-    <updated>2017-10-17T13:26:04+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/htmlize-screenshot/">&lt;p&gt;&lt;a href=&#34;https://github.com/hniksic/emacs-htmlize&#34;&gt;&lt;code&gt;htmlize&lt;/code&gt;&lt;/a&gt;, written by Hrvoje Nikšić, is a neat little Emacs package that converts face information from an Emacs buffer (or region) into HTML, effectively allowing the verbatim reproduction of what it looks like.&lt;/p&gt;
-
-&lt;p&gt;I found this so useful for blogging that I submitted a PR which saves marked up regions as self-contained &lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt; snippets, complete with inline CSS. Hrvoje kindly merged the PR today, so now you can call &lt;code&gt;htmlize-region-save-screenshot&lt;/code&gt; and the result will be saved into the kill ring. You can paste this into, say, a blog post written in Markdown or &lt;a href=&#34;https://github.com/miekg/mmark&#34;&gt;Mmark&lt;/a&gt;, such as this one, and get a &amp;quot;screenshot&amp;quot; like&lt;/p&gt;
-
-&lt;pre style=&#34;color: #262626; background-color: #ded6c5;&#34;&gt;
-&lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;defun&lt;/span&gt; &lt;span style=&#34;color: #2c53ca;&#34;&gt;htmlize-region-save-screenshot&lt;/span&gt; &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;beg end&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
-  &lt;span style=&#34;color: #505050; font-style: italic;&#34;&gt;&#34;Save the htmlized (see `&lt;/span&gt;&lt;span style=&#34;color: #259ea2; font-style: italic;&#34;&gt;htmlize-region-for-paste&lt;/span&gt;&lt;span style=&#34;color: #505050; font-style: italic;&#34;&gt;&#39;) region in
-the kill ring. Uses `&lt;/span&gt;&lt;span style=&#34;color: #259ea2; font-style: italic;&#34;&gt;inline-css&lt;/span&gt;&lt;span style=&#34;color: #505050; font-style: italic;&#34;&gt;&#39;, with style information in
-`&lt;/span&gt;&lt;span style=&#34;color: #259ea2; font-style: italic;&#34;&gt;&amp;lt;pre&amp;gt;&lt;/span&gt;&lt;span style=&#34;color: #505050; font-style: italic;&#34;&gt;&#39; tags, so that the rendering of the marked up text
-approximates the buffer as closely as possible.&#34;&lt;/span&gt;
-  &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;interactive&lt;/span&gt; &lt;span style=&#34;color: #fa5151;&#34;&gt;&#34;r&#34;&lt;/span&gt;&lt;span style=&#34;color: #262626;&#34;&gt;)&lt;/span&gt;
-  &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #2020cc; font-weight: bold;&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color: #262626;&#34;&gt;((&lt;/span&gt;htmlize-pre-style t&lt;span style=&#34;color: #262626;&#34;&gt;))&lt;/span&gt;
-    &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;kill-new &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;htmlize-region-for-paste beg end&lt;span style=&#34;color: #262626;&#34;&gt;)))&lt;/span&gt;
-  &lt;span style=&#34;color: #262626;&#34;&gt;(&lt;/span&gt;deactivate-mark&lt;span style=&#34;color: #262626;&#34;&gt;))&lt;/span&gt;
-&lt;/pre&gt;
-
-&lt;p&gt;which is &lt;em&gt;almost&lt;/em&gt; exactly what it looks like on my screen when it comes to colors and font style/weight, but using a different font of course. This allows integration of Emacs &amp;quot;screenshots&amp;quot; into blog posts without resorting to pixel-based formats, which would result from taking actual screenshots.&lt;/p&gt;
-
-&lt;p&gt;You can install &lt;code&gt;htmlize&lt;/code&gt; from &lt;a href=&#34;https://melpa.org/&#34;&gt;MELPA&lt;/a&gt;.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
     <title type="html">Switching from Common Lisp to Julia</title>
     <link href="https://tamaspapp.eu/post/common-lisp-to-julia/"/>
     <id>https://tamaspapp.eu/post/common-lisp-to-julia/</id>
@@ -1394,47 +1317,6 @@ approximates the buffer as closely as possible.&#34;&lt;/span&gt;
 &lt;li id=&#34;fn:An-elegant-depre&#34;&gt;An elegant &lt;a href=&#34;https://github.com/JuliaLang/Compat.jl&#34;&gt;deprecation mechanism&lt;/a&gt; is available, but that can&#39;t deal with some fundamental language changes. &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:An-elegant-depre&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title type="html">Clarification: on orphaning my Common Lisp libraries</title>
-    <link href="https://tamaspapp.eu/post/orphaned-lisp-libraries/"/>
-    <id>https://tamaspapp.eu/post/orphaned-lisp-libraries/</id>
-    <published>2017-10-15T13:02:14+02:00</published>
-    <updated>2017-10-15T13:02:14+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/orphaned-lisp-libraries/">&lt;p&gt;I have not been programming in Common Lisp for a few years, and since I find &lt;a href=&#34;https://julialang.org/&#34;&gt;Julia&lt;/a&gt; a &amp;quot;much better Lisp&amp;quot;, I am unlikely to go back to it in the foreseeable future. This is a clarification regarding some &lt;a href=&#34;https://github.com/tpapp?utf8=%E2%9C%93&amp;amp;tab=repositories&amp;amp;q=&amp;amp;type=public&amp;amp;language=common%20lisp&#34;&gt;libraries&lt;/a&gt; I have written in Common Lisp and made public.&lt;/p&gt;
-
-&lt;h1 id=&#34;all-of-my-common-lisp-libraries-are-orphaned&#34;&gt;All of my Common Lisp libraries are orphaned&lt;/h1&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;They are effectively &lt;em&gt;abandonware&lt;/em&gt; as far as I am concerned. Since fixing issues and evaluating PRs entails a large fixed cost for which I don&#39;t have the time (setting up my CL environment again, understanding what I wrote years ago, thinking about code correctness and corner cases of the language spec that I have forgotten), I will ignore issues and pull requests. Sorry about this.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;If you find anything of value in these libraries, please feel free to use that according to their licenses. &lt;em&gt;You don&#39;t have to ask me explicitly.&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;If you want to take over maintaining any of these libraries, &lt;em&gt;you don&#39;t have to ask me&lt;/em&gt;. &lt;strong&gt;Just fork, and start coding.&lt;/strong&gt; If you have been consistently maintaining one of these libraries for a year or more, announce that you are resurrecting the library on the relevant Common Lisp forums. You can also drop me an e-mail and I will put a line in the README of my version that redirects users to your version. Eventually, you should convince &lt;a href=&#34;https://github.com/quicklisp/&#34;&gt;Zach Beane&lt;/a&gt; to use your version in Quicklisp.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;I cannot provide any significant help regarding the code due to time constraints. Some of it is documented, and most of it has unit tests, you have to figure out the rest yourself.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&#34;which-libraries-are-worth-the-effort&#34;&gt;Which libraries are worth the effort?&lt;/h1&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;let-plus&lt;/code&gt; is an extensible destructuring library. The syntax is versatile and intuitive.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;LLA&lt;/code&gt;, aka Lisp Linear Algebra, is a wrapper for BLAS/LAPACK using native Common Lisp arrays. It is somewhat incomplete (eigenvalues need some work) but what is available works. It is &lt;em&gt;fast&lt;/em&gt; on implementations which provide arrays for certain float element types, so that it does not have to copy the data, and is a bit slower on implementations that don&#39;t allow this. Still, copying is &lt;span  class=&#34;math&#34;&gt;\(O(n)\)&lt;/span&gt;, while most LAPACK operations are &lt;span  class=&#34;math&#34;&gt;\(O(n^2)\)&lt;/span&gt; or worse, so this is not a huge concern. Nevertheless, it is possible that implementations that did not provide specialized arrays at the time I wrote LLA have caught up. You would need to extend the glue code to work with them.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-slice&lt;/code&gt;, array slices for native Common Lisp arrays.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-random&lt;/code&gt;, &lt;code&gt;cl-num-utils&lt;/code&gt;, &lt;code&gt;cl-rmath&lt;/code&gt;: random numbers, simple numerical algorithms, a wrapper for libRmath.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;code&gt;cl-colors&lt;/code&gt;, named colors and color combinations.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The rest are either early experiments, preliminary versions that evolved into the libraries above, or projects that did not pan out.&lt;/p&gt;
-
-&lt;p&gt;PS.: Some people asked why I switched to Julia from Common Lisp. A post about that will follow soon.&lt;/p&gt;
 </content>
   </entry>
   
@@ -1634,47 +1516,6 @@ f(x) = \begin{cases}
 &lt;p&gt;then we could not use &lt;code&gt;ifelse&lt;/code&gt; without restricting the domain, since &lt;code&gt;√(x+2)&lt;/code&gt; would fail whenever &lt;code&gt;x &amp;lt; -2&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;Julia &lt;code&gt;Base&lt;/code&gt; contains many optimizations like this: for a particularly nice example see functions that use &lt;code&gt;Base.null_safe_op&lt;/code&gt;.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title type="html">Blog redesign 2.0</title>
-    <link href="https://tamaspapp.eu/post/blog-redesign-201709/"/>
-    <id>https://tamaspapp.eu/post/blog-redesign-201709/</id>
-    <published>2017-09-29T19:55:44+02:00</published>
-    <updated>2017-09-29T19:55:44+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/blog-redesign-201709/">&lt;p&gt;I have redesigned my blog (again), mainly tweaking the CSS and
-hopefully achieving better support on small screens (which are still
-not ideal for math, but now you should get a red warning float at the
-bottom).&lt;/p&gt;
-
-&lt;p&gt;I also re-did the feed code so that it would render better on
-&lt;a href=&#34;https://www.juliabloggers.com/&#34;&gt;juliabloggers.com&lt;/a&gt;. Now the whole
-content of each post should be scraped seamlessly, and appear
-correctly. However, the only way to test the whole toolchain is to do
-it live, and I apologize if something is still not perfect and you get
-bogus updates (BTW, this post should not show up in the Julia feed).&lt;/p&gt;
-
-&lt;p&gt;Highlights of the changes:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;responsive design,&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;nicer fonts,&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;line breaks in MathJax when necessary and supported,&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;better highlighting (Julia now looks especially nice),&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;embedded code blocks with a download link,&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;better image placement,&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Emacs screenshots now use a branch of &lt;a href=&#34;https://github.com/tpapp/emacs-htmlize/tree/pre-colors&#34;&gt;emacs-htmlize&lt;/a&gt;, which hopefully gets merged soon.&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;As always, the source code for the whole site is &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;available&lt;/a&gt;.&lt;/p&gt;
 </content>
   </entry>
   
@@ -2143,31 +1984,6 @@ some packages, especially if I am contributing.&lt;/p&gt;
   </entry>
   
   <entry>
-    <title type="html">Emacs 25.2 on Ubuntu</title>
-    <link href="https://tamaspapp.eu/post/emacs25-ubuntu/"/>
-    <id>https://tamaspapp.eu/post/emacs25-ubuntu/</id>
-    <published>2017-07-03T10:49:56+02:00</published>
-    <updated>2017-07-03T10:49:56+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/emacs25-ubuntu/">&lt;p&gt;Emacs is undoubtedly the most important program on my computers. On my
-laptop, I use it to keep track of stuff with &lt;a href=&#34;http://orgmode.org/&#34;&gt;org-mode&lt;/a&gt;, read mail with &lt;a href=&#34;https://www.djcbsoftware.nl/code/mu/mu4e.html&#34;&gt;mu4e&lt;/a&gt;, edit LaTeX with &lt;a href=&#34;https://www.gnu.org/software/auctex/&#34;&gt;AUCTeX&lt;/a&gt;, and of course program. On servers, the first alias I define is usually &lt;code&gt;qe=&#39;emacs -Q -nw&#39;&lt;/code&gt;, which give me a fast and responsive editor. With &lt;a href=&#34;https://github.com/emacs-helm/helm&#34;&gt;helm&lt;/a&gt;, doing just about anything (eg locating files, &lt;code&gt;rgrep&lt;/code&gt;ing for something) is orders of magnitude faster and more convenient than any alternative I have tried.&lt;/p&gt;
-
-&lt;p&gt;I also try to keep up with the latest versions for software in general. Usually, whatever Ubuntu stable/Debian testing has is good enough not to justify the extra effort, but when I really need it, I grab the source and compile. That is usually only a minor hassle, but I try to restrict it to a few critical programs, otherwise it adds up. The major issue is not compiling, but having cruft in the filesystem (despite &lt;a href=&#34;https://www.gnu.org/software/stow/manual/stow.html&#34;&gt;stow&lt;/a&gt; and &lt;a href=&#34;https://wiki.debian.org/CheckInstall&#34;&gt;checkinstall&lt;/a&gt;, it piles up). So I try to avoid it if I can.&lt;/p&gt;
-
-&lt;p&gt;Emacs 25.2 was released in April 2017, but there is no sign of an Ubuntu package for it yet. On various forums the &lt;a href=&#34;https://launchpad.net/~kelleyk/+archive/ubuntu/emacs&#34;&gt;PPA of kelleyk&lt;/a&gt; is recommended, but that does not have 25.2 for 17.04 (some files clash if you install previous versions).&lt;/p&gt;
-
-&lt;p&gt;Fortunately, Robert Bruce Park has now added Emacs 25.2 to the &lt;a href=&#34;https://launchpad.net/~ubuntu-elisp/+archive/ubuntu/ppa&#34;&gt;Ubuntu Emacs Lisp PPA&lt;/a&gt;, so having the latest of your favorite editor is only an &lt;code&gt;add-apt-repository&lt;/code&gt; away. You may want to add a file to &lt;code&gt;/etc/apt/preferences.d&lt;/code&gt; with contents&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Package: *
-Pin: release o=LP-PPA-ubuntu-elisp
-Pin-Priority: 600
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;to make sure the right packages are installed.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
     <title type="html">Sampling variation in effective sample size estimates (MCMC)</title>
     <link href="https://tamaspapp.eu/post/ess-sampling/"/>
     <id>https://tamaspapp.eu/post/ess-sampling/</id>
@@ -2295,195 +2111,6 @@ x_t = \phi x_{t-1} + \sigma \epsilon_t
 &lt;li&gt;Gelman, Andrew, et al. 2013. Bayesian data analysis. 3rd edition. Chapman &amp;amp; Hall/CRC.&lt;/li&gt;
 &lt;li&gt;Stan Development Team. 2016. Stan Modeling Language Users Guide and Reference Manual, Version 2.15.0. &lt;a href=&#34;http://mc-stan.org&#34;&gt;http://mc-stan.org&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title type="html">Blog redesign</title>
-    <link href="https://tamaspapp.eu/post/blog-redesign/"/>
-    <id>https://tamaspapp.eu/post/blog-redesign/</id>
-    <published>2017-06-12T14:12:43+02:00</published>
-    <updated>2017-06-12T14:12:43+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/blog-redesign/">&lt;p&gt;I am in the process of rebuilding my personal website using &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;. I tried various themes, including &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic&lt;/a&gt;, but in the process of adapting them to my needs I realized that it is less work to write one from scratch.&lt;/p&gt;
-
-&lt;p&gt;The result is now 80% ready (blog works, automatic listing of research papers will take some more work), and the &lt;a href=&#34;https://github.com/tpapp/tpapp.github.io-source&#34;&gt;source is on Github&lt;/a&gt;. It is available under the CC-BY-SA license, feel free to adapt parts from it, not that there is anything special in there.&lt;/p&gt;
-
-&lt;p&gt;Hugo is really an excellent framework, it is clean, logical, and allows a lot of code reuse. I &lt;del&gt;wasted&lt;/del&gt; spent most of the time on fiddling with CSS, and I am still not 100% satisfied with the result, but at some point I decided to stop. &lt;a href=&#34;http://sass-lang.com/&#34;&gt;SCSS&lt;/a&gt; was extremely useful for writing organized CSS.&lt;/p&gt;
-
-&lt;p&gt;I am especially satisfied with moving the code highlighting to the generator side. The only non-static parts are now &lt;a href=&#34;https://disqus.com/&#34;&gt;Disqus&lt;/a&gt; and &lt;a href=&#34;http://www.mathjax.org/&#34;&gt;MathJax&lt;/a&gt;.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title type="html">Research</title>
-    <link href="https://tamaspapp.eu/research/"/>
-    <id>https://tamaspapp.eu/research/</id>
-    <published>2017-06-11T14:48:06+02:00</published>
-    <updated>2017-06-11T14:48:06+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/research/">
-
-&lt;h2 id=&#34;working-papers&#34;&gt;Working papers&lt;/h2&gt;
-
-&lt;p&gt;Couples&amp;rsquo; times use and aggregate outcomes: evidence from a structural model. &lt;em&gt;Joint with Almut Balleer and Monika Merz.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The structure of labor market flows. &lt;a href=&#34;../../pdf/structure-of-labor-market-flows.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Accounting for Idiosyncratic Wage Risk Over the Business Cycle. &lt;em&gt;Joint with Alisdair McKay&lt;/em&gt;. &lt;a href=&#34;../../pdf/wage_vol.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;short-notes&#34;&gt;Short notes&lt;/h2&gt;
-
-&lt;p&gt;Consistent local approximation in continuous time. &lt;a href=&#34;../../pdf/consistent-local-continuous.pdf&#34;&gt;PDF&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;published-papers&#34;&gt;Published papers&lt;/h2&gt;
-
-&lt;p&gt;Frictional wage dispersion with Bertrand competition: an assessment. &lt;a href=&#34;https://www.sciencedirect.com/science/article/pii/S1094202513000094&#34;&gt;&lt;em&gt;Review of Economic Dynamics, 2013&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title type="html">Getting a nice &#43;= in LaTeX math</title>
-    <link href="https://tamaspapp.eu/post/latex-math-increment/"/>
-    <id>https://tamaspapp.eu/post/latex-math-increment/</id>
-    <published>2017-05-24T12:59:53+02:00</published>
-    <updated>2017-05-24T12:59:53+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/latex-math-increment/">&lt;p&gt;I am working on an appendix for a paper that uses MCMC, and I decided to document some &lt;a href=&#34;https://tamaspapp.eu/post/jacobian-chain/&#34;&gt;change of varible calculations&lt;/a&gt; in the interest of reproducibility (they are quite complex, because of multivariate determinants). But how can I typeset them nicely in $\LaTeX$?&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span class=&#34;k&#34;&gt;\mathtt&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;target&lt;span class=&#34;nb&#34;&gt;}&lt;/span&gt; += J&lt;span class=&#34;nb&#34;&gt;_&lt;/span&gt;f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;gives
-$$
-\mathtt{target} += J_f
-$$
-which is to be expected, as &lt;code&gt;+&lt;/code&gt; is a binary operator and &lt;code&gt;=&lt;/code&gt; is a relation, so $\LaTeX$ is not expecting them to show up this way.&lt;/p&gt;
-
-&lt;p&gt;We can remedy this as&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span class=&#34;k&#34;&gt;\mathtt&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;target&lt;span class=&#34;nb&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;\mathrel&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;+&lt;span class=&#34;nb&#34;&gt;}&lt;/span&gt;= J&lt;span class=&#34;nb&#34;&gt;_&lt;/span&gt;f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;which shows up as
-$$
-\mathtt{target} \mathrel{+}= J_f
-$$
-which is an improvement, but is still not visually appealing.&lt;/p&gt;
-
-&lt;p&gt;Making the &lt;code&gt;+&lt;/code&gt; a bit smaller with&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span class=&#34;k&#34;&gt;\mathrel&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;\raisebox&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;0.19ex&lt;span class=&#34;nb&#34;&gt;}{&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;\scriptstyle&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;}}&lt;/span&gt;=&lt;span class=&#34;nb&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;yields
-$$
-\mathtt{target} \mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f
-$$
-which looks OK enough to preclude further tweaking. Note that &lt;a href=&#34;http://www.mathjax.org/&#34;&gt;MathJax&lt;/a&gt; does not support &lt;code&gt;\raisebox&lt;/code&gt;, but you can use&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-latex&#34; data-lang=&#34;latex&#34;&gt;&lt;span class=&#34;k&#34;&gt;\mathrel&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;\raise&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;{&lt;/span&gt;0.19ex&lt;span class=&#34;nb&#34;&gt;}{&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;\scriptstyle&lt;/span&gt;+&lt;span class=&#34;nb&#34;&gt;}}&lt;/span&gt; = J&lt;span class=&#34;nb&#34;&gt;_&lt;/span&gt;f&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;which renders the as above.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title type="html">Two tricks for change of variables in MCMC</title>
-    <link href="https://tamaspapp.eu/post/jacobian-chain/"/>
-    <id>https://tamaspapp.eu/post/jacobian-chain/</id>
-    <published>2017-05-23T16:39:26+02:00</published>
-    <updated>2017-05-23T16:39:26+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/jacobian-chain/">&lt;p&gt;Change of variables are sometimes advantageous, and occasionally inevitable for MCMC if you want efficient sampling, or to model a distribution that was obtained by a transformation. A classic example is the &lt;em&gt;lognormal distribution&lt;/em&gt;: when&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[\log(y) \sim N(\mu, \sigma^2)\]&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;one has to adjust the log posterior by &lt;span  class=&#34;math&#34;&gt;\(-\log y\)&lt;/span&gt; since&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[\frac{\partial \log(y)}{\partial y} = \frac{1}{y}\]&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;and&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[\log(1/y) = -\log(y).\]&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;In &lt;a href=&#34;http://mc-stan.org/&#34;&gt;Stan&lt;/a&gt;, one would accomplish this as&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-stan&#34; data-lang=&#34;stan&#34;&gt;target += -log(y)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;In general, when you transform using a multivariate function &lt;span  class=&#34;math&#34;&gt;\(f\)&lt;/span&gt;, you would adjust by&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[\log\det J_f(y)\]&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;which is the log of the determinant of the Jacobian — some texts
-simply refer to this as &amp;quot;the Jacobian&amp;quot;.&lt;/p&gt;
-
-&lt;p&gt;The above is well-known, but the following two tricks are worth mentioning.&lt;/p&gt;
-
-&lt;h2 id=&#34;chaining-transformations&#34;&gt;Chaining transformations&lt;/h2&gt;
-
-&lt;p&gt;Suppose that you are changing a variable by using a chain of two
-functions &lt;span  class=&#34;math&#34;&gt;\(f \circ g\)&lt;/span&gt;. Then&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
-\log\det J_{f \circ g}(y) = \log \bigl(\det J_f(g(y)) \cdot \det J_g(y)\bigr) \\\\
-= \log\det J_f(g(y)) + \log\det J_g(y)
-\]&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;which means that you can simply add (the log determinant of) the
-Jacobians, of course evaluated at the appropriate points.&lt;/p&gt;
-
-&lt;p&gt;This is very useful when &lt;span  class=&#34;math&#34;&gt;\(f \circ g\)&lt;/span&gt; is complicated and &lt;span  class=&#34;math&#34;&gt;\(J_{f\circ g}\)&lt;/span&gt;
-is tedious to derive, or if you want to use multiple &lt;span  class=&#34;math&#34;&gt;\(f\)&lt;/span&gt;s or &lt;span  class=&#34;math&#34;&gt;\(g\)&lt;/span&gt;s and
-economize on the algebra.  From the above, it is also easy to see that this
-generalizes to arbitrarily long chains of functions &lt;span  class=&#34;math&#34;&gt;\(f_1 \circ f_2 \circ \dots\)&lt;/span&gt;.&lt;/p&gt;
-
-&lt;p&gt;This trick turned out to be very useful when I was fitting a model
-where a transformation was general to both equilibrium concepts I was
-using (a noncooperative game and a social planner), so I could save on
-code. Of course, since
-&lt;a href=&#34;https://github.com/stan-dev/stan/issues/2224&#34;&gt;#2224&lt;/a&gt; is WIP, I had to
-copy-paste the code, but still saved quite a bit of work.&lt;/p&gt;
-
-&lt;h2 id=&#34;transforming-a-subset-of-variables&#34;&gt;Transforming a subset of variables&lt;/h2&gt;
-
-&lt;p&gt;Suppose &lt;span  class=&#34;math&#34;&gt;\(x \in \mathbb{R}^m\)&lt;/span&gt; and &lt;span  class=&#34;math&#34;&gt;\(y \in \mathbb{R}^n\)&lt;/span&gt; are vectors, and you are interested in transforming to&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
-z = f(x,y)
-\]&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;where &lt;span  class=&#34;math&#34;&gt;\(x\)&lt;/span&gt; and &lt;span  class=&#34;math&#34;&gt;\(z\)&lt;/span&gt; have the same dimension. It is useful to think
-about this transformation as&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
-g(x,y) = [f(x,y), y]^\top
-\]&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;where &lt;span  class=&#34;math&#34;&gt;\(g : \mathbb{R}^{m+n} \to \mathbb{R}^{m+n}\)&lt;/span&gt;. Since &lt;span  class=&#34;math&#34;&gt;\(y\)&lt;/span&gt; is mapped to itself,&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
-J_g = \begin{bmatrix}
-J_{f,x} &amp; J_{f,y} \\\\
-0 &amp; I
-\end{bmatrix}
-\]&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;has a block structure, where&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
-J_{f,x} = \frac{\partial f(x,y)}{\partial x}
-\]&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;and similarly for &lt;span  class=&#34;math&#34;&gt;\(J_{f,y}\)&lt;/span&gt;. For the calculation of the determinant, you can safely ignore the latter, and &lt;span  class=&#34;math&#34;&gt;\(\log \det I = 0\)&lt;/span&gt;, so&lt;/p&gt;
-
-&lt;p&gt;&lt;span  class=&#34;math&#34;&gt;\[
-\log\det J_g = \log\det J_{f,x}
-\]&lt;/span&gt;&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title type="html">Disabling Privacy Badger</title>
-    <link href="https://tamaspapp.eu/post/privacy-badger/"/>
-    <id>https://tamaspapp.eu/post/privacy-badger/</id>
-    <published>2017-05-02T16:35:37+02:00</published>
-    <updated>2017-05-02T16:35:37+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/post/privacy-badger/">&lt;p&gt;Firefox has been my primary browser for the last decade. I find it very fast and convenient, and use quite a few addons, including &lt;a href=&#34;https://addons.mozilla.org/en-gb/firefox/addon/google-scholar-button/&#34;&gt;Google Scholar Button&lt;/a&gt;, &lt;a href=&#34;https://addons.mozilla.org/en-gb/firefox/addon/noscript/?src=search&#34;&gt;NoScript&lt;/a&gt;,  and &lt;a href=&#34;https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/&#34;&gt;uBlock Origin&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I can&amp;rsquo;t recall exactly when, but about half a year ago various sites started to break. I have not bothered to debug what&amp;rsquo;s happening, suspecting it was was a combination of various plugins, but continued to use Firefox and installed &lt;a href=&#34;https://github.com/darktrojan/openwith&#34;&gt;openwith&lt;/a&gt; to open broken pages in Chromium (yes, I know, the ultimate kludge). More sites became broken, and I found that now I am spending 99% of my time in Chromium, which I don&amp;rsquo;t like that much, but moreover, it is a resource hog: while using the plugins above I can get the CPU load of Firefox to around 1&amp;ndash;2% when I am not using it, Chromium drains my laptop battery in effectively half the time. To make things worse, Chromium apparently can&amp;rsquo;t open links in the background like Firefox, and insists on raising the window every time I open a link from another process, which is distracting.&lt;/p&gt;
-
-&lt;p&gt;Finally, &lt;a href=&#34;https://discourse.julialang.org/&#34;&gt;Julia&amp;rsquo;s Discourse forum&lt;/a&gt; started showing up empty, which was the last straw and I went through my plugins. It turns out hat &lt;a href=&#34;https://www.eff.org/privacybadger&#34;&gt;Privacy Badger&lt;/a&gt; was responsible for everything: apparently it relies on heavy-handed heuristics and breaks a lot of webpages. One can report this, but instead of reporting around 10&amp;ndash;20 pages which were broken, I simply removed the plugin. I have a lot of respect for what the Electronic Frontier Foundation does, but I am not sure that this plugin is very useful.&lt;/p&gt;
-
-&lt;p&gt;So finally I got back the web the way I like it. Moral of the story: temporary workarounds become permanent, and bite back.&lt;/p&gt;
 </content>
   </entry>
   
