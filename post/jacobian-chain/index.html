@@ -4,7 +4,7 @@
     <title>Two tricks for change of variables in MCMC</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.58.3" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link rel="stylesheet" type="text/css" href="../../css/syntax.css">
     
@@ -235,7 +235,7 @@
 <p><span  class="math">\[\log(1/y) = -\log(y).\]</span></p>
 
 <p>In <a href="http://mc-stan.org/">Stan</a>, one would accomplish this as</p>
-<div class="highlight"><pre class="chroma"><code class="language-stan" data-lang="stan">target += -log(y)</code></pre></div>
+<pre><code class="language-stan" data-lang="stan">target += -log(y)</code></pre>
 <p>In general, when you transform using a multivariate function <span  class="math">\(f\)</span>, you would adjust by</p>
 
 <p><span  class="math">\[\log\det J_f(y)\]</span></p>

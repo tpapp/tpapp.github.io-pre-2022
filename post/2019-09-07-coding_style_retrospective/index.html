@@ -4,7 +4,7 @@
     <title>How my Julia coding style changed</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.58.3" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link rel="stylesheet" type="text/css" href="../../css/syntax.css">
     
@@ -229,7 +229,7 @@
 <h1 id="randomness">Randomness</h1>
 
 <p>Random numbers are very important for scientific computing, but at the same time present an important challenge for writing bug-free parallel code and unit testing. A lot of code in <code>Random</code> and <code>Base</code> follows the interface conventions</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">rand</span><span class="p">([</span><span class="n">rng</span><span class="p">],</span> <span class="o">...</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">rand</span><span class="o"></span><span class="p">(</span><span class="p">[</span><span class="n">rng</span><span class="o"></span><span class="p">]</span><span class="p">,</span> <span class="o">.</span><span class="o">.</span><span class="o">.</span><span class="p">)</span></code></pre></div>
 <p>making the random number generator an <em>optional</em> first argument, and defaulting to the global one.</p>
 
 <p>While this can be convenient for <em>user code</em>, in <em>packages</em> I find that it is better to keep the random number generator as an <em>explicit</em> argument to almost all methods. This paves the way for making the code work nicely with <a href="https://julialang.org/blog/2019/07/multithreading">composable multi-threading</a> too.</p>
@@ -239,35 +239,35 @@
 <h1 id="named-tuples">Named tuples</h1>
 
 <p>Named tuples are extremely useful for organizing multiple values as inputs and outputs when a composite type (<code>struct</code>) is not warranted or needed. If a function returns multiple values, especially more than two, I now always default to using named tuples, ie</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="o">...</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="o">...</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="o">...</span>
-    <span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">f</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">)</span>
+    <span class="n">a</span><span class="o"></span> <span class="o">=</span> <span class="o">.</span><span class="o">.</span><span class="o">.</span>
+    <span class="n">b</span><span class="o"></span> <span class="o">=</span> <span class="o">.</span><span class="o">.</span><span class="o">.</span>
+    <span class="n">c</span><span class="o"></span> <span class="o">=</span> <span class="o">.</span><span class="o">.</span><span class="o">.</span>
+    <span class="p">(</span><span class="n">a</span><span class="o"></span> <span class="o">=</span> <span class="n">a</span><span class="o"></span><span class="p">,</span> <span class="n">b</span><span class="o"></span> <span class="o">=</span> <span class="n">b</span><span class="o"></span><span class="p">,</span> <span class="n">c</span><span class="o"></span> <span class="o">=</span> <span class="n">c</span><span class="o"></span><span class="p">)</span>
 <span class="k">end</span></code></pre></div>
 <p>then use <code>@unpack</code> from <a href="https://github.com/mauro3/Parameters.jl">Parameters.jl</a> for destructuring:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="nd">@unpack</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="c"># I don&#39;t need c here</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="nd">@unpack</span><span class="o"></span> <span class="n">a</span><span class="o"></span><span class="p">,</span> <span class="n">b</span><span class="o"></span> <span class="o">=</span> <span class="n">f</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">)</span> <span class="c"># I don&#39;t need c here</span></code></pre></div>
 <p>This is costless and makes the interfaces more flexible: for example, I can add extra fields, or eventually make the returned value a composite type later, without changing anything in the callers.</p>
 
 <h1 id="multiliners-as-opposed-to-oneliners">Multi-liners as opposed to one-liners</h1>
 
 <p>Almost all the “clever” one liners are now expunged from the code. Compare</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">EBFMI</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">πs</span> <span class="o">=</span> <span class="n">map</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">.</span><span class="nb">π</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span> <span class="n">mean</span><span class="p">(</span><span class="n">abs2</span><span class="p">,</span> <span class="n">diff</span><span class="p">(</span><span class="n">πs</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="n">πs</span><span class="p">))</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">EBFMI</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">πs</span><span class="o"></span> <span class="o">=</span> <span class="n">map</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span> <span class="o">-</span><span class="o">&gt;</span> <span class="n">x</span><span class="o"></span><span class="o">.</span><span class="nb">π</span><span class="p">,</span> <span class="n">x</span><span class="o"></span><span class="p">)</span><span class="p">;</span> <span class="n">mean</span><span class="o"></span><span class="p">(</span><span class="n">abs2</span><span class="o"></span><span class="p">,</span> <span class="n">diff</span><span class="o"></span><span class="p">(</span><span class="n">πs</span><span class="o"></span><span class="p">)</span><span class="p">)</span> <span class="o">/</span> <span class="n">var</span><span class="o"></span><span class="p">(</span><span class="n">πs</span><span class="o"></span><span class="p">)</span><span class="p">)</span></code></pre></div>
 <p>with</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">EBFMI</span><span class="p">(</span><span class="n">tree_statistics</span><span class="p">)</span>
-    <span class="n">πs</span> <span class="o">=</span> <span class="n">map</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span><span class="o">.</span><span class="nb">π</span><span class="p">,</span> <span class="n">tree_statistics</span><span class="p">)</span>
-    <span class="n">mean</span><span class="p">(</span><span class="n">abs2</span><span class="p">,</span> <span class="n">diff</span><span class="p">(</span><span class="n">πs</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="n">πs</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">EBFMI</span><span class="o"></span><span class="p">(</span><span class="n">tree_statistics</span><span class="o"></span><span class="p">)</span>
+    <span class="n">πs</span><span class="o"></span> <span class="o">=</span> <span class="n">map</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span> <span class="o">-</span><span class="o">&gt;</span> <span class="n">x</span><span class="o"></span><span class="o">.</span><span class="nb">π</span><span class="p">,</span> <span class="n">tree_statistics</span><span class="o"></span><span class="p">)</span>
+    <span class="n">mean</span><span class="o"></span><span class="p">(</span><span class="n">abs2</span><span class="o"></span><span class="p">,</span> <span class="n">diff</span><span class="o"></span><span class="p">(</span><span class="n">πs</span><span class="o"></span><span class="p">)</span><span class="p">)</span> <span class="o">/</span> <span class="n">var</span><span class="o"></span><span class="p">(</span><span class="n">πs</span><span class="o"></span><span class="p">)</span>
 <span class="k">end</span></code></pre></div>
 <p>The first one is kind of crammed, and difficult to read, while the second one makes it clear that an interim value is obtained for the calculation.</p>
 
 <p>When a function returns multiple values, I find it nice to assign each to a variable first, ie</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">f</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">)</span>
+    <span class="n">a</span><span class="o"></span> <span class="o">=</span> <span class="n">g</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">)</span>
+    <span class="n">b</span><span class="o"></span> <span class="o">=</span> <span class="n">h</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">)</span>
+    <span class="n">a</span><span class="o"></span><span class="p">,</span> <span class="n">b</span><span class="o"></span>
 <span class="k">end</span></code></pre></div>
 <p>as opposed to</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">f</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">)</span> <span class="o">=</span> <span class="n">g</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">)</span><span class="p">,</span> <span class="n">h</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">)</span></code></pre></div>
 <p>This makes the returned structure much more readable when I need to look at some code later.</p>
 
 <p>That said, I still have a strong preference for writing small functions that “do one thing”. This again is frequently an optimal strategy for Julia, as the compiler is very good about inlining decisions (and when not, can be nudged with <code>@inline</code>).</p>
@@ -275,24 +275,24 @@
 <h1 id="abstract-types-can-be-an-implementation-detail">Abstract types can be an implementation detail</h1>
 
 <p>Abstract types can be very useful for organizing method dispatch: code like</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">abstract</span> <span class="n">type</span> <span class="n">SomeAbstractType</span> <span class="k">end</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">abstract type</span> <span class="n">SomeAbstractType</span><span class="o"></span> <span class="k">end</span>
 
-<span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="n">SomeAbstractType</span><span class="p">)</span> <span class="o">=</span> <span class="n">do_something</span><span class="p">()</span>
+<span class="n">f</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="n">SomeAbstractType</span><span class="o"></span><span class="p">)</span> <span class="o">=</span> <span class="n">do_something</span><span class="o"></span><span class="p">(</span><span class="p">)</span>
 
-<span class="k">struct</span> <span class="n">ThatSubType</span><span class="p">{</span><span class="n">T</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="n">SomeAbstractType</span>
-    <span class="n">y</span><span class="o">::</span><span class="n">T</span>
+<span class="k">struct</span> <span class="n">ThatSubType</span><span class="o"></span><span class="p">{</span><span class="n">T</span><span class="o"></span><span class="p">}</span> <span class="o">&lt;</span><span class="o">:</span> <span class="n">SomeAbstractType</span><span class="o"></span>
+    <span class="n">y</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="n">T</span><span class="o"></span>
 <span class="k">end</span>
 
-<span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="n">ThatSubType</span><span class="p">)</span> <span class="o">=</span> <span class="n">do_something_else</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></code></pre></div>
+<span class="n">g</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="n">ThatSubType</span><span class="o"></span><span class="p">)</span> <span class="o">=</span> <span class="n">do_something_else</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="o">.</span><span class="n">y</span><span class="o"></span><span class="p">)</span></code></pre></div>
 <p>can help avoid repetition.</p>
 
 <p>But abstract types are just <em>one</em> convenient tool for this, and building a type tree is a tool, not an end in itself. When they are no longer adequate, other solutions such as <a href="https://docs.julialang.org/en/v1.4-dev/manual/methods/#Trait-based-dispatch-1">traits</a> should be used instead.</p>
 
 <p>Consequently, these days I mostly consider type hierarchies an implementation detail and I am wary of exposing them in the API of a package. This is especially important if some functionality requires that the <em>user</em> of a package implements their own custom types, e.g. for a model. Requiring that</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">UserDefinedModel</span> <span class="o">&lt;:</span> <span class="n">SomePackage</span><span class="o">.</span><span class="n">ModelType</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">UserDefinedModel</span><span class="o"></span> <span class="o">&lt;</span><span class="o">:</span> <span class="n">SomePackage</span><span class="o"></span><span class="o">.</span><span class="n">ModelType</span><span class="o"></span></code></pre></div>
 <p>to work with some API is usually <em>unnecessary</em>, and can cause unnecessary complications when the user would want <code>UserDefinedModel</code> to implement some <em>other</em> API. Either <a href="https://en.wikipedia.org/wiki/Duck_typing">duck typing</a>, or an explicit interface check like</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">implements_model</span><span class="p">(</span><span class="o">::</span><span class="kt">Any</span><span class="p">)</span> <span class="o">=</span> <span class="kc">false</span>
-<span class="n">implements_model</span><span class="p">(</span><span class="o">::</span><span class="kt">Type</span><span class="p">{</span><span class="o">&lt;:</span><span class="n">UserDefinedModel</span><span class="p">})</span> <span class="o">=</span> <span class="kc">true</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">implements_model</span><span class="o"></span><span class="p">(</span><span class="o">:</span><span class="o">:</span><span class="kt">Any</span><span class="p">)</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">implements_model</span><span class="o"></span><span class="p">(</span><span class="o">:</span><span class="o">:</span><span class="kt">Type</span><span class="p">{</span><span class="o">&lt;</span><span class="o">:</span><span class="n">UserDefinedModel</span><span class="o"></span><span class="p">}</span><span class="p">)</span> <span class="o">=</span> <span class="kc">true</span></code></pre></div>
 <p>can work better (returning types when that is necessary, eg for further dispatch — see <code>Base.IteratorSize</code> for an example).</p>
 
 <h1 id="small-type-unions">Small type unions</h1>

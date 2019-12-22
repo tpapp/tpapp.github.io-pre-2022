@@ -4,7 +4,7 @@
     <title>Working with a large ragged dataset in Julia</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.58.3" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link rel="stylesheet" type="text/css" href="../../css/syntax.css">
     
@@ -233,12 +233,9 @@
 <h2 id="about-the-data">About the data</h2>
 
 <p>The whole data comprises about 2000 million observations on various &quot;spells&quot;, which either involve contributions to or benefits from Austria's comprehensive social security system (eg being employed, or being on maternity leave). Each spell has the unique ID of the individual it belongs to, a start and end date, and spell information (eg insurance event). They look something like this:<sup class="footnote-ref" id="fnref:The-samples-show"><a class="footnote" href="#fn:The-samples-show">2</a></sup></p>
-
 <pre><code>1;...;19800101;19800201;...;AA;...;
 1;...;19800301;19800401;...;B;...;
-2;...;19800701;19800901;...;CCC;...;
-</code></pre>
-
+2;...;19800701;19800901;...;CCC;...;</code></pre>
 <p>Fields are separated by <code>;</code>, the <code>...</code>s are fields which we ignore for now (we may use them later). Dates have the <code>yyyymmdd</code> format. There are about 70 spell types.</p>
 
 <p>Gzipped data in delimited format is about 45 GB, raw data would be over 500 GB. Data for each year is in a separate file, so individual <code>1</code> may have spells scattered in multiple files. Ideally, for our analysis, we would like to end up with a data structure that has the spells organized by individual, eg</p>
@@ -277,50 +274,47 @@
 <p>Julia supports <a href="https://en.wikipedia.org/wiki/Memory-mapped_file">memory
 mapped</a> arrays, which map virtual memory to disk seamlessly, allowing lazy loading and access managed by the virtual memory manager. Using
 the syntax</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">io</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">&#34;path_to_file.bin&#34;</span><span class="p">,</span> <span class="s">&#34;w+&#34;</span><span class="p">)</span> <span class="c"># create, truncate</span>
-<span class="n">A</span> <span class="o">=</span> <span class="n">Mmap</span><span class="o">.</span><span class="n">mmap</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">},</span> <span class="mi">200</span><span class="p">)</span> <span class="c"># map to array</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">io</span><span class="o"></span> <span class="o">=</span> <span class="n">open</span><span class="o"></span><span class="p">(</span><span class="s">&#34;</span><span class="s">p</span><span class="s">a</span><span class="s">t</span><span class="s">h</span><span class="s">_</span><span class="s">t</span><span class="s">o</span><span class="s">_</span><span class="s">f</span><span class="s">i</span><span class="s">l</span><span class="s">e</span><span class="s">.</span><span class="s">b</span><span class="s">i</span><span class="s">n</span><span class="s">&#34;</span><span class="p">,</span> <span class="s">&#34;</span><span class="s">w</span><span class="s">+</span><span class="s">&#34;</span><span class="p">)</span> <span class="c"># create, truncate</span>
+<span class="n">A</span><span class="o"></span> <span class="o">=</span> <span class="n">Mmap</span><span class="o"></span><span class="o">.</span><span class="n">mmap</span><span class="o"></span><span class="p">(</span><span class="n">io</span><span class="o"></span><span class="p">,</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Int</span><span class="p">}</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span> <span class="c"># map to array</span></code></pre></div>
 <p>gives you a vector that is mapped to the disk (you have to call <code>Mmap.sync!</code> after you are finished to make sure, and you have to use <code>growth = true</code>, which is the default). The advantage is that the size of the array is limited by the disk space, not RAM, and the OS takes care of reading, writing, and caching as necessary.</p>
 
 <p>A complication for our data analysis is that we do not know the total number of elements before having read the whole dataset, so we can't specify the dimensions above. Fortunately, simply opening a stream and <code>write</code>ing values of bits types works fine.<sup class="footnote-ref" id="fnref:Currently-needs"><a class="footnote" href="#fn:Currently-needs">5</a></sup></p>
 
 <p>I packaged the code for managing columns of bits types using the strategies above in <a href="https://github.com/tpapp/LargeColumns.jl"><code>LargeColumns.jl</code></a>, which keeps track of column types and imposing some basic sanity checks. This makes working with large vectors as easy as</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">LargeColumns</span>
-<span class="n">cols</span> <span class="o">=</span> <span class="n">MmappedColumns</span><span class="p">(</span><span class="s">&#34;path/to/directory&#34;</span><span class="p">,</span> <span class="mi">2_000_000_000</span><span class="p">,</span> <span class="kt">Tuple</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span> <span class="kt">Int</span><span class="p">})</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">using</span> <span class="n">LargeColumns</span><span class="o"></span>
+<span class="n">cols</span><span class="o"></span> <span class="o">=</span> <span class="n">MmappedColumns</span><span class="o"></span><span class="p">(</span><span class="s">&#34;</span><span class="s">p</span><span class="s">a</span><span class="s">t</span><span class="s">h</span><span class="s">/</span><span class="s">t</span><span class="s">o</span><span class="s">/</span><span class="s">d</span><span class="s">i</span><span class="s">r</span><span class="s">e</span><span class="s">c</span><span class="s">t</span><span class="s">o</span><span class="s">r</span><span class="s">y</span><span class="s">&#34;</span><span class="p">,</span> <span class="mi">2_000_000_000</span><span class="p">,</span> <span class="kt">Tuple</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span> <span class="kt">Int</span><span class="p">}</span><span class="p">)</span></code></pre></div>
 <p>which takes care of <code>mmap</code>ing, and makes <code>cols</code> behave as a vector of tuples of the given type. The files, including metadata, are located in the given directory.</p>
 
 <h2 id="ragged-data-and-collation">Ragged data and collation</h2>
 
 <p>I want to end up with data grouped by individuals contiguously, eg</p>
-
-<pre><code>1 1 1 1 2 2 2 3 3 4 4 ...
-</code></pre>
-
+<pre><code>1 1 1 1 2 2 2 3 3 4 4 ...</code></pre>
 <p>where the first 4 observations belong to individual <code>1</code>, the second 3 to <code>2</code>, and so on. This can be indexed with <code>UnitRange</code>s: for individual <code>1</code> we would use <code>1:4</code>, for <code>2</code>, <code>5:8</code>, etc. Note that storage of both endpoints is unnecessary, since they can be calculated from a cumulative sum, also, we can reuse the same index for multiple columns.</p>
 
 <p>The package <a href="https://github.com/tpapp/RaggedData.jl"><code>RaggedData.jl</code></a> implements simple datastructures for counting, collating, and indexing ragged data into vectors. When I first parse and ingest the data, I count the number of observations for each individual:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">id_counter</span> <span class="o">=</span> <span class="n">RaggedCounter</span><span class="p">(</span><span class="kt">Int32</span><span class="p">,</span> <span class="kt">Int32</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">id_counter</span><span class="o"></span> <span class="o">=</span> <span class="n">RaggedCounter</span><span class="o"></span><span class="p">(</span><span class="kt">Int32</span><span class="p">,</span> <span class="kt">Int32</span><span class="p">)</span>
 
-<span class="k">while</span> <span class="o">!</span><span class="n">eof</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="c"># process by line</span>
-    <span class="n">id</span> <span class="o">=</span> <span class="n">parse_id_from_line</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">push!</span><span class="p">(</span><span class="n">id_counter</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
+<span class="k">while</span> <span class="o">!</span><span class="n">eof</span><span class="o"></span><span class="p">(</span><span class="o">.</span><span class="o">.</span><span class="o">.</span><span class="p">)</span> <span class="c"># process by line</span>
+    <span class="n">id</span><span class="o"></span> <span class="o">=</span> <span class="n">parse_id_from_line</span><span class="o"></span><span class="p">(</span><span class="o">.</span><span class="o">.</span><span class="o">.</span><span class="p">)</span>
+    <span class="n">push!</span><span class="o"></span><span class="p">(</span><span class="n">id_counter</span><span class="o"></span><span class="p">,</span> <span class="n">id</span><span class="o"></span><span class="p">)</span>
 <span class="k">end</span></code></pre></div>
 <p>Then in the second pass, I start with the index for the first observation for each (eg <code>1</code>, <code>5</code>, <code>9</code> above), and increment it for each row of the data. So the first observation for individual <code>2</code> goes to index <code>5</code>, the second <code>6</code>, and so on. For this, I create a collator object <code>coll</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">coll</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">id</span> <span class="o">=</span> <span class="n">collate_index_keys</span><span class="p">(</span><span class="n">id_counter</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">coll</span><span class="o"></span><span class="p">,</span> <span class="n">ix</span><span class="o"></span><span class="p">,</span> <span class="n">id</span><span class="o"></span> <span class="o">=</span> <span class="n">collate_index_keys</span><span class="o"></span><span class="p">(</span><span class="n">id_counter</span><span class="o"></span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span><span class="p">;</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="n">indices</span><span class="p">(</span><span class="n">first_pass</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">id</span><span class="p">,</span> <span class="n">spell_index</span><span class="p">,</span> <span class="n">dates</span> <span class="o">=</span> <span class="n">first_pass</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">j</span> <span class="o">=</span> <span class="n">next_index!</span><span class="p">(</span><span class="n">coll</span><span class="p">,</span> <span class="n">id</span><span class="p">)</span>
-    <span class="n">collated</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">spell_index</span><span class="p">,</span> <span class="n">dates</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="o"></span> <span class="kp">in</span> <span class="n">indices</span><span class="o"></span><span class="p">(</span><span class="n">first_pass</span><span class="o"></span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">id</span><span class="o"></span><span class="p">,</span> <span class="n">spell_index</span><span class="o"></span><span class="p">,</span> <span class="n">dates</span><span class="o"></span> <span class="o">=</span> <span class="n">first_pass</span><span class="o"></span><span class="p">[</span><span class="n">i</span><span class="o"></span><span class="p">]</span>
+    <span class="n">j</span><span class="o"></span> <span class="o">=</span> <span class="n">next_index!</span><span class="o"></span><span class="p">(</span><span class="n">coll</span><span class="o"></span><span class="p">,</span> <span class="n">id</span><span class="o"></span><span class="p">)</span>
+    <span class="n">collated</span><span class="o"></span><span class="p">[</span><span class="n">j</span><span class="o"></span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">spell_index</span><span class="o"></span><span class="p">,</span> <span class="n">dates</span><span class="o"></span><span class="p">)</span>
 <span class="k">end</span></code></pre></div>
 <p>where <code>collated</code> is another set of <code>mmap</code>ed columns. <code>ix</code> is used later for indexing into the result: <code>ix[1]</code> gives the <code>UnitRange</code> for the observations about the first individual, and so on.</p>
 
 <h2 id="saving-space">Saving space</h2>
 
 <p>Before processing the whole dataset, I assumed that the individual ids fit into <code>Int32</code>s. This is easy to verify after parsing, with the standard constructor, which simply throws an error if the value does not fit:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="kt">Int32</span><span class="p">(</span><span class="n">typemax</span><span class="p">(</span><span class="kt">Int64</span><span class="p">))</span>
-<span class="n">ERROR</span><span class="o">:</span> <span class="kt">InexactError</span><span class="p">()</span>
-<span class="n">Stacktrace</span><span class="o">:</span>
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="kt">Int32</span><span class="p">(</span><span class="o">::</span><span class="kt">Int64</span><span class="p">)</span> <span class="n">at</span> <span class="o">./</span><span class="n">sysimg</span><span class="o">.</span><span class="n">jl</span><span class="o">:</span><span class="mi">77</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o"></span><span class="o">&gt;</span> <span class="kt">Int32</span><span class="p">(</span><span class="n">typemax</span><span class="o"></span><span class="p">(</span><span class="kt">Int64</span><span class="p">)</span><span class="p">)</span>
+<span class="n">ERROR</span><span class="o"></span><span class="o">:</span> <span class="kt">InexactError</span><span class="p">(</span><span class="p">)</span>
+<span class="n">Stacktrace</span><span class="o"></span><span class="o">:</span>
+ <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="kt">Int32</span><span class="p">(</span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span><span class="p">)</span> <span class="n">at</span><span class="o"></span> <span class="o">./</span><span class="n">sysimg</span><span class="o"></span><span class="o">.</span><span class="n">jl</span><span class="o"></span><span class="o">:</span><span class="mi">77</span></code></pre></div>
 <p>For the spell types, I simply indexed them in the order of appearance, saving the index as an <code>Int8</code>. They are reconstructed using <a href="https://github.com/JuliaArrays/IndirectArrays.jl"><code>IndirectArrays.jl</code></a> when working with the data.</p>
 
 <p>Dates turned out to be the trickiest, until I realized that using <code>Int16</code>, I can represent a timespan of about 179 years, which is a lot more than I need for this data. Of course, this requires that we count from some epoch other than <code>0001-01-01</code> like <code>Base.Date</code>. Fortunately, Julia allows encoding the epoch in the type, making it costless as long as I use it consistently for the same dataset. The package <a href="https://github.com/tpapp/FlexDates.jl"><code>FlexDates.jl</code></a> implements this approach.</p>

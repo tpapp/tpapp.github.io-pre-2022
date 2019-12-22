@@ -2,13 +2,43 @@
   <title>Tags on Tamás K. Papp&#39;s website</title>
   <link href="https://tamaspapp.eu/index.xml" rel="self"/>
   <link href="https://tamaspapp.eu/tags/"/>
-  <updated>2019-10-10T17:40:39+02:00</updated>
+  <updated>2019-12-21T16:33:38+01:00</updated>
   
   <id>https://tamaspapp.eu/tags/</id>
   <author>
     <name>Tamás K. Papp</name>
   </author>
   <generator>Hugo -- gohugo.io</generator>
+  
+  <entry>
+    <title type="html">julia</title>
+    <link href="https://tamaspapp.eu/tags/julia/"/>
+    <id>https://tamaspapp.eu/tags/julia/</id>
+    <published>2019-12-21T16:33:38+01:00</published>
+    <updated>2019-12-21T16:33:38+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/julia/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">packages</title>
+    <link href="https://tamaspapp.eu/tags/packages/"/>
+    <id>https://tamaspapp.eu/tags/packages/</id>
+    <published>2019-12-21T16:33:38+01:00</published>
+    <updated>2019-12-21T16:33:38+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/packages/"></content>
+  </entry>
+  
+  <entry>
+    <title type="html">unit-testing</title>
+    <link href="https://tamaspapp.eu/tags/unit-testing/"/>
+    <id>https://tamaspapp.eu/tags/unit-testing/</id>
+    <published>2019-12-21T16:33:38+01:00</published>
+    <updated>2019-12-21T16:33:38+01:00</updated>
+    
+    <content type="html" xml:base="https://tamaspapp.eu/tags/unit-testing/"></content>
+  </entry>
   
   <entry>
     <title type="html">blogging</title>
@@ -18,26 +48,6 @@
     <updated>2019-10-10T17:40:39+02:00</updated>
     
     <content type="html" xml:base="https://tamaspapp.eu/tags/blogging/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">julia</title>
-    <link href="https://tamaspapp.eu/tags/julia/"/>
-    <id>https://tamaspapp.eu/tags/julia/</id>
-    <published>2019-09-07T08:01:57+02:00</published>
-    <updated>2019-09-07T08:01:57+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/tags/julia/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">unit-testing</title>
-    <link href="https://tamaspapp.eu/tags/unit-testing/"/>
-    <id>https://tamaspapp.eu/tags/unit-testing/</id>
-    <published>2019-09-07T08:01:57+02:00</published>
-    <updated>2019-09-07T08:01:57+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/tags/unit-testing/"></content>
   </entry>
   
   <entry>
@@ -58,16 +68,6 @@
     <updated>2019-09-03T09:03:50+02:00</updated>
     
     <content type="html" xml:base="https://tamaspapp.eu/tags/mcmc/"></content>
-  </entry>
-  
-  <entry>
-    <title type="html">packages</title>
-    <link href="https://tamaspapp.eu/tags/packages/"/>
-    <id>https://tamaspapp.eu/tags/packages/</id>
-    <published>2019-09-03T09:03:50+02:00</published>
-    <updated>2019-09-03T09:03:50+02:00</updated>
-    
-    <content type="html" xml:base="https://tamaspapp.eu/tags/packages/"></content>
   </entry>
   
   <entry>
@@ -181,7 +181,7 @@
   </entry>
   
   <entry>
-    <title type="html">Hugo</title>
+    <title type="html">hugo</title>
     <link href="https://tamaspapp.eu/tags/hugo/"/>
     <id>https://tamaspapp.eu/tags/hugo/</id>
     <published>2017-09-29T19:55:44+02:00</published>
@@ -311,7 +311,7 @@
   </entry>
   
   <entry>
-    <title type="html">Weave</title>
+    <title type="html">weave</title>
     <link href="https://tamaspapp.eu/tags/weave/"/>
     <id>https://tamaspapp.eu/tags/weave/</id>
     <published>2017-03-30T10:02:32+02:00</published>

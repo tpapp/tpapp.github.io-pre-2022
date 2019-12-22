@@ -4,7 +4,7 @@
     <title>Julia &#43; Weave.jl &#43; hugo test</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.58.3" />
+    <meta name="generator" content="Hugo 0.61.0" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link rel="stylesheet" type="text/css" href="../../css/syntax.css">
     
@@ -218,26 +218,21 @@
 
 
 <p>Testing the <a href="https://gohugo.io/">Hugo</a> formatter for <a href="https://github.com/mpastell/Weave.jl">Weave.jl</a>.</p>
-
 <p>Testing inline code: <code>1+1=2</code>.</p>
-
 <p>Testing math:
 $$x^2+y^2 = \int_0^1 f(z) dz$$</p>
-
 <p>Testing code:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="mi">1</span><span class="o">+</span><span class="mi">1</span></code></pre></div>
-<pre><code>2
-</code></pre>
-
-<p>Testing proper highlighting:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">foo</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">x</span><span class="o">+</span><span class="n">y</span>
-<span class="k">end</span></code></pre></div>
-<p>A plot:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="mi">10</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span>
-<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">legend</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></pre></div>
-<figure>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="mi">1</span><span class="o">+</span><span class="mi">1</span>
+</code></pre></div><pre><code>2
+</code></pre><p>Testing proper highlighting:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">foo</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">)</span>
+    <span class="n">x</span><span class="o"></span><span class="o">+</span><span class="n">y</span><span class="o"></span>
+<span class="k">end</span>
+</code></pre></div><p>A plot:</p>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">x</span><span class="o"></span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="mi">10</span>
+<span class="n">y</span><span class="o"></span> <span class="o">=</span> <span class="n">x</span><span class="o"></span><span class="o">.^</span><span class="mi">2</span>
+<span class="n">scatter</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">,</span> <span class="n">y</span><span class="o"></span><span class="p">,</span> <span class="n">legend</span><span class="o"></span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span>
+</code></pre></div><figure>
     <img src="../figures/hugo-julia-weave_4_1.svg"/> <figcaption>
             <h4>Caption for this plot</h4>
         </figcaption>

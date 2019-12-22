@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>Blogging with Hugo, Julia, Weave.jl</title>
+    <title>Julia and batteries</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.61.0" />
@@ -193,16 +193,14 @@
     <div id="mainbody">
 
 <div id="content">
-<h1>Blogging with Hugo, Julia, Weave.jl</h1>2017/03/30
+<h1>Julia and batteries</h1>2019/12/21
 <span class="tags">
     
     <a href="../../tags/julia">julia</a>
     
-    <a href="../../tags/blogging">blogging</a>
+    <a href="../../tags/packages">packages</a>
     
-    <a href="../../tags/weave">Weave</a>
-    
-    <a href="../../tags/hugo">Hugo</a>
+    <a href="../../tags/unit-testing">unit-testing</a>
     
 </span>
 
@@ -212,29 +210,37 @@
 <div id="pagenav">
   
   <span class="pagenav-label">previous post:</span>&nbsp;
-  <a href="https://tamaspapp.eu/post/teaching-a-course/">Teaching a course using Julia</a>
+  <a href="https://tamaspapp.eu/post/2019-10-10-comments_reenabled/">Comments reenabled</a>
   
-  
-  
-  <br/>
-  
-  <span class="pagenav-label">next post:</span>&nbsp;
-  <a href="https://tamaspapp.eu/post/privacy-badger/">Disabling Privacy Badger</a>
   
 </div>
 
 
-<p>I have made a PR to <a href="https://github.com/mpastell/Weave.jl">Weave.jl</a> which Matti Pastell kindly merged recently. This allows a relatively smooth workflow for blogging using the static website generator <a href="https://gohugo.io/">Hugo</a>, and generating some pages with plots and evaluated Julia results. I made the source for my blog <a href="https://github.com/tpapp/tpapp.github.io-source">available</a> so that others can use it for their own blogging about Julia. An example is <a href="../../post/hugo-julia-weave/">this post</a>.</p>
-<p>The gist of the workflow is as follows:</p>
-<ol>
-<li>
-<p>for posts which do not need <code>Weave</code>, just use <code>Hugo</code>. Make sure you read their <a href="https://gohugo.io/overview/introduction/">excellent tutorial</a>. <strong>This very fast</strong>.</p>
-</li>
-<li>
-<p>for posts which contain Julia code and generated plots, use a script to generate a skeleton file in a separate directory, and work on that. Call another script to generate the <code>.md</code> file using <code>Weave.jl</code>. <strong>This is the slow part</strong>, so it is not automated.</p>
-</li>
-</ol>
-<p>The <a href="https://github.com/tpapp/tpapp.github.io-source">README</a> gives more details. Feel free to ask questions here. If you have a better workflow, I would like to hear about it.</p>
+<p>New Julia users frequently suggest that some features should be included in <code>Base</code> (the part that is available directly without <code>using</code> any packages) or the standard libraries. The colloquial phrase is that <em>“Julia should come with batteries included”</em>, hence the title of this post.</p>
+<p>In this blog post, I explain why doing this is unlikely to improve anything, likely to make some things <em>worse</em>, and thus often meets with resistance from developers. Most of these points are well-known, and repeated in various discussions. I thought it would be nice to have them in one place.</p>
+<h1 id="about-the-standard-libraries">About the standard libraries</h1>
+<p>Before the 0.7/1.0 release of Julia, a lot of functionality now in the standard libraries was part of <code>Base</code>. As the codebase grew, this was causing practical problems, so modularizing the code was on the agenda from <a href="https://github.com/JuliaLang/julia/issues/5155">the very beginning</a>, with the understanding that this would make things load faster, encapsulate implementation details better, and the code would be easier to maintain. The <a href="https://github.com/JuliaLang/julia/issues?utf8=%E2%9C%93&amp;q=label%3Aexcision+">excision</a> was completed for 0.7, and “standard libraries” as we know them now were born.</p>
+<p>One very neat thing about Julia is that conceptually, <em>standard libraries are like any other package</em>. There is no “secret sauce” that makes them special: some things like precompilation are enabled by default, but you can do the same for any package.</p>
+<p>What <em>is</em> different about standard libraries is an <a href="https://github.com/JuliaLang/julia/issues/27197">implicit guarantee</a> for code quality and support: they are officially endorsed, and the Julia maintainers fix issues relating to these packages.</p>
+<p>When users suggest that other packages they find useful are included in the standard libraries, they usually expect that the same kind of code quality and support guarantees would extend <em>automatically</em> to these packages.</p>
+<p>Unfortunately, since developer time is a scarce resource, this would only mean that <em>the same number of people would now have to maintain more code</em>. This would most likely result in longer delays for releases, and is not necessarily a guarantee of better support: some standard libraries have (minor) issues that have been outstanding for a long time.</p>
+<h1 id="the-benefits-of-third-party-packages">The benefits of (third party) packages</h1>
+<p>Below, I list some major advantages of having code in third party packages (what we normally think of as “packages”, usually registered) that are maintained outside the Julia repository.</p>
+<h2 id="separate-versioning-more-frequent-releases">Separate versioning, more frequent releases</h2>
+<p>Standard libraries, not being versioned separately, maintain the same <a href="https://semver.org/">SemVer</a> compatibility guarantees as the rest of Julia. This means that no incompatible changes are allowed without changing the major version &mdash; in other words, anything that ends up there would have to be supported <em>without breaking changes</em> for the rest of the 1.x life cycle.</p>
+<p>Since nontrivial interfaces usually require a few iterations to become polished, this would mean that the authors would need to get it right without a lot of community testing, or keep legacy methods around for the rest of 1.x.</p>
+<p>Third party packages have their own version. This means that they can release as often they like, experiment with new ways of doing things and deprecate old APIs, and add and reorganize features without the implicit cost of having to support them for a long time. Because of this, it is not uncommon for actively maintained packages to have minor releases with new features every month or so, and bugfix releases within a day.</p>
+<h2 id="easier-contribution">Easier contribution</h2>
+<p>Contributing to standard libraries is usually a more involved process than making a PR to third party packages. Unit tests take longer to run (since the whole of Julia is tested), ramifications of changes have to be considered in wider context, and contributors have to be much more cautious with experimentation since anything that ends up there would need to be supported for a long time.</p>
+<p>The changes will need to be reviewed by people who may be very busy working on some other part of Julia, and may take a longer time; decisions frequently need a wider consensus and some PRs just languish unresolved for months. This naturally raises the barrier to entry, and can be quite frustrating to contributors.</p>
+<p>In contrast, many packages have a single or a few authors, who have a clear vision of where they want to take their package, and are usually able to make decisions quicker.</p>
+<h2 id="separate-documentation-and-issue-tracker">Separate documentation and issue tracker</h2>
+<p>The Julia repository has a total of 17k issues (!), 14k of them closed, a similar number of open pull requests, and a manual that has 400 pages on the standard libraries (in PDF format). It is occasionally challenging to find an earlier issue, discussion, or documentation for something.</p>
+<p>For third party packages, having a separate issue tracker and documentation makes it much easier to find what you are looking for.</p>
+<h1 id="development-happens-in-packages">Development happens in packages</h1>
+<p>If you would like Julia to support something that is experimental or not fully specified (and most software isn't), it is unlikely that adding it to <code>Base</code> or the standard libraries is the right solution.</p>
+<p>Instead, it is usually recommended that you put it in a package and work out the details, improving the code based on experience and feedback. There is no downside to this in most cases, just the benefits mentioned above.</p>
+<p>If the experiment pans out, great: you have created a nice package! If it doesn't, it can be retired and archived, without having to commit to continued support.</p>
 
 
 </div>

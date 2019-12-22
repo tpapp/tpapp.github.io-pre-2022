@@ -1,14 +1,39 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://tamaspapp.eu/tags/blogging/</loc>
-    <lastmod>2019-10-10T17:40:39+02:00</lastmod>
+    <loc>https://tamaspapp.eu/categories/</loc>
+    <lastmod>2019-12-21T16:33:38+01:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/categories/</loc>
+    <loc>https://tamaspapp.eu/tags/julia/</loc>
+    <lastmod>2019-12-21T16:33:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/post/2019-12-21-julia-batteries/</loc>
+    <lastmod>2019-12-21T16:33:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/packages/</loc>
+    <lastmod>2019-12-21T16:33:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/</loc>
+    <lastmod>2019-12-21T16:33:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/unit-testing/</loc>
+    <lastmod>2019-12-21T16:33:38+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/tags/blogging/</loc>
     <lastmod>2019-10-10T17:40:39+02:00</lastmod>
   </url>
   
@@ -18,22 +43,7 @@
   </url>
   
   <url>
-    <loc>https://tamaspapp.eu/tags/</loc>
-    <lastmod>2019-10-10T17:40:39+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tamaspapp.eu/post/2019-09-07-coding_style_retrospective/</loc>
-    <lastmod>2019-09-07T08:01:57+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/julia/</loc>
-    <lastmod>2019-09-07T08:01:57+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/unit-testing/</loc>
     <lastmod>2019-09-07T08:01:57+02:00</lastmod>
   </url>
   
@@ -49,11 +59,6 @@
   
   <url>
     <loc>https://tamaspapp.eu/tags/mcmc/</loc>
-    <lastmod>2019-09-03T09:03:50+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tamaspapp.eu/tags/packages/</loc>
     <lastmod>2019-09-03T09:03:50+02:00</lastmod>
   </url>
   
