@@ -3,11 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://tamaspapp.eu/categories/</loc>
-    <lastmod>2019-12-21T16:33:38+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tamaspapp.eu/tags/julia/</loc>
     <lastmod>2019-12-21T16:33:38+01:00</lastmod>
   </url>
@@ -255,6 +250,11 @@
   <url>
     <loc>https://tamaspapp.eu/post/emacs-julia-customizations/</loc>
     <lastmod>2017-08-28T14:41:58+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tamaspapp.eu/categories/</loc>
+    <lastmod>2017-08-23T10:10:48+02:00</lastmod>
   </url>
   
   <url>

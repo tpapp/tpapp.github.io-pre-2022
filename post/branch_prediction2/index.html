@@ -4,7 +4,7 @@
     <title>Branch prediction: yet another example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.61.0" />
+    <meta name="generator" content="Hugo 0.69.2" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link rel="stylesheet" type="text/css" href="../../css/syntax.css">
     
@@ -223,35 +223,35 @@
 <p>Tomas Lycken linked a <a href="https://stackoverflow.com/questions/11227809/why-is-it-faster-to-process-a-sorted-array-than-an-unsorted-array/11227902#11227902">very nice discussion on StackOverflow</a> about branch prediction as a comment on the <a href="https://tamaspapp.eu/post/branch_prediction/">previous post</a>. It has an intuitive explanation (read it if you like good metaphors) and some Java benchmarks. I was curious about how it looks in Julia.</p>
 
 <p>The exercise is to sum elements in a vector <em>only if</em> they are greater than or equal to 128.</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">sumabove_if</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">)</span>
-    <span class="n">s</span><span class="o"></span> <span class="o">=</span> <span class="n">zero</span><span class="o"></span><span class="p">(</span><span class="n">eltype</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">)</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">elt</span><span class="o"></span> <span class="kp">in</span> <span class="n">x</span><span class="o"></span>
-        <span class="k">if</span> <span class="n">elt</span><span class="o"></span> <span class="o">≥</span> <span class="mi">128</span>
-            <span class="n">s</span><span class="o"></span> <span class="o">+=</span> <span class="n">elt</span><span class="o"></span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">sumabove_if</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">eltype</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">elt</span> <span class="kp">in</span> <span class="n">x</span>
+        <span class="k">if</span> <span class="n">elt</span> <span class="o">≥</span> <span class="mi">128</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="n">elt</span>
         <span class="k">end</span>
     <span class="k">end</span>
-    <span class="n">s</span><span class="o"></span>
+    <span class="n">s</span>
 <span class="k">end</span></code></pre></div>
 <p>This calculation naturally has a branch in it, while the branchless version, using <code>ifelse</code>, does not:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">sumabove_ifelse</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">)</span>
-    <span class="n">s</span><span class="o"></span> <span class="o">=</span> <span class="n">zero</span><span class="o"></span><span class="p">(</span><span class="n">eltype</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">)</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">elt</span><span class="o"></span> <span class="kp">in</span> <span class="n">x</span><span class="o"></span>
-        <span class="n">s</span><span class="o"></span> <span class="o">+=</span> <span class="n">ifelse</span><span class="o"></span><span class="p">(</span><span class="n">elt</span><span class="o"></span> <span class="o">≥</span> <span class="mi">128</span><span class="p">,</span> <span class="n">elt</span><span class="o"></span><span class="p">,</span> <span class="n">zero</span><span class="o"></span><span class="p">(</span><span class="n">eltype</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">)</span><span class="p">)</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">sumabove_ifelse</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">eltype</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">elt</span> <span class="kp">in</span> <span class="n">x</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">elt</span> <span class="o">≥</span> <span class="mi">128</span><span class="p">,</span> <span class="n">elt</span><span class="p">,</span> <span class="n">zero</span><span class="p">(</span><span class="n">eltype</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
     <span class="k">end</span>
-    <span class="n">s</span><span class="o"></span>
+    <span class="n">s</span>
 <span class="k">end</span></code></pre></div>
 <p>The actual example has something different: using tricky bit-twiddling to calculate the same value. I generally like to leave this sort of thing up to the compiler, because it is much, much better at it than I am, and I make mistakes all the time; worse, I don't know what I actually did when I reread the code 6 months later. But I included it here for comparison:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">sumabove_tricky</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Int64</span><span class="p">}</span><span class="p">)</span>
-    <span class="n">s</span><span class="o"></span> <span class="o">=</span> <span class="kt">Int64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">elt</span><span class="o"></span> <span class="kp">in</span> <span class="n">x</span><span class="o"></span>
-        <span class="n">s</span><span class="o"></span> <span class="o">+=</span> <span class="o">~</span><span class="p">(</span><span class="p">(</span><span class="n">elt</span><span class="o"></span> <span class="o">-</span> <span class="mi">128</span><span class="p">)</span> <span class="o">&gt;</span><span class="o">&gt;</span> <span class="mi">63</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">elt</span><span class="o"></span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">sumabove_tricky</span><span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Int64</span><span class="p">})</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="kt">Int64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">elt</span> <span class="kp">in</span> <span class="n">x</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="o">~</span><span class="p">((</span><span class="n">elt</span> <span class="o">-</span> <span class="mi">128</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">63</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">elt</span>
     <span class="k">end</span>
-    <span class="n">s</span><span class="o"></span>
+    <span class="n">s</span>
 <span class="k">end</span></code></pre></div>
 <p>Following the original example on StackOverflow, we sum <code>2^15</code> random integers in <code>1:256</code>. For this, we don't need to worry about overflow. We also sum the <em>sorted</em> vector: this will facilitate branch predicion, since the various branches will be contiguous.</p>
 
 <p>I also benchmark a simple version using generators:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">sumabove_generator</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="p">)</span> <span class="o">=</span> <span class="n">sum</span><span class="o"></span><span class="p">(</span><span class="n">y</span><span class="o"></span> <span class="k">for</span> <span class="n">y</span><span class="o"></span> <span class="kp">in</span> <span class="n">x</span><span class="o"></span> <span class="k">if</span> <span class="n">y</span><span class="o"></span> <span class="o">≥</span> <span class="mi">128</span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">sumabove_generator</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="kp">in</span> <span class="n">x</span> <span class="k">if</span> <span class="n">y</span> <span class="o">≥</span> <span class="mi">128</span><span class="p">)</span></code></pre></div>
 <table>
 <caption>
 Benchmarks (<span  class="math">\(μ\)</span>s)

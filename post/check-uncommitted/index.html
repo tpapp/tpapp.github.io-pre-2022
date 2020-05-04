@@ -4,7 +4,7 @@
     <title>Checking uncommitted changes when opening a file in Emacs</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.61.0" />
+    <meta name="generator" content="Hugo 0.69.2" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link rel="stylesheet" type="text/css" href="../../css/syntax.css">
     
@@ -225,12 +225,12 @@
 <p>Next time I open the file, perhaps to work on some other feature, I forget that I have <em>uncommitted changes</em> and work on something new. When staging, I realize the mistake and have to spend time disentangling the mess.</p>
 
 <p>The following Emacs Lisp snippet takes care of this problem by checking for uncommitted changes and taking me to the <code>magit</code> popup if there is something I should deal with:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">cl-defun</span> <span class="nv">tkpapp/check-file-and-popup</span> <span class="p">(</span><span class="kp">&amp;optional</span> <span class="p">(</span><span class="nv">file</span> <span class="p">(</span><span class="nf">buffer-file-name</span><span class="p">)</span><span class="p">)</span><span class="p">)</span>
-  <span class="s">&#34;</span><span class="s">If the file is version controlled with git and has uncommitted
-</span><span class="s">changes, open the magit status popup.</span><span class="s">&#34;</span>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">cl-defun</span> <span class="nv">tkpapp/check-file-and-popup</span> <span class="p">(</span><span class="kp">&amp;optional</span> <span class="p">(</span><span class="nv">file</span> <span class="p">(</span><span class="nf">buffer-file-name</span><span class="p">)))</span>
+  <span class="s">&#34;If the file is version controlled with git and has uncommitted
+</span><span class="s">changes, open the magit status popup.&#34;</span>
   <span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;magit-core</span><span class="p">)</span>
-  <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">and</span> <span class="nv">file</span> <span class="p">(</span><span class="nv">magit-anything-modified-p</span> <span class="no">t</span> <span class="nv">file</span><span class="p">)</span><span class="p">)</span>
-    <span class="p">(</span><span class="nv">magit-status</span><span class="p">)</span><span class="p">)</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">and</span> <span class="nv">file</span> <span class="p">(</span><span class="nv">magit-anything-modified-p</span> <span class="no">t</span> <span class="nv">file</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">magit-status</span><span class="p">)))</span>
 
 <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;find-file-hook</span> <span class="ss">&#39;tkpapp/check-file-and-popup</span><span class="p">)</span></code></pre></div>
 

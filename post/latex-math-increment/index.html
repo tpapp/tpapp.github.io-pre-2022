@@ -4,7 +4,7 @@
     <title>Getting a nice &#43;= in LaTeX math</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.61.0" />
+    <meta name="generator" content="Hugo 0.69.2" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link rel="stylesheet" type="text/css" href="../../css/syntax.css">
     
@@ -237,13 +237,13 @@ $$
 $$
 which is an improvement, but is still not visually appealing.</p>
 <p>Making the <code>+</code> a bit smaller with</p>
-<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex"><span class="k">\mathrel</span><span class="nb">{</span><span class="k">\raisebox</span><span class="nb">{</span>0.19ex<span class="nb">}</span><span class="nb">{</span><span class="s">$</span><span class="nv">\scriptstyle</span><span class="o">+</span><span class="s">$</span><span class="nb">}</span><span class="nb">}</span>=<span class="nb">}</span>
+<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex"><span class="k">\mathrel</span><span class="nb">{</span><span class="k">\raisebox</span><span class="nb">{</span>0.19ex<span class="nb">}{</span><span class="s">$</span><span class="nv">\scriptstyle</span><span class="o">+</span><span class="s">$</span><span class="nb">}}</span>=<span class="nb">}</span>
 </code></pre></div><p>yields
 $$
 \mathtt{target} \mathrel{\raise{0.19ex}{\scriptstyle+}} = J_f
 $$
 which looks OK enough to preclude further tweaking. Note that <a href="http://www.mathjax.org/">MathJax</a> does not support <code>\raisebox</code>, but you can use</p>
-<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex"><span class="k">\mathrel</span><span class="nb">{</span><span class="k">\raise</span><span class="nb">{</span>0.19ex<span class="nb">}</span><span class="nb">{</span><span class="k">\scriptstyle</span>+<span class="nb">}</span><span class="nb">}</span> = J<span class="nb">_</span>f
+<div class="highlight"><pre class="chroma"><code class="language-latex" data-lang="latex"><span class="k">\mathrel</span><span class="nb">{</span><span class="k">\raise</span><span class="nb">{</span>0.19ex<span class="nb">}{</span><span class="k">\scriptstyle</span>+<span class="nb">}}</span> = J<span class="nb">_</span>f
 </code></pre></div><p>which renders the as above.</p>
 
 

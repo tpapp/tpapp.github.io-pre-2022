@@ -4,7 +4,7 @@
     <title>Switching from Common Lisp to Julia</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.61.0" />
+    <meta name="generator" content="Hugo 0.69.2" />
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link rel="stylesheet" type="text/css" href="../../css/syntax.css">
     
@@ -237,11 +237,11 @@
 <p>The <a href="http://clhs.lisp.se/Body/f_upgr_1.htm">standard</a> does not guarantee that this gives you an array of <code>double-float</code>: it may (if the implementation provides them), otherwise you get an array of element type <code>T</code>. This turned out to be a major difficulty for implementing portable scientific code in Common Lisp.</p>
 
 <p>However, this gets worse: while you can tell a function that operates on arrays that these arrays have element type <code>double-float</code>, you cannot dispatch on this, as Common Lisp does not have parametric types. For example, if you want to write a sum as</p>
-<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nb">defmethod</span> <span class="nv">mysum</span> <span class="p">(</span><span class="p">(</span><span class="nv">vec</span> <span class="nc">vector</span><span class="p">)</span><span class="p">)</span>
-  <span class="p">(</span><span class="k">let</span> <span class="p">(</span><span class="p">(</span><span class="nv">s</span> <span class="mi">0</span><span class="p">)</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-lisp" data-lang="lisp"><span class="p">(</span><span class="nb">defmethod</span> <span class="nv">mysum</span> <span class="p">((</span><span class="nv">vec</span> <span class="nc">vector</span><span class="p">))</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">s</span> <span class="mi">0</span><span class="p">))</span>
     <span class="p">(</span><span class="nb">loop</span> <span class="nv">for</span> <span class="nf">elt</span> <span class="nv">across</span> <span class="nv">vec</span>
-       <span class="nb">do</span> <span class="p">(</span><span class="nb">incf</span> <span class="nv">s</span> <span class="nf">elt</span><span class="p">)</span><span class="p">)</span>
-    <span class="nv">s</span><span class="p">)</span><span class="p">)</span></code></pre></div>
+       <span class="nb">do</span> <span class="p">(</span><span class="nb">incf</span> <span class="nv">s</span> <span class="nf">elt</span><span class="p">))</span>
+    <span class="nv">s</span><span class="p">))</span></code></pre></div>
 <p>you can dispatch on the argument being a <code>vector</code>, but not on the element type. The compiled code may be generic.</p>
 
 <p>You can of course branch on the array element types and maybe even paper over the whole mess with sufficient macrology (which is what <a href="https://github.com/tpapp/lla">LLA</a> ended up doing), but this approach is not very extensible, as eventually you end up hardcoding a few special types for which your functions will be &quot;fast&quot;, otherwise they have to fall back to a generic, boxed type. With multiple arguments, the number of combinations explodes very quickly.</p>
@@ -249,81 +249,81 @@
 <h1 id="how-julia-solves-this-problem">How Julia solves this problem</h1>
 
 <p>A comparable native implementation in Julia would be<sup class="footnote-ref" id="fnref:This-is-not-the"><a class="footnote" href="#fn:This-is-not-the">1</a></sup></p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">mysum</span><span class="o"></span><span class="p">(</span><span class="n">vec</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">AbstractVector</span><span class="p">{</span><span class="n">T</span><span class="o"></span><span class="p">}</span><span class="p">)</span> <span class="n">where</span><span class="o"></span> <span class="n">T</span><span class="o"></span>
-    <span class="n">s</span><span class="o"></span> <span class="o">=</span> <span class="n">zero</span><span class="o"></span><span class="p">(</span><span class="n">T</span><span class="o"></span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">elt</span><span class="o"></span> <span class="kp">in</span> <span class="n">vec</span><span class="o"></span>
-        <span class="n">s</span><span class="o"></span> <span class="o">+=</span> <span class="n">elt</span><span class="o"></span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">function</span> <span class="n">mysum</span><span class="p">(</span><span class="n">vec</span><span class="o">::</span><span class="kt">AbstractVector</span><span class="p">{</span><span class="n">T</span><span class="p">})</span> <span class="n">where</span> <span class="n">T</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">elt</span> <span class="kp">in</span> <span class="n">vec</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">elt</span>
     <span class="k">end</span>
-    <span class="n">s</span><span class="o"></span>
+    <span class="n">s</span>
 <span class="k">end</span></code></pre></div>
 <p>This is still generic: it works for all subtypes of <code>AbstractVector</code> (including vectors and vector-like objects), but notice how the generated code is conditional on the element type:</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o"></span><span class="o">&gt;</span> <span class="nd">@code_warntype</span><span class="o"></span> <span class="n">mysum</span><span class="o"></span><span class="p">(</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="p">)</span>
-<span class="n">Variables</span><span class="o"></span><span class="o">:</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@code_warntype</span> <span class="n">mysum</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">Variables</span><span class="o">:</span>
   <span class="c">#self#::#mysum</span>
-  <span class="n">vec</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
-  <span class="n">elt</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span>
+  <span class="n">vec</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+  <span class="n">elt</span><span class="o">::</span><span class="kt">Int64</span>
   <span class="c">#temp#::Int64</span>
-  <span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span>
+  <span class="n">s</span><span class="o">::</span><span class="kt">Int64</span>
 
-<span class="n">Body</span><span class="o"></span><span class="o">:</span>
+<span class="n">Body</span><span class="o">:</span>
   <span class="k">begin</span> 
-      <span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># line 3:</span>
+      <span class="n">s</span><span class="o">::</span><span class="kt">Int64</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># line 3:</span>
       <span class="c">#temp#::Int64 = 1</span>
       <span class="mi">4</span><span class="o">:</span> 
-      <span class="n">unless</span><span class="o"></span> <span class="p">(</span><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">not_int</span><span class="o"></span><span class="p">)</span><span class="p">(</span><span class="p">(</span><span class="c">#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Int64,1</span>
-<span class="p">}</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Bool</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Bool</span> <span class="n">goto</span><span class="o"></span> <span class="mi">14</span>                                                     
-      <span class="n">SSAValue</span><span class="o"></span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">arrayref</span><span class="o"></span><span class="p">)</span><span class="p">(</span><span class="n">vec</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="p">,</span> <span class="c">#temp#::Int64)::Int64</span>
-      <span class="n">SSAValue</span><span class="o"></span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">add_int</span><span class="o"></span><span class="p">)</span><span class="p">(</span><span class="c">#temp#::Int64, 1)::Int64</span>
-      <span class="n">elt</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span> <span class="o">=</span> <span class="n">SSAValue</span><span class="o"></span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+      <span class="n">unless</span> <span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">not_int</span><span class="p">)((</span><span class="c">#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Int64,1</span>
+<span class="p">})</span><span class="o">::</span><span class="kt">Int64</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">::</span><span class="kt">Int64</span><span class="p">)</span><span class="o">::</span><span class="kt">Bool</span><span class="p">)</span><span class="o">::</span><span class="kt">Bool</span> <span class="n">goto</span> <span class="mi">14</span>                                                     
+      <span class="n">SSAValue</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">arrayref</span><span class="p">)(</span><span class="n">vec</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="c">#temp#::Int64)::Int64</span>
+      <span class="n">SSAValue</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">add_int</span><span class="p">)(</span><span class="c">#temp#::Int64, 1)::Int64</span>
+      <span class="n">elt</span><span class="o">::</span><span class="kt">Int64</span> <span class="o">=</span> <span class="n">SSAValue</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
       <span class="c">#temp#::Int64 = SSAValue(3) # line 4:</span>
-      <span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">add_int</span><span class="o"></span><span class="p">)</span><span class="p">(</span><span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span><span class="p">,</span> <span class="n">elt</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span>
+      <span class="n">s</span><span class="o">::</span><span class="kt">Int64</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">add_int</span><span class="p">)(</span><span class="n">s</span><span class="o">::</span><span class="kt">Int64</span><span class="p">,</span> <span class="n">elt</span><span class="o">::</span><span class="kt">Int64</span><span class="p">)</span><span class="o">::</span><span class="kt">Int64</span>
       <span class="mi">12</span><span class="o">:</span> 
-      <span class="n">goto</span><span class="o"></span> <span class="mi">4</span>
+      <span class="n">goto</span> <span class="mi">4</span>
       <span class="mi">14</span><span class="o">:</span>  <span class="c"># line 6:</span>
-      <span class="k">return</span> <span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span>
-  <span class="k">end</span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span>
+      <span class="k">return</span> <span class="n">s</span><span class="o">::</span><span class="kt">Int64</span>
+  <span class="k">end</span><span class="o">::</span><span class="kt">Int64</span>
 
-<span class="n">julia</span><span class="o"></span><span class="o">&gt;</span> <span class="nd">@code_warntype</span><span class="o"></span> <span class="n">mysum</span><span class="o"></span><span class="p">(</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span><span class="p">)</span>
-<span class="n">Variables</span><span class="o"></span><span class="o">:</span>
+<span class="n">julia</span><span class="o">&gt;</span> <span class="nd">@code_warntype</span> <span class="n">mysum</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="n">Variables</span><span class="o">:</span>
   <span class="c">#self#::#mysum</span>
-  <span class="n">vec</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
-  <span class="n">elt</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span>
+  <span class="n">vec</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span>
+  <span class="n">elt</span><span class="o">::</span><span class="kt">Float64</span>
   <span class="c">#temp#::Int64</span>
-  <span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span>
+  <span class="n">s</span><span class="o">::</span><span class="kt">Float64</span>
 
-<span class="n">Body</span><span class="o"></span><span class="o">:</span>
+<span class="n">Body</span><span class="o">:</span>
   <span class="k">begin</span> 
-      <span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">sitofp</span><span class="o"></span><span class="p">)</span><span class="p">(</span><span class="kt">Float64</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span> <span class="c"># line 3:</span>
+      <span class="n">s</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">sitofp</span><span class="p">)(</span><span class="kt">Float64</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">::</span><span class="kt">Float64</span> <span class="c"># line 3:</span>
       <span class="c">#temp#::Int64 = 1</span>
       <span class="mi">4</span><span class="o">:</span> 
-      <span class="n">unless</span><span class="o"></span> <span class="p">(</span><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">not_int</span><span class="o"></span><span class="p">)</span><span class="p">(</span><span class="p">(</span><span class="c">#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Float64</span>
-<span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Int64</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Bool</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Bool</span> <span class="n">goto</span><span class="o"></span> <span class="mi">14</span>                                                   
-      <span class="n">SSAValue</span><span class="o"></span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">arrayref</span><span class="o"></span><span class="p">)</span><span class="p">(</span><span class="n">vec</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">}</span><span class="p">,</span> <span class="c">#temp#::Int64)::Float64</span>
-      <span class="n">SSAValue</span><span class="o"></span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">add_int</span><span class="o"></span><span class="p">)</span><span class="p">(</span><span class="c">#temp#::Int64, 1)::Int64</span>
-      <span class="n">elt</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span> <span class="o">=</span> <span class="n">SSAValue</span><span class="o"></span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+      <span class="n">unless</span> <span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">not_int</span><span class="p">)((</span><span class="c">#temp#::Int64 === (Base.add_int)((Base.arraylen)(vec::Array{Float64</span>
+<span class="p">,</span><span class="mi">1</span><span class="p">})</span><span class="o">::</span><span class="kt">Int64</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">::</span><span class="kt">Int64</span><span class="p">)</span><span class="o">::</span><span class="kt">Bool</span><span class="p">)</span><span class="o">::</span><span class="kt">Bool</span> <span class="n">goto</span> <span class="mi">14</span>                                                   
+      <span class="n">SSAValue</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">arrayref</span><span class="p">)(</span><span class="n">vec</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="c">#temp#::Int64)::Float64</span>
+      <span class="n">SSAValue</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">add_int</span><span class="p">)(</span><span class="c">#temp#::Int64, 1)::Int64</span>
+      <span class="n">elt</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="n">SSAValue</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
       <span class="c">#temp#::Int64 = SSAValue(3) # line 4:</span>
-      <span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">add_float</span><span class="o"></span><span class="p">)</span><span class="p">(</span><span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">elt</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span><span class="p">)</span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span>
+      <span class="n">s</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">add_float</span><span class="p">)(</span><span class="n">s</span><span class="o">::</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">elt</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span><span class="o">::</span><span class="kt">Float64</span>
       <span class="mi">12</span><span class="o">:</span> 
-      <span class="n">goto</span><span class="o"></span> <span class="mi">4</span>
+      <span class="n">goto</span> <span class="mi">4</span>
       <span class="mi">14</span><span class="o">:</span>  <span class="c"># line 6:</span>
-      <span class="k">return</span> <span class="n">s</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span>
-  <span class="k">end</span><span class="o">:</span><span class="o">:</span><span class="kt">Float64</span></code></pre></div>
+      <span class="k">return</span> <span class="n">s</span><span class="o">::</span><span class="kt">Float64</span>
+  <span class="k">end</span><span class="o">::</span><span class="kt">Float64</span></code></pre></div>
 <p>I mentioned &quot;vector-like objects&quot; above, since I can choose different representations for special objects. For example, to do calculations with a vector of <code>1</code>s, I can define</p>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">struct</span> <span class="n">Ones</span><span class="o"></span><span class="p">{</span><span class="n">T</span><span class="o"></span> <span class="o">&lt;</span><span class="o">:</span> <span class="kt">Number</span><span class="p">}</span> <span class="o">&lt;</span><span class="o">:</span> <span class="kt">AbstractVector</span><span class="p">{</span><span class="n">T</span><span class="o"></span><span class="p">}</span>
-    <span class="n">len</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="kt">Int</span>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="k">struct</span> <span class="n">Ones</span><span class="p">{</span><span class="n">T</span> <span class="o">&lt;:</span> <span class="kt">Number</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="kt">AbstractVector</span><span class="p">{</span><span class="n">T</span><span class="p">}</span>
+    <span class="n">len</span><span class="o">::</span><span class="kt">Int</span>
 <span class="k">end</span></code></pre></div>
 <p>At this point, in order to calculate the sum above, I have two choices:</p>
 
 <ol>
 <li>Implement the <a href="https://docs.julialang.org/en/latest/manual/interfaces/">relevant interface</a>, with functions like</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">Base</span><span class="o"></span><span class="o">.</span><span class="n">length</span><span class="o"></span><span class="p">(</span><span class="n">x</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="n">Ones</span><span class="o"></span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o"></span><span class="o">.</span><span class="n">len</span><span class="o"></span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">Base</span><span class="o">.</span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="n">Ones</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">len</span></code></pre></div>
 <p>and similarly for element access, etc. This would generate specialized code for the method above, reasonably efficient code, but still iterate over the &quot;elements&quot;.</p>
 
 <ol start="2">
 <li>In addition, I can define</li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">mysum</span><span class="o"></span><span class="p">(</span><span class="n">vec</span><span class="o"></span><span class="o">:</span><span class="o">:</span><span class="n">Ones</span><span class="o"></span><span class="p">{</span><span class="n">T</span><span class="o"></span><span class="p">}</span><span class="p">)</span> <span class="n">where</span><span class="o"></span> <span class="n">T</span><span class="o"></span> <span class="o">=</span> <span class="n">vec</span><span class="o"></span><span class="o">.</span><span class="n">len</span><span class="o"></span> <span class="o">*</span> <span class="n">one</span><span class="o"></span><span class="p">(</span><span class="n">T</span><span class="o"></span><span class="p">)</span></code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-julia" data-lang="julia"><span class="n">mysum</span><span class="p">(</span><span class="n">vec</span><span class="o">::</span><span class="n">Ones</span><span class="p">{</span><span class="n">T</span><span class="p">})</span> <span class="n">where</span> <span class="n">T</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">len</span> <span class="o">*</span> <span class="n">one</span><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></pre></div>
 <p>which would provide a method for <code>mysum</code>.</p>
 
 <p>A sufficiently rich parametric type system with multiple dispatch integrated into the language and supported by a JIT compiler is the secret weapon of Julia. Most of the time, <em>you don't have to do anything</em>, as it happens automatically for concrete types. Sometimes, you have to help the compiler a bit, by writing code where the result is <a href="https://docs.julialang.org/en/latest/manual/performance-tips/#Write-%22type-stable%22-functions-1">type stable</a>, ie the result type just depends on the type (not the value) of the arguments and can be inferred by the compiler. Sometimes you have to nudge the compiler a bit, and sometimes you have to be careful not to mess up type inference: for example, the <code>zero(T)</code> above gives a <code>0</code> of type <code>T</code>, always ensuring a correct type that does not change during the summation.</p>
